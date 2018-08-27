@@ -18,6 +18,7 @@ module RideShare
       if @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
+      
       if @start_time > @end_time
         raise ArgumentError.new("Invalid endtime")
       end
@@ -27,6 +28,16 @@ module RideShare
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
       "ID=#{id.inspect} " +
       "PassengerID=#{passenger&.id.inspect}>"
+    end
+
+    def trip_to_seconds
+      midnight = Time.local(2018,8,26,0,0,0)
+
+      start_seconds = (@start_time - midnight).to_i
+      end_seconds = (@end_time - midnight).to_i
+
+      @duration = (end_seconds - start_seconds)
+      return @duration
     end
   end
 end
