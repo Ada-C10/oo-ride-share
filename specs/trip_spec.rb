@@ -42,5 +42,21 @@ describe "Trip class" do
         }.must_raise ArgumentError
       end
     end
+    it "raises an error for an invalid time" do
+
+      end_time = Time.parse('2015-05-20T12:14:00+00:00')
+      start_time = end_time + 25 * 60 # 25 minutes
+      @trip_data1 = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+      expect {RideShare::Trip.new(@trip_data1)}.must_raise ArgumentError
+    end
   end
 end
