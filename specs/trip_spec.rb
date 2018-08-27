@@ -40,5 +40,49 @@ describe "Trip class" do
         }.must_raise ArgumentError
       end
     end
+
+    it "raises an error if start time is greater than end time." do
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = Time.parse('2015-05-20T12:12:00+00:00')
+      @trip_data = {
+          id: 8,
+          passenger: RideShare::User.new(id: 1,
+                                         name: "Ada",
+                                         phone: "412-432-7640"),
+          start_time: start_time,
+          end_time: end_time,
+          cost: 23.45,
+          rating: 3
+      }
+      # @trip = RideShare::Trip.new(@trip_data)
+      expect {
+          RideShare::Trip.new(@trip_data)
+      }.must_raise ArgumentError
+    end
+  end
+
+  describe "trip_duration" do
+    before do
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = Time.parse('2015-05-20T12:20:15+00:00')
+      @trip_data = {
+          id: 8,
+          passenger: RideShare::User.new(id: 1,
+                                         name: "Ada",
+                                         phone: "412-432-7640"),
+          start_time: start_time,
+          end_time: end_time,
+          cost: 23.45,
+          rating: 3
+      }
+      @trip = RideShare::Trip.new(@trip_data)
+    end
+    it "calculates trip duration in seconds accurately" do
+      seconds_between_trips = @trip.end_time - @trip.start_time
+      # p seconds_between_trips
+      expect(@trip.time_duration).must_equal 375.0
+      expect(@trip.time_duration).must_equal seconds_between_trips
+    end
+
   end
 end
