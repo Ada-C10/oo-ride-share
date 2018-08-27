@@ -56,8 +56,6 @@ module RideShare
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
         trips << trip
-
-
       end
       return trips
     end
