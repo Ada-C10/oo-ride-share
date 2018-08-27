@@ -1,14 +1,19 @@
 require_relative 'spec_helper'
+require 'pry'
 
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+INVALID_TRIPS_TEST = 'specs/test_data/invalid_trips_test.csv'
 
 describe "TripDispatcher class" do
   describe "Initializer" do
     it "is an instance of TripDispatcher" do
       dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE)
+
+
+
       expect(dispatcher).must_be_kind_of RideShare::TripDispatcher
     end
 
@@ -21,6 +26,12 @@ describe "TripDispatcher class" do
       expect(dispatcher.trips).must_be_kind_of Array
       expect(dispatcher.passengers).must_be_kind_of Array
       # expect(dispatcher.drivers).must_be_kind_of Array
+    end
+
+    it "raises an Argument Error if the end time is before the start time" do
+
+      expect{RideShare::TripDispatcher.new(USER_TEST_FILE,INVALID_TRIPS_TEST)}.must_raise ArgumentError
+
     end
   end
 
