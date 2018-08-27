@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'time'
 
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
@@ -20,6 +21,14 @@ describe "TripDispatcher class" do
       expect(dispatcher.trips).must_be_kind_of Array
       expect(dispatcher.passengers).must_be_kind_of Array
       # expect(dispatcher.drivers).must_be_kind_of Array
+    end
+
+    it "has trips with end times after their start times" do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  TRIP_TEST_FILE)
+      trip = @dispatcher.trips.first
+
+      expect(trip[:end_time] > trip[:start_time]).must_equal true
     end
   end
 
@@ -108,6 +117,15 @@ describe "TripDispatcher class" do
 
       expect(passenger).must_be_instance_of RideShare::User
       expect(passenger.trips).must_include trip
+    end
+
+    it "saves start and end time as Time objects" do
+      trip = @dispatcher.trips.first
+      trip_start_time = trip[:start_time]
+      trip_end_time trip[:end_time]
+
+      expect(trip_start_time).must_be_instance_of Time
+      expect(trip_end_time).must_be_instance_of Time
     end
   end
 end
