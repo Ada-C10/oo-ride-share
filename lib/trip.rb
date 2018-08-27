@@ -17,7 +17,7 @@ module RideShare
       end
     end
 
-    def inspect
+    def inspect #what does this first line do?
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
       "ID=#{id.inspect} " +
       "PassengerID=#{passenger&.id.inspect}>"
