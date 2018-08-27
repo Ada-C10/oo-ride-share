@@ -4,7 +4,7 @@ describe "User class" do
 
   describe "User instantiation" do
     before do
-      # Is this a hash that we pass in? 
+      # Is this a hash that we pass in?
       @user = RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334")
     end
 
@@ -58,6 +58,35 @@ describe "User class" do
       @user.trips.each do |trip|
         expect(trip.passenger.id).must_equal 9
       end
+    end
+  end
+
+  describe "net expenditures method" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723", trips: [])
+      trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 10.35,
+                                 rating: 5)
+      trip2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                start_time: Time.parse("2016-08-08"),
+                                end_time: Time.parse("2016-08-09"),
+                                cost: 20.20,
+                                rating: 5)
+      trip3 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                start_time: Time.parse("2016-08-08"),
+                                end_time: Time.parse("2016-08-09"),
+                                cost: 5.60,
+                                rating: 5)
+      @user.add_trip(trip1)
+      @user.add_trip(trip2)
+      @user.add_trip(trip3)
+    end
+
+    it "calculates the total cost of all of a user's rides" do
+      expect(@user.net_expenditures).must_equal (10.35 + 20.20 + 5.60)
     end
   end
 end
