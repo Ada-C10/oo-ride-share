@@ -1,23 +1,24 @@
 require_relative 'spec_helper'
+require "pry"
 
 describe "Trip class" do
-  before do
-    start_time = Time.parse('2015-05-20T12:14:00+00:00')
-    end_time = start_time + 25 * 60 # 25 minutes
-    @trip_data = {
-      id: 8,
-      passenger: RideShare::User.new(id: 1,
-                                     name: "Ada",
-                                     phone: "412-432-7640"),
-      start_time: start_time,
-      end_time: end_time,
-      cost: 23.45,
-      rating: 3
-    }
-    @trip = RideShare::Trip.new(@trip_data)
-  end
-  describe "initialize" do
 
+  describe "initialize" do
+    before do
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time + 25 * 60 # 25 minutes
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+      @trip = RideShare::Trip.new(@trip_data)
+    end
     it "is an instance of Trip" do
       expect(@trip).must_be_kind_of RideShare::Trip
     end
@@ -55,12 +56,28 @@ describe "Trip class" do
   end
 
   describe "duration" do
+    before do
+      start_time = Time.parse("2018-05-25 11:51:40 -0700")
+      end_time = Time.parse("2018-05-25 11:52:40 -0700")
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+      @trip = RideShare::Trip.new(@trip_data)
+    end
 
     it "returns an integer" do
       expect(@trip.duration).must_be_kind_of Integer
     end
 
-    xit "accurately subtracts time" do
+    it "accurately subtracts time" do
+      expect(@trip.duration).must_equal 60
 
     end
 

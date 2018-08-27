@@ -24,7 +24,8 @@ module RideShare
 
     def duration
       # returns duration in seconds
-      return @end_time.to_i - @start_time.to_i
+      time = @end_time.to_i - @start_time.to_i
+      return time
 
     end
 
