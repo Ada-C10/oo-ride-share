@@ -9,8 +9,8 @@ describe "Trip class" do
       @trip_data = {
         id: 8,
         passenger: RideShare::User.new(id: 1,
-                                       name: "Ada",
-                                       phone: "412-432-7640"),
+        name: "Ada",
+        phone: "412-432-7640"),
         start_time: start_time,
         end_time: end_time,
         cost: 23.45,
@@ -47,17 +47,39 @@ describe "Trip class" do
       @trip_data = {
         id: 8,
         passenger: RideShare::User.new(id: 1,
-                                       name: "Ada",
-                                       phone: "412-432-7640"),
+        name: "Ada",
+        phone: "412-432-7640"),
         start_time: start_time,
         end_time: end_time,
         cost: 23.45,
         rating: 3
       }
-
       expect{
-        @trip = RideShare::Trip.new(@trip_data)  
+        @trip = RideShare::Trip.new(@trip_data)
       }.must_raise ArgumentError
+    end
+  end
+
+
+  describe "calculate_trip_duration method" do
+    before do
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time + 25 * 60 # 25 minutes
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+        name: "Ada",
+        phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+      @trip = RideShare::Trip.new(@trip_data)
+    end
+
+    it "it returns time in seconds" do
+      expect @trip.calculate_trip_duration.must_equal (25 * 60)
     end
   end
 end
