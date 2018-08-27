@@ -1,3 +1,5 @@
+require_relative 'trip'
+require 'Time'
 module RideShare
   class User
     attr_reader :id, :name, :phone_number, :trips
@@ -16,5 +18,22 @@ module RideShare
     def add_trip(trip)
       @trips << trip
     end
+
+    def net_expenditures
+      trips.reduce{|sum, trip| sum.cost + trip.cost }
+    end
+
+
   end
 end
+
+trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                           start_time: Time.parse("2016-08-08"),
+                           end_time: Time.parse("2016-08-09"), cost: 5, rating: 5)
+trip_2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                           start_time: Time.parse("2016-08-08"),
+                           end_time: Time.parse("2016-08-09"),cost: 10, rating: 5)
+trips = [trip, trip_2]
+user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                            phone: "1-602-620-2330 x3723", trips: trips)
+puts user.net_expenditures
