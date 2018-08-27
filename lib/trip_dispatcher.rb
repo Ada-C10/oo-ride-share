@@ -3,6 +3,7 @@ require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
+require_relative 'driver'
 
 module RideShare
   class TripDispatcher
