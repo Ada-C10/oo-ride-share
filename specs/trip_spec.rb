@@ -19,6 +19,16 @@ describe "Trip class" do
       @trip = RideShare::Trip.new(@trip_data)
     end
 
+    it "raises ArgumentError for an invalid end time" do
+      @trip_data[:start_time] = Time.new(2018, 8, 28, 14, 0, 0)
+      @trip_data[:end_time] = Time.new(2018, 8, 28, 11, 0, 0)
+      expect{ RideShare::Trip.new(@trip_data) }.must_raise ArgumentError
+    end
+
+    it "is an instance of Time" do
+      expect(@trip.start_time).must_be_kind_of Time
+    end
+
     it "is an instance of Trip" do
       expect(@trip).must_be_kind_of RideShare::Trip
     end
