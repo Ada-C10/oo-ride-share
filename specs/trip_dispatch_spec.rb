@@ -50,8 +50,9 @@ describe "TripDispatcher class" do
         expect(@dispatcher.trips[i].start_time).must_be_instance_of Time
         expect(@dispatcher.trips[i].end_time).must_be_instance_of Time
       end
-
     end
+
+    
 
   end
 
