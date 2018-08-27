@@ -3,7 +3,6 @@ require_relative 'spec_helper'
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
-
 describe "TripDispatcher class" do
   describe "Initializer" do
     it "is an instance of TripDispatcher" do

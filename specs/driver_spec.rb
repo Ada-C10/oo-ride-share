@@ -29,6 +29,7 @@ xdescribe "Driver class" do
     end
 
     it "is set up for specific attributes and data types" do
+      # Is this supposed to be vehicle_id or vin?
       [:id, :name, :vehicle_id, :status, :driven_trips].each do |prop|
         expect(@driver).must_respond_to prop
       end

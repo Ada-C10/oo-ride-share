@@ -12,6 +12,7 @@ module RideShare
                    trip_file = 'support/trips.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      # Add drivers? 
     end
 
     def load_users(filename)

@@ -4,6 +4,7 @@ describe "User class" do
 
   describe "User instantiation" do
     before do
+      # Is this a hash that we pass in? 
       @user = RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334")
     end
 
