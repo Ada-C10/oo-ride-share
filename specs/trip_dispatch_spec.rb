@@ -121,8 +121,8 @@ describe "TripDispatcher class" do
 
     it "saves start and end time as Time objects" do
       trip = @dispatcher.trips.first
-      trip_start_time = trip[:start_time]
-      trip_end_time trip[:end_time]
+      trip_start_time = trip.start_time
+      trip_end_time = trip.end_time
 
       expect(trip_start_time).must_be_instance_of Time
       expect(trip_end_time).must_be_instance_of Time
