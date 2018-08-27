@@ -18,9 +18,15 @@ module RideShare
     end
 
     def net_expenditures
-
       return @trips.sum do |trip|
         trip.cost
+      end
+
+    end
+
+    def total_time_spent
+      return @trips.sum do |trip|
+        trip.duration / 60
       end
 
     end
