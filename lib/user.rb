@@ -16,5 +16,14 @@ module RideShare
     def add_trip(trip)
       @trips << trip
     end
+
+    def net_expenditures
+
+      return @trips.sum do |trip|
+        trip.cost
+      end
+
+    end
+
   end
 end
