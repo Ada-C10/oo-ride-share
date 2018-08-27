@@ -4,6 +4,7 @@ require 'pry'
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+TIME_ERROR_TEST_FILE = 'specs/test_data/trips_test_2.csv'
 
 describe "TripDispatcher class" do
   xdescribe "Initializer" do
@@ -36,7 +37,9 @@ describe "TripDispatcher class" do
     end
 
 
-    xit "raises ArgumentError if end time is before start time" do
+    it "raises ArgumentError if end time is before start time" do
+
+          expect{ RideShare::TripDispatcher.new(USER_TEST_FILE, TIME_ERROR_TEST_FILE) }.must_raise ArgumentError
     end
 
   end
