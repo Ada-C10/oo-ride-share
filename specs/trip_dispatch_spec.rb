@@ -28,7 +28,7 @@ describe "TripDispatcher class" do
                                                   TRIP_TEST_FILE)
       trip = @dispatcher.trips.first
 
-      expect(trip[:end_time] > trip[:start_time]).must_equal true
+      expect(trip.end_time > trip.start_time).must_equal true
     end
   end
 
