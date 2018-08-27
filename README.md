@@ -60,7 +60,6 @@ start_time|When did this trip begin?
 end_time|When did this trip finish?
 rating|The rating given by the User, a number 1-5
 cost|How much did the passenger pay?
-passenger|The User being transported on the trip
 
 ## TripDispatcher
 The `TripDispatcher` class is designed to load trips & users from a CSV file and provides methods to find and add trips.
