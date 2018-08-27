@@ -22,5 +22,9 @@ module RideShare
       "ID=#{id.inspect} " +
       "PassengerID=#{passenger&.id.inspect}>"
     end
+
+    def duration
+    end
+
   end
 end
