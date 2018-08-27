@@ -124,8 +124,8 @@ describe "TripDispatcher class" do
       trip = @dispatcher.trips.first
       passenger = trip.passenger
 
-      test_start_time = Time.parse("2018-06-07 04:18:47 -0700")
-      test_end_time = Time.parse("2018-06-07 04:19:25 -0700")
+      test_start_time = Time.parse("2018-05-25 11:52:40 -0700")
+      test_end_time = Time.parse("2018-05-25 12:25:00 -0700")
 
       expect(passenger.trips[0].start_time).must_equal test_start_time
       expect(passenger.trips[0].end_time).must_equal test_end_time
