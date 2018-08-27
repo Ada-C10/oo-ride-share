@@ -110,8 +110,8 @@ describe "TripDispatcher class" do
 
       expect(passenger).must_be_instance_of RideShare::User
       expect(passenger.trips).must_include trip
-      expect(passenger.trips.start_time).must_be_instance_of Time
-      expect(passenger.trips.end_time).must_be_instance_of Time
+      expect(passenger.trips[0].start_time).must_be_instance_of Time
+      expect(passenger.trips[0].end_time).must_be_instance_of Time
     end
   end
 end
