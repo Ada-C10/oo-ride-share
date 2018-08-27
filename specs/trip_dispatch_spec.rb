@@ -110,8 +110,27 @@ describe "TripDispatcher class" do
 
       expect(passenger).must_be_instance_of RideShare::User
       expect(passenger.trips).must_include trip
+    end
+
+    it "loads trip start and end time as a Time" do
+      trip = @dispatcher.trips.first
+      passenger = trip.passenger
+
       expect(passenger.trips[0].start_time).must_be_instance_of Time
       expect(passenger.trips[0].end_time).must_be_instance_of Time
     end
+
+    it "loads an accurate Time stamp" do
+      trip = @dispatcher.trips.first
+      passenger = trip.passenger
+
+      test_start_time = Time.parse("2018-06-07 04:18:47 -0700")
+      test_end_time = Time.parse("2018-06-07 04:19:25 -0700")
+
+      expect(passenger.trips[0].start_time).must_equal test_start_time
+      expect(passenger.trips[0].end_time).must_equal test_end_time
+
+    end
+
   end
 end
