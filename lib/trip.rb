@@ -27,5 +27,10 @@ module RideShare
       "ID=#{id.inspect} " +
       "PassengerID=#{passenger&.id.inspect}>"
     end
+
+    def calculate_trip_duration
+      return end_time - start_time
+    end
+
   end
 end
