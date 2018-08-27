@@ -14,7 +14,7 @@ module RideShare
 
       if @start_time > @end_time
         raise ArgumentError, "Start time can't be after end time"
-      end 
+      end
 
       if @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
@@ -25,6 +25,10 @@ module RideShare
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
       "ID=#{id.inspect} " +
       "PassengerID=#{passenger&.id.inspect}>"
+    end
+
+    def duration
+      return end_time - start_time
     end
   end
 end
