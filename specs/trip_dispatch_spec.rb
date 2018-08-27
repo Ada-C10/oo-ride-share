@@ -22,12 +22,6 @@ describe "TripDispatcher class" do
         expect(dispatcher.passengers).must_be_kind_of Array
         # expect(dispatcher.drivers).must_be_kind_of Array
       end
-      it "raises error if end time is before start time" do
-
-        test_trip_input = RideShare::Trip.new({:id => 1234, :passenger => "George Foreman", :start_time => "2018-05-25 12:25:00 -0700", :end_time => "2018-05-25 11:52:40 -0700", :cost => 100, :rating => 3})
-
-        expect{ test_trip_input }.must_raise ArgumentError
-      end
     end
 
     describe "find_user method" do
