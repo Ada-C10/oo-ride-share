@@ -58,5 +58,9 @@ describe "User class" do
         expect(trip.passenger.id).must_equal 9
       end
     end
+
+    it "Sums the total money user has spent on trips" do
+    end
+
   end
 end
