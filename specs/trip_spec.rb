@@ -1,23 +1,24 @@
 require_relative 'spec_helper'
 
 describe "Trip class" do
+  before do
+    start_time = Time.parse('2015-05-20T12:14:00+00:00')
+    end_time = start_time + 25 * 60 # 25 minutes
+    @trip_data = {
+      id: 8,
+      passenger: RideShare::User.new(id: 1,
+                                     name: "Ada",
+                                     phone: "412-432-7640"),
+      start_time: start_time,
+      end_time: end_time,
+      cost: 23.45,
+      rating: 3
+    }
+    @trip = RideShare::Trip.new(@trip_data)
+  end
 
   describe "initialize" do
-    before do
-      start_time = Time.parse('2015-05-20T12:14:00+00:00')
-      end_time = start_time + 25 * 60 # 25 minutes
-      @trip_data = {
-        id: 8,
-        passenger: RideShare::User.new(id: 1,
-                                       name: "Ada",
-                                       phone: "412-432-7640"),
-        start_time: start_time,
-        end_time: end_time,
-        cost: 23.45,
-        rating: 3
-      }
-      @trip = RideShare::Trip.new(@trip_data)
-    end
+
 
 
     it "is an instance of Trip" do
@@ -71,4 +72,11 @@ describe "Trip class" do
       end
     end
   end
+
+  describe 'Trip.duration returns duration of trip in seconds' do
+    it 'responds to duration method' do
+      expect(@trip.duration).must_equal (25 * 60)
+    end
+  end
+
 end
