@@ -1,6 +1,5 @@
 require 'csv'
 require 'time'
-require 'date'
 
 require_relative 'user'
 require_relative 'trip'
@@ -9,18 +8,21 @@ module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
 
+    # ArgumentError if the end time is before the start time, and a corresponding test
 
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
-      puts "#{@trips[0]}"
 
       @trips.each do |trip|
-        raise ArgumentError.new() if trip.end_time <= trip.start_time
+        raise ArgumentError.new() if trip[:end_time] <= trip[:start_time]
       end
     end
 
+    def validate
+
+    end
 
     def load_users(filename)
       users = []
@@ -49,12 +51,11 @@ module RideShare
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
-          start_time: DateTime.parse(raw_trip[:start_time]),
-          end_time: DateTime.parse(raw_trip[:end_time]),
+          start_time: Time.parse(raw_trip[:start_time]),
+          end_time: Time.parse(raw_trip[:end_time]),
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i
         }
-
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
         trips << trip
