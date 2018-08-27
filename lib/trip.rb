@@ -1,4 +1,7 @@
 require 'csv'
+require 'time'
+# All times may have fraction. Be aware of this fact when comparing times with each other – times that are apparently equal when displayed may be different when compared.
+#Time.new(year, month, date)
 
 module RideShare
   class Trip
