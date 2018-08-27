@@ -20,32 +20,8 @@ describe "TripDispatcher class" do
 
       expect(dispatcher.trips).must_be_kind_of Array
       expect(dispatcher.passengers).must_be_kind_of Array
+
       # expect(dispatcher.drivers).must_be_kind_of Array
-    end
-
-    it "has trips with end times after their start times" do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE)
-      trip = @dispatcher.trips.first
-
-      expect(trip.end_time > trip.start_time).must_equal true
-    end
-
-    it "raises an ArgumentError if start time is after end time" do
-      start_time = Time.parse('2015-05-20T12:14:00+00:00')
-      end_time = start_time - 25 * 60 # 25 minutes
-      @trip_data = {
-        id: 8,
-        passenger: RideShare::User.new(id: 1,
-                                       name: "Ada",
-                                       phone: "412-432-7640"),
-        start_time: start_time,
-        end_time: end_time,
-        cost: 23.45,
-        rating: 3
-      }
-
-      expect{RideShare::Trip.new(@trip_data)}.must_raise ArgumentError
     end
   end
 

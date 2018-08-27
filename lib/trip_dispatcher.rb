@@ -52,6 +52,8 @@ module RideShare
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i
         }
+
+
         # binding.pry
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
@@ -86,4 +88,4 @@ dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE)
 
 
-# binding.pry                                              
+# binding.pry
