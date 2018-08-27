@@ -22,9 +22,11 @@ All of this data is managed in a class called `TripDispatcher`. Our program will
 
 We are going to continue making functionality that works with this data, such as determining the duration of a specific trip and the total amount of money a user has spent, as well as the amount of money a driver has made and also add functionality to create a new trip and assign available drivers.
 
-### The Code So Far
+---
 
-#### User
+# The Code So Far
+
+## User
 A `User` represents a person with an account in our Rideshare service.  `Users` can use the service to take trips and can become Drivers with the service.
 
 Each `User` has:
@@ -43,7 +45,7 @@ User Methods
 add_trip|Adds a trip to the user's list of trips
 
 
-#### Trip
+## Trip
 A `Trip` represents a journey a `User` has taken with the service.
 
 Each `Trip` has:
@@ -58,7 +60,7 @@ rating|The rating given by the User, a number 1-5
 cost|How much did the passenger pay?
 passenger|The User being transported on the trip
 
-#### TripDispatcher
+## TripDispatcher
 The `TripDispatcher` class is designed to load trips & users from a CSV file and provides methods to find and add trips.
 
 The `TripDispatcher` has:
@@ -86,13 +88,15 @@ find_passenger  |  find an instance of `User` given an ID
 By the end of this project, a `TripDispatcher` will be able to:
 -   create new trips assigning appropriate passengers and drivers
 
-## Getting Started
+---
+
+# Getting Started
 
 We will use the same project structure we used for the previous project. Classes should be in files in the `lib` folder, and tests should be in files in the `specs` folder. You will run tests by executing the `rake` command, as configured in a Rakefile.
 
 The `support` folder contains CSV files which will drive your system design. Each CSV corresponds to a different type of object _as well as_ creating a relationship between different objects.
 
-### Setup
+## Setup
 1.  You'll be working with an assigned pair. High-five your pair.
 1.  Choose **one** person to fork this repository in GitHub
 1.  Add the person who **didn't** fork the repository as a [collaborator](https://help.github.com/articles/inviting-collaborators-to-a-personal-repository/).
@@ -101,7 +105,7 @@ The `support` folder contains CSV files which will drive your system design. Eac
 1.  Run `rake` to run the tests
 1.  Together review the provided tests and code.
 
-### Process
+## Process
 You should use the following process as much as possible:
 
 1.  Write pseudocode
@@ -125,11 +129,13 @@ Create a diagram that describes how each of these classes and methods (messages)
 
 **Exercise:** Look at this requirement in Wave 1: "For a given user, calculate their total expenditure for all trips". Spend some time writing pseudocode for this.
 
-### Wave 1
+---
+
+# Wave 1
 
 The purpose of Wave 1 is to help you become familiar with the existing code, and to practice working with enumerables.
 
-#### 1.1: Upgrading Dates
+## 1.1: Upgrading Dates
 
 Currently our implementation saves the start and end time of each trip as a string. This is our first target for improvement. Instead of storing these values as strings, we will use Ruby's built-in [`Time`](https://ruby-doc.org/core-2.5.1/Time.html) class. You should:
 
@@ -140,7 +146,7 @@ Currently our implementation saves the start and end time of each trip as a stri
 
 **Hint:** If you're hitting a `NoMethodError` for `Time.parse`, be aware that you need to `require 'time'` in order for it to work.
 
-#### 1.2: User Aggregate Statistics
+## 1.2: User Aggregate Statistics
 
 Now that we have data for cost available for every trip, we can do some interesting data processing. Each of these should be implemented as an instance method on `User`.
 
@@ -149,7 +155,7 @@ Now that we have data for cost available for every trip, we can do some interest
 
 **Each of these methods must have tests.**
 
-### Wave 2
+# Wave 2
 
 Our program needs a data type to represent Drivers in our service.
 
@@ -163,7 +169,7 @@ status|Indicating availability, a driver's availability should be either `:AVAIL
 
 **Use the provided tests** to ensure that a `Driver` instance can be created successfully and insure that an `ArgumentError` is raised for an invalid status.
 
-#### Updating Trip
+## Updating Trip
 
 To make use of the new `Driver` class we will need to update the `Trip` class to include a reference to the trip's driver.  Add the following attribute to the `Trip` class.
 
@@ -177,7 +183,7 @@ Each `Trip` instance should also be able to do the following:
 -----|-----
 driver|retrieve the associated `Driver` instance
 
-#### Loading Drivers
+## Loading Drivers
 Update the `TripDispatcher` class to add or update the following Methods:
 
 **Method**|**Description**
@@ -185,8 +191,8 @@ Update the `TripDispatcher` class to add or update the following Methods:
 load_drivers|Load the Drivers from the `support/drivers.csv` file and return a collection of `Driver` instances, note that **drivers can be passengers too!** Replace the instance of `User` in the `passengers` array with a cooresponding instance of `Driver`
 find_driver |This method takes an `id` number and returns the corresponding `Driver` instance.
 load_trips|This method should be updated to add a corresponding `Driver` to the trip instance.
- 
-#### Driver methods
+
+## Driver methods
 
 After each trip has a reference to its `Driver` and TripDispatcher can load a list of `Driver`s, add the following functionality to the `Driver` class:
 
@@ -230,7 +236,7 @@ You should use this information to:
 -   What happens if you try to request a trip when there are no `AVAILABLE` drivers?
 -   Drivers cannot drive themselves
 
-#### Interaction with Waves 1 & 2
+## Interaction with Waves 1 & 2
 
 One thing you may notice is that **this change breaks your code** from previous waves, possibly in subtle ways. We've added a new kind of trip, an _in-progress_ trip, that is missing some of the values you need to compute those numbers.
 
@@ -238,7 +244,7 @@ Your code from waves 1 & 2 should _ignore_ any in-progress trips. That is to say
 
 You should also **add explicit tests** for this new situation. For example, what happens if you attempt to calculate the total money spent for a `User` with an in-progress trip, or the average hourly revenue of a `Driver` with an in-progress trip?
 
-### Wave 4
+# Wave 4
 
 We want to evolve `TripDispatcher` so it assigns drivers in more intelligent ways. Every time we make a new trip, we want to pick drivers who haven't completed a trip in a long time, or who have never been assigned a trip.
 
@@ -262,6 +268,8 @@ Grace is excluded because they are not `AVAILABLE`, and because they have one in
 Of Ada and Katherine, we prefer Ada, because their most recent trip is older.
 
 **All of this code must have tests.**
+
+---
 
 ## What Instructors Are Looking For
 Check out the [feedback template](feedback.md) which lists the items instructors will be looking for as they evaluate your project.
