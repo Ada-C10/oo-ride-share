@@ -48,11 +48,17 @@ module RideShare
           rating: raw_trip[:rating].to_i
         }
 
+        time_check = parsed_trip[:start_time] <=> parsed_trip[:end_time]
+        if time_check > 0
+          raise ArgumentError, "Start time is after end time!"
+        end
+
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
         trips << trip
-      end
 
+
+      end
       return trips
     end
 
@@ -63,9 +69,9 @@ module RideShare
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-              #{trips.count} trips, \
-              # {drivers.count} drivers, \
-              #{passengers.count} passengers>"
+      #{trips.count} trips, \
+      # {drivers.count} drivers, \
+      #{passengers.count} passengers>"
     end
 
     private
