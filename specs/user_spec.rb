@@ -88,4 +88,32 @@ describe "User class" do
     end
   end
 
+  describe "total_time_spent method" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+        phone: "1-602-620-2330 x3723", trips: [])
+      end
+
+    it 'returns 0 if no trips are taken' do
+      expect(@user.total_time_spent).must_equal 0
+    end
+
+    it 'returns the total time of all trips correctly' do
+      trip1 = RideShare::Trip.new(id: 8, passenger: @user,
+        start_time: Time.parse("2016-08-08 11:00:00"),
+        end_time: Time.parse("2016-08-08 11:30:00"), cost: 17,
+        rating: 5)
+
+      trip2 = RideShare::Trip.new(id: 8, passenger: @user,
+          start_time: Time.parse("2016-08-09 11:00:00"),
+          end_time: Time.parse("2016-08-09 11:30:00"), cost: 20,
+          rating: 5)
+
+      @user.add_trip(trip1)
+      @user.add_trip(trip2)
+
+      expect(@user.total_time_spent).must_equal 60
+    end
+  end
+
 end
