@@ -26,5 +26,10 @@ module RideShare
       "ID=#{id.inspect} " +
       "PassengerID=#{passenger&.id.inspect}>"
     end
+
+    def duration
+      return @end_time - @start_time
+    end
+
   end
 end

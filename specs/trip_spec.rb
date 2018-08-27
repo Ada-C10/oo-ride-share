@@ -47,5 +47,13 @@ describe "Trip class" do
 
         expect{ RideShare::Trip.new(test_trip_input) }.must_raise ArgumentError
       end
+
+      it "calculates ride duration in seconds" do
+        test_trip_input = {:id => 1234, :passenger => "George Foreman", :end_time => Time.parse("2018-05-25 12:25:00 -0700"), :start_time => Time.parse("2018-05-25 11:52:40 -0700"), :cost => 100, :rating => 3}
+        test_ride = RideShare::Trip.new(test_trip_input)
+
+        expect(test_ride.duration).must_equal(test_ride.end_time - test_ride.start_time)
+      end
+
     end
   end
