@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe "User class" do
+xdescribe "User class" do
 
   describe "User instantiation" do
     before do
