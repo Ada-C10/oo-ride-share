@@ -39,6 +39,24 @@ describe "TripDispatcher class" do
     end
   end
 
+  describe "load_trips method" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE)
+    end
+
+    it "Tests for time conversion from string to time instances" do
+      5.times do |i|
+        expect(@dispatcher.trips[i].start_time).must_be_instance_of Time
+        expect(@dispatcher.trips[i].end_time).must_be_instance_of Time
+      end
+
+    end
+
+  end
+
+
+
 
   # Uncomment for Wave 2
   # describe "find_driver method" do
