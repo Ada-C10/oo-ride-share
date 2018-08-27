@@ -1,5 +1,6 @@
 require 'csv'
 require 'time'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -14,6 +15,7 @@ module RideShare
       @trips = load_trips(trip_file)
     end
 
+    # creates instances of users and saves them in @passangers
     def load_users(filename)
       users = []
 
@@ -29,13 +31,15 @@ module RideShare
       return users
     end
 
-
+    # creates instances of trips and saves them in @trips, AND
+    # it adds each trip to its corresponding instance of passanger
     def load_trips(filename)
       trips = []
       trip_data = CSV.open(filename, 'r', headers: true,
                                           header_converters: :symbol)
 
       trip_data.each do |raw_trip|
+        # finds the passanger in the instance of passagers (@passangers)
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
 
         parsed_trip = {
@@ -46,15 +50,20 @@ module RideShare
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i
         }
-
+        binding.pry
         trip = Trip.new(parsed_trip)
+        # it adds each trip to its corresponding instance of passanger
+        # every instance of a passanger is saved in @passagers
         passenger.add_trip(trip)
+        binding.pry
         trips << trip
       end
 
       return trips
     end
 
+    # helps find the instance of a passanger
+    # it's send back to load trips which create isntances of trips 
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }

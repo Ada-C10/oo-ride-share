@@ -1,3 +1,5 @@
+require 'pry'
+
 module RideShare
   class User
     attr_reader :id, :name, :phone_number, :trips
@@ -13,6 +15,8 @@ module RideShare
       @trips = input[:trips].nil? ? [] : input[:trips]
     end
 
+    # this is used in the load trip method
+    # it collects the instances of trips and it is saves in the instance of trips for each user ^ anove
     def add_trip(trip)
       @trips << trip
     end
