@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'awesome_print'
 
 describe "Trip class" do
 

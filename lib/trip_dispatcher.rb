@@ -29,7 +29,7 @@ module RideShare
       return users
     end
 
-
+    # Modify TripDispatcher#load_trips to store the start_time and end_time as Time instances
     def load_trips(filename)
       trips = []
       trip_data = CSV.open(filename, 'r', headers: true,
@@ -41,8 +41,8 @@ module RideShare
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
-          start_time: raw_trip[:start_time],
-          end_time: raw_trip[:end_time],
+          start_time: Time.parse(raw_trip[:start_time]), # rawtrip hash start_time in new_hash parsed_trip
+          end_time: Time.parse(raw_trip[:end_time]),
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i
         }
