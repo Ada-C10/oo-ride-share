@@ -1,6 +1,7 @@
 require 'csv'
 require 'time'
 
+
 require_relative 'user'
 require_relative 'trip'
 
