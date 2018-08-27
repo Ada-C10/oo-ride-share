@@ -11,7 +11,7 @@ module RideShare
 
       @vehicle_id = input[:vin]
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
-      @status = :AVAILABLE
+      @status = input[:status]
 
       unless @vehicle_id.length == 17
         raise ArgumentError, "Invalid vehicle ID #{@vehicle_id}"
@@ -21,7 +21,7 @@ module RideShare
         raise ArgumentError, "Invalid status #{@status}"
       end
 
-      
+
     end
 
 

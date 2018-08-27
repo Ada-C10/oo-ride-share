@@ -4,6 +4,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require 'awesome_print'
+require 'pry'
 # Add simplecov
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
