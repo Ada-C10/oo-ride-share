@@ -35,10 +35,13 @@ describe "Trip class" do
         cost: 23.45,
         rating: 3
       }
-      # @trip = RideShare::Trip.new(@trip_data)
+#      @trip = RideShare::Trip.new(@trip_data)
   expect{RideShare::Trip.new(@trip_data)}.must_raise ArgumentError
     end
 
+    it "calculates an instance of a trip in seconds" do
+      expect(@trip.trip_duration).must_equal 25 * 60
+    end
 
     it "stores an instance of user" do
       expect(@trip.passenger).must_be_kind_of RideShare::User

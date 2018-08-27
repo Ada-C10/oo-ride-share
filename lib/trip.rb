@@ -20,6 +20,13 @@ module RideShare
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
     end
+    
+    def trip_duration
+    return end_time - start_time
+    end
+
+
+
 
     def inspect
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
