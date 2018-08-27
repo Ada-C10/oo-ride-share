@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'time'
 
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
