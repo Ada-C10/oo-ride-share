@@ -62,4 +62,29 @@ describe "Trip class" do
 
     end
   end
+
+  describe "Trip#duration" do
+    before do
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time + 25 * 60 # 25 minutes
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+      @trip = RideShare::Trip.new(@trip_data)
+    end
+
+    it "calculates the duration of a trip in seconds" do
+      time_in_second = @trip_data[:end_time] - @trip_data[:start_time]
+
+      expect(@trip.duration).must_equal time_in_second    
+    end
+
+  end
 end
