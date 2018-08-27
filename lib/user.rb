@@ -16,5 +16,16 @@ module RideShare
     def add_trip(trip)
       @trips << trip
     end
+
+    def net_expenditures
+      # Returns the total amount of money that user has spent on their trips
+      # :passenger_id => net_expend
+
+    end
+
+    def total_time_spent
+      # Returns the total amount of time that user has spent on their trips
+    end
+
   end
 end
