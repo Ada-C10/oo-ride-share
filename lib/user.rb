@@ -24,12 +24,15 @@ module RideShare
       end
       return total
       # Returns the total amount of money that user has spent on their trips
-      # :passenger_id => net_expend
-
     end
 
     def total_time_spent
       # Returns the total amount of time that user has spent on their trips
+      total_time = 0
+      @trips.each do |trip|
+        total_time += trip.trip_duration
+      end
+      return total_time
     end
 
   end
