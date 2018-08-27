@@ -31,6 +31,8 @@ module RideShare
 
 
     def load_trips(filename)
+#This method should be updated to add a corresponding Driver to the trip instance.
+
       trips = []
       trip_data = CSV.open(filename, 'r', headers: true,
                                           header_converters: :symbol)
@@ -66,6 +68,18 @@ module RideShare
               #{drivers.count} drivers, \
               #{passengers.count} passengers>"
     end
+
+    def load_drivers
+      #Load the Drivers from the support/drivers.csv file and return a collection of Driver instances, note that drivers can be passengers too! Replace the instance of User in the passengers array with a cooresponding instance of Driver
+    end
+
+    def find_driver
+      #This method takes an id number and returns the corresponding Driver instance.
+    end
+
+
+
+
 
     private
 

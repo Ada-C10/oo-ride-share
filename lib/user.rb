@@ -36,4 +36,35 @@ module RideShare
     end
 
   end
+
+  class Driver < User
+    attr_reader
+
+    def initialize(id: 0, name: "no name", vin: 0, phone: 0, status: :UNAVAILABLE)
+      @id = :id
+      @name = :name
+      @vehicle_id = :vin
+      @phone = :phone
+      @status = :status
+      @driven_trips = []
+    end
+
+    def average_rating
+      #This method sums up the ratings from all a Driver's trips and returns the average
+    end
+
+    def add_driven_trip
+      #This method adds a trip to the driver's collection of trips for which they have acted as a driver
+    end
+
+    def total_revenue
+      #This method calculates that driver's total revenue across all their trips. Each driver gets 80% of the trip cost after a fee of $1.65 per trip is subtracted.
+    end
+
+    def net_expenditures
+      #This method will override the cooresponding method in User and take the total amount a driver has spent as a passenger and subtract the amount they have earned as a driver (see above). If the number is negative the driver will earn money.
+    end
+  end
+
+
 end
