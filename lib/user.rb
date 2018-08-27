@@ -18,6 +18,11 @@ module RideShare
     end
 
     def net_expenditures
+      total = 0
+      @trips.each do |trip|
+        total += trip.cost
+      end
+      return total
       # Returns the total amount of money that user has spent on their trips
       # :passenger_id => net_expend
 

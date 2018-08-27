@@ -59,4 +59,40 @@ describe "User class" do
       end
     end
   end
+
+  describe "net expenditures" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723", trips: [])
+    end
+
+    it 'calculates the total paid by a user' do
+
+      trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 rating: 5, cost: 5 )
+      trip2 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: Time.parse("2016-08-09"),
+                                  rating: 5, cost: 10 )
+      trip3 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: Time.parse("2016-08-09"),
+                                  rating: 5, cost: 7 )
+
+      @user.add_trip(trip1)
+      @user.add_trip(trip2)
+      @user.add_trip(trip3)
+
+      expect(@user.net_expenditures).must_equal 22
+    end
+
+    it 'returns 0 if user has no trips' do
+      expect(@user.net_expenditures).must_equal 0
+    end
+
+
+  end
+
 end
