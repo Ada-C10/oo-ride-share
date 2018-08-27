@@ -44,7 +44,8 @@ describe "TripDispatcher class" do
         cost: 23.45,
         rating: 3
       }
-      @trip = RideShare::Trip.new(@trip_data)
+
+      expect{RideShare::Trip.new(@trip_data)}.must_raise ArgumentError
     end
   end
 
