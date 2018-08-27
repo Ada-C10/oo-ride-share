@@ -60,5 +60,10 @@ describe "Trip class" do
 
     end
 
+    it 'calculates the duration of a trip' do
+
+      expect(@trip.duration).must_equal 1500
+    end
+
   end
 end
