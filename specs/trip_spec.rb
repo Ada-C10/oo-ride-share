@@ -58,7 +58,43 @@ describe "Trip class" do
       expect {
         RideShare::Trip.new(@trip_data)
       }.must_raise ArgumentError
-      
+    end
+
+    it 'Calculates the trip duration in seconds' do
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time + 36 # 36 seconds earlier
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+      my_trip = RideShare::Trip.new(@trip_data)
+
+      expect(my_trip.trip_duration).must_equal 36
+    end
+
+    it 'Raises an ArgumentError if the trip duration is 0' do
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+
+      expect{
+        RideShare::Trip.new(@trip_data)
+      }.must_raise ArgumentError
     end
   end
 end

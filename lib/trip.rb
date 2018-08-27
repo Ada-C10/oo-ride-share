@@ -5,7 +5,7 @@ module RideShare
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating
 
     def initialize(input)
-      raise ArgumentError.new "Start time must be before end time!" if input[:start_time] > input[:end_time]
+      raise ArgumentError.new "Start time must be before end time!" if input[:start_time] >= input[:end_time]
       @id = input[:id]
       @passenger = input[:passenger]
       @start_time = input[:start_time]
@@ -23,5 +23,10 @@ module RideShare
       "ID=#{id.inspect} " +
       "PassengerID=#{passenger&.id.inspect}>"
     end
+
+    def trip_duration
+      return duration = @end_time - @start_time
+    end
+
   end
 end
