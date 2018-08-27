@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'time'
 
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
@@ -109,6 +110,8 @@ describe "TripDispatcher class" do
 
       expect(passenger).must_be_instance_of RideShare::User
       expect(passenger.trips).must_include trip
+      expect(passenger.trips.start_time).must_be_instance_of Time
+      expect(passenger.trips.end_time).must_be_instance_of Time
     end
   end
 end
