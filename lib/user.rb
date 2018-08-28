@@ -23,7 +23,9 @@ module RideShare
       trips.reduce{|sum, trip| sum.cost + trip.cost }
     end
 
-
+    def total_time_spent
+      trips.reduce{|sum, trip| sum.trip_duration + trip.trip_duration }
+    end
   end
 end
 @user = RideShare::User.new(id: 9, name: "Merl Glover III",

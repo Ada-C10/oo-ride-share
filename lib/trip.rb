@@ -20,9 +20,9 @@ module RideShare
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
     end
-    
+
     def trip_duration
-    return end_time - start_time
+      return end_time - start_time
     end
 
 

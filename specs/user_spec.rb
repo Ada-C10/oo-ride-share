@@ -38,42 +38,42 @@ describe "User class" do
   describe "trips property" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
-                                  phone: "1-602-620-2330 x3723", trips: [])
-      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
-                                 rating: 5)
-
-      @user.add_trip(trip)
-    end
-
-    it "each item in array is a Trip instance" do
-      @user.trips.each do |trip|
-        expect(trip).must_be_kind_of RideShare::Trip
-      end
-    end
-
-    it "all Trips must have the same passenger's user id" do
-      @user.trips.each do |trip|
-        expect(trip.passenger.id).must_equal 9
-      end
-    end
-    it "adds the cost of all rides for user" do
-      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
         phone: "1-602-620-2330 x3723", trips: [])
         trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
           start_time: Time.parse("2016-08-08"),
-          end_time: Time.parse("2016-08-09"), cost: 5, rating: 5)
-          trip_2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-            start_time: Time.parse("2016-08-08"),
-            end_time: Time.parse("2016-08-09"),cost: 10, rating: 5)
-            @user.add_trip(trip)
-            @user.add_trip(trip_2)
-            expect(@user.net_expenditures).must_equal 15
+          end_time: Time.parse("2016-08-09"),
+          rating: 5)
 
+          @user.add_trip(trip)
+        end
+
+        it "each item in array is a Trip instance" do
+          @user.trips.each do |trip|
+            expect(trip).must_be_kind_of RideShare::Trip
           end
         end
 
+        it "all Trips must have the same passenger's user id" do
+          @user.trips.each do |trip|
+            expect(trip.passenger.id).must_equal 9
+          end
+        end
+        it "adds the cost of all rides for user" do
+          @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+            phone: "1-602-620-2330 x3723", trips: [])
+            trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+              start_time: Time.parse("2016-08-08"),
+              end_time: Time.parse("2016-08-09"), cost: 5, rating: 5)
+              trip_2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                start_time: Time.parse("2016-08-08"),
+                end_time: Time.parse("2016-08-09"),cost: 10, rating: 5)
+                @user.add_trip(trip)
+                @user.add_trip(trip_2)
+              expect(@user.net_expenditures).must_equal 15
+              expect(@user.total_time_spent).must_equal 172800
+              end
+            end
 
 
-  end
+
+          end
