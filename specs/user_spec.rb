@@ -50,14 +50,36 @@ describe "User class" do
        @passenger.trips.each do |trip|
          total += trip.cost
        end
-
-
-
-     expect (total).must_equal 17
+expect (total).must_equal 17
 
     end
   end
 end
+
+describe "total time spent" do
+it "should calculate total time spent in rides by user" do
+  user1 = {:id=>1,:name=>"User1",:phone=>111-111-1111}
+  @passenger = RideShare::User.new(user1)
+  @trip1 = RideShare::Trip.new({:id=>2,:passenger=>1,:start_time=>"2018-05-25 11:52:40",:end_time=>"2018-05-25 12:25:00",:cost=>10,:rating=>5})
+  @trip2 = RideShare::Trip.new({:id=>3,:passenger=>1,:start_time=>"2018-07-23 04:39:00",:end_time =>"2018-07-23 04:55:00",:cost =>7,:rating =>3})
+
+  @passenger.add_trip(@trip1)
+  @passenger.add_trip(@trip2)
+
+  duration = ""
+  @passenger.trips.each do |trip|
+    t1 = Time.parse(trip.start_time)
+    t2 = Time.parse(trip.end_time)
+    duration += sprintf("%0.02f", (t2 - t1) % 60)
+      end
+      minutes = (((duration.to_i) / 60) % 60).to_i
+    return minutes
+
+    expect(minutes).must_equal "48"
+end
+end
+
+
 
 
   describe "trips property" do
