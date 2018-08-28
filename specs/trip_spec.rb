@@ -40,6 +40,17 @@ describe "Trip class" do
           RideShare::Trip.new(@trip_data)
         }.must_raise ArgumentError
       end
+
+      it "raises error if end date is before start date" do
+
+        start_time = Time.parse('2012-05-20T12:14:00+00:00')
+        end_time = Time.parse('2015-05-20T12:14:00+00:00')
+
+        expect {(@trip.start_time < @trip.end_time)}.must_raise ArgumentError
+
+      end
+
+
     end
   end
 end

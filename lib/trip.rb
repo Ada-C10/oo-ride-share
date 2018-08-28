@@ -15,6 +15,11 @@ module RideShare
       if @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
+
+      # if Time.parse(@end_time) > Time.parse(@start_time)
+      #   raise ArgumentError.new("Invalid Date: End date is before start date!")
+      # end
+
     end
 
     def inspect #what does this first line do?
