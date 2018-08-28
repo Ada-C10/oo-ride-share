@@ -32,6 +32,5 @@ module RideShare
       duration = @end_time - @start_time
       return duration
     end
-
   end
 end
