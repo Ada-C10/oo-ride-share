@@ -1,8 +1,10 @@
 require 'csv'
 require 'time'
+require "pry"
 
 require_relative 'user'
 require_relative 'trip'
+require_relative 'driver'
 
 module RideShare
   class TripDispatcher
@@ -38,10 +40,11 @@ module RideShare
                                           header_converters: :symbol)
 
       trip_data.each do |raw_trip|
+        driver = find_driver(raw_trip[:driver_id].to_i) #instance of Driver class
         passenger = find_passenger(raw_trip[:passenger_id].to_i) # instance of User class
-
         parsed_trip = {
           id: raw_trip[:id].to_i,
+          driver: driver,
           passenger: passenger,
           start_time: Time.parse(raw_trip[:start_time]),
           end_time: Time.parse(raw_trip[:end_time]),
@@ -51,6 +54,8 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip) # User.add_trip(trip) adds to @trips []
+        driver.add_driven_trip(trip) # Driver.add_trip(trip) adds to @trips []
+        binding.pry
         trips << trip # TripDispatcher.load_trips(filename) adds to trips [], which is returned by load_trips. init loads trips to TripDisp @trips
       end
 
@@ -78,7 +83,9 @@ module RideShare
       return drivers
     end
 
-    def find_driver
+    def find_driver(id)
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id } #instance of Driver class
     end
 
 
