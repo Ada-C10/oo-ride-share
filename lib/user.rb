@@ -18,16 +18,16 @@ module RideShare
     end
 
     def net_expenditures
-      return @trips.sum do |trip|
-        trip.cost
-      end
+      valid_trips = @trips.find_all { |trip| trip.cost }
+
+      return valid_trips.sum { |trip| trip.cost }
 
     end
 
     def total_time_spent
-      return @trips.sum do |trip|
-        trip.duration / 60
-      end
+      valid_trips = @trips.find_all { |trip| trip.duration }
+
+      return valid_trips.sum { |trip| trip.duration / 60 }
 
     end
 

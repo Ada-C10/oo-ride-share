@@ -86,6 +86,25 @@ describe "User class" do
 
       expect(@user.net_expenditures).must_equal 37
     end
+
+    it 'returns the net expenditure for only completed trips' do
+      trip1 = RideShare::Trip.new(id: 8, passenger: @user,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"), cost: 17,
+        rating: 5)
+
+      trip2 = RideShare::Trip.new(id: 8, passenger: @user,
+          start_time: Time.now,
+          end_time: nil, cost: nil,
+          rating: nil)
+
+      @user.add_trip(trip1)
+      @user.add_trip(trip2)
+
+      expect(@user.net_expenditures).must_equal 17
+
+    end
+
   end
 
   describe "total_time_spent method" do
@@ -113,6 +132,23 @@ describe "User class" do
       @user.add_trip(trip2)
 
       expect(@user.total_time_spent).must_equal 60
+    end
+
+    it 'returns the total time of only completed trips' do
+      trip1 = RideShare::Trip.new(id: 8, passenger: @user,
+        start_time: Time.parse("2016-08-08 11:00:00"),
+        end_time: Time.parse("2016-08-08 11:30:00"), cost: 17,
+        rating: 5)
+
+      trip2 = RideShare::Trip.new(id: 8, passenger: @user,
+          start_time: Time.now,
+          end_time: nil, cost: nil,
+          rating: nil)
+
+      @user.add_trip(trip1)
+      @user.add_trip(trip2)
+
+      expect(@user.total_time_spent).must_equal 30
     end
   end
 
