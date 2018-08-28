@@ -13,9 +13,9 @@ module RideShare
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv',
                    driver_file = 'support/drivers.csv')
-      @passengers = load_users(user_file) #array of Users from user csv
+      @passengers = load_users(user_file) #array of Users from users csv
+      @drivers = load_drivers(driver_file) # array of Drivers from drivers csv
       @trips = load_trips(trip_file) #array of Trips from trips csv
-      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -55,7 +55,6 @@ module RideShare
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip) # User.add_trip(trip) adds to @trips []
         driver.add_driven_trip(trip) # Driver.add_trip(trip) adds to @trips []
-        binding.pry
         trips << trip # TripDispatcher.load_trips(filename) adds to trips [], which is returned by load_trips. init loads trips to TripDisp @trips
       end
 

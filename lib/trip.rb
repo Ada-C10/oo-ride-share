@@ -34,9 +34,5 @@ module RideShare
       "PassengerID=#{passenger&.id.inspect}>"
     end
 
-    def driver
-      # retrieve the associated Driver instance
-    end
-
   end
 end
