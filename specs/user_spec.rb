@@ -79,21 +79,20 @@ describe "User class" do
         cost: 16,
         rating: 5)
 
-
         @user.add_trip(trip1)
         @user.add_trip(trip2)
 
     end
 
-    it "returns the total amount that a user has spent on all of their rides"
+    it "returns the total amount that a user has spent on all of their rides" do
+      
+    total_cost = @user.trips[0].cost + @user.trips[1].cost
 
-binding.pry
-    # total_cost = @user.trips[0].cost + @user.trips[1].cost
-    #
-    # expect(total_cost).must_equal 26
+    expect(total_cost).must_equal 26
     end
 
 
 
 
+  end
 end
