@@ -83,8 +83,33 @@ describe "User class" do
 
     it "net_expenditures should be return a number for total amount of money" do
       expect(@user.net_expenditures).must_equal 30.11
-      expect(@user.net_expenditures).must_be_instance_of Number
+      expect(@user.net_expenditures).must_be_instance_of Float
 
+    end
+  end
+
+  describe "User#total_time_spent" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723", trips: [])
+
+      trip = RideShare::Trip.new({id: 8,  passenger: @user,
+                                 start_time: Time.parse("2018-05-25 11:52:00 -0700"),
+                                 end_time: Time.parse("2018-05-25 12:51:00 -0700"),
+                                 rating: 5, cost:10.11})
+
+      @user.add_trip(trip)
+
+      trip = RideShare::Trip.new({id: 8,  passenger: @user,
+                                 start_time: Time.parse("2018-07-23 04:39:00 -0700"),
+                                 end_time: Time.parse("2018-07-23 05:38:00 -0700"),
+                                 rating: 4, cost:20})
+
+      @user.add_trip(trip)
+    end
+    it "returns the total amount of time that the user spent on trips" do
+        expect(@user.total_time_spent).must_equal 7080.0
+        expect(@user.total_time_spent).must_be_instance_of Numeric
     end
   end
 

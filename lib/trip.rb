@@ -21,6 +21,10 @@ module RideShare
       if @start_time > @end_time
         raise ArgumentError.new("Start_time cannot be later than end_time")
       end
+
+      if @start_time > Time.now || @end_time > Time.now
+        raise ArgumentError.new("Time is in the future! That can't be right.")
+      end
     end
 
     def inspect
