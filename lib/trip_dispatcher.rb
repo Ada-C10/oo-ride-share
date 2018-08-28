@@ -69,7 +69,7 @@ module RideShare
 
       return driver_data.map do |raw_driver|
         user = find_passenger(raw_driver[:id].to_i)
-      
+
 
         parse_driver = {
         id: raw_driver[:id].to_i,
@@ -97,9 +97,20 @@ module RideShare
     def request_trip(user_id)
 
       driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+
+      unless driver
+        puts "No drivers available. Please try again later."
+        return nil
+      end
+      
       driver.status = :UNAVAILABLE
 
       passenger = find_passenger(user_id)
+
+      unless passenger
+        raise ArgumentError, "#{user_id} not found in passenger list"
+      end
+
 
       parsed_trip = {
         id: @trips.last.id + 1 ,

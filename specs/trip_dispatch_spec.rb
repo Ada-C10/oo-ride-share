@@ -116,5 +116,32 @@ describe "TripDispatcher class" do
     end
   end
 
+  describe "request_trip method" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+    end
+
+    it "returns an instance of trip" do
+      trip = @dispatcher.request_trip(1)
+
+      expect( trip ).must_be_instance_of RideShare::Trip
+
+    end
+
+    it "raise argumenterror if user_id is not found in passenger list" do
+      expect{ @dispatcher.request_trip(99) }.must_raise ArgumentError
+    end
+
+    it "returns nil if no drivers are available" do
+      @dispatcher.drivers.each do |driver|
+        driver.status = :UNAVAILABLE
+      end
+
+      expect( @dispatcher.request_trip(1) ).must_be_nil
+    end
+
+  end
 
 end
