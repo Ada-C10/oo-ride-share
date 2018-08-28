@@ -37,14 +37,28 @@ describe "User class" do
 
   describe "trips property" do
     before do
-      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
-                                  phone: "1-602-620-2330 x3723", trips: [])
-      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+      @user = RideShare::User.new(id: 9,
+                                  name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723",
+                                  trips: [])
+      trip1 = RideShare::Trip.new(id: 8,
+                                 driver: nil,
+                                 passenger: @user,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-09"),
+                                 cost: 15,
+                                 rating: 5)
+      trip2 = RideShare::Trip.new(id: 8,
+                                 driver: nil,
+                                 passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 35,
                                  rating: 5)
 
-      @user.add_trip(trip)
+      @user.add_trip(trip1)
+      @user.add_trip(trip2)
+
     end
 
     it "each item in array is a Trip instance" do
@@ -58,5 +72,21 @@ describe "User class" do
         expect(trip.passenger.id).must_equal 9
       end
     end
+
+    it 'calculates the net expenditure of all trips for the user' do
+      # binding.pry
+      total_cost = 0
+
+      @user.trips.each do |trip|
+        total_cost += trip.cost
+      end
+      expect(@user.net_expenditures).must_equal 50
+      # expect(@user.trips.net_expenditures).must_equal 15
+    end
+    it 'calculates the total time for all trips for the user' do
+
+    end
+    end
+
   end
-end
+
