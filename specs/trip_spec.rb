@@ -9,46 +9,50 @@ describe "Trip class" do
       @trip_data = {
         id: 8,
         passenger: RideShare::User.new(id: 1,
-          name: "Ada",
-          phone: "412-432-7640"),
-          start_time: start_time,
-          end_time: end_time,
-          cost: 23.45,
-          rating: 3
-        }
-        @trip = RideShare::Trip.new(@trip_data)
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+      @trip = RideShare::Trip.new(@trip_data)
+    end
+
+
+    it "is an instance of Trip" do
+      expect(@trip).must_be_kind_of RideShare::Trip
+    end
+
+
+
+    it "stores an instance of user" do
+      expect(@trip.passenger).must_be_kind_of RideShare::User
+    end
+
+    it "stores an instance of driver" do
+      skip  # Unskip after wave 2
+      expect(@trip.driver).must_be_kind_of RideShare::Driver
+    end
+
+    it "raises an error for an invalid rating" do
+      [-3, 0, 6].each do |rating|
+        @trip_data[:rating] = rating
+        expect {
+          RideShare::Trip.new(@trip_data)
+        }.must_raise ArgumentError
       end
+    end
 
+    it "Raises an Argument Error if start time is after end time" do
 
-      it "is an instance of Trip" do
-        expect(@trip).must_be_kind_of RideShare::Trip
-      end
+      @trip_data[:start_time] = Time.parse('2015-05-20T12:14:00+00:00')
+      @trip_data[:end_time] = @trip_data[:start_time] - 60
 
+      expect{@trip_data[:start_time] >= @trip_data[:end_time]}.must_raise ArgumentError
 
-
-      it "stores an instance of user" do
-        expect(@trip.passenger).must_be_kind_of RideShare::User
-      end
-
-      it "stores an instance of driver" do
-        skip  # Unskip after wave 2
-        expect(@trip.driver).must_be_kind_of RideShare::Driver
-      end
-
-      it "raises an error for an invalid rating" do
-        [-3, 0, 6].each do |rating|
-          @trip_data[:rating] = rating
-          expect {
-            RideShare::Trip.new(@trip_data)
-          }.must_raise ArgumentError
-        end
-      end
-
-      it "Raises an Argument Error if start time is after end time" do
-        expect{@trip_data[:start_time] >= @trip_data[:end_time]}.must_raise ArgumentError
-      end
-
-
+    end
 
     end
   end
+end
