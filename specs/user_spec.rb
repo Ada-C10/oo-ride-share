@@ -59,4 +59,30 @@ describe "User class" do
       end
     end
   end
+
+
+  describe "net_expenditures" do
+    before do
+      @user = RideShare::user.new(id: 9, name: "Merl Glover III",
+      phone: "1-602-620-2330 x3723", trips: [])
+
+      trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"),
+        cost: 10,
+        rating: 5)
+
+      trip2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"),
+        cost: 16,
+        rating: 5)
+
+        @user.add_trip(trip1)
+        @user.add_trip(trip2)
+    end
+
+    it "returns the total amount that a user has spent on all of their rides"
+        expect(trip.cost).must_equal 26
+    end
 end
