@@ -19,11 +19,11 @@ module RideShare
 
     def net_expenditures
       # Add all the trip costs together
-      @trips.reduce(0) { |sum, trip| sum + trip.cost }
+      return @trips.reduce(0) { |sum, trip| sum + trip.cost }
     end
 
     def total_time_spent
-      return 0
+      return trips.reduce(0) {|sum, trip| sum + trip.duration}
     end
   end
 end

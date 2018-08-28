@@ -83,10 +83,17 @@ describe "User class" do
       @user.add_trip(trip1)
       @user.add_trip(trip2)
       @user.add_trip(trip3)
+
+      @user2 = RideShare::User.new(id: 9, name: "Merl Glover IV",
+                                  phone: "1-602-620-2330 x3723", trips: [])
     end
 
     it "calculates the total cost of all of a user's rides" do
       expect(@user.net_expenditures).must_equal (10.35 + 20.20 + 5.60)
+    end
+
+    it "returns 0 if user has not taken any rides" do
+      expect(@user2.net_expenditures).must_equal 0
     end
   end
 
@@ -116,10 +123,17 @@ describe "User class" do
       @user.add_trip(trip1)
       @user.add_trip(trip2)
       @user.add_trip(trip3)
+
+      @user2 = RideShare::User.new(id: 9, name: "Merl Glover IV",
+                                  phone: "1-602-620-2330 x3723", trips: [])
     end
 
     it "calculates the total amount of time spent for all trips" do
       expect(@user.total_time_spent).must_equal (@user.trips[0].duration + @user.trips[1].duration + @user.trips[2].duration)
+    end
+
+    it "returns 0 if user has not taken any rides" do
+      expect(@user2.total_time_spent).must_equal 0
     end
   end
 end
