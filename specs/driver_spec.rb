@@ -6,7 +6,7 @@ describe "Driver class" do
   describe "Driver instantiation" do
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-        vin: "C9EVBRM0YBC564DZ",
+        vin: "1C9EVBRM0YBC564DZ",
         phone: '111-111-1111',
         status: :AVAILABLE)
   end
@@ -15,11 +15,11 @@ describe "Driver class" do
       expect(@driver).must_be_kind_of RideShare::Driver
     end
 
-    xit "throws an argument error with a bad ID value" do
+    it "throws an argument error with a bad ID value" do
       expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133")}.must_raise ArgumentError
     end
 
-    xit "throws an argument error with a bad VIN value" do
+    it "throws an argument error with a bad VIN value" do
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "")}.must_raise ArgumentError
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
     end

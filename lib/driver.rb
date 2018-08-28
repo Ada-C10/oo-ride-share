@@ -11,14 +11,13 @@ module RideShare
     def initialize(input)
       super(input)
 
-
-
       @vehicle_id = input[:vin]
       @driven_trips = []
       @status = input[:status]
 
+      puts @vehicle_id
 
-      unless @vehicle_id == 17
+      unless @vehicle_id.length == 17
         raise ArgumentError, 'Vehicle ID must contain 17 characters'
       end
 
@@ -39,7 +38,10 @@ module RideShare
 end
 
 
-driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", status: :AVAILABLE)
+driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+  vin: "1C9EVBRM0YBC564DZ",
+  phone: '111-111-1111',
+  status: :AVAILABLE)
 
 puts driver.id
 puts driver.name
