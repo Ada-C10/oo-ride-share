@@ -1,5 +1,5 @@
 require_relative 'spec_helper'
-
+require 'pry'
 
 describe "User class" do
 
@@ -43,6 +43,7 @@ describe "User class" do
       trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-09"),
+                                 cost: 5,
                                  rating: 5)
 
       @user.add_trip(trip)
@@ -60,7 +61,31 @@ describe "User class" do
       end
     end
 
-    
 
+
+
+    it "sums total amount of money user has spent on their trips" do
+      # Arrange - Add two more trips to current user
+      trip = RideShare::Trip.new(id: 9, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 10,
+                                 rating: 5)
+      @user.add_trip(trip)
+
+
+      trip = RideShare::Trip.new(id: 10, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 15,
+                                 rating: 5)
+      @user.add_trip(trip)
+      # binding.pry
+      # Act - call net_expenditures method on user
+      passenger_expenditure = @user.net_expenditures
+
+      # Assert - state correct result
+      expect (passenger_expenditure).must_equal 30
+    end
   end
 end
