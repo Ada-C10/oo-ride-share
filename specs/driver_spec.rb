@@ -18,14 +18,14 @@ describe "Driver class" do
       expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133")}.must_raise ArgumentError
     end
 
-    xit "throws an argument error with a bad VIN value" do
+    it "throws an argument error with a bad VIN value" do
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "")}.must_raise ArgumentError
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
     end
 
-    xit "sets trips to an empty array if not provided" do
-      expect(@driver.trips).must_be_kind_of Array
-      expect(@driver.trips.length).must_equal 0
+    it "sets trips to an empty array if not provided" do
+      expect(@driver.driven_trips).must_be_kind_of Array
+      expect(@driver.driven_trips.length).must_equal 0
     end
 
     xit "is set up for specific attributes and data types" do
