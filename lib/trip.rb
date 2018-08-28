@@ -1,5 +1,8 @@
 require 'csv'
 
+# TODO Add driver attribute to reference the driver for the trip
+# TODO Create driver method to retrieve associated Driver instance
+
 module RideShare
   class Trip
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating

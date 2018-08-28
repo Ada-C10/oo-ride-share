@@ -3,7 +3,10 @@ require 'time'
 require 'pry'
 require_relative 'user'
 require_relative 'trip'
+require_relative 'driver'
+require 'awesome_print'
 
+# TODO DELETE THIS LATER - IS FOR TESTING CODE
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
@@ -14,10 +17,11 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                  driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
-      # Add drivers?
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -53,7 +57,6 @@ module RideShare
           rating: raw_trip[:rating].to_i
         }
 
-
         # binding.pry
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
@@ -75,11 +78,40 @@ module RideShare
               #{passengers.count} passengers>"
     end
 
-    private
+    # Method to load drivers
+    def load_drivers(filename)
+      drivers = []
+
+      CSV.read(filename, headers: true).each do |line|
+        input_data = {}
+        input_data[:id] = line["id"].to_i
+        input_data[:vin] = line["vin"]
+        input_data[:status] = line["status"].to_sym
+        # Use find passenger method to add in the name and phone number
+          # From the matching id in User class
+        # Selects passenger data for matching id
+        driver_user_info = find_passenger(line["id"].to_i)
+        # Right now this just returns the user class, not the name 
+        input_data[:name] = driver_user_info
+        # input_data[:phone_number] = find_passenger(line["id"].to_i)
+        drivers << Driver.new(input_data)
+      end
+
+      return drivers
+      binding.pry
+    end
+
+    # Method to find drivers
+    def find_driver(id)
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id }
+    end
 
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
+
+    private
   end
 end
 
@@ -88,4 +120,4 @@ dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE)
 
 
-# binding.pry
+binding.pry
