@@ -1,4 +1,4 @@
-
+#
 # require 'pry'
 
 
@@ -22,12 +22,15 @@ module RideShare
     end
 
     def net_expenditures
-      costs = []
-      @trips.each do |trip_stuff|
-        costs << trip_stuff.cost
-      end
-      cost_total = costs.inject(:+).to_f
-      return cost_total
+      costs = @trips.map {|trip_stuff| trip_stuff.cost}
+        cost_total = costs.inject(:+).to_f
+        return cost_total
+    end
+
+    def total_time_spent
+      time_spent = @trips.map {|trip| trip.trip_duration}
+      total_time = time_spent.reduce(:+)
+      return total_time
     end
     # This is the end of the ends for the class and the modules
   end
