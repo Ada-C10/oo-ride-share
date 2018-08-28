@@ -16,7 +16,7 @@ module RideShare
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
 
-      # if Time.parse(@end_time) > Time.parse(@start_time)
+      # if Time.parse(@end_time) <=> Time.parse(@start_time) == -1 
       #   raise ArgumentError.new("Invalid Date: End date is before start date!")
       # end
 

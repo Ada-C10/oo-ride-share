@@ -26,12 +26,12 @@ describe "Trip class" do
     it "stores an instance of user" do
       expect(@trip.passenger).must_be_kind_of RideShare::User
     end
-
+  ############
     it "stores an instance of driver" do
       skip  # Unskip after wave 2
       expect(@trip.driver).must_be_kind_of RideShare::Driver
     end
-
+   ##########
     it "raises an error for an invalid rating" do
       [-3, 0, 6].each do |rating|
         @trip_data[:rating] = rating

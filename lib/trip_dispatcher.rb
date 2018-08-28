@@ -15,8 +15,10 @@ module RideShare
     end
 
     def load_users(filename)
+      # array of all user data
       users = []
-
+      # goes through each line of csv file creates a hash and populates it with data
+      # then uses class User to create instance of user for each line
       CSV.read(filename, headers: true).each do |line|
         input_data = {}
         input_data[:id] = line[0].to_i
