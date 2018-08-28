@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'pry'
 
 describe "User class" do
 
@@ -63,7 +64,7 @@ describe "User class" do
 
   describe "net_expenditures" do
     before do
-      @user = RideShare::user.new(id: 9, name: "Merl Glover III",
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
       phone: "1-602-620-2330 x3723", trips: [])
 
       trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
@@ -78,11 +79,21 @@ describe "User class" do
         cost: 16,
         rating: 5)
 
+
         @user.add_trip(trip1)
         @user.add_trip(trip2)
+
     end
 
     it "returns the total amount that a user has spent on all of their rides"
-        expect(trip.cost).must_equal 26
+
+binding.pry
+    # total_cost = @user.trips[0].cost + @user.trips[1].cost
+    #
+    # expect(total_cost).must_equal 26
     end
+
+
+
+
 end
