@@ -1,9 +1,6 @@
 require_relative 'spec_helper'
-<<<<<<< HEAD
-require 'pry'
-=======
 
->>>>>>> ee0ef0a4b0f83d613de3f9b2e70950ef41445285
+require 'pry'
 describe "Driver class" do
 
   describe "Driver instantiation" do
@@ -32,13 +29,13 @@ describe "Driver class" do
     end
 
     it "is set up for specific attributes and data types" do
-      [:id, :name, :vehicle_id, :status, :driven_trips].each do |prop|
+      [:id, :name, :vin, :status, :driven_trips].each do |prop|
         expect(@driver).must_respond_to prop
       end
 
       expect(@driver.id).must_be_kind_of Integer
       expect(@driver.name).must_be_kind_of String
-      expect(@driver.vehicle_id).must_be_kind_of String
+      expect(@driver.vin).must_be_kind_of String
       expect(@driver.status).must_be_kind_of Symbol
     end
   end
