@@ -68,10 +68,13 @@ describe "User class" do
                                start_time: Time.parse("2016-08-08"),
                                end_time: Time.parse("2016-08-09"),
                                rating: 5, cost: 14.20)
-    trip = RideShare::Trip.new(id: 6, driver: nil, passenger: @user,
+    trip2 = RideShare::Trip.new(id: 6, driver: nil, passenger: @user,
                                start_time: Time.parse("2016-09-08"),
                                end_time: Time.parse("2016-09-09"),
                                rating: 5, cost: 27.50)
+
+      @user.add_trip(trip)
+      @user.add_trip(trip2)
     end
 
     it "will return the total amount of money that user has spent on their trips" do
