@@ -12,7 +12,7 @@ module RideShare
       super(input)
 
       @vehicle_id = input[:vin]
-      @driven_trips = []
+      @driven_trips = input[:trips].nil? ? [] : input[:trips]
       @status = input[:status]
 
       puts @vehicle_id
@@ -32,7 +32,7 @@ module RideShare
       # @id = input[:id]
       # @name = input[:name]
       # @phone_number = input[:phone]
-      # @trips = input[:trips].nil? ? [] : input[:trips]
+    
     end
   end
 end
