@@ -105,6 +105,17 @@ describe "User class" do
 
     end
 
+    it 'returns 0 if only incomplete trip' do
+
+      trip = RideShare::Trip.new(id: 8, passenger: @user,
+          start_time: Time.now, end_time: nil, cost: nil,
+          rating: nil)
+
+      @user.add_trip(trip)
+
+      expect(@user.net_expenditures).must_equal 0
+    end
+
   end
 
   describe "total_time_spent method" do
@@ -149,6 +160,16 @@ describe "User class" do
       @user.add_trip(trip2)
 
       expect(@user.total_time_spent).must_equal 30
+    end
+
+    it 'returns 0 if only incomplete trip' do
+      trip = RideShare::Trip.new(id: 8, passenger: @user,
+          start_time: Time.now, end_time: nil, cost: nil,
+          rating: nil)
+
+      @user.add_trip(trip)
+
+      expect(@user.total_time_spent).must_equal 0
     end
   end
 
