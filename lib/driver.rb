@@ -3,6 +3,8 @@ module RideShare
   class Driver < RideShare::User
     attr_reader :vin, :vehicle_id, :driven_trips, :status
 
+    @@driver_list = []
+
     def initialize(input)
       super(input)
 
@@ -16,6 +18,7 @@ module RideShare
       @vehicle_id ||= input[:vehicle_id]
       @driven_trips = input[:driven_trips]
       @status = input[:status]
+      @@driver_list << self
     end
   end
 end
