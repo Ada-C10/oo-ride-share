@@ -1,6 +1,7 @@
 require 'csv'
 require 'time'
 require 'pry'
+# require_relative 'trip_dispatcher.rb'
 
 module RideShare
   class Trip
@@ -13,7 +14,8 @@ module RideShare
       @end_time = input[:end_time]
       @cost = input[:cost]
       @rating = input[:rating]
-      # @driver = input[:driver_id]
+      @driver = find_driver(input[:driver_id])
+
 
       if @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
@@ -33,8 +35,10 @@ module RideShare
     def duration_of_trip
       return @end_time - @start_time
     end
+
+
   end
-end
+  end
 
 
 # trip_data = {
