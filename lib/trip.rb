@@ -29,6 +29,7 @@ module RideShare
     end
 
     def duration
+      
       return
     end
 
