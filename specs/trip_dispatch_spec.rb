@@ -79,6 +79,7 @@ describe "TripDispatcher class" do
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
+        # binding.pry
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
         expect(driver.trips).must_include trip

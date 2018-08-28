@@ -13,8 +13,9 @@ module RideShare
                    trip_file = 'support/trips.csv',
                    driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
       @drivers = load_drivers(driver_file)
+      @trips = load_trips(trip_file)
+
     end
 
     def load_users(filename)
@@ -48,7 +49,7 @@ module RideShare
           end_time: Time.parse(raw_trip[:end_time]),
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i,
-          driver: raw_trip[:driver]
+          driver: find_driver(raw_trip[:driver_id].to_i)
         }
 
         trip = Trip.new(parsed_trip)
