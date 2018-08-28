@@ -18,6 +18,7 @@ describe "Trip class" do
         rating: 3
       }
       @trip = RideShare::Trip.new(@trip_data)
+      
     end
 
     it "is an instance of Trip" do
@@ -40,6 +41,10 @@ describe "Trip class" do
           RideShare::Trip.new(@trip_data)
         }.must_raise ArgumentError
       end
+    end
+
+    it "Verify trip's duration in seconds" do
+      expect(@trip.duration).must_equal 1500
     end
 
     it "raises an error when end time is before start time" do

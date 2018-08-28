@@ -14,6 +14,7 @@ module RideShare
       @cost = input[:cost]
       @rating = input[:rating]
 
+
       if @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
@@ -29,5 +30,14 @@ module RideShare
       "ID=#{id.inspect} " +
       "PassengerID=#{passenger&.id.inspect}>"
     end
+
+    def duration
+      duration = @end_time - @start_time
+      return duration
+      # @trip_data[:duration] = @trip_data[:end_time] - @trip_data[:start_time]
+
+    end
+
   end
+
 end
