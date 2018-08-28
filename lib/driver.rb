@@ -6,22 +6,29 @@ require "pry"
 
 module RideShare
   class Driver < User
-    attr_reader :id, :name, :phone_number, :trips, :vehicle_id, :driven_trips, :status}
+    attr_reader :id, :name, :status
+    binding.pry
 
     def initialize(input)
-      super (id, name, phone_number, trips)
+      super()
 
-      @vehicle_id = input[:vehicle_id]
-      @driven_trips = []
+
+
+      # # @vehicle_id = input[:vehicle_id]
+      # @driven_trips = []
       @status = input[:status]
 
-      unless input[:vehicle_id] == 17
-        raise ArgumentError, 'Vehicle ID must contain 17 characters'
-      end
 
-      unless input[:status] == :AVAILBLE || input[:status] == :UNAVAILABLE
-        raise ArgumentError, 'Vehicle ID must contain 17 characters'
-      end
+      puts "ID #{@id} and #{id}"
+      puts "NAME #{@name} and #{name}"
+      puts "STATUS #{@status} and #{status}"
+      # unless input[:vehicle_id] == 17
+      #   raise ArgumentError, 'Vehicle ID must contain 17 characters'
+      # end
+      #
+      # unless input[:status] == :AVAILBLE || input[:status] == :UNAVAILABLE
+      #   raise ArgumentError, 'Vehicle ID must contain 17 characters'
+      # end
 
       # if input[:id].nil? || input[:id] <= 0
       #   raise ArgumentError, 'ID cannot be blank or less than zero.'
@@ -34,3 +41,10 @@ module RideShare
     end
   end
 end
+
+
+driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", status: :AVAILABLE)
+
+puts driver.id
+puts driver.name
+puts driver.status
