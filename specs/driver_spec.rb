@@ -5,10 +5,10 @@ xdescribe "Driver class" do
   describe "Driver instantiation" do
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-        vin: "1C9EVBRM0YBC564DZ",
-        phone: '111-111-1111',
-        status: :AVAILABLE)
-  end
+                                      vin: "1C9EVBRM0YBC564DZ",
+                                      phone: '111-111-1111',
+                                      status: :AVAILABLE)
+    end
 
     it "is an instance of Driver" do
       expect(@driver).must_be_kind_of RideShare::Driver
@@ -23,9 +23,9 @@ xdescribe "Driver class" do
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
     end
 
-    it "sets trips to an empty array if not provided" do
-      expect(@driver.trips).must_be_kind_of Array
-      expect(@driver.trips.length).must_equal 0
+    it "sets driven trips to an empty array if not provided" do
+      expect(@driver.driven_trips).must_be_kind_of Array
+      expect(@driver.driven_trips.length).must_equal 0
     end
 
     it "is set up for specific attributes and data types" do
@@ -44,17 +44,18 @@ xdescribe "Driver class" do
     before do
       pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
       @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
-      @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5})
+      @trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: pass, start_time: Time.parse("2016-08-08"),
+                                  end_time: Time.parse("2018-08-09"), rating: 5)
     end
 
     it "throws an argument error if trip is not provided" do
-      expect{ @driver.add_trip(1) }.must_raise ArgumentError
+      expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
     end
 
     it "increases the trip count by one" do
-      previous = @driver.trips.length
-      @driver.add_trip(@trip)
-      expect(@driver.trips.length).must_equal previous + 1
+      previous = @driver.driven_trips.length
+      @driver.add_driven_trip(@trip)
+      expect(@driver.driven_trips.length).must_equal previous + 1
     end
   end
 
@@ -63,8 +64,9 @@ xdescribe "Driver class" do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ")
       trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                 date: Time.parse("2016-08-08"), rating: 5)
-      @driver.add_trip(trip)
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), rating: 5)
+      @driver.add_driven_trip(trip)
     end
 
     it "returns a float" do
@@ -77,7 +79,7 @@ xdescribe "Driver class" do
       expect(average).must_be :<=, 5.0
     end
 
-    it "returns zero if no trips" do
+    it "returns zero if no driven trips" do
       driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                      vin: "1C9EVBRM0YBC564DZ")
       expect(driver.average_rating).must_equal 0
@@ -85,8 +87,10 @@ xdescribe "Driver class" do
 
     it "correctly calculates the average rating" do
       trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                  date: Time.parse("2016-08-08"), rating: 1)
-      @driver.add_trip(trip2)
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: Time.parse("2016-08-09"),
+                                  rating: 1)
+      @driver.add_driven_trip(trip2)
 
       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
     end
