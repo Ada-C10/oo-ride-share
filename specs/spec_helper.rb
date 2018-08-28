@@ -12,4 +12,4 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative '../lib/user'
 require_relative '../lib/trip'
 require_relative '../lib/trip_dispatcher'
-#require_relative '../lib/driver'
+require_relative '../lib/driver'

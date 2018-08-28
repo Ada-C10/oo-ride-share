@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-xdescribe "Driver class" do
+describe "Driver class" do
 
   describe "Driver instantiation" do
     before do
@@ -8,7 +8,7 @@ xdescribe "Driver class" do
         vin: "1C9EVBRM0YBC564DZ",
         phone: '111-111-1111',
         status: :AVAILABLE)
-  end
+    end
 
     it "is an instance of Driver" do
       expect(@driver).must_be_kind_of RideShare::Driver
@@ -21,6 +21,10 @@ xdescribe "Driver class" do
     it "throws an argument error with a bad VIN value" do
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "")}.must_raise ArgumentError
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
+    end
+
+    it "throws an argument error if invalid status is provided" do
+      expect{ RideShare::Driver.new(id: 100, name: "George", status: :bloop)}.must_raise ArgumentError
     end
 
     it "sets trips to an empty array if not provided" do
