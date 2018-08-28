@@ -1,17 +1,24 @@
 require 'csv'
 require 'time'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
+
 
 module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+      trip_file = 'support/trips.csv',
+      driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers = load_drivers(driver_file)
+
+      replace_passengers_with_drivers!
+      binding.pry
     end
 
     def load_users(filename)
@@ -33,7 +40,7 @@ module RideShare
     def load_trips(filename)
       trips = []
       trip_data = CSV.open(filename, 'r', headers: true,
-                                          header_converters: :symbol)
+      header_converters: :symbol)
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
@@ -55,6 +62,27 @@ module RideShare
       return trips
     end
 
+
+    def load_drivers(filename)
+      drivers = []
+
+      CSV.read(filename, headers: true).each do |line|
+        input_data = {}
+        input_data[:id] = line[0].to_i
+        input_data[:vin] = line[1]
+        input_data[:status] = line[2]
+
+        drivers << Driver.new(input_data)
+      end
+
+      return drivers
+    end
+
+    def find_driver(id)
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id }
+    end
+
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
@@ -62,15 +90,30 @@ module RideShare
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-              #{trips.count} trips, \
-              #{drivers.count} drivers, \
-              #{passengers.count} passengers>"
+      #{trips.count} trips, \
+      #{drivers.count} drivers, \
+      #{passengers.count} passengers>"
     end
 
     private
 
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
+    end
+
+    # @passengers = [...]
+    # @drivers = [...]
+    def replace_passengers_with_drivers!
+      @passengers.map! do |passenger|
+        driver = find_driver(passenger.id)
+        # if driver
+        #   driver
+        # else
+        #   passenger
+        # end
+
+        driver || passenger
+      end
     end
   end
 end

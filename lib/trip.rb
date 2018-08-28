@@ -12,6 +12,7 @@ module RideShare
       @end_time = input[:end_time]
       @cost = input[:cost]
       @rating = input[:rating]
+      @driver =
 
       if @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
@@ -25,7 +26,9 @@ module RideShare
           "ID=#{id.inspect} " +
           "PassengerID=#{passenger&.id.inspect}>"
         end
-
+        def find_driver
+          #retrieve the associated driver
+        end
         def calculate_trip_duration
           seconds = (@end_time.to_i) - (@start_time.to_i)
           return seconds
