@@ -51,6 +51,9 @@ module RideShare
           rating: raw_trip[:rating].to_i,
           driver: find_driver(raw_trip[:driver_id].to_i)
         }
+        binding.pry
+
+
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
