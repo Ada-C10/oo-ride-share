@@ -13,11 +13,11 @@ module RideShare
       @rating = input[:rating].to_f
       @driver = input[:driver]
 
-      if @end_time < @start_time
+      if @end_time && @end_time < @start_time
         raise ArgumentError, "End time is before start time"
       end
 
-      if @rating > 5 || @rating < 1
+      if @rating && (@rating > 5 || @rating < 1)
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
     end

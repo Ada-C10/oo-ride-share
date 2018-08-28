@@ -45,7 +45,7 @@ module RideShare
       return total_revenue - super
     end
 
-
+    
 
   end
 

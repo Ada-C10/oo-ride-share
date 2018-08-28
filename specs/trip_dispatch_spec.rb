@@ -25,7 +25,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "find_user method" do
+  describe "find_user method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new
     end
@@ -87,10 +87,11 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "User & Trip loader methods" do
+  describe "User & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE)
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
     end
 
     it "accurately loads passenger information into passengers array" do
