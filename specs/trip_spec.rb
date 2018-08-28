@@ -28,7 +28,7 @@ describe "Trip class" do
     end
 
     it "stores an instance of driver" do
-      skip  # Unskip after wave 2
+      # skip  # Unskip after wave 2
       expect(@trip.driver).must_be_kind_of RideShare::Driver
     end
 
@@ -60,7 +60,7 @@ describe "Trip class" do
   end
 
 
-  describe "#calculate_trip_duration" do
+  xdescribe "#calculate_trip_duration" do
     before do
       @start_time = Time.parse('2015-05-20T12:14:00+00:00')
       @end_time = Time.parse('2015-05-20T12:15:00+00:00')
