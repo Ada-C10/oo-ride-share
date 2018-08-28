@@ -17,6 +17,7 @@ module RideShare
       end
       @status = (input[:status]).to_sym
     end
+
 end
 
-gitend
+end
