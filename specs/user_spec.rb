@@ -60,31 +60,60 @@ describe "User class" do
     end
   end
 
-  # TODO - WE LEFT OFF HERE
 
-  # describe "user#net_expenditures" do
-  #   before do
-  #     @user = RideShare::User.new(id: 9, name: "Merl Glover III",
-  #                                 phone: "1-602-620-2330 x3723", trips: [])
-  #
-  #     trip = RideShare::Trip.new(id: 8, driver: nil, passenger: user,
-  #                                start_time: Time.parse("2016-08-08"),
-  #                                end_time: Time.parse("2016-08-09"),
-  #                                cost: 500,
-  #                                rating: 5)
-  #
-  #     trip2 = RideShare::Trip.new(id: 10, driver: nil, passenger: user,
-  #                               start_time: Time.parse("2016-08-08"),
-  #                               end_time: Time.parse("2016-08-09"),
-  #                               cost: 200,
-  #                               rating: 5)
-  #
-  #     @user.add_trip(trip)
-  #   end
-  #   it "calculates total trip costs for one user"
-  #     net_expenditure = 700
-  #
-  #     expect()
-  #   end
-  # end
+  describe "user#net_expenditures" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723", trips: [])
+
+      @trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 500,
+                                 rating: 5)
+
+      @trip2 = RideShare::Trip.new(id: 10, driver: nil, passenger: @user,
+                                start_time: Time.parse("2016-08-08"),
+                                end_time: Time.parse("2016-08-09"),
+                                cost: 200,
+                                rating: 5)
+    end
+    it "calculates total trip costs for one user" do
+
+      @user.add_trip(@trip1)
+      @user.add_trip(@trip2)
+
+      net_expenditure = @user.net_expenditures()
+
+      expect(net_expenditure).must_equal 700
+    end
+  end
+
+  describe "user#total_time_spent" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723", trips: [])
+
+      @trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2015-05-20T12:14:00+00:00"),
+                                 end_time: Time.parse("2015-05-20T12:15:00+00:00"),
+                                 cost: 500,
+                                 rating: 5)
+
+      @trip2 = RideShare::Trip.new(id: 10, driver: nil, passenger: @user,
+                                start_time: Time.parse("2015-05-20T12:14:00+00:00"),
+                                end_time: Time.parse("2015-05-20T13:14:00+00:00"),
+                                cost: 200,
+                                rating: 5)
+    end
+    it "calculates total amount of time (in seconds) user spent in trips" do
+
+      @user.add_trip(@trip1)
+      @user.add_trip(@trip2)
+
+      duration = @user.total_time_spent()
+
+      expect(duration).must_equal 3660
+    end
+  end
 end
