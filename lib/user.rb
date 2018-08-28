@@ -23,5 +23,11 @@ module RideShare
         total_cost += trip.cost
       end
     end
+
+    def total_time_spent
+      return   @trips.reduce(0) do  |total_time_spent, trip|
+        total_time_spent += ((trip.duration)/60)
+      end
+    end
   end
 end

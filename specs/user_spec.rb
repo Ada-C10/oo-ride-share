@@ -1,4 +1,4 @@
-  require_relative 'spec_helper'
+require_relative 'spec_helper'
 
 describe "User class" do
 
@@ -12,8 +12,8 @@ describe "User class" do
     end
 
     it "throws an argument error with a bad ID value" do
-    expect do
-      RideShare::User.new(id: 0, name: "Smithy")
+      expect do
+        RideShare::User.new(id: 0, name: "Smithy")
       end.must_raise ArgumentError
     end
 
@@ -40,42 +40,70 @@ describe "User class" do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
         phone: "1-602-620-2330 x3723", trips: [])
 
-      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+        trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
           start_time: Time.parse("2016-08-08"),
           end_time: Time.parse("2016-08-09"),
-        rating: 5)
+          rating: 5)
 
-      @user.add_trip(trip)
-    end
+          @user.add_trip(trip)
+        end
 
-    it "each item in array is a Trip instance" do
-      @user.trips.each do |trip|
-        expect(trip).must_be_kind_of RideShare::Trip
-      end
-    end
+        it "each item in array is a Trip instance" do
+          @user.trips.each do |trip|
+            expect(trip).must_be_kind_of RideShare::Trip
+          end
+        end
 
-    it "all Trips must have the same passenger's user id" do
-      @user.trips.each do |trip|
-        expect(trip.passenger.id).must_equal 9
-      end
-    end
+        it "all Trips must have the same passenger's user id" do
+          @user.trips.each do |trip|
+            expect(trip.passenger.id).must_equal 9
+          end
+        end
 
-    it "return total cost for trips per user" do
+        it "return total cost for trips per user" do
 
-      @user = RideShare::User.new(id: 8, name: "Merl Glover III",
-        phone: "1-602-620-2330 x3723", trips: [])
+          @user = RideShare::User.new(id: 8, name: "Merl Glover III",
+            phone: "1-602-620-2330 x3723", trips: [])
 
-      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-          start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-09"),cost: 15, rating: 5)
+            trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+              start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-09"),cost: 15, rating: 5)
 
-        @user.add_trip(trip)
+              @user.add_trip(trip)
 
-      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user, start_time: Time.parse("2016-08-09"), end_time: Time.parse("2016-08-10"),cost: 30, rating: 5)
+              trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user, start_time: Time.parse("2016-08-09"), end_time: Time.parse("2016-08-10"),cost: 30, rating: 5)
 
-      @user.add_trip(trip)
+              @user.add_trip(trip)
 
-      total_cost = @user.net_expenditures
-      expect(total_cost).must_equal 45
-    end
-  end
-end
+              total_cost = @user.net_expenditures
+              expect(total_cost).must_equal 45
+            end
+
+            it "return total time spent on all trips per user" do
+
+              @user = RideShare::User.new(id: 8, name: "Merl Glover III",
+                phone: "1-602-620-2330 x3723", trips: [])
+
+                start_time = Time.parse('2015-05-20T12:14:00+00:00')
+                end_time = start_time + 25
+
+                trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                  start_time: start_time, end_time: end_time, cost: 15, rating: 5)
+
+                  @user.add_trip(trip)
+
+                  start_time = Time.parse('2015-06-20T12:14:00+00:00')
+                  end_time = start_time + 25
+
+                  trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                    start_time: start_time, end_time: end_time, cost: 15, rating: 5)
+
+                    @user.add_trip(trip)
+
+
+                    total_time = @user.total_time_spent
+
+                    expect(total_time).must_equal 50
+
+                  end
+                end
+              end
