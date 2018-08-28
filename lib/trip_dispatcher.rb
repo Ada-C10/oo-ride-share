@@ -1,9 +1,11 @@
 require 'csv'
 require 'time'
 require 'pry'
+require 'awesome_print'
 
 require_relative 'user'
 require_relative 'trip'
+#require_relative 'driver'
 
 module RideShare
   class TripDispatcher
@@ -13,6 +15,7 @@ module RideShare
                    trip_file = 'support/trips.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      #@drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -38,9 +41,11 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        driver = find_passenger(raw_trip)[:driver_id].to_i)
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
+          driver: driver,
           passenger: passenger,
           start_time: Time.parse(raw_trip[:start_time]),
           end_time: Time.parse(raw_trip[:end_time]),
@@ -54,19 +59,41 @@ module RideShare
       end
 
       return trips
+
     end
+
+    def load_drivers(filename)
+      drivers = []
+      driver_data = CSV.open(filename, 'r', headers:true, header_converters: :symbol)
+
+      driver_data.each do |raw_data|
+        driver = find_passenger(raw_data[:id].to_i)
+
+        parsed_driver = {
+        id: raw_data[:id].to_i,
+        vin: raw_data[:vin],
+        status: raw_data[:status]
+        }
+
+        driver = Driver.new(parsed_driver)
+        driver.driven_trip()
+
+      end
+    end
+
 
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
     end
 
-    def inspect
-      return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-              #{trips.count} trips, \
-              #{drivers.count} drivers, \
-              #{passengers.count} passengers>"
-    end
+
+    # def inspect
+    #   return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
+    #           #{trips.count} trips, \
+    #           #{drivers.count} drivers, \
+    #           #{passengers.count} passengers>"
+    # end
 
     private
 
@@ -75,4 +102,4 @@ module RideShare
     end
   end
 end
- puts RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv')
+ap RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv')
