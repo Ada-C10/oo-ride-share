@@ -1,6 +1,8 @@
 require_relative 'spec_helper'
+# require_relative 'lib/user.rb'
+# require_relative 'lib/trip.rb'
 
-xdescribe "Driver class" do
+describe "Driver class" do
 
   describe "Driver instantiation" do
     before do
