@@ -23,10 +23,12 @@ module RideShare
     end
 
     def average_rating
-      if @driven_trips.length == 0
-        return 0
+      valid_trips = @driven_trips.find_all { |trip| trip.rating }
+
+      if valid_trips.length == 0
+        return nil
       else
-        return @driven_trips.sum { |trip| trip.rating } / @driven_trips.length
+        return valid_trips.sum { |trip| trip.rating } / valid_trips.length
       end
     end
 
@@ -39,7 +41,9 @@ module RideShare
     end
 
     def total_revenue
-       return (@driven_trips.sum { |trip| trip.cost - 1.65} * 0.80).round(2)
+      valid_trips = @driven_trips.find_all { |trip| trip.cost }
+
+      return (valid_trips.sum { |trip| trip.cost - 1.65} * 0.80).round(2)
     end
 
     def net_expenditures

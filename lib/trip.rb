@@ -29,7 +29,7 @@ module RideShare
     end
 
     def duration
-      return @end_time - @start_time
+      return @end_time.nil? ? nil : @end_time - @start_time
     end
 
   end
