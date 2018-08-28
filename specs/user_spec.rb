@@ -44,15 +44,15 @@ describe "User class" do
       trip1 = RideShare::Trip.new(id: 8,
                                  driver: nil,
                                  passenger: @user,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
+                                 start_time: Time.parse("2018-07-30 22:23:55 -0700"),
+                                 end_time: Time.parse("2018-07-30 22:30:55 -0700"),
                                  cost: 15,
                                  rating: 5)
       trip2 = RideShare::Trip.new(id: 8,
                                  driver: nil,
                                  passenger: @user,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
+                                 start_time: Time.parse("2018-08-19 20:08:00 -0700"),
+                                 end_time: Time.parse("2018-08-19 20:20:14 -0700"),
                                  cost: 35,
                                  rating: 5)
 
@@ -84,9 +84,15 @@ describe "User class" do
       # expect(@user.trips.net_expenditures).must_equal 15
     end
     it 'calculates the total time for all trips for the user' do
+      total_time = 0
 
+      @user.trips.each do |trip|
+        trip_time = trip.end_time - trip.start_time
+        total_time += trip_time
+      end
+      print total_time
+      expect(@user.total_time_spent).must_equal 1154.0
     end
-    end
-
   end
 
+  end
