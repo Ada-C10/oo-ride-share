@@ -63,7 +63,7 @@ module RideShare
     end
 
     # helps find the instance of a passanger
-    # it's send back to load trips which create isntances of trips 
+    # it's send back to load trips which create isntances of trips
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
