@@ -87,5 +87,14 @@ describe "User class" do
       # Assert - state correct result
       expect (passenger_expenditure).must_equal 30
     end
+
+    it "Sums the total time spent (in seconds)" do
+          run_trip_dispatcher = RideShare::TripDispatcher.new()
+          user_id = 94
+          finding_a_passenger = run_trip_dispatcher.find_passenger(user_id)
+          passenger_total_time_spent = finding_a_passenger.total_time_spent
+          expect(passenger_total_time_spent).must_equal 321.0
+        end
+
   end
 end
