@@ -1,5 +1,4 @@
 require_relative 'spec_helper'
-require 'pry'
 
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
@@ -22,6 +21,11 @@ describe "TripDispatcher class" do
       expect(dispatcher.trips).must_be_kind_of Array
       expect(dispatcher.passengers).must_be_kind_of Array
       # expect(dispatcher.drivers).must_be_kind_of Array
+    end
+      #
+      # expect(dispatcher.trips).must_be_kind_of Array
+      # expect(dispatcher.passengers).must_be_kind_of Array
+      # # expect(dispatcher.drivers).must_be_kind_of Array
     end
   end
 

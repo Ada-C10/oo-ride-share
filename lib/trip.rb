@@ -19,7 +19,6 @@ module RideShare
       end
 
       difference = @end_time - @start_time
-      binding.pry
       if difference < 0
         raise ArgumentError.new("Endtime must be after start-time")
       end
