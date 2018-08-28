@@ -1,3 +1,4 @@
+require 'pry'
 module RideShare
   class User
     attr_reader :id, :name, :phone_number, :trips
@@ -16,5 +17,8 @@ module RideShare
     def add_trip(trip)
       @trips << trip
     end
+
+
+
   end
 end
