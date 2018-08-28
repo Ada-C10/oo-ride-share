@@ -1,4 +1,4 @@
-require_relative 'spec_helper'
+  require_relative 'spec_helper'
 
 describe "User class" do
 
@@ -12,8 +12,8 @@ describe "User class" do
     end
 
     it "throws an argument error with a bad ID value" do
-      expect do
-        RideShare::User.new(id: 0, name: "Smithy")
+    expect do
+      RideShare::User.new(id: 0, name: "Smithy")
       end.must_raise ArgumentError
     end
 
@@ -38,11 +38,12 @@ describe "User class" do
   describe "trips property" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
-                                  phone: "1-602-620-2330 x3723", trips: [])
+        phone: "1-602-620-2330 x3723", trips: [])
+
       trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
-                                 rating: 5)
+          start_time: Time.parse("2016-08-08"),
+          end_time: Time.parse("2016-08-09"),
+        rating: 5)
 
       @user.add_trip(trip)
     end
@@ -57,6 +58,23 @@ describe "User class" do
       @user.trips.each do |trip|
         expect(trip.passenger.id).must_equal 9
       end
+    end
+
+    it "return total cost for trips per user" do
+
+      @user = RideShare::User.new(id: 8, name: "Merl Glover III",
+        phone: "1-602-620-2330 x3723", trips: [])
+
+      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+          start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-09"),cost: 15, rating: 5)
+
+
+      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user, start_time: Time.parse("2016-08-09"), end_time: Time.parse("2016-08-10"),cost: 30, rating: 5)
+
+      @user.add_trip(trip)
+
+      total_cost = @user.net_expenditures
+      expect(total_cost).must_equal 45
     end
   end
 end
