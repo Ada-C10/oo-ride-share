@@ -68,6 +68,7 @@ describe "User class" do
       trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
           start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-09"),cost: 15, rating: 5)
 
+        @user.add_trip(trip)
 
       trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user, start_time: Time.parse("2016-08-09"), end_time: Time.parse("2016-08-10"),cost: 30, rating: 5)
 
