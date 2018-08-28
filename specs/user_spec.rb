@@ -113,12 +113,12 @@ describe "User class" do
         @user.add_trip(trip2)
 
     end
+    
+    it "returns the total amount of time that a user has spent on all of their rides" do
 
-    it "returns the total amount that a user has spent on all of their rides" do
+      total_time_spent = @user.trips[0].calculate_duration + @user.trips[1].calculate_duration
 
-    total_time_spent = @user.trips[0].calculate_duration + @user.trips[1].calculate_duration
-
-    expect(total_cost).must_equal 2 * 24 * 60 * 60
+      expect(total_time_spent).must_equal 2 * 24 * 60 * 60
     end
   end
 
