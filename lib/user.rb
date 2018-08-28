@@ -18,11 +18,11 @@ module RideShare
     end
 
     def net_expenditures
-      sum = 0
-      trips.each do |trip|
-        sum += trip.cost
-      end
-      sum
+      return trips.sum {|trip| trip.cost}
+    end
+
+    def total_time_spent
+      return trips.sum {|trip| trip.duration}
     end
   end
 end

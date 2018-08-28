@@ -79,11 +79,18 @@ describe "User class" do
                                  rating: 4, cost:20})
 
       @user.add_trip(trip)
+      @edge_user = RideShare::User.new(id: 10, name: "Mike Smith",
+                                  phone: "1-602-620-2335 x3720", trips: [])
     end
 
-    it "net_expenditures should be return a number for total amount of money" do
+    it "should be return a number for total amount of money" do
       expect(@user.net_expenditures).must_equal 30.11
       expect(@user.net_expenditures).must_be_instance_of Float
+
+    end
+
+    it "should be zero if the user don't have any trip" do
+      expect(@edge_user.net_expenditures).must_equal 0
 
     end
   end
@@ -106,10 +113,17 @@ describe "User class" do
                                  rating: 4, cost:20})
 
       @user.add_trip(trip)
+      @edge_user = RideShare::User.new(id: 10, name: "Mike Smith",
+                                  phone: "1-602-620-2335 x3720", trips: [])
     end
     it "returns the total amount of time that the user spent on trips" do
         expect(@user.total_time_spent).must_equal 7080.0
-        expect(@user.total_time_spent).must_be_instance_of Numeric
+        expect(@user.total_time_spent).must_be_instance_of Float
+    end
+
+    it "should be zero if the user don't have any trip" do
+      expect(@edge_user.total_time_spent).must_equal 0
+
     end
   end
 
