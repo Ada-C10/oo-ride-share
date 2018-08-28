@@ -1,5 +1,6 @@
 require_relative 'spec_helper'
 
+
 describe "User class" do
 
   describe "User instantiation" do
@@ -59,8 +60,7 @@ describe "User class" do
       end
     end
 
-    it "Sums the total money user has spent on trips" do
-    end
+    
 
   end
 end
