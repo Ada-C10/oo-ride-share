@@ -4,7 +4,7 @@ USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
 
-describe "TripDispatcher class" do
+xdescribe "TripDispatcher class" do
   describe "Initializer" do
     it "is an instance of TripDispatcher" do
       dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
@@ -56,7 +56,7 @@ describe "TripDispatcher class" do
   #   end
   # end
 
-  describe "Driver & Trip loader methods" do
+  xdescribe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE)
@@ -87,7 +87,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "User & Trip loader methods" do
+  xdescribe "User & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE)

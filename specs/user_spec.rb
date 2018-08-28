@@ -38,12 +38,19 @@ describe "User class" do
     it "returns the total amount of money that a user has spent on their trips." do
       #Arrange
 
-        @user = RideShare::User.new(id: 9, name: "Merl Glover III",
-          phone: "1-602-620-2330 x3723", trips: [])
-          trip = RideShare::Trip.new(id: 8, passenger: @user,
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+        phone: "1-602-620-2330 x3723", trips: [])
+
+        trip = RideShare::Trip.new(id: 8, passenger: @user,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"), cost: 100, rating: 5)
+
+        trip2 = RideShare::Trip.new(id: 8, passenger: @user,
             start_time: Time.parse("2016-08-08"),
-            end_time: Time.parse("2016-08-09"), cost: 100, rating: 5)
-            @user.add_trip(trip)
+            end_time: Time.parse("2016-08-09"), cost: 50, rating: 5)
+
+        @user.add_trip(trip)
+        @user.add_trip(trip2)
 
 
           # total = @user
@@ -51,11 +58,11 @@ describe "User class" do
 
           # all_trips = @user.trips
       #Act  #Assert
-      expect(@user.net_expenditures).must_equal 100
+      expect(@user.net_expenditures).must_equal 150
           #pull the trip @cost of each user @trip and total them all
     end
   end
-      describe "trips property" do
+      xdescribe "trips property" do
         before do
           @user = RideShare::User.new(id: 9, name: "Merl Glover III",
             phone: "1-602-620-2330 x3723", trips: [])
