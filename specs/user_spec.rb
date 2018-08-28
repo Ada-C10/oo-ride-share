@@ -62,6 +62,28 @@ describe "User class" do
           #pull the trip @cost of each user @trip and total them all
     end
   end
+
+  describe "total_time_spent" do
+    it "return the total amount of time user spent on trips" do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+        phone: "1-602-620-2330 x3723", trips: [])
+
+        trip = RideShare::Trip.new(id: 8, passenger: @user,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"), cost: 100, rating: 5)
+
+        trip2 = RideShare::Trip.new(id: 8, passenger: @user,
+            start_time: Time.parse("2016-08-08"),
+            end_time: Time.parse("2016-08-09"), cost: 50, rating: 5)
+
+        @user.add_trip(trip)
+        @user.add_trip(trip2)
+
+        #Trip#calculate_duration will need to be used in this method
+
+      expect(@user.total_time_spent).must_equal 172800
+    end
+  end
       xdescribe "trips property" do
         before do
           @user = RideShare::User.new(id: 9, name: "Merl Glover III",
