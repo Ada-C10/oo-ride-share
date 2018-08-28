@@ -10,7 +10,7 @@ module RideShare
       @start_time = input[:start_time]
       @end_time = input[:end_time]
       @cost = input[:cost]
-      @rating = input[:rating]
+      @rating = input[:rating].to_f
       @driver = input[:driver]
 
       if @end_time < @start_time

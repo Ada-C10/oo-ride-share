@@ -82,7 +82,7 @@ describe "TripDispatcher class" do
         # binding.pry
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
+        expect(driver.driven_trips).must_include trip
       end
     end
   end
