@@ -9,9 +9,11 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
-      @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
+                   trip_file = 'support/trips.csv',
+                   driver_file = 'support/drivers.csv')
+      @passengers = load_users(user_file) #array of Users from user csv
+      @trips = load_trips(trip_file) #array of Trips from trips csv
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -36,7 +38,7 @@ module RideShare
                                           header_converters: :symbol)
 
       trip_data.each do |raw_trip|
-        passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        passenger = find_passenger(raw_trip[:passenger_id].to_i) # instance of User class
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
@@ -48,12 +50,37 @@ module RideShare
         }
 
         trip = Trip.new(parsed_trip)
-        passenger.add_trip(trip)
-        trips << trip
+        passenger.add_trip(trip) # User.add_trip(trip) adds to @trips []
+        trips << trip # TripDispatcher.load_trips(filename) adds to trips [], which is returned by load_trips. init loads trips to TripDisp @trips
       end
 
       return trips
     end
+
+    def load_drivers(filename)
+      drivers = []
+
+      CSV.read(filename, headers: true).each do |line|
+        input_data = {}
+
+        user = find_passenger(line[0].to_i)
+
+        input_data[:id] = line[0].to_i
+        input_data[:vehicle_id] = line[1]
+        input_data[:status] = line[2].to_sym
+
+        input_data[:name] = user.name
+        input_data[:phone_number] = user.phone_number
+        input_data[:trips] = user.trips
+
+        drivers << Driver.new(input_data)
+      end
+      return drivers
+    end
+
+    def find_driver
+    end
+
 
     def find_passenger(id)
       check_id(id)
