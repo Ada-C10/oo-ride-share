@@ -87,6 +87,11 @@ module RideShare
       return @passengers.find { |passenger| passenger.id == id }
     end
 
+    def find_driver(id)
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id }
+    end
+
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
               #{trips.count} trips, \
