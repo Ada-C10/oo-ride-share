@@ -16,9 +16,9 @@ module RideShare
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
 
-      @trips.each do |trip|
-        raise ArgumentError.new() if trip[:end_time] <= trip[:start_time]
-      end
+      # @trips.each do |trip|
+      #   raise ArgumentError.new() if trip[:end_time] <= trip[:start_time]
+      # end
     end
 
     def validate

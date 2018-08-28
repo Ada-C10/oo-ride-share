@@ -19,9 +19,12 @@ describe "Trip class" do
       @trip = RideShare::Trip.new(@trip_data)
     end
 
+
     it "is an instance of Trip" do
       expect(@trip).must_be_kind_of RideShare::Trip
     end
+
+
 
     it "stores an instance of user" do
       expect(@trip.passenger).must_be_kind_of RideShare::User
@@ -39,6 +42,12 @@ describe "Trip class" do
           RideShare::Trip.new(@trip_data)
         }.must_raise ArgumentError
       end
+    end
+
+    it "Raises an Argument Error if start time is after end time" do
+      expect{@trip_data[:start_time] >= @trip_data[:end_time]}.must_raise ArgumentError
+    end
+
     end
   end
 end
