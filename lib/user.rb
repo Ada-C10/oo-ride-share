@@ -21,5 +21,9 @@ module RideShare
       # Add all the trip costs together
       @trips.reduce(0) { |sum, trip| sum + trip.cost }
     end
+
+    def total_time_spent
+      return 0
+    end
   end
 end

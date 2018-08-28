@@ -89,4 +89,37 @@ describe "User class" do
       expect(@user.net_expenditures).must_equal (10.35 + 20.20 + 5.60)
     end
   end
+
+  describe "total_time_spent method" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723", trips: [])
+
+      trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("3:00"),
+                                 end_time: Time.parse("4:00"),
+                                 cost: 10.35,
+                                 rating: 5)
+
+      trip2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                start_time: Time.parse("5:00"),
+                                end_time: Time.parse("6:00"),
+                                cost: 20.20,
+                                rating: 5)
+
+      trip3 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                start_time: Time.parse("7:00"),
+                                end_time: Time.parse("8:00"),
+                                cost: 5.60,
+                                rating: 5)
+
+      @user.add_trip(trip1)
+      @user.add_trip(trip2)
+      @user.add_trip(trip3)
+    end
+
+    it "calculates the total amount of time spent for all trips" do
+      expect(@user.total_time_spent).must_equal (@user.trips[0].duration + @user.trips[1].duration + @user.trips[2].duration)
+    end
+  end
 end
