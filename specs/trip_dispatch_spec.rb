@@ -41,9 +41,11 @@ describe "TripDispatcher class" do
   end
 
 
-  xdescribe "find_driver method" do
+  describe "find_driver method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                 DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -52,6 +54,7 @@ describe "TripDispatcher class" do
 
     it "finds a driver instance" do
       driver = @dispatcher.find_driver(2)
+
       expect(driver).must_be_kind_of RideShare::Driver
     end
   end
@@ -79,7 +82,7 @@ describe "TripDispatcher class" do
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
-        # binding.pry
+
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
         expect(driver.driven_trips).must_include trip
@@ -112,4 +115,6 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+
 end
