@@ -1,4 +1,5 @@
 require 'csv'
+require 'pry'
 
 module RideShare
   class Trip
@@ -19,6 +20,12 @@ module RideShare
       if @start_time > @end_time
         raise ArgumentError, "Invalid end time"
       end
+    end
+
+    def trip_duration
+      duration = @end_time - @start_time
+      duration_in_seconds = duration.to_i
+      return duration_in_seconds
     end
 
     def inspect

@@ -2,6 +2,26 @@ require_relative 'spec_helper'
 
 describe "Trip class" do
 
+  describe "duration" do
+    before do
+      @trip_data = {
+        start_time: Time.new(2018, 8, 28, 10, 0, 0),
+        end_time: Time.new(2018, 8, 28, 11, 0, 0),
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        cost: 23.45,
+        rating: 3
+      }
+    end
+      it "calculates duration of trip in seconds" do
+        @trip = RideShare::Trip.new(@trip_data)
+        expect(@trip.trip_duration).must_equal 3600
+      end
+
+  end
+
   describe "initialize" do
     before do
       start_time = Time.parse('2015-05-20T12:14:00+00:00')
@@ -25,6 +45,13 @@ describe "Trip class" do
       expect{ RideShare::Trip.new(@trip_data) }.must_raise ArgumentError
     end
 
+    # it "calculates duration of trip in seconds" do
+    #   @trip_data[:start_time] = Time.new(2018, 8, 28, 10, 0, 0)
+    #   @trip_data[:end_time] = Time.new(2018, 8, 28, 11, 0, 0)
+    #   @trip = RideShare::Trip.new(@trip_data)
+    #   expect(@trip.trip_duration).must_equal 3600
+    # end
+    #
     it "is an instance of Time" do
       expect(@trip.start_time).must_be_kind_of Time
     end
