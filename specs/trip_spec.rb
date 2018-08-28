@@ -58,7 +58,7 @@ describe "Trip class" do
     end
 
     it "calculates the duration of trip in seconds" do
-      @trip.duration.must_equal 1500
+      expect(@trip.duration).must_equal 1500
     end
 
   end

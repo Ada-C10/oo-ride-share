@@ -23,6 +23,7 @@ describe "TripDispatcher class" do
       expect(dispatcher.passengers).must_be_kind_of Array
       # expect(dispatcher.drivers).must_be_kind_of Array
     end
+
   end
 
   describe "Load Trip method" do
@@ -37,11 +38,13 @@ describe "TripDispatcher class" do
 
 
     it "raises ArgumentError if end time is before start time" do
+
           expect{ RideShare::TripDispatcher.new(USER_TEST_FILE, TIME_ERROR_TEST_FILE) }.must_raise ArgumentError
     end
+
   end
 
-  xdescribe "find_user method" do
+  describe "find_user method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new
     end
