@@ -1,4 +1,6 @@
 require_relative 'spec_helper'
+# PAY ATTENTION - 8.28 CR from Slack
+# In driver_spec.rb The tests have `driver.trips` instead of `driver.driven_trips`, you will need to update the tests from using `add_trip` to use `add_driven_trip`, etc, or you can copy the tests  which have been updated in ada-c10.
 
 xdescribe "Driver class" do
 

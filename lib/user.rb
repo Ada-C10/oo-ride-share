@@ -26,5 +26,14 @@ module RideShare
       return array.sum
 
     end
+
+    def total_time_spent
+      array = []
+      @trips.each do |trip|
+        array << trip.calculate_duration
+      end
+      return array.sum
+    end
+
   end
 end
