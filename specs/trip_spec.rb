@@ -1,4 +1,6 @@
 require_relative 'spec_helper'
+require 'pry'
+require 'time'
 
 describe "Trip class" do
 
@@ -26,6 +28,27 @@ describe "Trip class" do
     it "stores an instance of user" do
       expect(@trip.passenger).must_be_kind_of RideShare::User
     end
+
+    it "raises error if end date is before start date" do
+
+        start_time = Time.parse('2018-05-21T12:14:00+00:00')
+        end_time = Time.parse('2015-05-20T12:14:00+00:00')
+
+        @trip_data = {
+          id: 8,
+          passenger: RideShare::User.new(id: 1,
+                                         name: "Ada",
+                                         phone: "412-432-7640"),
+          start_time: start_time,
+          end_time: end_time,
+          cost: 23.45,
+          rating: 3
+        }
+        expect {RideShare::Trip.new(@trip_data)}.must_raise ArgumentError
+
+        # expect {@trip}.must_raise ArgumentError
+    end
+
   ############
     it "stores an instance of driver" do
       skip  # Unskip after wave 2
@@ -39,17 +62,6 @@ describe "Trip class" do
           RideShare::Trip.new(@trip_data)
         }.must_raise ArgumentError
       end
-
-      it "raises error if end date is before start date" do
-
-        start_time = Time.parse('2012-05-20T12:14:00+00:00')
-        end_time = Time.parse('2015-05-20T12:14:00+00:00')
-
-        expect {(@trip.start_time < @trip.end_time)}.must_raise ArgumentError
-
-      end
-
-
     end
   end
 end

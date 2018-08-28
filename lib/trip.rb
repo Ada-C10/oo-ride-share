@@ -1,24 +1,27 @@
 require 'csv'
+require 'pry'
+require_relative 'user'
+require 'time'
 
 module RideShare
   class Trip
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating
 
     def initialize(input)
-      @id = input[:id]
-      @passenger = input[:passenger]
-      @start_time = input[:start_time]
-      @end_time = input[:end_time]
-      @cost = input[:cost]
-      @rating = input[:rating]
+        @id = input[:id]
+        @passenger = input[:passenger]
+        @start_time = input[:start_time]
+        @end_time = input[:end_time]
+        @cost = input[:cost]
+        @rating = input[:rating]
 
-      if @rating > 5 || @rating < 1
-        raise ArgumentError.new("Invalid rating #{@rating}")
-      end
+        if @rating > 5 || @rating < 1
+          raise ArgumentError.new("Invalid rating #{@rating}")
+        end
 
-      # if Time.parse(@end_time) <=> Time.parse(@start_time) == -1 
-      #   raise ArgumentError.new("Invalid Date: End date is before start date!")
-      # end
+        if @end_time < @start_time
+          raise ArgumentError.new("Invalid Date: End date is before or on start date!")
+        end
 
     end
 
@@ -29,3 +32,29 @@ module RideShare
     end
   end
 end
+
+##################
+
+
+# start_time = Time.parse('2015-05-20T12:14:00+00:00')
+# puts "start"
+# puts start_time
+#
+# end_time = Time.parse('2018-05-20T12:14:00+00:00')
+#
+# puts "Time: "
+# puts  start_time <=> end_time
+#
+# trip_data = {
+#   id: 8,
+#   passenger: RideShare::User.new(id: 1,
+#                                  name: "Ada",
+#                                  phone: "412-432-7640"),
+#   start_time: start_time,
+#   end_time: end_time,
+#   cost: 23.45,
+#   rating: 3
+# }
+#
+# trip = RideShare::Trip.new(@trip_data)
+# # puts trip
