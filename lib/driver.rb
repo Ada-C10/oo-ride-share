@@ -9,7 +9,7 @@ module RideShare
     def initialize(input)
       super(input)
       if [:AVAILABLE, :UNAVAILABLE].include? input[:status]
-        @status = status
+        @status = input[:status]
       else
         raise ArgumentError, "Invalid status, must be :AVAILABLE or :UNAVAILABLE"
       end

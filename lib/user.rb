@@ -1,6 +1,6 @@
 module RideShare
   class User
-    attr_reader :id, :name, :phone_number, :trips
+    attr_accessor :id, :name, :phone_number, :trips
 
     def initialize(input)
       if input[:id].nil? || input[:id] <= 0
