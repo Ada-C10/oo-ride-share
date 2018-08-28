@@ -2,7 +2,7 @@ require_relative 'trip'
 require 'Time'
 module RideShare
   class User
-    attr_reader :id, :name, :phone_number, :trips
+    attr_reader :id, :name, :phone, :trips
 
     def initialize(input)
       if input[:id].nil? || input[:id] <= 0
@@ -11,7 +11,7 @@ module RideShare
 
       @id = input[:id]
       @name = input[:name]
-      @phone_number = input[:phone]
+      @phone = input[:phone]
       @trips = input[:trips].nil? ? [] : input[:trips]
     end
 

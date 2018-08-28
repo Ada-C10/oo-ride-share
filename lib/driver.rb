@@ -1,15 +1,17 @@
 require_relative 'trip'
 require 'Time'
+
 module RideShare
   class Driver < User
-    attr_reader :vehicle_id, :trips, :status
+    attr_reader :vin, :trips, :status
 
     def initialize(input)
-      super (input)
+      super (input) #id, name, phone_number, trips
+
       @driven_trips = []
 
-      if vehicle_id.length == 17
-        @vehicle_id = vehicle_id
+      if vin.length == 17
+        @vin = vin
       else
         raise ArgumentError.new('That is not a valid VIN number')
       end

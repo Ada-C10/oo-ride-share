@@ -67,18 +67,22 @@ module RideShare
       driver_data = CSV.open(filename, 'r', headers:true, header_converters: :symbol)
 
       driver_data.each do |raw_data|
-        driver = find_passenger(raw_data[:id].to_i)
-
+        driver = find_passenger(raw_trip)[:driver_id].to_i)
         parsed_driver = {
         id: raw_data[:id].to_i,
         vin: raw_data[:vin],
         status: raw_data[:status]
+        driven_trips: []
+        name: driver.name
+        phone: driver.phone
         }
 
         driver = Driver.new(parsed_driver)
-        driver.driven_trip()
-
+        drivers << driver
       end
+
+      return drivers
+      
     end
 
 
