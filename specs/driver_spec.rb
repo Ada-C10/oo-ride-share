@@ -8,7 +8,7 @@ xdescribe "Driver class" do
         vin: "1C9EVBRM0YBC564DZ",
         phone: '111-111-1111',
         status: :AVAILABLE)
-  end
+    end
 
     it "is an instance of Driver" do
       expect(@driver).must_be_kind_of RideShare::Driver
