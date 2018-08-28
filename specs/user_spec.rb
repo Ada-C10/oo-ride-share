@@ -113,7 +113,7 @@ describe "User class" do
         @user.add_trip(trip2)
 
     end
-    
+
     it "returns the total amount of time that a user has spent on all of their rides" do
 
       total_time_spent = @user.trips[0].calculate_duration + @user.trips[1].calculate_duration
