@@ -36,7 +36,10 @@ module RideShare
                                           header_converters: :symbol)
 
       trip_data.each do |raw_trip|
+
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        start_time = raw_trip[:start_time].parse_csv.to_s
+        end_time = raw_trip[:end_time].parse_csv.to_s
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
