@@ -85,14 +85,41 @@ describe "User class" do
     end
 
     it "returns the total amount that a user has spent on all of their rides" do
-      
+
     total_cost = @user.trips[0].cost + @user.trips[1].cost
 
     expect(total_cost).must_equal 26
     end
-
-
-
-
   end
+
+  describe "User total_time_spent" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+      phone: "1-602-620-2330 x3723", trips: [])
+
+      trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"),
+        cost: 10,
+        rating: 5)
+
+      trip2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"),
+        cost: 16,
+        rating: 5)
+
+        @user.add_trip(trip1)
+        @user.add_trip(trip2)
+
+    end
+
+    it "returns the total amount that a user has spent on all of their rides" do
+
+    total_time_spent = @user.trips[0].calculate_duration + @user.trips[1].calculate_duration
+
+    expect(total_cost).must_equal 2 * 24 * 60 * 60
+    end
+  end
+
 end
