@@ -27,6 +27,10 @@ module RideShare
     end
 
     def calculate_duration_in_sec
+      start_in_second = (@start_time.hour * 3600) + (@start_time.min * 60) + @start_time.sec
+      end_in_second = (@end_time.hour * 3600) + (@end_time.min * 60) + @end_time.sec
+      duration = end_in_second - start_in_second
+      return duration
     end
   end
 end

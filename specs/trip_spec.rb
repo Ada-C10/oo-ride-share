@@ -60,7 +60,7 @@ describe "Trip class" do
       }
 
 
-      expect(RideShare::Trip.new(trip_data).calculate_duration_in_sec).must_equal 1200
+      expect(RideShare::Trip.new(trip_data).calculate_duration_in_sec).must_equal 1800
     end
 
 
