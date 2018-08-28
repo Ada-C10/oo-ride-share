@@ -1,17 +1,22 @@
 require 'csv'
 require 'time'
+require 'awesome_print'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
 
 module RideShare
   class TripDispatcher
-    attr_reader :drivers, :passengers, :trips
+    attr_reader :drivers, :trips
+    attr_accessor :passengers
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                    driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -27,6 +32,16 @@ module RideShare
       end
 
       return users
+    end
+
+    def load_drivers(filename)
+      drivers = []
+
+      CSV.read(filename, headers: true).each do |line|
+        drivers << Driver.new(id: line[0].to_i, vin: line[1], status: line[2].to_sym)
+      end
+
+      return drivers
     end
 
 
@@ -55,6 +70,18 @@ module RideShare
       return trips
     end
 
+    def replace_passenger_with_driver
+      @passengers.each_with_index do |user, i|
+        @drivers.each do |driver|
+          if driver.id == user.id
+            user = Driver.new(id: user.id, name: user.name, vin: driver.vehicle_id, phone: user.phone_number, status: driver.status)
+            @passengers[i] = user
+          end
+        end
+      end
+      ap @passengers
+    end
+
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
@@ -74,3 +101,6 @@ module RideShare
     end
   end
 end
+
+a = RideShare::TripDispatcher.new
+a.replace_passenger_with_driver
