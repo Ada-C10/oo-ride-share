@@ -7,7 +7,7 @@ module RideShare
   class Trip
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating
 
-    def initialize(input)
+    def initialize(input) #input hash
       @id = input[:id]
       @passenger = input[:passenger]
       @start_time = input[:start_time]
@@ -18,7 +18,7 @@ module RideShare
       if @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
-      
+
       if @start_time > @end_time
         raise ArgumentError.new("Invalid endtime")
       end

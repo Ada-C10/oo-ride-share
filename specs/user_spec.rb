@@ -34,20 +34,29 @@ describe "User class" do
       expect(@user.trips).must_be_kind_of Array
     end
 
-describe "user net_expenditures" do
- it "should calculate net_expenditures" do
+  describe "user net_expenditures" do
+   it "should calculate net_expenditures" do
 
-user1 = {:id =>1,:name=>"User1",:phone=>111-111-1111}
- @passenger = RideShare::User.new(user1)
- @trip1 = RideShare::Trip.new({:id=>2,:passenger=>1,:start_time=>"2018-05-25 11:52:40",:end_time=>"2018-05-25 12:25:00",:cost=>10,:rating=>5})
- @trip2 = RideShare::Trip.new({:id=>3,:passenger=>1,:start_time=>"2018-07-23 04:39:00",:end_time =>"2018-07-23 04:55:00",:cost =>7,:rating =>3})
+     user1 = {:id=>1,:name=>"User1",:phone=>111-111-1111}
+     @passenger = RideShare::User.new(user1)
+     @trip1 = RideShare::Trip.new({:id=>2,:passenger=>1,:start_time=>"2018-05-25 11:52:40",:end_time=>"2018-05-25 12:25:00",:cost=>10,:rating=>5})
+     @trip2 = RideShare::Trip.new({:id=>3,:passenger=>1,:start_time=>"2018-07-23 04:39:00",:end_time =>"2018-07-23 04:55:00",:cost =>7,:rating =>3})
 
-@passenger.add_trip(@trip2)
+     @passenger.add_trip(@trip1)
+     @passenger.add_trip(@trip2)
 
- expect (@passenger.net_expenditures).must_equal 17
 
+       total = 0
+       @passenger.trips.each do |trip|
+         total += trip.cost
+       end
+
+
+
+     expect (total).must_equal 17
+
+    end
   end
-end
 end
 
 
