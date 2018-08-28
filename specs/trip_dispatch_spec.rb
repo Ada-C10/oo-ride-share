@@ -142,6 +142,36 @@ describe "TripDispatcher class" do
       expect( @dispatcher.request_trip(1) ).must_be_nil
     end
 
+    it 'increased the passenger trips array by 1' do
+      passenger = @dispatcher.find_passenger(1)
+      num_of_trips = passenger.trips.length
+      @dispatcher.request_trip(1)
+
+      expect( passenger.trips.length - num_of_trips ).must_equal 1
+    end
+
+    it 'increased the driver driven_trips array by 1' do
+      driver = @dispatcher.find_driver(5)
+      num_of_trips = driver.driven_trips.length
+      @dispatcher.request_trip(1)
+
+      expect( driver.driven_trips.length - num_of_trips ).must_equal 1
+    end
+
+    it 'selects a driver with an unavailable status' do
+      driver = @dispatcher.find_driver(5)
+      num_of_trips = driver.driven_trips.length
+      trip = @dispatcher.request_trip(1)
+
+      expect( trip.driver.id ).must_equal 5
+    end
+
+    it 'assures that drivers cannot drive themselves' do
+      trip = @dispatcher.request_trip(5)
+
+      expect( trip.driver.id ).wont_equal 5
+    end
+
   end
 
 end

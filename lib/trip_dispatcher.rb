@@ -96,13 +96,13 @@ module RideShare
 
     def request_trip(user_id)
 
-      driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+      driver = @drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id }
 
       unless driver
         puts "No drivers available. Please try again later."
         return nil
       end
-      
+
       driver.status = :UNAVAILABLE
 
       passenger = find_passenger(user_id)
