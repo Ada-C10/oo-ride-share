@@ -2,6 +2,9 @@ require_relative 'spec_helper'
 
 describe "User class" do
 
+  USER_TEST_FILE   = 'specs/test_data/users_test.csv'
+  TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
+
   describe "User instantiation" do
     before do
       @user = RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334")
@@ -38,25 +41,39 @@ describe "User class" do
   describe "trips property" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
-                                  phone: "1-602-620-2330 x3723", trips: [])
-      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
-                                 rating: 5)
+        phone: "1-602-620-2330 x3723", trips: [])
+        trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+          start_time: Time.parse("2016-08-08"),
+          end_time: Time.parse("2016-08-09"),
+          rating: 5)
 
-      @user.add_trip(trip)
-    end
+          @user.add_trip(trip)
+        end
 
-    it "each item in array is a Trip instance" do
-      @user.trips.each do |trip|
-        expect(trip).must_be_kind_of RideShare::Trip
+        it "each item in array is a Trip instance" do
+          @user.trips.each do |trip|
+            expect(trip).must_be_kind_of RideShare::Trip
+          end
+        end
+
+        it "all Trips must have the same passenger's user id" do
+          @user.trips.each do |trip|
+            expect(trip.passenger.id).must_equal 9
+          end
+        end
+      end
+
+      describe "net_expenditures method" do
+        before do
+          @user = RideShare::User.new(id: 9, name: "Merl Glover III", phone: "1-602-620-2330 x3723", trips: [])
+          trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user, start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-09"), rating: 5, cost: 8)
+          trip2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user, start_time: Time.parse("2016-08-10"),end_time: Time.parse("2016-08-11"), rating: 5, cost: 8)
+          @user.add_trip(trip2)
+        end
+
+        it "it correctly sums up the cost of all a user's rides" do
+          expect(@user.net_expenditures).must_equal 16
+        end
+
       end
     end
-
-    it "all Trips must have the same passenger's user id" do
-      @user.trips.each do |trip|
-        expect(trip.passenger.id).must_equal 9
-      end
-    end
-  end
-end
