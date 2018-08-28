@@ -10,9 +10,33 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                   driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers = load_drivers(driver_file)
+    end
+
+    def load_drivers(filename)
+      drivers = []
+
+      CSV.read(filename, headers: true).each do |line|
+        input_data = {}
+        input_data[:id] = line[0].to_i
+        input_data[:vin] = line[1]
+        input_data[:status] = line[2].to_sym
+
+        driver = Driver.new(input_data)
+        drivers << driver
+
+        @passengers.map { |passenger| passenger.id == driver.id ? driver : passenger }
+      end
+      return drivers
+    end
+
+    def find_driver(id)
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id }
     end
 
     def load_users(filename)
