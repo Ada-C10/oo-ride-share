@@ -28,8 +28,13 @@ module RideShare
     end
 
     def total_time_spent
+      total_time = 0
+      @trips.each do |trip|
+        total_time += trip.duration
+      end
+      return total_time/60
     end
-    
+
 
   end
 end
