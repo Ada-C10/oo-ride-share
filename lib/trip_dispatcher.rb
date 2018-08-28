@@ -1,5 +1,6 @@
 require 'csv'
 require 'time'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -9,9 +10,11 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                   driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -69,12 +72,28 @@ module RideShare
               #{passengers.count} passengers>"
     end
 
-    def load_drivers
-      #Load the Drivers from the support/drivers.csv file and return a collection of Driver instances, note that drivers can be passengers too! Replace the instance of User in the passengers array with a cooresponding instance of Driver
+    def load_drivers(filename)
+
+      drivers = []
+
+      CSV.read(filename, headers: true).each do |line|
+        found_passenger = find_passenger(line[0].to_i)
+
+        new_driver = Driver.new(id: line[0].to_i, name: found_passenger.name, phone: found_passenger.phone_number, vin: line[1], status: line[2].to_sym)
+
+        drivers << new_driver
+
+        @passengers[@passengers.index(found_passenger)] = new_driver
+
+      end
+
+      return drivers
+
+        #Load the Drivers from the support/drivers.csv file and return a collection of Driver instances, note that drivers can be passengers too! Replace the instance of User in the passengers array with a cooresponding instance of Driver
     end
 
-    def find_driver
-      #This method takes an id number and returns the corresponding Driver instance.
+    def find_driver(id)
+
     end
 
 
@@ -88,3 +107,9 @@ module RideShare
     end
   end
 end
+
+# USER_TEST_FILE   = 'specs/test_data/users_test.csv'
+# TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
+# DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+#
+# RideShare::TripDispatcher
