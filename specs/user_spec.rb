@@ -57,6 +57,25 @@ describe "User class" do
     @user.add_trip(trip_3)
     expect(@user.net_expenditures).must_equal (10 + 10 + 10)
     end
+
+    it "calculates total trip time" do
+      trip_1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 10, rating: 5)
+      trip_2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 10, rating: 5)
+      trip_3 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 10, rating: 5)
+    @user.add_trip(trip_1)
+    @user.add_trip(trip_2)
+    @user.add_trip(trip_3)
+    expect(@user.total_time_spent).must_equal (24*60*60*3)
+    end
   end
 
 
