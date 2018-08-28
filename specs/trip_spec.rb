@@ -78,7 +78,7 @@ describe "Trip class" do
           cost: 23.45,
           rating: 3
         }
-        trip = Trip.new(@trip_data)
+        trip = RideShare::Trip.new(@trip_data)
 
         expect (trip.calculate_duration).must_equal 120.0
       end

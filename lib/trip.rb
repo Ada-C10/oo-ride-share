@@ -22,6 +22,11 @@ module RideShare
       end
     end
 
+    def calculate_duration
+      duration = @end_time - @start_time
+      return duration
+    end
+
     def inspect
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
       "ID=#{id.inspect} " +
