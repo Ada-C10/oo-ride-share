@@ -7,9 +7,9 @@ require_relative 'driver'
 require 'awesome_print'
 
 # TODO DELETE THIS LATER - IS FOR TESTING CODE
-USER_TEST_FILE   = 'support/users.csv'
-TRIP_TEST_FILE   = 'support/trips.csv'
-DRIVER_TEST_FILE = 'support/drivers.csv'
+# USER_TEST_FILE   = 'support/users.csv'
+# TRIP_TEST_FILE   = 'support/trips.csv'
+# DRIVER_TEST_FILE = 'support/drivers.csv'
 
 
 module RideShare
@@ -20,8 +20,8 @@ module RideShare
                    trip_file = 'support/trips.csv',
                   driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
       @drivers = load_drivers(driver_file)
+      @trips = load_trips(trip_file)
     end
 
     def load_users(filename)
@@ -47,6 +47,7 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        driver = find_driver(raw_trip[:driver_id].to_i)
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
@@ -54,7 +55,8 @@ module RideShare
           start_time: Time.parse(raw_trip[:start_time]),
           end_time: Time.parse(raw_trip[:end_time]),
           cost: raw_trip[:cost].to_f,
-          rating: raw_trip[:rating].to_i
+          rating: raw_trip[:rating].to_i,
+          driver: driver
         }
 
         # binding.pry
@@ -128,9 +130,9 @@ module RideShare
   end
 end
 
-
-dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE)
-
-
-binding.pry
+#
+# dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+#                                                  TRIP_TEST_FILE)
+#
+#
+# binding.pry
