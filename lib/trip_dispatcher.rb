@@ -79,7 +79,7 @@ module RideShare
       CSV.read(filename, headers: true).each do |line|
         found_passenger = find_passenger(line[0].to_i)
 
-        new_driver = Driver.new(id: line[0].to_i, name: found_passenger.name, phone: found_passenger.phone_number, vin: line[1], status: line[2].to_sym)
+        new_driver = Driver.new(id: line[0].to_i, name: found_passenger.name, phone: found_passenger.phone_number, vin: line[1], status: line[2].to_sym, trips: found_passenger.trips)
 
         drivers << new_driver
 
@@ -93,7 +93,8 @@ module RideShare
     end
 
     def find_driver(id)
-
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id }
     end
 
 

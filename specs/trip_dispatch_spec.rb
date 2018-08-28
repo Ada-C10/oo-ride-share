@@ -62,9 +62,11 @@ describe "TripDispatcher class" do
 
 
   # Uncomment for Wave 2
-  xdescribe "find_driver method" do
+  describe "find_driver method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                 DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do

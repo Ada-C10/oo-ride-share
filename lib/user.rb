@@ -38,9 +38,9 @@ module RideShare
   end
 
   class Driver < User
-    attr_reader :vehicle_id, :driven_trips, :status
+    attr_reader :vehicle_id, :driven_trips, :status, :trips
 
-    def initialize(id: 0, name: "no name", vin: 0, phone: 0, status: :UNAVAILABLE)
+    def initialize(id: 0, name: "no name", vin: 0, phone: 0, status: :UNAVAILABLE, trips: [])
       raise ArgumentError.new "ID not valid" if id <= 0
       raise ArgumentError.new "Invalid VIN" if vin.length != 17
       @id = id
@@ -50,6 +50,7 @@ module RideShare
       raise ArgumentError.new "Invalid status" if status != :AVAILABLE && status != :UNAVAILABLE
       @status = status
       @driven_trips = []
+      @trips = trips
     end
 
     def average_rating
