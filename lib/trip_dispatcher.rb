@@ -1,7 +1,7 @@
 require 'csv'
 require 'time'
 require 'pry'
-
+require 'time'
 require_relative 'user'
 require_relative 'trip'
 
@@ -45,12 +45,11 @@ module RideShare
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
-          start_time: raw_trip[:start_time],
-          end_time: raw_trip[:end_time],
+          start_time: Time.parse(raw_trip[:start_time]),
+          end_time: Time.parse(raw_trip[:end_time]),
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i
         }
-        binding.pry
         trip = Trip.new(parsed_trip)
         # it adds each trip to its corresponding instance of passanger
         # every instance of a passanger is saved in @passagers
@@ -63,7 +62,7 @@ module RideShare
     end
 
     # helps find the instance of a passanger
-    # it's send back to load trips which create isntances of trips 
+    # it's send back to load trips which create isntances of trips
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
