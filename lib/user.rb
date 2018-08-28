@@ -38,9 +38,10 @@ module RideShare
   end
 
   class Driver < User
-    attr_reader
+    attr_reader :vehicle_id, :driven_trips, :status
 
     def initialize(id: 0, name: "no name", vin: 0, phone: 0, status: :UNAVAILABLE)
+      raise ArgumentError.new "ID not valid" if id <= 0
       @id = :id
       @name = :name
       @vehicle_id = :vin
