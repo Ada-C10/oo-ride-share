@@ -5,17 +5,18 @@ require 'awesome_print'
 
 require_relative 'user'
 require_relative 'trip'
-#require_relative 'driver'
+require_relative 'driver'
 
 module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                   driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
-      #@drivers = load_drivers(driver_file)
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -41,7 +42,7 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
-        driver = find_passenger(raw_trip)[:driver_id].to_i)
+        driver = find_passenger(raw_trip[:driver_id].to_i)
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
@@ -67,14 +68,13 @@ module RideShare
       driver_data = CSV.open(filename, 'r', headers:true, header_converters: :symbol)
 
       driver_data.each do |raw_data|
-        driver = find_passenger(raw_trip)[:driver_id].to_i)
+        driver = find_passenger(raw_data[:id].to_i)
         parsed_driver = {
         id: raw_data[:id].to_i,
         vin: raw_data[:vin],
-        status: raw_data[:status]
-        driven_trips: []
-        name: driver.name
-        phone: driver.phone
+        status: raw_data[:status].to_sym,
+        name: driver.name,
+        phone: driver.phone,
         }
 
         driver = Driver.new(parsed_driver)
@@ -82,7 +82,7 @@ module RideShare
       end
 
       return drivers
-      
+
     end
 
 
@@ -106,4 +106,4 @@ module RideShare
     end
   end
 end
-ap RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv')
+ap RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
