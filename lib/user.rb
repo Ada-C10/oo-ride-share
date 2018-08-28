@@ -24,8 +24,9 @@ module RideShare
         cost = trip.cost
         cost_array << cost
       end
-        return cost_array.sum
+      return cost_array.sum
     end
+
     def total_time_spent
       time_array = []
       @trips.each do |trip|

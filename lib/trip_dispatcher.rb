@@ -29,6 +29,21 @@ module RideShare
       return users
     end
 
+    def load_drivers(filename)
+      drivers = []
+
+      CSV.read(filename, headers: true).each do |line|
+        driver_data = {}
+        driver_data[:id] = line[0].to_i
+        driver_data[:vehicle_id] = line[1]
+        driver_data[:status] = line[2]
+
+        drivers << Driver.new(driver_data)
+      end
+
+      return drivers 
+    end
+
 
     def load_trips(filename)
       trips = []

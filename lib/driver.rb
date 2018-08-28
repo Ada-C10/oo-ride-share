@@ -1,4 +1,5 @@
 require_relative 'user'
+
 module RideShare
   class Driver < User
     attr_reader :vehicle_id, :driven_trips, :status
@@ -15,7 +16,7 @@ module RideShare
       end
 
       @vehicle_id = input[:vehicle_id]
-      @driven_trips = input[:driven_trips]
+      @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
       @status = input[:status]
     end
   end
