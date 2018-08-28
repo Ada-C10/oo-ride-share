@@ -3,10 +3,10 @@ module RideShare
   class Driver < User
     attr_reader :vehicle_id, :driven_trips, :status
 
-    def initialize(input, vehicle_id, driven_trips, status)
+    def initialize(input)
       super(input)
-
-      if input[:vehicle_id].length != 17
+      id_length = 17
+      if input[:vehicle_id].length != id_length
         raise ArgumentError, 'ID must be 17 characters'
       end
       valid_staus = [:AVAILABLE, :UNAVAILABLE]
