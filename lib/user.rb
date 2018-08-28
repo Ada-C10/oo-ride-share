@@ -16,5 +16,25 @@ module RideShare
     def add_trip(trip)
       @trips << trip
     end
+
+    def net_expenditures
+      sum = 0
+      trips.each do |trip|
+        sum += trip.cost
+      end
+      return sum
+      #return total amount of money user has spent on Trips
+    end
+
+    def total_time_spent
+      total_time = 0
+      trips.each do |trip|
+        total_time += trip.duration
+      end
+      return total_time
+    end
+
+
+
   end
 end
