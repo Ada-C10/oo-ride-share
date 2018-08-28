@@ -39,12 +39,19 @@ describe "User class" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
                                   phone: "1-602-620-2330 x3723", trips: [])
-      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
-                                 rating: 5)
 
+      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2018-05-25 11:52:40 -0700"),
+                                 end_time: Time.parse("2018-05-25 12:25:00 -0700"),cost: 5.0,
+                                 rating: 5)
+      second_trip = RideShare::Trip.new(id: 8, driver: nil,
+                                 passenger:  @user,
+                                 start_time: Time.parse("2018-07-23 04:39:00 -0700"),
+                                 end_time: Time.parse("2018-07-23 04:55:00 -0700"),cost: 3.0,
+                                 rating: 5)
       @user.add_trip(trip)
+      @user.add_trip(second_trip)
+
     end
 
     it "each item in array is a Trip instance" do
@@ -58,5 +65,14 @@ describe "User class" do
         expect(trip.passenger.id).must_equal 9
       end
     end
+
+    it "calculates total expenditure of all rides for a given user" do
+      expect(@user.net_expenditures).must_equal 8.00
+    end
+
+    it "will return the total amount of time that user has spent on their trips" do
+      expect(@user.total_time_spent).must_equal 2900.0
+    end
+
   end
 end
