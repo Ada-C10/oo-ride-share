@@ -22,6 +22,20 @@ describe "User class" do
       expect(@user.trips.length).must_equal 0
     end
 
+
+    it "returns sum of net expenditures of user" do
+      trip = RideShare::Trip.new(cost: 20.00)
+      @user.add_trip(trip)
+
+      trip_2 = RideShare::Trip.new(cost: 40.00)
+      @user.add_trip(trip_2)
+
+      trip_3 = RideShare::Trip.new(cost: 40.00)
+      @user.add_trip(trip_3)
+
+      expect(@user.net_expenditures).must_equal 100.00
+    end
+
     it "is set up for specific attributes and data types" do
       [:id, :name, :phone_number, :trips].each do |prop|
         expect(@user).must_respond_to prop
