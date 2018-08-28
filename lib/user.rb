@@ -26,5 +26,10 @@ module RideShare
 
       return total_cost
     end
+
+    def total_time_spent
+    end
+    
+
   end
 end
