@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'time'
 
 describe "User class" do
 
@@ -56,6 +57,39 @@ describe "User class" do
     it "all Trips must have the same passenger's user id" do
       @user.trips.each do |trip|
         expect(trip.passenger.id).must_equal 9
+      end
+    end
+  end
+
+  describe "trip costs" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723", trips: [])
+      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2018-05-25 10:00:00"),
+                                 end_time: Time.parse("2018-05-25 11:00:00"),
+                                 cost: 40,
+                                 rating: 5)
+
+
+      @user.add_trip(trip)
+
+      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2018-05-25 12:00:00"),
+                                 end_time: Time.parse("2018-05-25 13:00:00"),
+                                 cost: 40,
+                                 rating: 5)
+      @user.add_trip(trip)
+
+    end
+    it 'calculates total cost of all rides per user' do
+      @user.trips.each do |trip|
+      expect(@user.net_expenditures).must_equal 80
+      end
+    end
+    it 'calculates total time of all trips per user' do
+      @user.trips.each do |trip|
+        expect(@user.total_time_spent).must_equal 7200
       end
     end
   end
