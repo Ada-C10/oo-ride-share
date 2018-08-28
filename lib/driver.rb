@@ -38,7 +38,7 @@ module RideShare
     end
 
     def total_revenue
-       return @driven_trips.sum { |trip| trip.cost - 1.65} * 0.80
+       return (@driven_trips.sum { |trip| trip.cost - 1.65} * 0.80).round(2)
     end
 
     def net_expenditures

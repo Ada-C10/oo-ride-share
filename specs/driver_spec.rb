@@ -99,10 +99,49 @@ describe "Driver class" do
     end
 
   describe "total_revenue" do
-    # You add tests for the total_revenue method
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+    end
+    it 'returns the correct total revenue' do
+
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), rating: 5, cost: 17)
+      @driver.add_driven_trip(trip)
+
+      expect(@driver.total_revenue).must_be_close_to 12.28
+    end
+
+    it 'returns 0 if no trips given' do
+      expect(@driver.total_revenue).must_be_close_to 0
+    end
   end
 
   describe "net_expenditures" do
-    # You add tests for the net_expenditures method
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                        start_time: Time.parse("2016-08-08"),
+                                        end_time: Time.parse("2016-08-08"), rating: 5, cost: 17)
+      @driver.add_driven_trip(trip)
+    end
+
+    it 'returns the correct net expenditure' do
+
+
+      trip2 = RideShare::Trip.new(id: 8, driver: RideShare::Driver.new(id: 55, name: "Rogers Bartell V", vin: "1C9EVBRM0YBC564DZ"), passenger: @driver,
+                                   start_time: Time.parse("2016-08-08"),
+                                   end_time: Time.parse("2016-08-08"), rating: 5, cost: 5)
+
+      @driver.add_trip(trip2)
+
+      expect(@driver.net_expenditures).must_be_close_to 7.28
+    end
+
+    it 'returns only the total revenue if no trips given' do
+      expect(@driver.net_expenditures).must_be_close_to 12.28
+    end
   end
 end
