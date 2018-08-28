@@ -39,6 +39,8 @@ describe "TripDispatcher class" do
     end
   end
 
+  # TODO - check TripDispatcher#load trips array[0].start_time == Time instance????
+
 
   # Uncomment for Wave 2
   # describe "find_driver method" do
