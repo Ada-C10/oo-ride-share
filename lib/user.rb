@@ -43,11 +43,12 @@ module RideShare
     def initialize(id: 0, name: "no name", vin: 0, phone: 0, status: :UNAVAILABLE)
       raise ArgumentError.new "ID not valid" if id <= 0
       raise ArgumentError.new "Invalid VIN" if vin.length != 17
-      @id = :id
-      @name = :name
-      @vehicle_id = :vin
-      @phone = :phone
-      @status = :status
+      @id = id
+      @name = name
+      @vehicle_id = vin
+      @phone = phone
+      raise ArgumentError.new "Invalid status" if status != :AVAILABLE && status != :UNAVAILABLE
+      @status = status
       @driven_trips = []
     end
 
