@@ -9,18 +9,18 @@ describe "Trip class" do
         end_time: Time.new(2018, 8, 28, 11, 0, 0),
         id: 8,
         passenger: RideShare::User.new(id: 1,
-                                       name: "Ada",
-                                       phone: "412-432-7640"),
-        cost: 23.45,
-        rating: 3
-      }
-    end
+          name: "Ada",
+          phone: "412-432-7640"),
+          cost: 23.45,
+          rating: 3
+        }
+      end
       it "calculates duration of trip in seconds" do
         @trip = RideShare::Trip.new(@trip_data)
         expect(@trip.trip_duration).must_equal 3600
       end
 
-  end
+    end
 
   describe "initialize" do
     before do
