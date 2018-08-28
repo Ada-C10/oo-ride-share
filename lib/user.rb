@@ -1,3 +1,7 @@
+
+# require 'pry'
+
+
 module RideShare
   class User
     attr_reader :id, :name, :phone_number, :trips
@@ -16,5 +20,15 @@ module RideShare
     def add_trip(trip)
       @trips << trip
     end
+
+    def net_expenditures
+      costs = []
+      @trips.each do |trip_stuff|
+        costs << trip_stuff.cost
+      end
+      cost_total = costs.inject(:+).to_f
+      return cost_total
+    end
+    # This is the end of the ends for the class and the modules
   end
 end
