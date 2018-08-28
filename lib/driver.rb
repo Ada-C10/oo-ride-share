@@ -1,34 +1,30 @@
 require_relative "trip"
 require_relative "user"
-require "Time"
+require "time"
 require "ap"
 require "pry"
 
 module RideShare
   class Driver < User
-    attr_reader :id, :name, :status
-    binding.pry
+    attr_reader :id, :name, :status, :vehicle_id, :driven_trips, :phone_number
 
     def initialize(input)
-      super()
+      super(input)
 
 
 
-      # # @vehicle_id = input[:vehicle_id]
-      # @driven_trips = []
+      @vehicle_id = input[:vin]
+      @driven_trips = []
       @status = input[:status]
 
 
-      puts "ID #{@id} and #{id}"
-      puts "NAME #{@name} and #{name}"
-      puts "STATUS #{@status} and #{status}"
-      # unless input[:vehicle_id] == 17
-      #   raise ArgumentError, 'Vehicle ID must contain 17 characters'
-      # end
-      #
-      # unless input[:status] == :AVAILBLE || input[:status] == :UNAVAILABLE
-      #   raise ArgumentError, 'Vehicle ID must contain 17 characters'
-      # end
+      unless @vehicle_id == 17
+        raise ArgumentError, 'Vehicle ID must contain 17 characters'
+      end
+
+      unless @status == :AVAILABLE || @status == :UNAVAILABLE
+        raise ArgumentError, 'Not a valid status.'
+      end
 
       # if input[:id].nil? || input[:id] <= 0
       #   raise ArgumentError, 'ID cannot be blank or less than zero.'

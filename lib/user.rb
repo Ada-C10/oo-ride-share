@@ -1,5 +1,5 @@
 require_relative "trip"
-require "Time"
+require "time"
 require "ap"
 require "pry"
 
