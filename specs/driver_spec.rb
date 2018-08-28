@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
-
-xdescribe "Driver class" do
+require 'pry'
+describe "Driver class" do
 
   describe "Driver instantiation" do
     before do
@@ -8,8 +8,7 @@ xdescribe "Driver class" do
         vin: "1C9EVBRM0YBC564DZ",
         phone: '111-111-1111',
         status: :AVAILABLE)
-  end
-
+    end
     it "is an instance of Driver" do
       expect(@driver).must_be_kind_of RideShare::Driver
     end
@@ -40,7 +39,7 @@ xdescribe "Driver class" do
     end
   end
 
-  describe "add_driven_trip method" do
+  xdescribe "add_driven_trip method" do
     before do
       pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
       @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
@@ -58,7 +57,7 @@ xdescribe "Driver class" do
     end
   end
 
-  describe "average_rating method" do
+  xdescribe "average_rating method" do
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ")
