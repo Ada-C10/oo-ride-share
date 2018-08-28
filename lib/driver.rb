@@ -24,8 +24,17 @@ module RideShare
 
     end
 
-    def add_driven_trips
-      @driven_trip << driven_trip
+    def add_driven_trip(driver_trip)
+      @driven_trips << driver_trip
+    end
+
+    def average_rating
+    end
+
+    def total_revenue
+    end
+
+    def net_expenditures
     end
 
   end

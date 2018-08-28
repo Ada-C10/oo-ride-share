@@ -78,6 +78,14 @@ module RideShare
         }
 
         driver = Driver.new(parsed_driver)
+
+        @trips.each do |trip|
+
+          if trip.driver.id == driver.id
+            driver.add_driven_trip(trip)
+          end
+        end
+
         drivers << driver
       end
 
@@ -90,6 +98,7 @@ module RideShare
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
     end
+
 
 
     # def inspect
@@ -106,4 +115,5 @@ module RideShare
     end
   end
 end
+
 ap RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
