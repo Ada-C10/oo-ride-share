@@ -98,8 +98,8 @@ describe "TripDispatcher class" do
       expect(last_driver.status).must_equal :AVAILABLE
     end
 
-    xit "Connects drivers with trips" do
-      skip # Unskip after wave 2
+    it "Connects drivers with trips" do
+    
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
