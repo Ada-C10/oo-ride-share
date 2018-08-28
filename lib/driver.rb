@@ -7,8 +7,8 @@ module RideShare
     attr_reader :vehicle_id, :driven_trips, :status
 
     def initialize(vehicle_id, driven_trips, status)
-      @vehicle_id
-      @driven_trips
+      @vehicle_id = vehicle_id
+      @driven_trips = driven_trips
       if [:AVAILABLE, :UNAVAILABLE].include? status
         @status = status
       else
