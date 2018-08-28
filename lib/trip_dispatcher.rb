@@ -100,42 +100,18 @@ module RideShare
       # find the drivers' passenger data and add their
       # passenger info to their Driver object
       drivers.each do |driver|
+        # Finding drivers user data based on id
         user = self.find_passenger(driver.id)
-        if user != nil
+        # Assigning driver information based on user
+        if user
           driver.name = user.name
           driver.phone_number = user.phone_number
           driver.trips = user.trips
-          # binding.pry
         end
-        binding.pry
-
+        # Swapping out passenger with driver
+        @passengers[@passengers.index(user)] = driver
       end
-
-      # binding.pry
-
-      # replace User objects in @passenger array with
-      # corresponding Driver object if pass. is a driver
-
-
-      # return drivers
       return drivers
-
-      # CSV.read(filename, headers: true).each do |line|
-      #   input_data = {}
-      #   input_data[:id] = line["id"].to_i
-      #   input_data[:vin] = line["vin"]
-      #   input_data[:status] = line["status"].to_sym
-      #   # Use find passenger method to add in the name and phone number
-      #     # From the matching id in User class
-      #   # Selects passenger data for matching id
-      #   driver_user_info = find_passenger(line["id"].to_i)
-      #   # Right now this just returns the user class, not the name
-      #   input_data[:name] = driver_user_info
-      #   # input_data[:phone_number] = find_passenger(line["id"].to_i)
-      #   drivers << Driver.new(input_data)
-      # end
-
-
     end
 
     # Method to find drivers
