@@ -9,8 +9,7 @@ describe "Driver class" do
       phone: '111-111-1111',
       status: :AVAILABLE
     )
-    # end
-
+  
     @passenger = RideShare::User.new(
       id: 1,
       name: "Ada",
