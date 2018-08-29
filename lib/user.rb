@@ -51,5 +51,9 @@ module RideShare
       @status = status
       @driven_trips = driven_trips
     end
+
+    def add_trip(trip)
+      @driven_trips << trip
+    end
   end
 end
