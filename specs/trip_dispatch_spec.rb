@@ -136,8 +136,12 @@ describe "TripDispatcher class" do
 
     it "returns nil if no drivers are available" do
       @dispatcher.drivers.each do |driver|
-        driver.status = :UNAVAILABLE
+        if driver.status == :AVAILABLE
+          # binding.pry
+          driver.change_status
+        end
       end
+
 
       expect( @dispatcher.request_trip(1) ).must_be_nil
     end
@@ -151,19 +155,19 @@ describe "TripDispatcher class" do
     end
 
     it 'increased the driver driven_trips array by 1' do
-      driver = @dispatcher.find_driver(5)
+      driver = @dispatcher.find_driver(8)
       num_of_trips = driver.driven_trips.length
       @dispatcher.request_trip(1)
 
       expect( driver.driven_trips.length - num_of_trips ).must_equal 1
     end
 
-    it 'selects a driver with an unavailable status' do
-      driver = @dispatcher.find_driver(5)
+    it 'selects a driver with an available status' do
+      driver = @dispatcher.find_driver(8)
       num_of_trips = driver.driven_trips.length
       trip = @dispatcher.request_trip(1)
 
-      expect( trip.driver.id ).must_equal 5
+      expect( trip.driver.id ).must_equal 8
     end
 
     it 'assures that drivers cannot drive themselves' do
@@ -181,9 +185,11 @@ describe "TripDispatcher class" do
     end
 
     it 'returns new driver if available' do
-      @dispatcher.request_trip(1)
+      # @dispatcher.request_trip(1)
       driver = @dispatcher.assign_driver
+      # binding.pry
       expect( driver.id ).must_equal 8
+
     end
 
     it 'returns driver with the oldest most recent trip' do
@@ -202,7 +208,7 @@ describe "TripDispatcher class" do
                                   rating: 1)
       driver_5.add_driven_trip(trip1)
       driver_8.add_driven_trip(trip2)
-  
+
       expect( @dispatcher.assign_driver.id ).must_equal 5
 
       trip3 = RideShare::Trip.new(id: 8, driver: driver_5, passenger: nil,

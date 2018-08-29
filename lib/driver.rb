@@ -2,8 +2,7 @@ module RideShare
 
   class Driver < User
 
-    attr_reader :vehicle_id, :driven_trips
-    attr_accessor :status
+    attr_reader :vehicle_id, :driven_trips, :status
 
     def initialize(input)
       super(input)
@@ -38,6 +37,11 @@ module RideShare
       end
 
       @driven_trips << trip
+    end
+
+    def change_status
+      @status == :AVAILABLE ? @status = :UNAVAILABLE : @status = :AVAILABLE
+
     end
 
     def total_revenue

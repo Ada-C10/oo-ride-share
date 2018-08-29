@@ -96,14 +96,14 @@ module RideShare
 
     def request_trip(user_id)
 
-      driver = @drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id }
+      driver = assign_driver#@drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id }
 
       unless driver
         puts "No drivers available. Please try again later."
         return nil
       end
 
-      driver.status = :UNAVAILABLE
+
 
       passenger = find_passenger(user_id)
 
@@ -124,6 +124,7 @@ module RideShare
       trip = Trip.new(parsed_trip)
       @trips << trip
 
+      driver.change_status
       driver.add_driven_trip(trip)
       passenger.add_trip(trip)
 
@@ -152,7 +153,7 @@ module RideShare
           driver.driven_trips.sort_by{ |trip| trip.end_time }
         end
 
-  
+
         return available_drivers.min_by{ |driver| driver.driven_trips.last.end_time }
 
       else
