@@ -3,6 +3,7 @@ module RideShare
     attr_reader :id, :name, :phone_number, :trips
 
     def initialize(input)
+
       if input[:id].nil? || input[:id] <= 0
         raise ArgumentError, 'ID cannot be blank or less than zero.'
       end
