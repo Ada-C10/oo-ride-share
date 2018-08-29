@@ -10,9 +10,11 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                   driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -68,6 +70,24 @@ module RideShare
               #{drivers.count} drivers, \
               #{passengers.count} passengers>"
     end
+
+    # Load the Drivers from the support/drivers.csv file and
+    # return a collection of Driver instances, note that drivers
+    # can be passengers too! Replace the instance of User in the
+    # passengers array with a corresponding instance of Driver
+    # def load_drivers(filename)
+    #   # initialize drivers
+    #   drivers = []
+    #   # parse csv for drivers
+    #   driver_data = CSV.open(filename, 'r', headers: true).map do |line|
+    #     id = line[0].to_i
+    #     passenger = find_passenger(id)
+    #     puts "hey its guille"
+    #     puts line[1].length
+    #     Driver.new(id: line[0].to_i, name: passenger.name, phone_number: passenger.phone_number, trips: passenger.trips, vehicle_id: line[1], status: line[2])
+    #   end
+    #   drivers << driver_data
+    # end
 
     private
 
