@@ -37,6 +37,7 @@ describe "TripDispatcher class" do
       passenger = @dispatcher.find_passenger(2)
       expect(passenger).must_be_kind_of RideShare::User
     end
+
   end
 
 
