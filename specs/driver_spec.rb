@@ -48,11 +48,11 @@ describe "Driver class" do
       @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5})
     end
 
-    it "throws an argument error if trip is not provided" do
+    xit "throws an argument error if trip is not provided" do
       expect{ @driver.add_trip(1) }.must_raise ArgumentError
     end
 
-    it "increases the trip count by one" do
+    xit "increases the trip count by one" do
       previous = @driver.trips.length
       @driver.add_trip(@trip)
       expect(@driver.trips.length).must_equal previous + 1

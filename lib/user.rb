@@ -25,7 +25,6 @@ module RideShare
       @trips.each do |trip|
         sum += trip.cost
       end
-
       return sum
     end
 

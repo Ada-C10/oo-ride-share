@@ -11,6 +11,7 @@ describe "Trip class" do
         passenger: RideShare::User.new(id: 1,
                                        name: "Ada",
                                        phone: "412-432-7640"),
+                                       driver: RideShare::Driver.new(id: 1, vin: "850FGHT564GIJW234", status: :UNAVAILABLE),
         start_time: start_time,
         end_time: end_time,
         cost: 23.45,
@@ -70,11 +71,10 @@ describe "Trip class" do
     end
 
     it "stores an instance of driver" do
-      skip  # Unskip after wave 2
       expect(@trip.driver).must_be_kind_of RideShare::Driver
     end
 
-    it "raises an error for an invalid rating" do
+    xit "raises an error for an invalid rating" do
       [-3, 0, 6].each do |rating|
         @trip_data[:rating] = rating
         expect {
