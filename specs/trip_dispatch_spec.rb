@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'pry'
 
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
@@ -45,12 +46,12 @@ describe "TripDispatcher class" do
       @dispatcher = RideShare::TripDispatcher.new
     end
 
-    xit "throws an argument error for a bad ID" do
+    it "throws an argument error for a bad ID" do
       expect { @dispatcher.find_driver(0) }.must_raise ArgumentError
     end
 
-    xit "finds a driver instance" do
-      driver = @dispatcher.find_driver(2)
+    it "finds a driver instance" do
+      driver = @dispatcher.find_driver(3)
       expect(driver).must_be_kind_of RideShare::Driver
     end
   end
@@ -62,7 +63,7 @@ describe "TripDispatcher class" do
     end
 
     it "accurately loads driver information into drivers array" do
-      # skip # Unskip After Wave 2
+
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -74,10 +75,8 @@ describe "TripDispatcher class" do
       expect(last_driver.status).must_equal :AVAILABLE
     end
 
-    xit "Connects drivers with trips" do
-      skip # Unskip after wave 2
+    it "Connects drivers with trips" do
       trips = @dispatcher.trips
-
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
