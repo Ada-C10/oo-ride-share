@@ -1,6 +1,7 @@
 require 'csv'
 require 'time'
 require 'ap'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -48,12 +49,14 @@ module RideShare
         # #NOTE: WHY DON'T THESE TWO LINES WORK THO?
         start_time = Time.parse(raw_trip[:start_time])
         end_time = Time.parse(raw_trip[:end_time])
+        binding.pry
+        ap "#{start_time}.class"
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
-          start_time: raw_trip[:start_time],
-          end_time: raw_trip[:end_time],
+          start_time: start_time,
+          end_time: end_time,
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i,
           driver: driver
@@ -125,12 +128,14 @@ module RideShare
 end
 
 
-pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
-driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
+# pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+# driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
+#
+# trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: "2016-08-08T12:14:00+00:00", end_time: "2018-05-20T12:14:00+00:00",  cost: 55, rating: 5, driver: driver})
 
-trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: "2016-08-08T12:14:00+00:00", end_time: "2018-05-20T12:14:00+00:00",  cost: 55, rating: 5, driver: driver})
 
-
-ap pass
-ap driver
-ap trip.start_time
+# ap pass
+# ap driver
+# ap trip.start_time.class
+# ap RideShare::TripDispatcher.trips
+# ap trip.calculate_trip_duration

@@ -6,17 +6,19 @@ module RideShare
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :driver
 
     def initialize(input)
+
+      # if input[:end_time] - input[:start_time] <= 0
+      #   raise ArgumentError.new("Trip end time is before start time.")
+      # end
+
+
       @id = input[:id]
       @passenger = input[:passenger]
-      @start_time = parse_time(input[:start_time])
-      @end_time = parse_time(input[:end_time])
+      @start_time = input[:start_time]
+      @end_time = input[:end_time]
       @cost = input[:cost]
       @rating = input[:rating]
       @driver = input[:driver]
-
-      if @end_time - @start_time <= 0
-        raise ArgumentError.new("Trip end time is before start time.")
-      end
 
 
 
@@ -31,10 +33,10 @@ module RideShare
 
     end
 
-    def parse_time(time)
-      time = Time.parse(time)
-      return time
-    end
+    # def parse_time(time)
+    #   time = Time.parse(time)
+    #   return time
+    # end
 
     def inspect
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
