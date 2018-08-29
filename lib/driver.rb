@@ -6,10 +6,10 @@ module RideShare
 
     def initialize(input)
       super(input)
-      id_length = 17
-      if input[:vehicle_id].length != id_length
+      if input[:vehicle_id].length != 17
         raise ArgumentError, 'ID must be 17 characters'
       end
+
       valid_staus = [:AVAILABLE, :UNAVAILABLE]
       if valid_staus.include?(@status)
         raise ArgumentError, 'Not a valid status'
@@ -19,5 +19,21 @@ module RideShare
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
       @status = input[:status]
     end
+
+    def average_rating
+      ratings = @driven_trips.find { |trip| trip.rating }.sum
+      average = ratings / @driven_trips.length
+      return average
+    end
+
+    # def add_driven_trip
+    # end
+    #
+    # def total_revenue
+    # end
+    #
+    # def net_expenditures
+    # end
+
   end
 end

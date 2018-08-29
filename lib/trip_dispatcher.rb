@@ -11,10 +11,10 @@ module RideShare
 
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv',
-                 driver_file = 'support/drivers.csv')
+                   driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
-      @driver = load_drivers(driver_file)
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -33,21 +33,24 @@ module RideShare
     end
 
     def load_drivers(filename)
-      drivers = []
-      CSV.read(filename, headers: true).each do |line|
-        driver_data = {}
-        user = find_passenger(line[0].to_i)
-        driver_data[:id] = line[0].to_i
-        driver_data[:vehicle_id] = line[1]
-        driver_data[:status] = line[2].to_sym
+      driver_data = CSV.open(filename, 'r', headers: true, header_converters: :symbol)
 
-        driver_data[:name] = user.name
-        driver_data[:phone_number] = user.phone_number
-        driver_data[:trips] = user.trips
+      return driver_data.map do |each_driver|
+        user = find_passenger(each_driver[:id].to_i)
 
-        drivers << Driver.new(driver_data)
+        driver = {
+          id: each_driver[:id].to_i,
+          trips: user.trips,
+          vin: each_driver[:vin],
+          status: each_driver[:status].to_sym,
+          name: user.name,
+          phone: user.phone_number
+        }
+
+        Driver.new(driver)
+
       end
-      return drivers
+
     end
 
     def load_trips(filename)
