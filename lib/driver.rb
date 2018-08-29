@@ -18,21 +18,18 @@ module RideShare
         raise ArgumentError, 'ID cannot be blank or less than zero.'
       end
 
-      #
-      # if input[:vin].length != 17
-      #   raise ArgumentError, 'vin numbers must be 17 characters in length'
-      # end
 
-      @status = status
-      # conditional for two status options
+      if input[:vin].length != 17 || input[:vin].length == 0
+        raise ArgumentError, 'vin numbers must be 17 characters in length'
+      end
 
-      # @driven_trips = driven_trips[:trips].nil? [] : driven_trips[:trips]
-      # @driven_trips =
-      # if driven_trips[:trips].nil?
-      #   @driven_trips = []
-      # else
-      #   @driven_trips = driven_trips[:trips]
-      # end
+      @status = input[:status]
+      # valid_status = %i[AVAILABLE UNAVAILABLE]
+      unless @status == :AVAILABLE || @status == :UNAVAILABLE
+        raise ArgumentError, 'Not a valid status.'
+      end
+
+
       @driven_trips = input[:trips].nil? ? [] : input[:trips]
 
 
