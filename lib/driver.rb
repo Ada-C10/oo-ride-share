@@ -22,20 +22,37 @@ module RideShare
     end
 
     def average_rating
-      ratings = @driven_trips.find { |trip| trip.rating }
-      average = ratings.sum / @driven_trips.length
       total_ratings = 0
-      @trips.each do |trip|
+      @driven_trips.each do |trip|
         total_ratings += trip.rating
       end
 
-      if trips.length == 0
+      if @driven_trips.length == 0
         average = 0
       else
-        average = (total_ratings.to_f) / trips.length
+        average = (total_ratings.to_f) / @driven_trips.length
       end
+
       return average
     end
+
+
+    # def average_rating
+    #   ratings = @driven_trips.find { |trip| trip.rating } #FIX ME PLEASE
+    #   # binding.pry
+    #   average = ratings.sum / @driven_trips.length
+    #   total_ratings = 0
+    #   @trips.each do |trip|
+    #     total_ratings += trip.rating
+    #   end
+    #
+    #   if trips.length == 0
+    #     average = 0
+    #   else
+    #     average = (total_ratings.to_f) / trips.length
+    #   end
+    #   return average
+    # end
 
     def add_driven_trip(trip)
       if trip.class != Trip
@@ -46,12 +63,13 @@ module RideShare
     end
 
     def total_revenue
-      income_revenue = 0
-      revenue = 0
+      revenue = 0.0
+      income = 0.0
       @trips.each do |trip|
-        income_revenue = (revenue - 1.65) * 0.8
+        revenue = (trip.cost - 1.65) * 0.8
+        income += revenue
       end
-      return income_revenue
+      return income
 
       #   if trip.trip_duration != nil
       #     revenue += trip.cost

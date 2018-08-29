@@ -103,22 +103,20 @@ describe "Driver class" do
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ")
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+      trip1 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-08"), rating: 5, cost:40)
-      @driver.add_driven_trip(trip)
+      @driver.add_driven_trip(trip1)
 
-      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                      vin: "1C9EVBRM0YBC564DZ")
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-08"), rating: 5, cost:40)
-      @driver.add_driven_trip(trip)
-
+      @driver.add_driven_trip(trip2)
+      # print @drivers.driven_trips
     end
     it "calculates total revenue" do
+      # binding.pry
       @driver.driven_trips.each do |trip|
-        # binding.pry
         expect(@driver.total_revenue).must_equal 61.31
       end
     end

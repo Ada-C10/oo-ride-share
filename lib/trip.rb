@@ -12,7 +12,7 @@ module RideShare
       @passenger = input[:passenger]
       @start_time = input[:start_time]
       @end_time = input[:end_time]
-      @cost = input[:cost]
+      @cost = input[:cost].to_f
       @rating = input[:rating]
       @driver = input[:driver]
 
