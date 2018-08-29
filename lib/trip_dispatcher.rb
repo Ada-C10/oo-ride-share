@@ -41,6 +41,7 @@ module RideShare
 
         user = find_passenger(line[0].to_i)
         drivers << Driver.new(id: user.id, name: user.name, vin: line[1], phone: user.phone_number, status: line[2].to_sym)
+        # Replace Passengers with Drivers
       end
 
       return drivers
@@ -80,7 +81,7 @@ module RideShare
 
     def find_driver(id)
       check_id(id)
-      return @drivers.find { |driver| driver.id == id }
+      return @drivers.find {|driver| driver.id == id}
     end
 
     def inspect

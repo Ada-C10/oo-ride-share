@@ -8,7 +8,8 @@ describe "TripDispatcher class" do
   describe "Initializer" do
     it "is an instance of TripDispatcher" do
       dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE)
+                                                 TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
       expect(dispatcher).must_be_kind_of RideShare::TripDispatcher
     end
 
@@ -26,7 +27,9 @@ describe "TripDispatcher class" do
 
   describe "find_user method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -42,7 +45,9 @@ describe "TripDispatcher class" do
 
   describe "find_driver method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -58,7 +63,8 @@ describe "TripDispatcher class" do
   describe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE)
+                                                 TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
     end
 
     it "accurately loads driver information into drivers array" do
@@ -89,7 +95,8 @@ describe "TripDispatcher class" do
   describe "User & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE)
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
     end
 
     it "accurately loads passenger information into passengers array" do

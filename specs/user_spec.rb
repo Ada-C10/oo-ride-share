@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe "User class" do
+xdescribe "User class" do
 
   describe "User instantiation" do
     before do
@@ -81,7 +81,7 @@ describe "User class" do
       @user.add_trip(trip_2)
       @user.add_trip(trip_3)
     end
-    
+
     it "calculates the total amount of money a user spent on all trips" do
 
       total_spent = @user.net_expenditures
