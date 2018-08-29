@@ -7,9 +7,9 @@ DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
 TIME_ERROR_TEST_FILE = 'specs/test_data/trips_test_2.csv'
 
 describe "TripDispatcher class" do
-  xdescribe "Initializer" do
+  describe "Initializer" do
     it "is an instance of TripDispatcher" do
-      dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE)
+      dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
       expect(dispatcher).must_be_kind_of RideShare::TripDispatcher
     end
 
@@ -28,7 +28,7 @@ describe "TripDispatcher class" do
 
   describe "Load Trip method" do
     it "makes sure start_time and end_time is an instance of Time " do
-      dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE)
+      dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
 
       dispatcher.trips.each do |trip|
         expect(trip.start_time).must_be_instance_of Time
@@ -39,7 +39,7 @@ describe "TripDispatcher class" do
 
     it "raises ArgumentError if end time is before start time" do
 
-          expect{ RideShare::TripDispatcher.new(USER_TEST_FILE, TIME_ERROR_TEST_FILE) }.must_raise ArgumentError
+          expect{ RideShare::TripDispatcher.new(USER_TEST_FILE, TIME_ERROR_TEST_FILE, DRIVER_TEST_FILE) }.must_raise ArgumentError
     end
 
   end
@@ -60,7 +60,7 @@ describe "TripDispatcher class" do
   end
 
 
-  # Uncomment for Wave 2
+  # # Uncomment for Wave 2
   # describe "find_driver method" do
   #   before do
   #     @dispatcher = RideShare::TripDispatcher.new
@@ -76,13 +76,13 @@ describe "TripDispatcher class" do
   #   end
   # end
 
-  xdescribe "Driver & Trip loader methods" do
+  describe "Driver & Trip loader methods" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE)
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "accurately loads driver information into drivers array" do
-      skip # Unskip After Wave 2
+      # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -95,7 +95,7 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-      skip # Unskip after wave 2
+# Unskip after wave 2
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
@@ -106,9 +106,9 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "User & Trip loader methods" do
+  describe "User & Trip loader methods" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE)
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "accurately loads passenger information into passengers array" do
