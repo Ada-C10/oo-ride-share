@@ -15,5 +15,6 @@ module RideShare
     def add_driven_trip(trip)
       @driven_trips << trip #using the method in load trips to call
     end
+
   end
 end

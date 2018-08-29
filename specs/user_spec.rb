@@ -43,7 +43,7 @@ describe "User class" do
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-09"),
                                  rating: 5)
-      @user.add_trip(trip)
+    @user.add_trip(trip)
     end
 
     it "each item in array is a Trip instance" do

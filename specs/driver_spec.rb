@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-xdescribe "Driver class" do
+describe "Driver class" do
 
     describe "Driver instantiation" do
       before do
@@ -18,6 +18,7 @@ xdescribe "Driver class" do
         expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133")}.must_raise ArgumentError
       end
 
+###################### FAIL: #########################
       it "throws an argument error with a bad VIN value" do
         expect{ RideShare::Driver.new(id: 100, name: "George", vin: "")}.must_raise ArgumentError
         expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
@@ -40,6 +41,7 @@ xdescribe "Driver class" do
       end
     end
 
+###################### FAIL: #########################
     describe "add_driven_trip method" do
       before do
         pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
@@ -48,6 +50,7 @@ xdescribe "Driver class" do
         end_time: Time.parse("2018-08-09"), rating: 5)
       end
 
+###################### FAIL: #########################
       it "throws an argument error if trip is not provided" do
         expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
       end
@@ -59,7 +62,7 @@ xdescribe "Driver class" do
       end
     end
 
-    describe "average_rating method" do
+    xdescribe "average_rating method" do
       before do
         @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                         vin: "1C9EVBRM0YBC564DZ")
@@ -98,11 +101,11 @@ xdescribe "Driver class" do
 
     end
 
-  describe "total_revenue" do
+  xdescribe "total_revenue" do
     # You add tests for the total_revenue method
   end
 
-  describe "net_expenditures" do
+  xdescribe "net_expenditures" do
     # You add tests for the net_expenditures method
   end
 end
