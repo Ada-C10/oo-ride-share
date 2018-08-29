@@ -68,23 +68,29 @@ module RideShare
 
       driver_data = CSV.open(filename, "r", headers:true, header_converters: :symbol)
 
-
-
       driver_data.each do |raw_driver|
 
         # NOTE: ALL IDS ARE THE SAME (no repeats between driver and passenger)
+        # parsed_driver = {
+        #   id: raw_driver[:id].to_i,
+        #   vehicle_id: raw_driver[:vin],
+        #   status: raw_driver[:status].to_sym
+        # }
 
-        user = find_passenger(raw_driver[:id])
 
+        # # old code
+        user_trip = find_trips(raw_driver[:id]).first
+        user_trips = find_trips(raw_driver[:id])
+        #
         parsed_driver = {
           id: raw_driver[:id].to_i,
-          name: user.name,
-          phone_number: user.phone,
-          # trips: user.trips,
+          name: user_trip.passenger.name
+          phone_number: user_trip.passenger.phone,
+          trips: user_trips,
           vehicle_id: raw_driver[:vin],
           driven_trips: [],
           status: raw_driver[:status].to_sym,
-          # passenger: nil
+          passenger: nil
         }
 
         driver = Driver.new(parsed_driver)
@@ -93,6 +99,12 @@ module RideShare
 
       end
     end
+
+    def find_trips(id)
+      check_id(id)
+      return @trips.select { |trip| trip.passenger.id == id }
+    end
+
 
     def find_passenger(id)
       check_id(id)
