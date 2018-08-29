@@ -35,22 +35,29 @@ module RideShare
   end
 
   class Driver < User
-    attr_reader :vehicle_id, :driven_trips, :status
+    attr_reader :vehicle_id, :driven_trips, :status, :id, :name, :phone_number, :trips
+    # attr_accessor :name, :trips
 
-    def initialize(id: 0, name: "", phone: "", vin: "", status: :AVAILABLE)
-      @id = id
-      @name = name
-      @phone_number = phone
 
-      unless vin.length == 17
+    def initialize(input)
+
+      # super(id, name, phone_number, trips)
+
+      @id = input[:id]
+      @name = input[:name]
+      @phone_number = input[:phone]
+      @trips = input[:trips].nil? ? [] : input[:trips]
+      # we don't need these because it already has it (it inherits from user)
+
+      unless input[:vin].length == 17
         raise ArgumentError, "Vehicle ID is invalid."
       end
-      @vehicle_id = vin  #check to make sure has 17
-      valid_status = [ :AVAILABLE, :UNAVAILABLE]
-      unless valid_status.include? status
+      @vehicle_id = input[:vin]  #check to make sure has 17
+      valid_status = [:AVAILABLE, :UNAVAILABLE]
+      unless valid_status.include? input[:status]
         raise ArgumentError, "Invalid driver status."
       end
-      @status = status #check to make sure status is valid
+      @status = input[:status] #check to make sure status is valid
       @driven_trips = []
     end
   end
