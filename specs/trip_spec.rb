@@ -31,10 +31,6 @@ describe "Trip class" do
     end
 
     it "stores an instance of driver" do
-      # @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-      #   vin: "1C9EVBRM0YBC564DZ",
-      #   phone: '111-111-1111',
-      #   status: :AVAILABLE)
       expect(@trip.driver).must_be_kind_of RideShare::Driver
     end
 

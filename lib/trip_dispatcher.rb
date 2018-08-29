@@ -11,8 +11,8 @@ module RideShare
 
     def initialize(user_file = 'support/users.csv', trip_file = 'support/trips.csv', driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
       @drivers = load_drivers(driver_file)
+      @trips = load_trips(trip_file)
     end
 
     def load_users(filename)
@@ -38,6 +38,8 @@ module RideShare
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
 
+        driver = find_driver(raw_trip[:driver_id].to_i)
+
 
         time_start = Time.parse(raw_trip[:start_time])
         time_end = Time.parse(raw_trip[:end_time])
@@ -48,7 +50,8 @@ module RideShare
           start_time: time_start,
           end_time: time_end,
           cost: raw_trip[:cost].to_f,
-          rating: raw_trip[:rating].to_i
+          rating: raw_trip[:rating].to_i,
+          driver: driver
         }
 
         time_check = parsed_trip[:start_time] <=> parsed_trip[:end_time]
@@ -58,6 +61,7 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
+        driver.add_trip(trip)
         trips << trip
       end
       return trips
@@ -65,7 +69,10 @@ module RideShare
 
     def load_drivers(filename)
       drivers = []
+
       driver_data = CSV.read(filename, 'r', headers: true, header_converters: :symbol)
+
+
       driver_data.each do |line|
         input_data = {}
         input_data[:id] = line[0].to_i
@@ -73,6 +80,7 @@ module RideShare
         input_data[:phone] = find_passenger(line[0].to_i).phone_number
         input_data[:vin] = line[1]
         input_data[:status] = line[2].to_sym
+
 
         drivers << Driver.new(input_data)
       end
@@ -84,12 +92,10 @@ module RideShare
       return @passengers.find { |passenger| passenger.id == id }
     end
 
-
     def find_driver(id)
       check_id(id)
       return @drivers.find { |driver| driver.id == id }
     end
-
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
