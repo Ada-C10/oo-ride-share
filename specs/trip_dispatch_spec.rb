@@ -157,5 +157,51 @@ describe "TripDispatcher class" do
 
       expect(@dispatcher.trips.last).must_be_instance_of RideShare::Trip
     end
+
+    it 'returns a new instance of Trip' do
+      expect(@dispatcher.request_trip(5)).must_be_instance_of RideShare::Trip
+    end
+
+    it 'makes the previously available driver unavailable' do
+      old_status = @dispatcher.find_driver(5).status #5 is the first available driver
+
+      expect(old_status).must_equal :AVAILABLE
+
+      trip = @dispatcher.request_trip(3)
+
+      expect(trip.driver.id).must_equal 5
+
+      new_status = @dispatcher.find_driver(5).status
+
+      expect(new_status).must_equal :UNAVAILABLE
+    end
+
+    it 'does not allow the passenger to also be the driver' do
+      trip = @dispatcher.request_trip(5)  #5 is the first available driver
+
+      expect(trip.driver).wont_equal 5
+    end
+
+    it 'adds a new trip to passenger trips array' do
+      passenger = @dispatcher.find_passenger(2)
+      num_trips_before = passenger.trips.length
+      @dispatcher.request_trip(2)
+      num_trips_after = passenger.trips.length
+
+      expect(num_trips_after).must_equal num_trips_before + 1
+    end
+
+    it 'adds a new trip to driver trips array' do
+      driver = @dispatcher.find_driver(5) #5 is the first available driver
+      num_trips_before = driver.driven_trips.length
+      @dispatcher.request_trip(2)
+      num_trips_after = driver.driven_trips.length
+
+      expect(num_trips_after).must_equal num_trips_before + 1
+    end
+
+
+
   end
+
 end

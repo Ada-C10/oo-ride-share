@@ -81,7 +81,11 @@ module RideShare
     end
 
     def net_expenditures
-      return super - self.total_revenue 
+      return super - self.total_revenue
+    end
+
+    def make_unavailable
+      @status = :UNAVAILABLE
     end
   end
 

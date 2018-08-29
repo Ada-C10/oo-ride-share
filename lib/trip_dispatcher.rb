@@ -107,10 +107,19 @@ module RideShare
       # use current time for start time
       # end date, cost, rating will all be nil
       driver = @drivers.find { |driver| driver.status == :AVAILABLE and driver.id != user_id }
+      passenger = find_passenger(user_id)
 
-      input = {id: @trips.last.id + 1, driver: driver, passenger: find_passenger(user_id), start_time: Time.now, end_time: nil, cost: nil, rating: nil}
+      input = {id: @trips.last.id + 1, driver: driver, passenger: passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil}
       new_trip = Trip.new(input)
       @trips << new_trip
+
+      driver.make_unavailable
+      driver.add_driven_trip(new_trip)
+
+      passenger.add_trip(new_trip)
+
+      return new_trip
+
     end
 
 
