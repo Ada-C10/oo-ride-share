@@ -27,7 +27,7 @@ describe "Driver class" do
         status: :NOTVALID) }.must_raise ArgumentError
     end
 
-    xit "throws an argument error with a bad ID value" do
+    it "throws an argument error with a bad ID value" do
       expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133")}.must_raise ArgumentError
     end
 
@@ -36,12 +36,12 @@ describe "Driver class" do
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
     end
 
-    xit "sets trips to an empty array if not provided" do
+    it "sets trips to an empty array if not provided" do
       expect(@driver.trips).must_be_kind_of Array
       expect(@driver.trips.length).must_equal 0
     end
 
-    xit "is set up for specific attributes and data types" do
+    it "is set up for specific attributes and data types" do
       # Is this supposed to be vehicle_id or vin?
       [:id, :name, :vehicle_id, :status, :driven_trips].each do |prop|
         expect(@driver).must_respond_to prop
@@ -172,23 +172,66 @@ describe "Driver class" do
 
   describe "Driver#net_expenditures" do
     before do
-      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+      @driver_net_expenditures = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
         vin: "1C9EVBRM0YBC564DZ",
         phone: '111-111-1111',
         status: :AVAILABLE)
+
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time + 25 * 60 # 25 minutes
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+
+      # Adding three trips for testing
+      @trip = RideShare::Trip.new(@trip_data)
+      @trip2 = RideShare::Trip.new(@trip_data)
+      @trip3 = RideShare::Trip.new(@trip_data)
+
+      @driver_net_expenditures.add_driven_trip(@trip)
+      @driver_net_expenditures.add_driven_trip(@trip2)
+      @driver_net_expenditures.add_driven_trip(@trip3)
     end
+
   	it "returns a float" do
+      expect(@driver_net_expenditures.net_expenditures).must_be_kind_of Float
   	end
 
   	it "calculates the the amount a driver has earned net of their passenger expenses" do
+      # add passenger trip where driver is a passenger
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time + 25 * 60 # 25 minutes
+      @ride_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 54,
+                                       name: "Rogers Bartell IV",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+
+      @ride_trip = RideShare::Trip.new(@ride_data)
+
+      # Add trip to trips
+      @driver_net_expenditures.add_trip(@ride_trip)
+
+      # Amount spent as passenger - Amount earned as a driver
+      expect(@driver_net_expenditures.net_expenditures).must_equal(23.45 - @driver_net_expenditures.total_revenue)
 
   	end
 
-  	it "returns a negative number if passenger expenses are greater than driver earnings" do
-
-  	end
-
-  	it "returns zero if passenger expenses and driver earnings are equal" do
-  	end
+  	# it "returns zero if passenger expenses and driver earnings are equal" do
+    #
+    #
+  	# end
   end
 end
