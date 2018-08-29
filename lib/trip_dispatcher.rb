@@ -45,10 +45,11 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        driver = find_driver(raw_trip[:driver_id].to_i)
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
-          driver_id: find_driver(raw_trip[:driver_id].to_i),
+          driver: driver,
           passenger: passenger,
           start_time: Time.parse(raw_trip[:start_time]),
           end_time: Time.parse(raw_trip[:end_time]),
@@ -58,6 +59,7 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
+        driver.add_trip(trip)
         trips << trip
       end
       return trips
