@@ -78,9 +78,10 @@ module RideShare
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i
         }
-        
+
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
+        driver.add_driven_trip(trip)
         trips << trip
       end
 

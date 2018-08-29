@@ -57,8 +57,10 @@ module RideShare
       #This method sums up the ratings from all a Driver's trips and returns the average
     end
 
-    def add_driven_trip
+    def add_driven_trip(trip)
       #This method adds a trip to the driver's collection of trips for which they have acted as a driver
+      raise ArgumentError, "Invalid trip object" unless trip.instance_of?(Trip)
+      @driven_trips << trip
     end
 
     def total_revenue
