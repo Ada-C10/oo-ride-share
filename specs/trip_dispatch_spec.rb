@@ -67,7 +67,7 @@ describe "TripDispatcher class" do
     end
 
     it "accurately loads driver information into drivers array" do
-      skip # Unskip After Wave 2
+      # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -80,7 +80,7 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-      skip # Unskip after wave 2
+     # Unskip after wave 2
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|

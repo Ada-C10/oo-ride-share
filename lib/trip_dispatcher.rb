@@ -15,7 +15,8 @@ module RideShare
                  driver_file = 'support/drivers.csv')
 
       @passengers = load_users(user_file)
-      @drivers = load_drivers(driver_file)
+        @drivers = load_drivers(driver_file)
+
       @trips = load_trips(trip_file)
 
     end
@@ -73,7 +74,7 @@ module RideShare
 
         input = {}
         input[:id] = driver[0]
-        input[:vin].to_i = driver[1]
+        input[:vin] = driver[1].to_i
         input[:status] = driver[2]
 
         drivers << Driver.new(input)
@@ -89,7 +90,7 @@ module RideShare
 
     def find_driver(id)
       check_id(id)
-      @drivers.find { |driver| driver.trips.id == id }
+      @drivers.find { |driver| driver.driven_trips.id == id }
       return driver
     end
 
