@@ -1,5 +1,7 @@
-require 'pry'
 require_relative 'user'
+
+DRIVERS_CUT = 0.8
+FEE = 1.65
 
 module RideShare
   class Driver < RideShare::User
@@ -33,11 +35,11 @@ module RideShare
     end
 
     def total_revenue
-      trip_revenue = []
+      total_revenue = 0
       @driven_trips.each do |trip|
-        trip_revenue << (0.8 * (trip.cost - 1.65))
+        total_revenue += (DRIVERS_CUT * (trip.cost - FEE))
       end
-      return trip_revenue.sum.round(2)
+      return total_revenue.round(2)
     end
 
     def net_expenditures
