@@ -3,7 +3,7 @@ require 'faker'
 require 'as-duration'
 require 'awesome_print'
 
-driver_csv = CSV.open('./drivers.csv', 'w+', write_headers: true, headers: ['id', 'vin', 'status'])
+driver_csv = CSV.open('./drivers.csv', 'w+', write_headers: true, headers: ['id', 'vehicle_id', 'status'])
 
 passenger_csv = CSV.open('./users.csv', 'w+', write_headers: true, headers: ['id', 'name', 'phone_num'])
 
@@ -18,7 +18,7 @@ passengers = []
   user_hash = {'id' => id, 'name' => name, 'phone_num' => phone_num}
   driver_hash = {'id' => id}
   if rand(0..10) < 2
-    driver_hash['vin'] = Faker::Vehicle.vin
+    driver_hash['vehicle_id'] = Faker::Vehicle.vehicle_id
     driver_hash['status'] = rand(0..10) < 3 ? :UNAVAILABLE : :AVAILABLE
     driver_csv << driver_hash
     drivers << driver_hash
