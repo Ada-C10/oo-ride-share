@@ -7,14 +7,14 @@ require_relative 'trip'
 
 module RideShare
   class TripDispatcher
-    attr_reader :drivers, :passengers, :trips
+    attr_reader :driver, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv',
                  driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
-      @drivers = load_drivers(driver_file)
+      @driver = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -48,7 +48,6 @@ module RideShare
         drivers << Driver.new(driver_data)
       end
       return drivers
-      end
     end
 
     def load_trips(filename)
@@ -75,7 +74,6 @@ module RideShare
         passenger.add_trip(trip)
         trips << trip
       end
-
       return trips
     end
 
@@ -86,7 +84,7 @@ module RideShare
 
     def find_driver(id)
           check_id(id)
-          return @drivers.find { |driver| driver.id == id }
+          return @driver.find { |driver| driver.id == id }
     end
 
     def inspect

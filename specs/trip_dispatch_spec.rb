@@ -56,7 +56,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "Driver & Trip loader methods" do
+  xdescribe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE)
@@ -87,7 +87,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "User & Trip loader methods" do
+  xdescribe "User & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE)
