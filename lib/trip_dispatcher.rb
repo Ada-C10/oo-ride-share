@@ -11,14 +11,12 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-      trip_file = 'support/trips.csv',
-      driver_file = 'support/drivers.csv')
+                  trip_file = 'support/trips.csv',
+                  driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
       @drivers = load_drivers(driver_file)
 
-      replace_passengers_with_drivers!
-      binding.pry
     end
 
     def load_users(filename)
@@ -44,9 +42,11 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        driver = find_driver(raw_trip[:driver_id].to_i)
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
+          driver: driver,
           passenger: passenger,
           start_time: Time.parse(raw_trip[:start_time]),
           end_time: Time.parse(raw_trip[:end_time]),
@@ -58,21 +58,20 @@ module RideShare
         passenger.add_trip(trip)
         trips << trip
       end
-
       return trips
     end
 
-
+#Changes this method that finds the passenger and creates the driver with the info from that AND the driver data,
+#The other way we were doing it was not working because it was totally replacing what was there
+#when we really want to combine the two....
     def load_drivers(filename)
       drivers = []
 
       CSV.read(filename, headers: true).each do |line|
-        input_data = {}
-        input_data[:id] = line[0].to_i
-        input_data[:vin] = line[1]
-        input_data[:status] = line[2]
-
-        drivers << Driver.new(input_data)
+        passenger = find_passenger(line[0].to_i)
+        created_driver = Driver.new(id:line[0].to_i, name:passenger.name, phone:passenger.phone_number, vin:line[1], status:line[2].to_sym, trips: passenger.trips)
+        drivers << created_driver
+        
       end
 
       return drivers
@@ -101,19 +100,19 @@ module RideShare
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
 
-    # @passengers = [...]
-    # @drivers = [...]
-    def replace_passengers_with_drivers!
-      @passengers.map! do |passenger|
-        driver = find_driver(passenger.id)
-        # if driver
-        #   driver
-        # else
-        #   passenger
-        # end
-
-        driver || passenger
-      end
-    end
+    # # @passengers = [...]
+    # # @drivers = [...]
+    # def replace_passengers_with_drivers!
+    #   @passengers.map! do |passenger|
+    #     driver = find_driver(passenger.id)
+    #     # if driver
+    #     #   driver
+    #     # else
+    #     #   passenger
+    #     # end
+    #
+    #     driver || passenger
+    #   end
+    # end
   end
 end
