@@ -27,8 +27,17 @@ module RideShare
       if trip.class != Trip
         raise ArgumentError, 'This is not a trip class'
       end
-      # Adding trip to driven_trips 
+      # Adding trip to driven_trips
       @driven_trips << trip
+    end
+
+    # sums up the ratings from all a Driver's trips and returns the average
+    def average_rating
+      if driven_trips.empty?
+        return 0
+      else
+        return (driven_trips.sum {|driven_trip| driven_trip.rating}).to_f / driven_trips.length
+      end
     end
 
   end
