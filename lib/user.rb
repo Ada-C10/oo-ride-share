@@ -82,13 +82,15 @@ module RideShare
 
     def net_expenditures
       made_as_driver = total_revenue
+      spent_as_passenger = 0
+
       if @trips != []
-        spent_as_passenger = total_ratings = @driven_trips.reduce(0) {|result, trip|result + trip.cost}
-        net_earnings = spent_as_passenger - made_as_driver
-      else
-        net_earnings = made_as_driver
+        spent_as_passenger = @trips.reduce(0) {|result, trip|result + trip.cost}
       end
-      return net_earnings
+
+      net_earnings = spent_as_passenger - made_as_driver
+
+      return net_earnings.round(2)
     end
   end
 end
