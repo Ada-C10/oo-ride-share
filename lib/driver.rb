@@ -22,13 +22,14 @@ module RideShare
     def initialize(input)
       super (input)
 
-      @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
-      if input[:vin].length == 17
+       if input[:vin].length == 17
         @vin = input[:vin]
-      else
-        raise ArgumentError.new('Invalid VIN ')
-      end
+       else
+         raise ArgumentError.new('Invalid VIN ')
+       end
+       
+       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
       if [:AVAILABLE, :UNAVAILABLE].include? (input[:status])
         @status = input[:status]

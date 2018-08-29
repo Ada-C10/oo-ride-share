@@ -11,7 +11,7 @@ describe "Trip class" do
         passenger: RideShare::User.new(id: 1,
         name: "Ada",
         phone: "412-432-7640"),
-        driver: 16,
+        driver: RideShare::Driver.new(id: 4, vin:"77777777777777777", status: :AVAILABLE),
         start_time: start_time,
         end_time: end_time,
         cost: 23.45,

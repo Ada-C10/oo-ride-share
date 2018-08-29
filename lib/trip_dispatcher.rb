@@ -16,7 +16,7 @@ module RideShare
       driver_file = 'support/drivers.csv')
      @passengers = load_users(user_file)
       @drivers = load_drivers(driver_file)
-      @trips = load_trips(trip_file)
+       @trips = load_trips(trip_file)
 
 
 
@@ -63,26 +63,12 @@ module RideShare
       return trips
     end
 
-    #Changes this method that finds the passenger and creates the driver with the info from that AND the driver data,
-    #The other way we were doing it was not working because it was totally replacing what was there
-    #when we really want to combine the two....
-    # def load_drivers(filename)
-    #   drivers = []
-    #
-    #   CSV.read(filename, headers: true).each do |line|
-    #     passenger = find_passenger(line[0].to_i)
-    #     drivers << Driver.new(id:line[0].to_i, name: passenger.name, phone: passenger.phone_number, vin:line[1], status:line[2].to_sym, trips: passenger.trips)
-    #   end
-    #
-    #   return drivers
-    # end
     def load_drivers(filename)
       drivers = []
       drivers_data = CSV.open(filename,'r', headers: true, header_converters: :symbol)
         drivers_data.each do |raw_data|
-          #use find passenger method to say the driver is equal to this passenger
           driver = find_passenger(raw_data[:id].to_i)
-          parsed_driver = {id: raw_data[:id].to_i, vechicle_id: raw_data[:vin], status: raw_data[:status].to_sym, name: driver.name, phone:driver.phone}
+          parsed_driver = {id: raw_data[:id].to_i, vin: raw_data[:vin], status: raw_data[:status].to_sym, name: driver.name, phone:driver.phone_number}
           driver = Driver.new(parsed_driver)
 #this can be used with add_driven_trip to add trips to drivers
           @trips.each do |trip|
@@ -118,20 +104,5 @@ module RideShare
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
-
-    # # @passengers = [...]
-    # # @drivers = [...]
-    # def replace_passengers_with_drivers!
-    #   @passengers.map! do |passenger|
-    #     driver = find_driver(passenger.id)
-    #     # if driver
-    #     #   driver
-    #     # else
-    #     #   passenger
-    #     # end
-    #
-    #     driver || passenger
-    #   end
-    # end
   end
 end
