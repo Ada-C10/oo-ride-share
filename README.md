@@ -206,7 +206,7 @@ net_expenditures|This method will **override** the cooresponding method in `User
 
 **All the new methods above should have tests**
 
-<!-- # Wave 3
+# Wave 3
 
 Our program needs a way to make new trips and appropriately assign a driver and user.
 
