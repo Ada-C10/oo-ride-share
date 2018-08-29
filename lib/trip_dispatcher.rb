@@ -100,6 +100,19 @@ module RideShare
               #{passengers.count} passengers>"
     end
 
+    def request_trip(user_id)
+      # automatically assign a driver to trip
+      # choose first driver whose status is :AVAILABLE
+      # driver cannot drive themselves (driver cannot have same ID as user)
+      # use current time for start time
+      # end date, cost, rating will all be nil
+      driver = @drivers.find { |driver| driver.status == :AVAILABLE and driver.id != user_id }
+
+      input = {id: @trips.last.id + 1, driver: driver, passenger: find_passenger(user_id), start_time: Time.now, end_time: nil, cost: nil, rating: nil}
+      new_trip = Trip.new(input)
+      @trips << new_trip
+    end
+
 
 
 

@@ -136,4 +136,26 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+  describe "request_trip method" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+    end
+
+    it 'adds a new trip to the collection by 1' do
+      num_trips_before = @dispatcher.trips.length
+      @dispatcher.request_trip(4)
+      num_trips_after = @dispatcher.trips.length
+
+      expect(num_trips_after).must_equal num_trips_before + 1
+    end
+
+    it 'adds a new instance of Trip' do
+      @dispatcher.request_trip(5)
+
+      expect(@dispatcher.trips.last).must_be_instance_of RideShare::Trip
+    end
+  end
 end
