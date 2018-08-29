@@ -207,7 +207,7 @@ net_expenditures|This method will **override** the cooresponding method in `User
 
 **All the new methods above should have tests**
 
-<!-- # Wave 3
+# Wave 3
 
 Our program needs a way to make new trips and appropriately assign a driver and user.
 
@@ -245,7 +245,7 @@ Your code from waves 1 & 2 should _ignore_ any in-progress trips. That is to say
 
 You should also **add explicit tests** for this new situation. For example, what happens if you attempt to calculate the total money spent for a `User` with an in-progress trip, or the average hourly revenue of a `Driver` with an in-progress trip? -->
 
-<!-- # Wave 4
+# Wave 4
 
 We want to evolve `TripDispatcher` so it assigns drivers in more intelligent ways. Every time we make a new trip, we want to pick drivers who haven't completed a trip in a long time, or who have never been assigned a trip.
 

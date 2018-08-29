@@ -77,8 +77,9 @@ module RideShare
       total_revenue = @driven_trips.reduce(0) do |result, trip|
         result + 0.8 * (trip.cost-1.65)
       end
-      return total_revenue
+      return total_revenue.round(2)
     end
+
     def net_expenditures
       made_as_driver = total_revenue
       if @trips != []

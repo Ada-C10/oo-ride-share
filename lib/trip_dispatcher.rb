@@ -59,20 +59,6 @@ module RideShare
         drivers << driver
       end
 
-      # CSV.read(filename, headers: true, header_converters: :symbol).each do |line|
-      #
-      #   user = find_passenger(line[0].to_i)
-      #   driver = Driver.new(id: user.id, name: user.name, vin: line[1], phone: user.phone_number, status: line[2].to_sym)
-      #   # Replace Passengers with Drivers
-      #   @passengers.each_with_index do |person, i|
-      #     if person.id == driver.id
-      #       passengers[i] = driver
-      #     end
-      #   end
-      #
-      #   drivers << driver
-      # end
-
       return drivers
     end
 
