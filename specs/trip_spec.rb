@@ -9,14 +9,18 @@ describe "Trip class" do
       end_time = start_time + 25 * 60 # 25 minutes
       @trip_data = {
         id: 8,
-        driver: RideShare::Driver.new(id: 3),
         passenger: RideShare::User.new(id: 1,
                                        name: "Ada",
                                        phone: "412-432-7640"),
-        start_time: start_time,
-        end_time: end_time,
-        cost: 23.45,
-        rating: 3
+        driver: RideShare::Driver.new(id: 54,
+                                      name: "Leanardo",
+                                      vehicle_id: "75948H750K847593J",
+                                      phone: "111-111-1111",
+                                      status: :AVAILABLE),
+      start_time: start_time,
+      end_time: end_time,
+      cost: 23.45,
+      rating: 3
       }
       @trip = RideShare::Trip.new(@trip_data)
     end

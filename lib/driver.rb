@@ -8,13 +8,13 @@ module RideShare
 
     def initialize(input)
       super(input)
-      unless input[:vehicle_id].length != 17
-        raise ArgumentError
-      end
+
       @vehicle_id = input[:vehicle_id]
       @status = input[:status]
       @driven_trips = input[:trips].nil? ? [] : input[:trips]
-
+      if @vehicle_id.length != 17 || @vehicle_id.empty?
+        raise ArgumentError
+      end
     end
 
     #assinged as to_i in dispatch spec but binding is a float in driver.rb
