@@ -25,17 +25,17 @@ describe "Driver class" do
     end
 
     it "throws an argument error with a bad status" do
-      expect{ RideShare::Driver.new(id: 15, name: "George", vin: "33133313331333133", status: :AVAAAAAILABLE)}.must_raise ArgumentError
+      expect{ RideShare::Driver.new(id: 15, name: "George", vin: "33133313331333133", status: :in_an_open_relationship)}.must_raise ArgumentError
     end
 
-    # it "throws an argument error with a bad ID value" do
-    #   expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133")}.must_raise ArgumentError
-    # end
-    #
-    # it "throws an argument error with a bad VIN value" do
-    #   expect{ RideShare::Driver.new(id: 100, name: "George", vin: "")}.must_raise ArgumentError
-    #   expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
-    # end
+    it "throws an argument error with a bad VIN value" do
+      expect{
+
+        RideShare::Driver.new(id: 100, name: "George",
+        vin: "", status: :AVAILABLE)
+      }.must_raise ArgumentError
+      expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums", status: :AVAILABLE)}.must_raise ArgumentError
+    end
     #
     # it "sets trips to an empty array if not provided" do
     #   expect(@driver.trips).must_be_kind_of Array
