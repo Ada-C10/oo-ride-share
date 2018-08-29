@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-xdescribe "Driver class" do
+describe "Driver class" do
   before do
     @driver = RideShare::Driver.new(
       id: 54,
@@ -190,6 +190,23 @@ xdescribe "Driver class" do
     it 'returns a negative number when total revenue is greater than gross expenditures' do
       @driver.add_driven_trip(@trip_5)
       expect(@driver.net_expenditures).must_equal -6.08
+    end
+  end
+
+  describe "add_in_progress_trip method" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new
+      @new_trip = @dispatcher.request_trip(1)
+      @driven_trips = @new_trip.driver.driven_trips
+      @status = @new_trip.driver.status
+    end
+
+    it "adds new in progress trip from TripDispatcher#request_trip to driver's collection of trips" do
+      expect(@driven_trips.include?(@new_trip)).must_equal true
+    end
+
+    it "sets driver's status to :UNAVAILABLE" do
+      expect(@status).must_equal :UNAVAILABLE
     end
   end
 end

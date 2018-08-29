@@ -108,7 +108,7 @@ module RideShare
 
       requested_trip = Trip.new(trip_data)
       @trips << requested_trip
-      # driver.add_in_progress_trip(requested_trip)
+      driver.add_in_progress_trip(requested_trip)
       passenger.add_trip(requested_trip)
       return requested_trip
     end
