@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'pry'
 
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
@@ -99,13 +100,13 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-    
+
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
+        expect(driver.driven_trips).must_include trip
       end
     end
   end
