@@ -84,7 +84,7 @@ describe "User class" do
     end
     it 'calculates total cost of all rides per user' do
       @user.trips.each do |trip|
-      expect(@user.net_expenditures).must_equal 80
+        expect(@user.net_expenditures).must_equal 80
       end
     end
     it 'calculates total time of all trips per user' do

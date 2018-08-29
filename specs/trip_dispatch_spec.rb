@@ -51,7 +51,7 @@ describe "TripDispatcher class" do
     end
 
     it "finds a driver instance" do
-      driver = @dispatcher.find_driver(2)
+      driver = @dispatcher.find_driver(3)
       expect(driver).must_be_kind_of RideShare::Driver
     end
   end
