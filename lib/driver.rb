@@ -2,8 +2,8 @@ require_relative 'user'
 
 module RideShare
   class Driver < User
-    attr_reader :vin, :driven_trips
-    attr_accessor :status
+    attr_reader :vin
+    attr_accessor :driven_trips, :status
 
     def initialize(input)
       super(input)
@@ -42,21 +42,27 @@ module RideShare
         raise ArgumentError.new("Can only add trip instance to driven_trips array")
       end
       @driven_trips << trip
+      return @driven_trips
     end
 
     def total_revenue
+      income_revenue = 0
       revenue = 0
       @trips.each do |trip|
-        if trip.trip_duration != nil
-          revenue += trip.cost
-        end
-        if revenue > 1.65
-          income_revenue = (revenue - 1.65) * 0.8
-        else
-          income_revenue = revenue
-        end
+        income_revenue = (revenue - 1.65) * 0.8
       end
       return income_revenue
+
+      #   if trip.trip_duration != nil
+      #     revenue += trip.cost
+      #   end
+      #   if revenue > 1.65
+      #     income_revenue = (revenue - 1.65) * 0.8
+      #   else
+      #     income_revenue = revenue
+      #   end
+      # end
+      # return income_revenue
     end
 
     # def net_expenditures

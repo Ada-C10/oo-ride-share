@@ -8,7 +8,8 @@ describe "TripDispatcher class" do
   describe "Initializer" do
     it "is an instance of TripDispatcher" do
       dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE)
+                                                 TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
       expect(dispatcher).must_be_kind_of RideShare::TripDispatcher
     end
 
