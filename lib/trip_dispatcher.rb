@@ -1,5 +1,6 @@
 require 'csv'
 require 'time'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -9,9 +10,11 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                 driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -31,27 +34,32 @@ module RideShare
 
     def load_drivers(filename)
       drivers = []
-
       CSV.read(filename, headers: true).each do |line|
         driver_data = {}
+        user = find_passenger(line[0].to_i)
         driver_data[:id] = line[0].to_i
         driver_data[:vehicle_id] = line[1]
-        driver_data[:status] = line[2]
+        driver_data[:status] = line[2].to_sym
 
+        driver_data[:name] = user.name
+        driver_data[:phone_number] = user.phone_number
+        driver_data[:trips] = user.trips
+        
         drivers << Driver.new(driver_data)
       end
-
+      #iterating through the drivers array and putting the passenger info into the driver object
+      drivers.each do |driver|
+        user = self.find(driver.id)
+        if user
+          driver.name = user.name
+          driver.phone_number = user.phone_number
+          driver.trips = user.trips
+        end
+        #switching passenger for driver
+        @passengers[@passengers.index(user)] = driver
       return drivers
-    end
-
-    def find_driver(id)
-      driver_list = Driver.all
-      driver = driver_list.find do |line|
-        line.id == id
       end
-      return driver
     end
-
 
     def load_trips(filename)
       trips = []
@@ -60,6 +68,7 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        driver = find_driver(raw_trip[:driver_id].to_i)
         raw_trip[:start_time] = Time.parse(raw_trip[:start_time])
         raw_trip[:end_time] = Time.parse(raw_trip[:end_time])
         parsed_trip = {
@@ -68,7 +77,8 @@ module RideShare
           start_time: raw_trip[:start_time],
           end_time: raw_trip[:end_time],
           cost: raw_trip[:cost].to_f,
-          rating: raw_trip[:rating].to_i
+          rating: raw_trip[:rating].to_i,
+          driver: driver
         }
 
         trip = Trip.new(parsed_trip)
@@ -84,14 +94,17 @@ module RideShare
       return @passengers.find { |passenger| passenger.id == id }
     end
 
+    def find_driver(id)
+          check_id(id)
+          return @drivers.find { |driver| driver.id == id }
+    end
+
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
               #{trips.count} trips, \
               #{drivers.count} drivers, \
               #{passengers.count} passengers>"
     end
-
-    private
 
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
