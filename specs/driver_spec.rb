@@ -113,6 +113,8 @@ describe "Driver class" do
       trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-08"), rating: 5, cost:40)
+      @driver.add_driven_trip(trip)
+
     end
     it "calculates total revenue" do
       @driver.driven_trips.each do |trip|
