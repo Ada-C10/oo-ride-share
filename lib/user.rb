@@ -36,8 +36,8 @@ module RideShare
   end
 
   class Driver < User
-    attr_reader :id, :name, :vehicle_id, :phone, :status, :driven_trips
-    def initialize(id: 0, name: "", vin: "", phone:"", status: :AVAILABLE, driven_trips: [])
+    attr_reader :id, :name, :vehicle_id, :phone, :status, :driven_trips, :trips
+    def initialize(id: 0, name: "", vin: "", phone:"", trips: [], status: :AVAILABLE, driven_trips: [])
       if id <= 0
         raise ArgumentError.new("Bad ID Value")
       end
@@ -50,9 +50,10 @@ module RideShare
       @phone = phone
       @status = status
       @driven_trips = driven_trips
+      @trips = trips
     end
 
-    def add_trip(trip)
+    def add_driven_trip(trip)
       @driven_trips << trip
     end
   end
