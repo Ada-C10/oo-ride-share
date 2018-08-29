@@ -21,11 +21,13 @@ module RideShare
     def net_expenditures
       cost_array = []
 
+
       @trips.each do |trip|
-        cost_array << trip[:cost]
+        cost_array << trip.cost
       end
 
       net = cost_array.sum
+      # binding.pry
       return net
 
     end
