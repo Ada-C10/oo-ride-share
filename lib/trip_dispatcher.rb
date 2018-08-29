@@ -10,16 +10,14 @@ module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
 
-    # ArgumentError if the end time is before the start time, and a corresponding test
-
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                 driver_file = 'support/drivers.csv')
+
       @passengers = load_users(user_file)
+      @drivers = load_drivers(driver_file)
       @trips = load_trips(trip_file)
 
-      # @trips.each do |trip|
-      #   raise ArgumentError.new() if trip[:end_time] <= trip[:start_time]
-      # end
     end
 
     def validate
@@ -81,13 +79,20 @@ module RideShare
         drivers << Driver.new(input)
       end
       return drivers
-
     end
 
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
     end
+
+
+    def find_driver(id)
+      check_id(id)
+      @drivers.find { |driver| driver.trips.id == id }
+      return driver
+    end
+
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \

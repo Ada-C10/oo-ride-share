@@ -35,6 +35,10 @@ module RideShare
       return duration
     end
 
+    def driver(id)
+
+    end
+
 
   end
 end
