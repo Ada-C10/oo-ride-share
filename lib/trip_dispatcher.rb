@@ -66,7 +66,6 @@ module RideShare
       def load_drivers(filename)
         drivers = []
         driver_data = CSV.open(filename, 'r', headers:true, header_converters: :symbol)
-
         driver_data.each do |raw_data|
           driver = find_passenger(raw_data[:id].to_i)
           parsed_driver = {
@@ -76,27 +75,28 @@ module RideShare
             name: driver.name,
             phone: driver.phone,
           }
-
           driver = Driver.new(parsed_driver)
-
-
-
           drivers << driver
-        end
+            @passengers.each_with_index do |user, index|
+              if driver.id == user.id
+                @passengers[index] = driver
+              end
+            end
 
+        end
         return drivers
 
       end
-      def add_driven_trips
-        @drivers .each do |driver|
-          @trips.each do |trip|
-
-            if trip.driver.id == driver.id
-              driver.add_driven_trip(trip)
-            end
-          end
-        end
-      end
+      # def add_driven_trip
+      #   @drivers.each do |driver|
+      #     @trips.each do |trip|
+      #
+      #       if trip.driver.id == driver.id
+      #         driver.add_driven_trip(trip)
+      #       end
+      #     end
+      #   end
+      # end
 
 
 
@@ -127,9 +127,10 @@ module RideShare
     end
   end
 
-#   rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
+   rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
 # ap rideshare.trips.driver
   # rideshare.drivers.each do |driver|
   #   puts driver.total_revenue
   #   puts driver.id
   # end
+ap rideshare.passengers 
