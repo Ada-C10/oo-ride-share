@@ -38,6 +38,7 @@ module RideShare
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
 
+
         time_start = Time.parse(raw_trip[:start_time])
         time_end = Time.parse(raw_trip[:end_time])
 
@@ -82,6 +83,13 @@ module RideShare
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
     end
+
+
+    def find_driver(id)
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id }
+    end
+
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \

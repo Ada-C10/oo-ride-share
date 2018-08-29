@@ -60,21 +60,22 @@ describe "TripDispatcher class" do
   end
 
 
-  # # Uncomment for Wave 2
-  # describe "find_driver method" do
-  #   before do
-  #     @dispatcher = RideShare::TripDispatcher.new
-  #   end
-  #
-  #   it "throws an argument error for a bad ID" do
-  #     expect { @dispatcher.find_driver(0) }.must_raise ArgumentError
-  #   end
-  #
-  #   it "finds a driver instance" do
-  #     driver = @dispatcher.find_driver(2)
-  #     expect(driver).must_be_kind_of RideShare::Driver
-  #   end
-  # end
+  describe "find_driver method" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+    end
+
+    it "throws an argument error for a bad ID" do
+      expect { @dispatcher.find_driver(0) }.must_raise ArgumentError
+    end
+
+    it "finds a driver instance" do
+
+      driver = @dispatcher.find_driver(2)
+
+      expect(driver).must_be_kind_of RideShare::Driver
+    end
+  end
 
   describe "Driver & Trip loader methods" do
     before do
@@ -82,7 +83,6 @@ describe "TripDispatcher class" do
     end
 
     it "accurately loads driver information into drivers array" do
-      # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -93,17 +93,16 @@ describe "TripDispatcher class" do
       expect(last_driver.id).must_equal 8
       expect(last_driver.status).must_equal :AVAILABLE
     end
-
-    it "Connects drivers with trips" do
-# Unskip after wave 2
-      trips = @dispatcher.trips
-
-      [trips.first, trips.last].each do |trip|
-        driver = trip.driver
-        expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
-      end
-    end
+    #
+    # it "Connects drivers with trips" do
+    #   trips = @dispatcher.trips
+    #
+    #   [trips.first, trips.last].each do |trip|
+    #     driver = trip.driver
+    #     expect(driver).must_be_instance_of RideShare::Driver
+    #     expect(driver.trips).must_include trip
+    #   end
+    # end
   end
 
   describe "User & Trip loader methods" do
