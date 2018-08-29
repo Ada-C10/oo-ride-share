@@ -28,7 +28,7 @@ module RideShare
       input_data = {}
       input_data[:id] = line[0].to_i
       input_data[:vin] = line[1]
-      input_data[:status] = line[2].to_sym
+      input_data[:status].nil? ? :UNAVAILABLE : line[2].to_sym
       input_data[:name] = passenger.name
 
       driver = Driver.new(input_data)
@@ -78,7 +78,6 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
-        driver.add_driven_trip(trip)
         trips << trip
       end
 
