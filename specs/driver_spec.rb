@@ -19,8 +19,8 @@ describe "Driver class" do
       expect(@driver).must_be_kind_of RideShare::Driver
     end
 
-    it "throws an argument error with a bad ID value" do
-      expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133", status: :in_an_open_relationship)}.must_raise ArgumentError
+    it "throws an argument error with a bad status" do
+      expect{ RideShare::Driver.new(id: 15, name: "George", vin: "33133313331333133", status: :AVAILABLE)}.must_raise ArgumentError
     end
 
     # it "throws an argument error with a bad ID value" do

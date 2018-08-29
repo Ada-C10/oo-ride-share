@@ -4,6 +4,7 @@ require 'time'
 
 require_relative 'user'
 require_relative 'trip'
+require_relative 'driver'
 
 module RideShare
   class TripDispatcher
@@ -63,6 +64,24 @@ module RideShare
       end
 
       return trips
+    end
+
+    def load_drivers(filename)
+      drivers = []
+
+      driver_data = CSV.open(filename, 'r', headers: true, header_converters: :symbol)
+
+      driver_data.each do |driver|
+
+        input = {}
+        input[:id] = driver[0]
+        input[:vin].to_i = driver[1]
+        input[:status] = driver[2]
+
+        drivers << Driver.new(input)
+      end
+      return drivers
+
     end
 
     def find_passenger(id)

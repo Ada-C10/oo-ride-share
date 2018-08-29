@@ -8,11 +8,18 @@ module RideShare
       super(input)
       #user has access to id, name, phone_number
       #so does driver
+      # unless input[:status] == :UNAVAILABLE || input[:status] == :AVAILABLE
+      #   raise ArgumentError.new("TEST")
+      # end
+
+
 
       @vehicle_id = input[:vin]
       @status = input[:status]
-      # @driven_trips = input[:trips].nil? ? [] : input[:trips]
-      raise ArgumentError.new() unless [:UNAVAILABLE, :AVAILABLE].include? input[:status]
+
+      raise ArgumentError.new() unless [:UNAVAILABLE, :AVAILABLE].include?(input[:status])
+
+
     end
 
 
