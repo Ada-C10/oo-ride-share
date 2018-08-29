@@ -1,5 +1,5 @@
 require_relative 'spec_helper'
-
+require 'pry'
 describe "Trip class" do
 
   describe "initialize" do
@@ -64,7 +64,7 @@ describe "Trip class" do
             rating: 3
           }
 
-        # binding.pry
+
         expect {
           # binding.pry
           RideShare::Trip.new(trip_data)
@@ -73,5 +73,28 @@ describe "Trip class" do
         }.must_raise ArgumentError
 
       end
+
+      it "calculates the duration of the trip in seconds" do
+        end_time = "2018-08-29T09:18:26-07:00"
+        start_time = "2018-08-29T08:53:26-07:00"
+        trip_data = {
+          id: 8,
+          passenger: RideShare::User.new(id: 1,
+            name: "Ada",
+            phone: "412-432-7640"),
+            start_time: Time.parse(start_time),
+            end_time: Time.parse(end_time),
+            cost: 23.45,
+            rating: 3
+          }
+
+
+
+        bunny = RideShare::Trip.new(trip_data)
+
+        expect bunny.duration.must_equal 1500.0
+      end
+# binding.pry
+
     end
   end

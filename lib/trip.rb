@@ -24,6 +24,12 @@ module RideShare
 
     end
 
+    def duration
+      # binding.pry
+      trip_in_seconds = @end_time - @start_time
+      return trip_in_seconds
+    end
+
     def inspect
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
       "ID=#{id.inspect} " +
