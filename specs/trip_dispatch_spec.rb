@@ -40,7 +40,6 @@ describe "TripDispatcher class" do
   end
 
   describe "find_driver method" do
-
     it "throws an argument error for a bad ID" do
       expect { @dispatcher.find_driver(0) }.must_raise ArgumentError
     end
@@ -52,7 +51,6 @@ describe "TripDispatcher class" do
   end
 
   describe "Driver & Trip loader methods" do
-
     it "accurately loads driver information into drivers array" do
 
       first_driver = @dispatcher.drivers.first
@@ -67,7 +65,6 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
@@ -80,7 +77,6 @@ describe "TripDispatcher class" do
   end
 
   describe "User & Trip loader methods" do
-
     it "accurately loads passenger information into passengers array" do
       first_passenger = @dispatcher.passengers.first
       last_passenger = @dispatcher.passengers.last
