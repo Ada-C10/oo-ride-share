@@ -8,11 +8,7 @@ require_relative 'driver'
 
 module RideShare
   class TripDispatcher
-<<<<<<< HEAD
     attr_reader :drivers, :passengers, :trips
-=======
-    attr_reader :drivers, :passengers, :trips, :vin
->>>>>>> efff9d68ec57cf20944502774d458400747d8b58
 
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv',
@@ -90,13 +86,8 @@ module RideShare
     end
 
     def find_driver(id)
-<<<<<<< HEAD
       check_id(id)
       return @drivers.find { |driver| driver.id == id }
-=======
-          check_id(id)
-          return @drivers.find { |driver| driver.id == id }
->>>>>>> efff9d68ec57cf20944502774d458400747d8b58
     end
 
     def inspect

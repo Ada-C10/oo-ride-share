@@ -22,10 +22,8 @@ module RideShare
     end
 
     def average_rating
-<<<<<<< HEAD
       ratings = @driven_trips.find { |trip| trip.rating }
       average = ratings.sum / @driven_trips.length
-=======
       total_ratings = 0
       @trips.each do |trip|
         total_ratings += trip.rating
@@ -36,8 +34,6 @@ module RideShare
       else
         average = (total_ratings.to_f) / trips.length
       end
-
->>>>>>> efff9d68ec57cf20944502774d458400747d8b58
       return average
     end
 
