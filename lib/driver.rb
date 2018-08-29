@@ -10,8 +10,15 @@ module RideShare
       @vehicle_id = data[:vin]
       @driven_trips = data[:driven_trips]
       @status = data[:status]
-    #  binding.pry
-    end
 
+
+      good_status = [:AVAILABLE, :UNAVAILABLE]
+
+      unless good_status.include? @status
+        raise ArgumentError.new("That status is not recognized")
+      end
+        #  binding.pry
+      end
+
+    end
   end
-end
