@@ -81,7 +81,7 @@ module RideShare
     end
 
     def net_expenditures
-      #This method will override the cooresponding method in User and take the total amount a driver has spent as a passenger and subtract the amount they have earned as a driver (see above). If the number is negative the driver will earn money.
+      return super - self.total_revenue 
     end
   end
 

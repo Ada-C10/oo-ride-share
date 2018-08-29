@@ -125,6 +125,67 @@ describe "Driver class" do
   end
 
   describe "net_expenditures" do
-    # You add tests for the net_expenditures method
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+
+      @other_driver = RideShare::Driver.new(id: 5, name: "Roger",
+                                                        vin: "1C9EVBRM0YBC51234")
+    end
+
+
+    it 'correctly calculates net expenditures' do
+
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, cost: 15,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_driven_trip(trip)
+      trip = RideShare::Trip.new(id: 9, driver: @driver, passenger: nil, cost: 10,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_driven_trip(trip)
+      trip = RideShare::Trip.new(id: 10, driver: @driver, passenger: nil, cost: 5,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_driven_trip(trip)
+
+      trip = RideShare::Trip.new(id: 18, driver: @other_driver, passenger: @driver, cost: 5,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_trip(trip)
+      trip = RideShare::Trip.new(id: 91, driver: @other_driver, passenger: @driver, cost: 10,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_trip(trip)
+      trip = RideShare::Trip.new(id: 110, driver: @other_driver, passenger: @driver, cost: 1,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_trip(trip)
+
+      expect(@driver.net_expenditures).must_equal (5 + 10 + 1) - ((15 + 10 + 5 - 1.65 * 3 ) * 0.8).round(2)
+
+    end
+
+    it "returns 0 if the driver has no trips at all" do
+      expect(@driver.net_expenditures).must_equal 0
+    end
+
+    it 'returns a negative number if the driver made more than they spent' do
+      trip = RideShare::Trip.new(id: 10, driver: @driver, passenger: nil, cost: 10,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_driven_trip(trip)
+      trip = RideShare::Trip.new(id: 110, driver: @other_driver, passenger: @driver, cost: 2,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_trip(trip)
+
+      expect(@driver.net_expenditures).must_be :<, 0
+    end
+
+    it 'returns a positive number if the driver spent more than they made' do
+      trip = RideShare::Trip.new(id: 10, driver: @driver, passenger: nil, cost: 5,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_driven_trip(trip)
+      trip = RideShare::Trip.new(id: 110, driver: @other_driver, passenger: @driver, cost: 10,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_trip(trip)
+
+      expect(@driver.net_expenditures).must_be :>, 0
+    end
+
+
   end
 end
