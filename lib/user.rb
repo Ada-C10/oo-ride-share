@@ -17,7 +17,7 @@ module RideShare
     def add_trip(trip)
       @trips << trip
     end
-
+binding.pry
 
 
   end

@@ -82,7 +82,7 @@ describe "Trip class" do
         @trip = RideShare::Trip.new(@trip_data)
       end
 
-    it "returns the trip duration in a kind of Interger" do
+    it "returns the trip duration in a kind of Integer" do
       expect(@trip.duration).must_be_kind_of Integer
     end
 
