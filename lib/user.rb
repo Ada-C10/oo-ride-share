@@ -60,7 +60,7 @@ module RideShare
       end
       if @driven_trips.length == 0
         return 0
-      else    
+      else
         return sum.to_f/@driven_trips.length
       end
     end
@@ -73,6 +73,11 @@ module RideShare
 
     def total_revenue
       #This method calculates that driver's total revenue across all their trips. Each driver gets 80% of the trip cost after a fee of $1.65 per trip is subtracted.
+      sum = 0
+      @driven_trips.each do |driven_trip|
+        sum += (driven_trip.cost - 1.65) * 0.8
+      end
+      return sum.round(2)
     end
 
     def net_expenditures
