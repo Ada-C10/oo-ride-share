@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'pry'
 
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
@@ -53,7 +54,8 @@ describe "TripDispatcher class" do
       end
 
       it "finds a driver instance" do
-        driver = @dispatcher.find_driver(2)
+        driver = @dispatcher.find_driver(28)
+        # binding.pry
         expect(driver).must_be_kind_of RideShare::Driver
       end
     end
@@ -65,7 +67,7 @@ describe "TripDispatcher class" do
         end
 
         it "accurately loads driver information into drivers array" do
-           skip# Unskip After Wave 2
+           # Unskip After Wave 2
           first_driver = @dispatcher.drivers.first
           last_driver = @dispatcher.drivers.last
 
