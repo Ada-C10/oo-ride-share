@@ -57,6 +57,24 @@ module RideShare
       return trips
     end
 
+    def load_drivers(filename)
+      drivers = []
+
+      CSV.read(filename, 'r', headers: true).each do |line|
+        driver_data = {}
+
+        driver_data[:id] = line[0].to_i
+        # driver_data[:name] = line[1]
+        # driver_data[:phone] = line[2]
+        # driver_data[:trips] = line[3]
+        driver_data[:vin] = line[1]
+        driver_data[:status ] = line[2]
+
+        drivers << Driver.new(driver_data)
+      end
+      return drivers
+    end
+
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
