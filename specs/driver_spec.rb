@@ -118,7 +118,7 @@ describe "Driver class" do
   describe "Driver#total_revenue" do
     # Setting up trip for test
     before do
-      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+      @driver_with_revenue = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
         vin: "1C9EVBRM0YBC564DZ",
         phone: '111-111-1111',
         status: :AVAILABLE)
@@ -141,18 +141,23 @@ describe "Driver class" do
       @trip2 = RideShare::Trip.new(@trip_data)
       @trip3 = RideShare::Trip.new(@trip_data)
 
+      @driver_with_revenue.add_driven_trip(@trip)
+      @driver_with_revenue.add_driven_trip(@trip2)
+      @driver_with_revenue.add_driven_trip(@trip3)
+
     end
 
   	it "returns a float" do
-      expect(@driver.total_revenue).must_be_kind_of Float
+      expect(@driver_with_revenue.total_revenue).must_be_kind_of Float
+
   	end
 
-  	it "calculates the the total amount a driver has earned" do
+  	it "calculates the the total amount a driver has earned to two digits" do
       # @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, start_time: "2016-08-08", end_time:"2016-08-09", rating: 5})
 
       # (trip - fee) * 0.80
       # All three trips are the same for this test
-      expect(@driver.total_revenue).must_equal( ( (23.45 - 1.65) * 3 ) * 0.80 )
+      expect(@driver_with_revenue.total_revenue).must_equal (((23.45 - 1.65) * 3 ) * 0.80).round(2)
   	end
 
   	it "returns 0 if a driver has not driven yet" do
@@ -161,7 +166,7 @@ describe "Driver class" do
         vin: "1C9EVBRM0YBC564DZ",
         phone: '111-111-1111',
         status: :AVAILABLE)
-      expect(@driver).total_revenue.must_equal 0 
+      expect(@driver.total_revenue).must_equal 0
   	end
   end
 

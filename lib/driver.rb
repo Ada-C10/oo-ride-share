@@ -1,6 +1,7 @@
 # vehicle_id|The driver's Vehicle Identification Number (VIN Number), Each vehicle identification number should be a specific length of 17 to ensure it is a valid vehicle identification number
 # driven_trips | A list of trips the user has acted as a driver for.
 # status|Indicating availability, a driver's availability should be either `:AVAILABLE` or `:UNAVAILABLE`
+require 'pry'
 
 module RideShare
   class Driver < User
@@ -37,6 +38,14 @@ module RideShare
         return 0
       else
         return (driven_trips.sum {|driven_trip| driven_trip.rating}).to_f / driven_trips.length
+      end
+    end
+
+    def total_revenue
+      if driven_trips.empty?
+        return 0.00
+      else
+        return ((driven_trips.sum {|driven_trip| driven_trip.cost - 1.65}) * 0.8).round(2)
       end
     end
 
