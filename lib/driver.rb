@@ -34,5 +34,22 @@ module RideShare
       end
     end
 
+    def average_rating
+      total_num_rides = @driven_trips.length
+      total_sum = 0
+
+      if total_num_rides == 0
+        return 0
+      end
+
+      @driven_trips.each do |x|
+        total_sum += x.rating
+      end
+
+      avg_rating = total_sum.to_f / total_num_rides
+      return avg_rating
+
+    end
+
   end
 end
