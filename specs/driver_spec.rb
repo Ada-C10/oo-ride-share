@@ -28,7 +28,7 @@ describe "Driver class" do
         expect(@driver.driven_trips).must_be_kind_of Array
         expect(@driver.driven_trips.length).must_equal 0
       end
-
+###################### FAIL: #########################
       it "is set up for specific attributes and data types" do
         [:id, :name, :vehicle_id, :status, :driven_trips].each do |prop|
           expect(@driver).must_respond_to prop
@@ -41,7 +41,6 @@ describe "Driver class" do
       end
     end
 
-###################### FAIL: #########################
     describe "add_driven_trip method" do
       before do
         pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
@@ -62,7 +61,7 @@ describe "Driver class" do
       end
     end
 
-    xdescribe "average_rating method" do
+    describe "average_rating method" do
       before do
         @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                         vin: "1C9EVBRM0YBC564DZ")
