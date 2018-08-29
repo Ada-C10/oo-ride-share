@@ -60,7 +60,7 @@ module RideShare
       end
       if @driven_trips.length == 0
         return 0
-      else 
+      else    
         return sum.to_f/@driven_trips.length
       end
     end
