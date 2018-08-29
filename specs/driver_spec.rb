@@ -61,11 +61,9 @@ describe "Driver class" do
 
     describe "average_rating method" do
       before do
-        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                        vin: "1C9EVBRM0YBC564DZ")
-        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                   start_time: Time.parse("2016-08-08"),
-                                   end_time: Time.parse("2016-08-08"), rating: 5)
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
+        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse("2016-08-08"),
+            end_time: Time.parse("2016-08-08"), rating: 5)
         @driver.add_driven_trip(trip)
       end
 
@@ -96,27 +94,25 @@ describe "Driver class" do
       end
 
       it 'returns the correct average rating even with trips in progress' do
-        trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+        incomplete_trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                     start_time: Time.now,
                                     end_time: nil,
                                     rating: nil)
-        @driver.add_driven_trip(trip2)
+        @driver.add_driven_trip(incomplete_trip)
 
         expect(@driver.average_rating).must_equal 5
       end
 
       it 'returns nil if driver only has in-progress trips' do
         new_driver = RideShare::Driver.new(id: 55, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
-        trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+        incomplete_trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
             start_time: Time.now,
             end_time: nil,
             rating: nil)
-        new_driver.add_driven_trip(trip2)
+        new_driver.add_driven_trip(incomplete_trip)
 
         expect(new_driver.average_rating).must_be_nil
       end
-
-
     end
 
   describe "total_revenue" do
@@ -124,8 +120,8 @@ describe "Driver class" do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ")
     end
-    it 'returns the correct total revenue' do
 
+    it 'returns the correct total revenue' do
       trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-08"), rating: 5, cost: 17)
@@ -143,45 +139,42 @@ describe "Driver class" do
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ")
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+      @trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                         start_time: Time.parse("2016-08-08"),
                                         end_time: Time.parse("2016-08-08"), rating: 5, cost: 17)
-      @driver.add_driven_trip(trip)
+      @trip2 = RideShare::Trip.new(id: 8, driver: RideShare::Driver.new(id: 55, name: "Rogers Bartell V", vin: "1C9EVBRM0YBC564DZ"), passenger: @driver,
+                                start_time: Time.parse("2016-08-08"),
+                                end_time: Time.parse("2016-08-08"), rating: 5, cost: 5)
+      @incomplete_trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+          start_time: Time.now,
+          end_time: nil,
+          rating: nil)
+
     end
 
     it 'returns the correct net expenditure' do
 
 
-      trip2 = RideShare::Trip.new(id: 8, driver: RideShare::Driver.new(id: 55, name: "Rogers Bartell V", vin: "1C9EVBRM0YBC564DZ"), passenger: @driver,
-                                   start_time: Time.parse("2016-08-08"),
-                                   end_time: Time.parse("2016-08-08"), rating: 5, cost: 5)
-
-      @driver.add_trip(trip2)
+      @driver.add_driven_trip(@trip)
+      @driver.add_trip(@trip2)
 
       expect(@driver.net_expenditures).must_be_close_to 7.28
     end
 
     it 'returns only the total revenue if no trips given' do
+      @driver.add_driven_trip(@trip)
       expect(@driver.net_expenditures).must_be_close_to 12.28
     end
 
     it 'returns 0 if only in-progress trip' do
-      new_driver = RideShare::Driver.new(id: 55, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
-      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-          start_time: Time.now,
-          end_time: nil,
-          rating: nil)
-      new_driver.add_driven_trip(trip2)
+      @driver.add_driven_trip(@incomplete_trip)
 
-      expect(new_driver.total_revenue).must_equal 0
+      expect(@driver.total_revenue).must_equal 0
     end
 
     it 'returns only the revenue from completed trips' do
-      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-          start_time: Time.now,
-          end_time: nil,
-          rating: nil)
-      @driver.add_driven_trip(trip2)
+      @driver.add_driven_trip(@trip)
+      @driver.add_driven_trip(@incomplete_trip)
 
       expect(@driver.total_revenue).must_be_close_to 12.28
     end

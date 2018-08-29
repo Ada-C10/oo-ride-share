@@ -18,7 +18,6 @@ module RideShare
       unless [:AVAILABLE, :UNAVAILABLE].include?(@status)
         raise ArgumentError, "Invalid status #{@status}"
       end
-
     end
 
     def average_rating
@@ -41,7 +40,6 @@ module RideShare
 
     def change_status
       @status == :AVAILABLE ? @status = :UNAVAILABLE : @status = :AVAILABLE
-
     end
 
     def total_revenue
@@ -53,9 +51,5 @@ module RideShare
     def net_expenditures
       return total_revenue - super
     end
-
-
-
   end
-
 end
