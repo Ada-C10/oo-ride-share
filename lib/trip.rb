@@ -12,7 +12,7 @@ module RideShare
       @end_time = input[:end_time]
       @cost = input[:cost]
       @rating = input[:rating]
-##TODO: @driver = nil
+
 
       if input[:end_time] < input[:start_time]
         raise ArgumentError.new("End time cannot be before Start time.")

@@ -23,13 +23,13 @@ describe "User class" do
     end
 
     it "is set up for specific attributes and data types" do
-      [:id, :name, :phone_number, :trips].each do |prop|
+      [:id, :name, :phone, :trips].each do |prop|
         expect(@user).must_respond_to prop
       end
 
       expect(@user.id).must_be_kind_of Integer
       expect(@user.name).must_be_kind_of String
-      expect(@user.phone_number).must_be_kind_of String
+      expect(@user.phone).must_be_kind_of String
       expect(@user.trips).must_be_kind_of Array
     end
   end
