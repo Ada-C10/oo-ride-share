@@ -95,4 +95,16 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+  describe '#request_trip method' do
+    it "assigns the first AVAILABLE driver to a new Trip" do
+      requested_trip = @dispatcher.request_trip(1)
+    driver  = requested_trip.driver
+
+    expect(driver).must_be_instance_of RideShare::Driver
+
+    end
+  end
+
+
 end
