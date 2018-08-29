@@ -191,13 +191,13 @@ describe "TripDispatcher class" do
       driver_8 = @dispatcher.find_driver(8)
 
       trip1 = RideShare::Trip.new(id: 8, driver: driver_5, passenger: nil,
-                                  start_time: Time.parse("2016-08-05"),
-                                  end_time: Time.parse("2016-08-06"),
+                                  start_time: Time.parse("2018-05-25 11:00:00 -0700"),
+                                  end_time: Time.parse("2018-05-25 11:30:00 -0700"),
                                   rating: 1)
 
       trip2 = RideShare::Trip.new(id: 8, driver: driver_8, passenger: nil,
-                                  start_time: Time.parse("2016-08-09"),
-                                  end_time: Time.parse("2016-08-10"),
+                                  start_time: Time.parse("2018-05-25 11:00:00 -0700"),
+                                  end_time: Time.parse("2018-05-25 11:30:01 -0700"),
                                   rating: 1)
 
       driver_5.add_driven_trip(trip1)
@@ -206,8 +206,8 @@ describe "TripDispatcher class" do
       expect( @dispatcher.assign_driver.id ).must_equal 5
 
       trip3 = RideShare::Trip.new(id: 8, driver: driver_5, passenger: nil,
-                                  start_time: Time.parse("2016-08-12"),
-                                  end_time: Time.parse("2016-08-13"),
+                                  start_time: Time.parse("2018-05-25 11:00:00 -0700"),
+                                  end_time: Time.parse("2018-05-25 11:30:02 -0700"),
                                   rating: 1)
 
       driver_5.add_driven_trip(trip3)

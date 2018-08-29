@@ -60,10 +60,47 @@ describe "Trip class" do
         RideShare::Trip.new(trip_data)
       }.must_raise ArgumentError
     end
+  end
+
+  describe 'duration method' do
+    before do
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time + 25 * 60
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3,
+        driver: RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                        vin: "1C9EVBRM0YBC564DZ")
+      }
+
+      @incomplete_trip= {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: Time.now,
+        end_time: nil,
+        cost: nil,
+        rating: nil,
+        driver: RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                        vin: "1C9EVBRM0YBC564DZ")
+      }
+    end
 
     it 'calculates the duration of a trip' do
-
+      @trip = RideShare::Trip.new(@trip_data)
       expect(@trip.duration).must_equal 1500
+    end
+
+    it 'returns nil if incomplete trip' do
+      @trip = RideShare::Trip.new(@incomplete_trip)
+      expect(@trip.duration).must_be_nil
     end
   end
 end
