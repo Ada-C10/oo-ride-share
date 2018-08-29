@@ -7,11 +7,6 @@ module RideShare
 
     def initialize(input)
 
-      # if input[:end_time] - input[:start_time] <= 0
-      #   raise ArgumentError.new("Trip end time is before start time.")
-      # end
-
-
       @id = input[:id]
       @passenger = input[:passenger]
       @start_time = input[:start_time]
@@ -27,7 +22,9 @@ module RideShare
       end
 
       # TODO: refactor w calculate_trip_duration???
-
+      if @end_time - @start_time <= 0
+        raise ArgumentError.new("Trip end time is before start time.")
+      end
 
 
 
