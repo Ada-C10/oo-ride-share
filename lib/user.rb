@@ -92,5 +92,10 @@ module RideShare
 
       return net_earnings.round(2)
     end
+
+    def in_progress_trip(trip)
+      @driven_trips << trip
+      trip.status = :UNAVAILABLE
+    end
   end
 end

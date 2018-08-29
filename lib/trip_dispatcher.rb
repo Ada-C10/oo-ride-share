@@ -100,6 +100,31 @@ module RideShare
       return @drivers.find {|driver| driver.id == id}
     end
 
+    def request_trip(user_id) #user_id is passenger requesting trip
+
+      all_available_drivers = @drivers.find_all {|driver| driver.status == :AVAILABLE}
+
+      if all_available_drivers.length == 1 && all_available_drivers[0].id == user_id # Zero available drivers AND if there is one driver who is the user
+        return "No Available Drivers. Try later."
+      elsif all_available_drivers.length > 1 && all_available_drivers[0].id == user_id
+        driver = all_available_drivers[1]
+      else
+        driver = all_available_drivers[0]
+      end
+
+      new_trip = RideShare::Trip.new(id: driver.id, passenger: find_passenger(user_id), driver: driver, start_time: Time.now, end_time: nil, cost: nil, rating: nil)
+
+      
+      # Modify the passenger for the trip using a new helper method in User
+      # Add the new trip to the collection of trips for the passenger in User
+      # Add the new trip to the collection of all Trips in TripDispatcher
+      # Return the newly created trip
+
+      # Was the trip created properly?
+      # Were the trip lists for the driver and user updated?
+      # What happens if you try to request a trip when there are no AVAILABLE drivers?
+    end
+
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
               #{trips.count} trips, \
