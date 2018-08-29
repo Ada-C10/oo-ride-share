@@ -23,13 +23,13 @@ describe "Driver class" do
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
     end
 
-    it "sets trips to an empty array if not provided" do
-      expect(@driver.trips).must_be_kind_of Array
-      expect(@driver.trips.length).must_equal 0
+    it "sets driven_trips to an empty array if not provided" do
+      expect(@driver.driven_trips).must_be_kind_of Array
+      expect(@driver.driven_trips.length).must_equal 0
     end
 
     it "is set up for specific attributes and data types" do
-      [:id, :name, :vin, :status, :trips].each do |prop|
+      [:id, :name, :vin, :status, :driven_trips].each do |prop|
         expect(@driver).must_respond_to prop
       end
 
@@ -40,7 +40,7 @@ describe "Driver class" do
     end
   end
 
-  xdescribe "add_trips_trip method" do
+  xdescribe "add_driven_trip method" do
     before do
       pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
       @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
@@ -52,9 +52,9 @@ describe "Driver class" do
     end
 
     it "increases the trip count by one" do
-      previous = @driver.trips.length
+      previous = @driver.driven_trips.length
       @driver.add_trip(@trip)
-      expect(@driver.trips.length).must_equal previous + 1
+      expect(@driver.driven_trips.length).must_equal previous + 1
     end
   end
 
@@ -77,7 +77,7 @@ describe "Driver class" do
       expect(average).must_be :<=, 5.0
     end
 
-    it "returns zero if no trips" do
+    it "returns zero if no driven_trips" do
       driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                      vin: "1C9EVBRM0YBC564DZ")
       expect(driver.average_rating).must_equal 0
