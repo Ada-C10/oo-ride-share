@@ -61,7 +61,7 @@ describe "TripDispatcher class" do
                                                  TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
-    xit "accurately loads driver information into drivers array" do
+    it "accurately loads driver information into drivers array" do
       # skip # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
