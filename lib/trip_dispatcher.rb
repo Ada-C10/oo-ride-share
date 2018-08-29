@@ -16,7 +16,6 @@ module RideShare
       @passengers = load_users(user_file)
       @drivers = load_drivers(driver_file)
       @trips = load_trips(trip_file)
-
     end
 
     def load_users(filename)
@@ -43,9 +42,11 @@ module RideShare
         input_data[:status] = line[2].to_sym
         input_data[:name] = passenger.name
         input_data[:phone] = passenger.phone_number
-        drivers << Driver.new(input_data)
+        driver = Driver.new(input_data)
+        passenger_index = @passengers.find_index(passenger)
+        @passengers[passenger_index] = driver
+        drivers << driver
       end
-      # binding.pry
       return drivers
     end
 
