@@ -70,21 +70,11 @@ module RideShare
         income += revenue
       end
       return income.round(2)
-
-      #   if trip.trip_duration != nil
-      #     revenue += trip.cost
-      #   end
-      #   if revenue > 1.65
-      #     income_revenue = (revenue - 1.65) * 0.8
-      #   else
-      #     income_revenue = revenue
-      #   end
-      # end
-      # return income_revenue
     end
 
-    # def net_expenditures
-    # end
+    def net_expenditures
+      return super - total_revenue
+    end
 
   end
 end

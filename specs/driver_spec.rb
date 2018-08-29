@@ -123,7 +123,27 @@ describe "Driver class" do
   end
 
   describe "net_expenditures" do
-    # You add tests for the net_expenditures method
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+      @passenger = RideShare::User.new(id: 54, name: "Rogers Bartell IV", phone: 206-554-1123)
+
+      trip1 = RideShare::Trip.new(id: 10, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), rating: 5, cost:40)
+      @driver.add_driven_trip(trip1)
+
+      trip2 = RideShare::Trip.new(id: 10, driver: nil, passenger: @driver,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), rating: 5, cost:80)
+      @driver.add_trip(trip2)
+
+    end
+
+      it 'calculates net_expenditures properly' do
+        expect(@driver.net_expenditures).must_equal 49.32
+      end
+
   end
 
 end
