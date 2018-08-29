@@ -98,8 +98,31 @@ describe "Driver class" do
 
     end
 
-  xdescribe "total_revenue" do
+  describe "total_revenue" do
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), rating: 5, cost: 100)
+      @driver.add_driven_trip(trip)
+    end
     # You add tests for the total_revenue method
+    it 'returns a float' do
+      expect(@driver.total_revenue).must_be_kind_of Float
+    end
+
+    xit 'returns zero for no driven trips' do
+    end
+
+    xit 'correctly calculates the total' do
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: Time.parse("2016-08-09"),
+                                  rating: 1, status: :AVAILABLE, cost: 10)
+      @driver.add_driven_trip(trip2)
+
+    end
   end
 
   xdescribe "net_expenditures" do

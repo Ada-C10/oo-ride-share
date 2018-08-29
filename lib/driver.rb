@@ -59,14 +59,23 @@ module RideShare
 
       @driven_trips << trip
 
-      end
-
+    end
 
 
     def total_revenue()
+      if @driven_trips.empty?
+        return 0
+      else
+        total_sum = @driven_trips.sum { |driven_trip| (driven_trip.cost - 1.65) }
+
+        return total_sum * 0.80
+      end
     end
 
+    # TODO: making tests for total revenue (that's where we left off!)
+
     def net_expenditures()
+
     end
 
   end
