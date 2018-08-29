@@ -5,7 +5,7 @@ describe "Trip class" do
   describe "initialize" do
     before do
       start_time = Time.parse('2015-05-20T12:14:00+00:00')
-      end_time = start_time + 25 * 60 # 25 minutes
+      end_time = start_time + 25 * 60
       @trip_data = {
         id: 8,
         passenger: RideShare::User.new(id: 1,
@@ -44,7 +44,7 @@ describe "Trip class" do
 
     it 'raises an error for a start time that occurs after end time' do
       start_time = Time.parse('2015-05-20T12:14:00+00:00')
-      end_time = start_time - 25 * 60 # 25 minutes
+      end_time = start_time - 25 * 60
       trip_data = {
         id: 8,
         passenger: RideShare::User.new(id: 1,
@@ -55,16 +55,15 @@ describe "Trip class" do
         cost: 23.45,
         rating: 3
       }
+
       expect {
         RideShare::Trip.new(trip_data)
       }.must_raise ArgumentError
-
     end
 
     it 'calculates the duration of a trip' do
 
       expect(@trip.duration).must_equal 1500
     end
-
   end
 end
