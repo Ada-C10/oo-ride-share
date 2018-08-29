@@ -1,9 +1,12 @@
-add_driven_triprequire_relative 'spec_helper'
+# add_driven_trip
+require_relative 'spec_helper'
+require 'pry'
 
-xdescribe "Driver class" do
+describe "Driver class" do
 
   describe "Driver instantiation" do
     before do
+
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
         vin: "1C9EVBRM0YBC564DZ",
         phone: '111-111-1111',
@@ -28,19 +31,21 @@ xdescribe "Driver class" do
       expect(@driver.driven_trips.length).must_equal 0
     end
 
+
     it "is set up for specific attributes and data types" do
       [:id, :name, :vehicle_id, :status, :driven_trips].each do |prop|
         expect(@driver).must_respond_to prop
       end
-
+       # binding.pry
       expect(@driver.id).must_be_kind_of Integer
       expect(@driver.name).must_be_kind_of String
       expect(@driver.vehicle_id).must_be_kind_of String
       expect(@driver.status).must_be_kind_of Symbol
     end
+    # binding.pry
   end
 
-  describe "add_driven_trip method" do
+  xdescribe "add_driven_trip method" do
     before do
       pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
       @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
@@ -58,7 +63,7 @@ xdescribe "Driver class" do
     end
   end
 
-  describe "average_rating method" do
+  xdescribe "average_rating method" do
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ")

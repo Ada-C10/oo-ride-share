@@ -23,6 +23,7 @@ module RideShare
           raise ArgumentError.new("Invalid Date: End date is before or on start date!")
         end
 
+
     end
 
     def inspect #what does this first line do?
