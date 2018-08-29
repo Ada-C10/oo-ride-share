@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe "Driver class" do
+xdescribe "Driver class" do
   before do
     @driver = RideShare::Driver.new(
       id: 54,
@@ -9,7 +9,7 @@ describe "Driver class" do
       phone: '111-111-1111',
       status: :AVAILABLE
     )
-  
+
     @passenger = RideShare::User.new(
       id: 1,
       name: "Ada",
