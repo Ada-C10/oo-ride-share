@@ -15,7 +15,6 @@ module RideShare
       @passengers = load_users(user_file)
       @drivers = load_drivers(driver_file)
       @trips = load_trips(trip_file)
-
     end
 
     def load_users(filename)
@@ -32,7 +31,6 @@ module RideShare
 
       return users
     end
-
 
     def load_trips(filename)
       trips = []
@@ -54,10 +52,10 @@ module RideShare
         }
 
         trip = Trip.new(parsed_trip)
+        trips << trip
 
         driver.add_driven_trip(trip)
         passenger.add_trip(trip)
-        trips << trip
       end
 
       return trips
@@ -69,7 +67,6 @@ module RideShare
 
       return driver_data.map do |raw_driver|
         user = find_passenger(raw_driver[:id].to_i)
-
 
         parse_driver = {
         id: raw_driver[:id].to_i,
@@ -95,22 +92,18 @@ module RideShare
     end
 
     def request_trip(user_id)
-
-      driver = assign_driver#@drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id }
+      driver = assign_driver
 
       unless driver
         puts "No drivers available. Please try again later."
         return nil
       end
 
-
-
       passenger = find_passenger(user_id)
 
       unless passenger
         raise ArgumentError, "#{user_id} not found in passenger list"
       end
-
 
       parsed_trip = {
         id: @trips.last.id + 1 ,
@@ -121,6 +114,7 @@ module RideShare
         rating: nil,
         driver: driver
       }
+
       trip = Trip.new(parsed_trip)
       @trips << trip
 
@@ -129,7 +123,6 @@ module RideShare
       passenger.add_trip(trip)
 
       return trip
-
     end
 
     def inspect
@@ -153,7 +146,6 @@ module RideShare
           driver.driven_trips.sort_by{ |trip| trip.end_time }
         end
 
-
         return available_drivers.min_by{ |driver| driver.driven_trips.last.end_time }
 
       else
@@ -166,6 +158,5 @@ module RideShare
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
-
   end
 end

@@ -127,7 +127,6 @@ describe "TripDispatcher class" do
       trip = @dispatcher.request_trip(1)
 
       expect( trip ).must_be_instance_of RideShare::Trip
-
     end
 
     it "raise argumenterror if user_id is not found in passenger list" do
@@ -137,11 +136,9 @@ describe "TripDispatcher class" do
     it "returns nil if no drivers are available" do
       @dispatcher.drivers.each do |driver|
         if driver.status == :AVAILABLE
-          # binding.pry
           driver.change_status
         end
       end
-
 
       expect( @dispatcher.request_trip(1) ).must_be_nil
     end
@@ -185,15 +182,11 @@ describe "TripDispatcher class" do
     end
 
     it 'returns new driver if available' do
-      # @dispatcher.request_trip(1)
       driver = @dispatcher.assign_driver
-      # binding.pry
       expect( driver.id ).must_equal 8
-
     end
 
     it 'returns driver with the oldest most recent trip' do
-
       driver_5 = @dispatcher.find_driver(5)
       driver_8 = @dispatcher.find_driver(8)
 
@@ -206,6 +199,7 @@ describe "TripDispatcher class" do
                                   start_time: Time.parse("2016-08-09"),
                                   end_time: Time.parse("2016-08-10"),
                                   rating: 1)
+
       driver_5.add_driven_trip(trip1)
       driver_8.add_driven_trip(trip2)
 
@@ -218,10 +212,7 @@ describe "TripDispatcher class" do
 
       driver_5.add_driven_trip(trip3)
 
-
       expect( @dispatcher.assign_driver.id ).must_equal 8
     end
-
   end
-
 end
