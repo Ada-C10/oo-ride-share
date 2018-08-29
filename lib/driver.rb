@@ -11,6 +11,8 @@ module RideShare
     def initialize(input)
       super(input)
 
+      # TODO : we added statuses to all drivers in the spect file -- how can we avoid doing that if not passed as a parameter but still reach the argument error?
+
       @vehicle_id = input[:vin]
       @driven_trips = input[:trips].nil? ? [] : input[:trips]
       @status = input[:status]
