@@ -21,15 +21,12 @@ module RideShare
       valid_trips = @trips.find_all { |trip| trip.cost }
 
       return valid_trips.sum { |trip| trip.cost }
-
     end
 
     def total_time_spent
       valid_trips = @trips.find_all { |trip| trip.duration }
 
       return valid_trips.sum { |trip| trip.duration / 60 }
-
     end
-
   end
 end

@@ -64,6 +64,20 @@ describe "User class" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
         phone: "1-602-620-2330 x3723", trips: [])
+
+      @trip1 = RideShare::Trip.new(id: 8, passenger: @user,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"), cost: 17,
+        rating: 5)
+
+      @trip2 = RideShare::Trip.new(id: 8, passenger: @user,
+          start_time: Time.parse("2016-08-08"),
+          end_time: Time.parse("2016-08-09"), cost: 20,
+          rating: 5)
+      @incomplete_trip = RideShare::Trip.new(id: 8, passenger: @user,
+      start_time: Time.now, end_time: nil, cost: nil,
+      rating: nil)
+
       end
 
     it 'returns 0 if no trips are taken' do
@@ -71,35 +85,17 @@ describe "User class" do
     end
 
     it 'returns the total costs of all trips correctly' do
-      trip1 = RideShare::Trip.new(id: 8, passenger: @user,
-        start_time: Time.parse("2016-08-08"),
-        end_time: Time.parse("2016-08-09"), cost: 17,
-        rating: 5)
 
-      trip2 = RideShare::Trip.new(id: 8, passenger: @user,
-          start_time: Time.parse("2016-08-08"),
-          end_time: Time.parse("2016-08-09"), cost: 20,
-          rating: 5)
-
-      @user.add_trip(trip1)
-      @user.add_trip(trip2)
+      @user.add_trip(@trip1)
+      @user.add_trip(@trip2)
 
       expect(@user.net_expenditures).must_equal 37
     end
 
     it 'returns the net expenditure for only completed trips' do
-      trip1 = RideShare::Trip.new(id: 8, passenger: @user,
-        start_time: Time.parse("2016-08-08"),
-        end_time: Time.parse("2016-08-09"), cost: 17,
-        rating: 5)
 
-      trip2 = RideShare::Trip.new(id: 8, passenger: @user,
-          start_time: Time.now,
-          end_time: nil, cost: nil,
-          rating: nil)
-
-      @user.add_trip(trip1)
-      @user.add_trip(trip2)
+      @user.add_trip(@trip1)
+      @user.add_trip(@incomplete_trip)
 
       expect(@user.net_expenditures).must_equal 17
 
@@ -107,11 +103,7 @@ describe "User class" do
 
     it 'returns 0 if only incomplete trip' do
 
-      trip = RideShare::Trip.new(id: 8, passenger: @user,
-          start_time: Time.now, end_time: nil, cost: nil,
-          rating: nil)
-
-      @user.add_trip(trip)
+      @user.add_trip(@incomplete_trip)
 
       expect(@user.net_expenditures).must_equal 0
     end
@@ -122,6 +114,21 @@ describe "User class" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
         phone: "1-602-620-2330 x3723", trips: [])
+
+      @trip1 = RideShare::Trip.new(id: 8, passenger: @user,
+        start_time: Time.parse("2016-08-08 11:00:00"),
+        end_time: Time.parse("2016-08-08 11:30:00"), cost: 17,
+        rating: 5)
+
+      @trip2 = RideShare::Trip.new(id: 8, passenger: @user,
+          start_time: Time.parse("2016-08-09 11:00:00"),
+          end_time: Time.parse("2016-08-09 11:30:00"), cost: 20,
+          rating: 5)
+
+      @incomplete_trip = RideShare::Trip.new(id: 8, passenger: @user,
+          start_time: Time.now,
+          end_time: nil, cost: nil,
+          rating: nil)
       end
 
     it 'returns 0 if no trips are taken' do
@@ -129,45 +136,21 @@ describe "User class" do
     end
 
     it 'returns the total time of all trips correctly' do
-      trip1 = RideShare::Trip.new(id: 8, passenger: @user,
-        start_time: Time.parse("2016-08-08 11:00:00"),
-        end_time: Time.parse("2016-08-08 11:30:00"), cost: 17,
-        rating: 5)
-
-      trip2 = RideShare::Trip.new(id: 8, passenger: @user,
-          start_time: Time.parse("2016-08-09 11:00:00"),
-          end_time: Time.parse("2016-08-09 11:30:00"), cost: 20,
-          rating: 5)
-
-      @user.add_trip(trip1)
-      @user.add_trip(trip2)
+      @user.add_trip(@trip1)
+      @user.add_trip(@trip2)
 
       expect(@user.total_time_spent).must_equal 60
     end
 
     it 'returns the total time of only completed trips' do
-      trip1 = RideShare::Trip.new(id: 8, passenger: @user,
-        start_time: Time.parse("2016-08-08 11:00:00"),
-        end_time: Time.parse("2016-08-08 11:30:00"), cost: 17,
-        rating: 5)
-
-      trip2 = RideShare::Trip.new(id: 8, passenger: @user,
-          start_time: Time.now,
-          end_time: nil, cost: nil,
-          rating: nil)
-
-      @user.add_trip(trip1)
-      @user.add_trip(trip2)
+      @user.add_trip(@trip1)
+      @user.add_trip(@incomplete_trip)
 
       expect(@user.total_time_spent).must_equal 30
     end
 
     it 'returns 0 if only incomplete trip' do
-      trip = RideShare::Trip.new(id: 8, passenger: @user,
-          start_time: Time.now, end_time: nil, cost: nil,
-          rating: nil)
-
-      @user.add_trip(trip)
+      @user.add_trip(@incomplete_trip)
 
       expect(@user.total_time_spent).must_equal 0
     end
