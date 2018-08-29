@@ -10,11 +10,25 @@ module RideShare
       super(input)
       if [:AVAILABLE, :UNAVAILABLE].include? input[:status]
         @status = input[:status]
+        # If status is nil, default to UNAVAILABLE
+      elsif input[:status] == nil
+        @status = :UNAVAILABLE
       else
+        # If status is not nil/UNAVAILABLE/AVAILABLE - Raise error
         raise ArgumentError, "Invalid status, must be :AVAILABLE or :UNAVAILABLE"
       end
       @vehicle_id = input[:vin]
       @driven_trips = []
+    end
+
+    # Method to add a trip to driven_trips
+    def add_driven_trip(trip)
+      # Checking if trip is an instance of trip
+      if trip.class != Trip
+        raise ArgumentError, 'This is not a trip class'
+      end
+      # Adding trip to driven_trips 
+      @driven_trips << trip
     end
 
   end
