@@ -22,7 +22,7 @@ module RideShare
       end
 
       # TODO: refactor w calculate_trip_duration???
-      if @end_time - @start_time <= 0
+      if @end_time - @start_time < 0
         raise ArgumentError.new("Trip end time is before start time.")
       end
 

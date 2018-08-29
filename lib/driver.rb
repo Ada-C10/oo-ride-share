@@ -45,9 +45,9 @@ module RideShare
         return 0
       else
         rating_sum = @driven_trips.sum { |driven_trip| driven_trip.rating }
-        trips_driven = @driven_trips.length.to_f
+        trips_driven = @driven_trips.length
 
-        return rating_sum / trips_driven
+        return rating_sum / trips_driven.to_f
       end
     end
 
