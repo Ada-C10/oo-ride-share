@@ -15,7 +15,7 @@ module RideShare
                  driver_file = 'support/drivers.csv')
 
       @passengers = load_users(user_file)
-        @drivers = load_drivers(driver_file)
+        # @drivers = load_drivers(driver_file)
 
       @trips = load_trips(trip_file)
 
