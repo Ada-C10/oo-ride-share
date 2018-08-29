@@ -11,10 +11,13 @@ module RideShare
       # inherits @id, @name, @phone as param and inst var (?)
       # inherits @trips from User (?) as instance variable not parameter
       # rather than input[:vin], just :vin
+
       @vehicle_id = input[:vin]
-      # if input[:vehicle_id].nil? || input[:vehicle_id] <= 0
-      #   raise ArgumentError, 'ID cannot be blank or less than zero.'
-      # end
+
+      if @vehicle_id.nil? || @vehicle_id == 0
+        raise ArgumentError, 'ID cannot be blank or less than zero.'
+      end
+
       #
       # if input[:vin].length != 17
       #   raise ArgumentError, 'vin numbers must be 17 characters in length'
