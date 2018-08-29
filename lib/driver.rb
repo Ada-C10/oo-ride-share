@@ -32,17 +32,17 @@ module RideShare
       # @id = input[:id]
       # @name = input[:name]
       # @phone_number = input[:phone]
-    
+
     end
   end
 end
 
 
-driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-  vin: "1C9EVBRM0YBC564DZ",
-  phone: '111-111-1111',
-  status: :AVAILABLE)
-
-puts driver.id
-puts driver.name
-puts driver.status
+# driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+#   vin: "1C9EVBRM0YBC564DZ",
+#   phone: '111-111-1111',
+#   status: :AVAILABLE)
+#
+# puts driver.id
+# puts driver.name
+# puts driver.status

@@ -11,7 +11,7 @@ module RideShare
       @end_time = input[:end_time]
       @cost = input[:cost]
       @rating = input[:rating]
-      @driver =
+      @driver = RideShare::Driver.new(input)
 
 
       if @rating > 5 || @rating < 1
