@@ -79,12 +79,7 @@ module RideShare
 
           driver = Driver.new(parsed_driver)
 
-          # @trips.each do |trip|
-          #
-          #   if trip.driver.id == driver.id
-          #     driver.add_driven_trip(trip)
-          #   end
-          # end
+
 
           drivers << driver
         end
@@ -92,6 +87,18 @@ module RideShare
         return drivers
 
       end
+      def add_driven_trips
+        @drivers .each do |driver|
+          @trips.each do |trip|
+
+            if trip.driver.id == driver.id
+              driver.add_driven_trip(trip)
+            end
+          end
+        end
+      end
+
+
 
 
       def find_passenger(id)
