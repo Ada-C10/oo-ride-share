@@ -90,26 +90,26 @@ module RideShare
       return @passengers.find { |passenger| passenger.id == id }
     end
 
+    def first_available_driver
+      @drivers.find { |driver| driver.status == :AVAILABLE }
+    end
+
     def request_trip(user_id)
-      num_array = [*1..1000]
+      id = @trips.length + 1
+      passenger = find_passenger(user_id)
+      driver = first_available_driver
 
-      @trips.each do |trip|
-        if num_array.include?(trip.id)
-          num_array.delete(trip.id)
-        end
-      end
+      trip_data = {
+        id: id,
+        driver: driver,
+        passenger: passenger,
+        start_time: Time.now
+      }
 
-      id = num_array.first
-
-      passenger = @passengers.find { |passenger| passenger.id == user_id }
-
-      available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
-
-
-      input = {id: id, driver: available_driver, passenger: passenger, start_time: Time.now }
-
-      requested_trip = Trip.new(input)
+      requested_trip = Trip.new(trip_data)
       @trips << requested_trip
+      # driver.add_in_progress_trip(requested_trip)
+      passenger.add_trip(requested_trip)
       return requested_trip
     end
 
