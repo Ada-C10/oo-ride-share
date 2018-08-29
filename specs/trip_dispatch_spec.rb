@@ -4,7 +4,7 @@ USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
 
-xdescribe "TripDispatcher class" do
+describe "TripDispatcher class" do
   before do
     @dispatcher = RideShare::TripDispatcher.new(
       USER_TEST_FILE,
@@ -67,18 +67,19 @@ xdescribe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-      skip # Unskip after wave 2
+
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
+
         expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
+        expect(driver.driven_trips).must_include trip
       end
     end
   end
 
-  xdescribe "User & Trip loader methods" do
+  describe "User & Trip loader methods" do
 
     it "accurately loads passenger information into passengers array" do
       first_passenger = @dispatcher.passengers.first
