@@ -200,6 +200,16 @@ describe "TripDispatcher class" do
       expect(num_trips_after).must_equal num_trips_before + 1
     end
 
+    it 'raises an ArgumentError if no drivers are available' do
+
+      @dispatcher.find_driver(5).make_unavailable
+      @dispatcher.find_driver(8).make_unavailable
+
+      expect {
+        @dispatcher.request_trip(1)
+      }.must_raise ArgumentError
+    end
+
 
 
   end

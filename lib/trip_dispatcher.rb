@@ -107,6 +107,9 @@ module RideShare
       # use current time for start time
       # end date, cost, rating will all be nil
       driver = @drivers.find { |driver| driver.status == :AVAILABLE and driver.id != user_id }
+
+      raise ArgumentError, 'No drivers available' if driver == nil
+      
       passenger = find_passenger(user_id)
 
       input = {id: @trips.last.id + 1, driver: driver, passenger: passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil}
