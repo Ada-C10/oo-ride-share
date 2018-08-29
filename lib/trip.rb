@@ -26,9 +26,9 @@ module RideShare
 
     end
 
-    def retrieve_driver(driver)
-      driver = Driver.find(line[0])
-    end
+    # def retrieve_driver(driver)
+    #   driver = Driver.find(line[0])
+    # end
 
     def trip_duration
       duration = @end_time - @start_time

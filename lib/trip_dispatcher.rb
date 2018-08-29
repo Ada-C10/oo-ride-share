@@ -41,7 +41,15 @@ module RideShare
         drivers << Driver.new(driver_data)
       end
 
-      return drivers 
+      return drivers
+    end
+
+    def find_driver(id)
+      driver_list = Driver.all
+      driver = driver_list.find do |line|
+        line.id == id
+      end
+      return driver
     end
 
 
