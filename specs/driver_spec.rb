@@ -117,7 +117,7 @@ describe "Driver class" do
     it "calculates total revenue" do
       # binding.pry
       @driver.driven_trips.each do |trip|
-        expect(@driver.total_revenue).must_equal 61.31
+        expect(@driver.total_revenue).must_equal 61.36
       end
     end
   end
