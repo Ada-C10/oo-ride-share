@@ -50,6 +50,26 @@ module RideShare
       return avg_rating
 
     end
+    
+
+    def total_revenue
+     total_cost_all_trips = 0
+     total_num_rides = @driven_trips.length
+
+     if total_num_rides == 0
+       return 0
+     end
+
+     @driven_trips.each do |x|
+       total_cost_all_trips += x.cost
+     end
+
+     all_fees = total_num_rides * 1.65
+     driver_revenue = (total_cost_all_trips - all_fees) * 0.8
+     driver_revenue_rounded = driver_revenue.round(2)
+
+     return driver_revenue_rounded
+   end
 
   end
 end

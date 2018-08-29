@@ -98,9 +98,39 @@ describe "Driver class" do
 
     end
 
-  xdescribe "total_revenue" do
+  describe "total_revenue" do
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), cost: 10, rating: 5)
+      @driver.add_driven_trip(trip)
+
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: Time.parse("2016-08-09"), cost: 24,
+                                  rating: 1)
+      @driver.add_driven_trip(trip2)
+
+      trip3 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: Time.parse("2016-08-09"), cost: 16,
+                                  rating: 1)
+      @driver.add_driven_trip(trip3)
+    end
+
+    it "correctly calculates total driver revenue" do
     # You add tests for the total_revenue method
+    driver_revenue = @driver.total_revenue
+
+    expect (driver_revenue).must_equal (50 - ( 3 * 1.65 ) ) * 0.80
+    end
   end
+
+
+
+
 
   xdescribe "net_expenditures" do
     # You add tests for the net_expenditures method
