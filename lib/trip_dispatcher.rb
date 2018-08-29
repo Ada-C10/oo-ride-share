@@ -126,6 +126,3 @@ module RideShare
     end
   end
 end
-
-# a = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
-b = RideShare::TripDispatcher.new
