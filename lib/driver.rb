@@ -1,4 +1,5 @@
 require_relative 'user'
+require 'pry'
 
 module RideShare
   class Driver < User
@@ -14,18 +15,23 @@ module RideShare
         @vin = input[:vin]
       end
 
-      # @vin = input[:vin].length = 17 ? input[:vin] : raise ArgumentError.new("Invalid VIN")
-
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
-      @status = input[:status]
 
-      if @status != :AVAILABLE && @status != :UNAVAILABLE
-        raise ArgumentError.new("Invalid status entered.")
+      if input[:status] != :AVAILABLE && input[:status] != :UNAVAILABLE
+        @status = :UNAVAILABLE
       else
         @status = input[:status]
       end
+    end
 
-
+    def add_driven_trip(trip)
+      if trip.is_a? Trip
+      # binding.pry
+      @driven_trips << trip
+      # binding.pry
+      else
+        raise ArgumentError.new("Invalid trip instance")
+      end
     end
 
   end

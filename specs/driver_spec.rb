@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-xdescribe "Driver class" do
+describe "Driver class" do
 
     describe "Driver instantiation" do
       before do
@@ -29,18 +29,18 @@ xdescribe "Driver class" do
       end
 
       it "is set up for specific attributes and data types" do
-        [:id, :name, :vehicle_id, :status, :driven_trips].each do |prop|
+        [:id, :name, :vin, :status, :driven_trips].each do |prop|
           expect(@driver).must_respond_to prop
         end
 
         expect(@driver.id).must_be_kind_of Integer
         expect(@driver.name).must_be_kind_of String
-        expect(@driver.vehicle_id).must_be_kind_of String
+        expect(@driver.vin).must_be_kind_of String
         expect(@driver.status).must_be_kind_of Symbol
       end
     end
 
-    xdescribe "add_driven_trip method" do
+    describe "add_driven_trip method" do
       before do
         pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
         @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
