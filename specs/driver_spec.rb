@@ -101,27 +101,22 @@ describe "Driver class" do
 
   describe "total_revenue" do
     before do
-      @passenger = RideShare::User.new(id: 9, name: "Merl Glover III", phone: "1-602-620-2330 x3723")
-      @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), rating: 5, cost:40)
+      @driver.add_driven_trip(trip)
+
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), rating: 5, cost:40)
     end
-    it "calculates total_revenue for all driver's trips" do
-      trip1 = RideShare::Trip.new(id: 8, passenger: @passenger,
-                                 start_time: Time.parse("2018-05-25 10:00:00"),
-                                 end_time: Time.parse("2018-05-25 11:00:00"),
-                                 cost: 40,
-                                 rating: 5, driver: @driver)
-      @driver.add_driven_trip(trip1)
-
-      trip2 = RideShare::Trip.new(id: 8, passenger: @passenger,
-                                 start_time: Time.parse("2018-05-25 12:00:00"),
-                                 end_time: Time.parse("2018-05-25 13:00:00"),
-                                 cost: 40,
-                                 rating: 5, driver: @driver)
-      @driver.add_driven_trip(trip2)
-
-
+    it "calculates total revenue" do
       @driver.driven_trips.each do |trip|
-        binding.pry
+        # binding.pry
         expect(@driver.total_revenue).must_equal 61.31
       end
     end
