@@ -56,6 +56,7 @@ module RideShare
 #binding.pry
           trip = Trip.new(parsed_trip)
           passenger.add_trip(trip)
+          driver.add_driven_trip(trip)
           trips << trip
         end
 
@@ -132,5 +133,5 @@ module RideShare
   # rideshare.drivers.each do |driver|
   #   puts driver.total_revenue
   #   puts driver.id
-  # end
-ap rideshare.passengers 
+  # end(
+puts rideshare.trips[0].driver.driven_trips 
