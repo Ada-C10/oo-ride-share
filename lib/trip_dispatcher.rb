@@ -1,8 +1,10 @@
 require 'csv'
 require 'time'
+require 'ap'
 
 require_relative 'user'
 require_relative 'trip'
+require_relative 'driver'
 
 module RideShare
   class TripDispatcher
@@ -12,8 +14,9 @@ module RideShare
                    trip_file = 'support/trips.csv',
                    driver_file = 'support/driver.csv')
       @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
       @drivers = load_drivers(driver_file)
+      @trips = load_trips(trip_file)
+
     end
 
     def load_users(filename)
@@ -40,16 +43,17 @@ module RideShare
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
         driver = find_driver(raw_trip[:driver_id].to_i)
+        ap "INSIDE LOAD_TRIPS. INSTANCE OF DRIVER #{driver}"
 
-
+        # #NOTE: WHY DON'T THESE TWO LINES WORK THO?
         start_time = Time.parse(raw_trip[:start_time])
         end_time = Time.parse(raw_trip[:end_time])
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
-          start_time: start_time,
-          end_time: end_time,
+          start_time: raw_trip[:start_time],
+          end_time: raw_trip[:end_time],
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i,
           driver: driver
@@ -57,7 +61,13 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
+        driver.add_trip(trip)
         trips << trip
+
+
+
+
+
       end
 
       return trips
@@ -71,38 +81,23 @@ module RideShare
       driver_data.each do |raw_driver|
 
         # NOTE: ALL IDS ARE THE SAME (no repeats between driver and passenger)
-        # parsed_driver = {
-        #   id: raw_driver[:id].to_i,
-        #   vehicle_id: raw_driver[:vin],
-        #   status: raw_driver[:status].to_sym
-        # }
 
+        user = find_passenger(raw_id[:id])
 
-        # # old code
-        user_trip = find_trips(raw_driver[:id]).first
-        user_trips = find_trips(raw_driver[:id])
-        #
         parsed_driver = {
           id: raw_driver[:id].to_i,
-          name: user_trip.passenger.name
-          phone_number: user_trip.passenger.phone,
+          name: user.name,
+          phone: user.phone_number,
           vehicle_id: raw_driver[:vin],
-          status: raw_driver[:status].to_sym,
-          passenger: nil
+          status: raw_driver[:status].to_sym
         }
 
         driver = Driver.new(parsed_driver)
-        # passenger.add_trip(trip)
+        ap "INSIDE OF LOAD_DRIVERS. INSTANCE OF DRIVER #{driver}"
         drivers << driver
 
       end
     end
-
-    def find_trips(id)
-      check_id(id)
-      return @trips.select { |trip| trip.passenger.id == id }
-    end
-
 
     def find_passenger(id)
       check_id(id)
@@ -128,3 +123,14 @@ module RideShare
     end
   end
 end
+
+
+pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
+
+trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: "2016-08-08T12:14:00+00:00", end_time: "2018-05-20T12:14:00+00:00",  cost: 55, rating: 5, driver: driver})
+
+
+ap pass
+ap driver
+ap trip.start_time

@@ -1,4 +1,5 @@
 require 'csv'
+require 'time'
 
 module RideShare
   class Trip
@@ -7,11 +8,16 @@ module RideShare
     def initialize(input)
       @id = input[:id]
       @passenger = input[:passenger]
-      @start_time = input[:start_time]
-      @end_time = input[:end_time]
+      @start_time = parse_time(input[:start_time])
+      @end_time = parse_time(input[:end_time])
       @cost = input[:cost]
       @rating = input[:rating]
       @driver = input[:driver]
+
+      if @end_time - @start_time <= 0
+        raise ArgumentError.new("Trip end time is before start time.")
+      end
+
 
 
       if @rating > 5 || @rating < 1
@@ -19,10 +25,15 @@ module RideShare
       end
 
       # TODO: refactor w calculate_trip_duration???
-      if @end_time - @start_time <= 0
-        raise ArgumentError.new("Trip end time is before start time.")
-      end
 
+
+
+
+    end
+
+    def parse_time(time)
+      time = Time.parse(time)
+      return time
     end
 
     def inspect
