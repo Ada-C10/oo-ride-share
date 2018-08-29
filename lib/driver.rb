@@ -11,11 +11,11 @@ module RideShare
         raise ArgumentError, 'ID cannot be blank or less than zero.'
       end
 
-      @vehicle_id = input[:vin].to_s
+      @vehicle_id = input[:vehicle_id].to_s
       # binding.pry
-      if @vehicle_id.length != 17 || @vehicle_id.empty?
-        raise ArgumentError, 'Invalid VIN'
-      end
+        if @vehicle_id.length != 17 || @vehicle_id.empty?
+          raise ArgumentError, 'Invalid VIN'
+        end
       @status = (input[:status]).to_sym
       @driven_trips = 0
     end
