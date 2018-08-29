@@ -102,7 +102,7 @@ describe "TripDispatcher class" do
       @requested_trip = @dispatcher.request_trip(1)
     end
 
-    it "assigns the first :AVAILABLE driver to a new Trip" do
+    it "Assigns the first :AVAILABLE driver to a new Trip" do
 
       driver  = @requested_trip.driver
 
@@ -116,7 +116,9 @@ describe "TripDispatcher class" do
     #   expect(start_time).must_equal Time.now
     # end
 
-    
+    it "Adds new Trip to collection of all Trips in TripDispatcher" do
+      expect(@dispatcher.trips.last).must_equal @requested_trip
+    end
   end
 
 
