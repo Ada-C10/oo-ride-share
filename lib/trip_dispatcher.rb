@@ -116,4 +116,9 @@ module RideShare
   end
 end
 
-ap RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
+rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
+
+rideshare.drivers.each do |driver|
+  puts driver.total_revenue
+  puts driver.id
+end
