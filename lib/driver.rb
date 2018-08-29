@@ -11,7 +11,6 @@ module RideShare
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
       @status = input[:status].nil? ? :AVAILABLE : input[:status]
-      # binding.pry
 
       raise ArgumentError.new unless [:AVAILABLE, :UNAVAILABLE].include?(@status)
 
@@ -20,6 +19,7 @@ module RideShare
     end
 
     def add_driven_trip(trip)
+      raise ArgumentError unless trip.is_a? Trip
       @driven_trips << trip
     end
 
@@ -29,7 +29,7 @@ module RideShare
         trip_ratings << trip.rating
       end
 
-      return (trip_ratings.sum / trip_ratings.length).to_f
+      trip_ratings.length == 0 ? 0 : (trip_ratings.sum / trip_ratings.length).to_f
     end
 
   end
