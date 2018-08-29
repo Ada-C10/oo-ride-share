@@ -1,3 +1,5 @@
+require_relative 'trip'
+require 'Time'
 
 module RideShare
   class User
@@ -32,22 +34,6 @@ module RideShare
         total_time += trip.calculate_trip_duration
       end
       return total_time
-    end
-  end
-
-  class Driver < User
-    attr_reader :vehicle_id, :driven_trips, :status, :trips
-
-  def initialize(id: 0, name: "no name", vin: 0, phone: 0, status: :UNAVAILABLE, trips: [])
-    raise ArgumentError.new "Invalid VIN" if vin.length != 17
-    raise ArgumentError.new "Invalid ID" if id <= 0
-      @id = id
-      @name = name
-      @vehicle_id = vin
-      @phone = phone
-      @status = status
-      @driven_trips = []
-      @trips = trips
     end
   end
 end
