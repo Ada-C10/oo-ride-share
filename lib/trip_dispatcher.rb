@@ -1,5 +1,6 @@
 require 'csv'
 require 'time'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -13,8 +14,8 @@ module RideShare
                    trip_file = 'support/trips.csv',
                     driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
       @drivers = load_drivers(driver_file)
+      @trips = load_trips(trip_file)
     end
 
     def load_users(filename)
@@ -39,7 +40,9 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
-        driver = find_driver(raw_trip[:driver_id].to_i)
+        driver_number = raw_trip[:driver_id].to_i
+        #binding.pry
+        driver = find_driver(driver_number)
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
