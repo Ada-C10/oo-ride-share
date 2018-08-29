@@ -13,6 +13,27 @@ module RideShare
       raise ArgumentError, "Invalid status, must be either :AVAILABLE or :UNAVAILABLE" if @status != :AVAILABLE && @status != :UNAVAILABLE
     end
 
+    def add_driven_trip(trip)
+      @driven_trips << trip
+    end
+
+    def average_rating
+      total_rate = @driven_trips.sum do |trip|
+        trip.rating
+      end
+      return total_rate / @driven_trips.length
+    end
+
+    def total_revenue
+      revenue = @driven_trips.sum do |trip|
+        (trip.cost - 1.65) * 0.8.round(2)
+      end
+      return revenue
+    end
+
+    def net_expenditures
+      return super - total_revenue
+    end
   end
 
 end
