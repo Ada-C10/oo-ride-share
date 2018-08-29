@@ -138,10 +138,33 @@ module RideShare
               #{passengers.count} passengers>"
     end
 
+    def assign_driver
+
+      available_drivers = @drivers.find_all { |driver| driver.status == :AVAILABLE }
+
+      new_driver = available_drivers.find { |driver| driver.driven_trips.empty? }
+
+      # if no driver has never driven a trip
+      if new_driver.nil?
+
+        # sort driven trips for each driver
+        available_drivers.each do |driver|
+          driver.driven_trips.sort_by{ |trip| trip.end_time }
+        end
+
+  
+        return available_drivers.min_by{ |driver| driver.driven_trips.last.end_time }
+
+      else
+        return new_driver
+      end
+    end
+
     private
 
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
+
   end
 end

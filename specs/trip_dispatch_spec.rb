@@ -171,6 +171,50 @@ describe "TripDispatcher class" do
 
       expect( trip.driver.id ).wont_equal 5
     end
+  end
+
+  describe 'assign driver method' do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+    end
+
+    it 'returns new driver if available' do
+      @dispatcher.request_trip(1)
+      driver = @dispatcher.assign_driver
+      expect( driver.id ).must_equal 8
+    end
+
+    it 'returns driver with the oldest most recent trip' do
+
+      driver_5 = @dispatcher.find_driver(5)
+      driver_8 = @dispatcher.find_driver(8)
+
+      trip1 = RideShare::Trip.new(id: 8, driver: driver_5, passenger: nil,
+                                  start_time: Time.parse("2016-08-05"),
+                                  end_time: Time.parse("2016-08-06"),
+                                  rating: 1)
+
+      trip2 = RideShare::Trip.new(id: 8, driver: driver_8, passenger: nil,
+                                  start_time: Time.parse("2016-08-09"),
+                                  end_time: Time.parse("2016-08-10"),
+                                  rating: 1)
+      driver_5.add_driven_trip(trip1)
+      driver_8.add_driven_trip(trip2)
+  
+      expect( @dispatcher.assign_driver.id ).must_equal 5
+
+      trip3 = RideShare::Trip.new(id: 8, driver: driver_5, passenger: nil,
+                                  start_time: Time.parse("2016-08-12"),
+                                  end_time: Time.parse("2016-08-13"),
+                                  rating: 1)
+
+      driver_5.add_driven_trip(trip3)
+
+
+      expect( @dispatcher.assign_driver.id ).must_equal 8
+    end
 
   end
 
