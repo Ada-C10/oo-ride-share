@@ -90,6 +90,29 @@ module RideShare
       return @passengers.find { |passenger| passenger.id == id }
     end
 
+    def request_trip(user_id)
+      num_array = [*1..1000]
+
+      @trips.each do |trip|
+        if num_array.include?(trip.id)
+          num_array.delete(trip.id)
+        end
+      end
+
+      id = num_array.first
+
+      passenger = @passengers.find { |passenger| passenger.id == user_id }
+
+      available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+
+
+      input = {id: id, driver: available_driver, passenger: passenger, start_time: Time.now }
+
+      requested_trip = Trip.new(input)
+      @trips << requested_trip
+      return requested_trip
+    end
+
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
       #{trips.count} trips, \
