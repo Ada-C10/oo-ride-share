@@ -3,15 +3,18 @@ require 'time'
 
 require_relative 'user'
 require_relative 'trip'
+require_relative 'driver'
 
 module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                    driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -28,7 +31,6 @@ module RideShare
 
       return users
     end
-
 
     def load_trips(filename)
       trips = []
@@ -55,9 +57,43 @@ module RideShare
       return trips
     end
 
+    def load_drivers(filename)
+      drivers = []
+      CSV.read(filename, headers: true).each do |line|
+        input_data = {}
+        input_data[:id] = line[0].to_i
+        input_data[:vin] = line[1]
+        input_data[:status] = line[2].to_sym
+
+        if find_passenger(input_data[:id]) != nil
+          passenger = find_passenger(input_data[:id])
+          input_data[:name] = passenger.name
+          input_data[:phone_num] = passenger.phone_number
+        end
+        driver  = Driver.new(input_data)
+        @passengers = passengers.map do |passenger|
+          if passenger.id == driver.id
+            driver
+          else
+            passenger
+          end
+        end
+
+        drivers << driver
+      end
+
+      drivers
+
+    end
+
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
+    end
+
+    def find_driver(id)
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id }
     end
 
     def inspect
