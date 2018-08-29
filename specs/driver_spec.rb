@@ -53,13 +53,13 @@ describe "Driver class" do
     end
 
     it "throws an argument error if trip is not provided" do
-      expect{ @driver.add_trip(1) }.must_raise ArgumentError
+      expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
     end
 
     it "increases the trip count by one" do
-      previous = @driver.trips.length
-      @driver.add_trip(@trip)
-      expect(@driver.trips.length).must_equal previous + 1
+      previous = @driver.driven_trips.length
+      @driver.add_driven_trip(@trip)
+      expect(@driver.driven_trips.length).must_equal previous + 1
     end
   end
 
@@ -69,7 +69,7 @@ describe "Driver class" do
                                       vin: "1C9EVBRM0YBC564DZ")
       trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                  date: Time.parse("2016-08-08"), rating: 5)
-      @driver.add_trip(trip)
+      @driver.add_driven_trip(trip)
     end
 
     it "returns a float" do
@@ -91,7 +91,7 @@ describe "Driver class" do
     it "correctly calculates the average rating" do
       trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                   date: Time.parse("2016-08-08"), rating: 1)
-      @driver.add_trip(trip2)
+      @driver.add_driven_trip(trip2)
 
       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
     end
