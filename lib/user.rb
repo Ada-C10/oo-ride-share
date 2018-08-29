@@ -54,7 +54,15 @@ module RideShare
     end
 
     def average_rating
-      #This method sums up the ratings from all a Driver's trips and returns the average
+      sum = 0
+      @driven_trips.each do |trip|
+        sum += trip.rating
+      end
+      if @driven_trips.length == 0
+        return 0
+      else 
+        return sum.to_f/@driven_trips.length
+      end
     end
 
     def add_driven_trip(trip)
