@@ -38,7 +38,7 @@ module RideShare
 
       return driver_data.map do |each_driver|
         user = find_passenger(each_driver[:id].to_i)
-
+        # binding.pry
         driver = {
           id: each_driver[:id].to_i,
           trips: user.trips,
