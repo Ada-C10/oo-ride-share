@@ -50,7 +50,7 @@ module RideShare
       return avg_rating
 
     end
-    
+
 
     def total_revenue
      total_cost_all_trips = 0
@@ -69,6 +69,12 @@ module RideShare
      driver_revenue_rounded = driver_revenue.round(2)
 
      return driver_revenue_rounded
+   end
+
+   def net_expenditures
+     net_expenditures = super
+     difference = net_expenditures - total_revenue
+     return difference
    end
 
   end

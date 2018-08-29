@@ -132,7 +132,29 @@ describe "Driver class" do
 
 
 
-  xdescribe "net_expenditures" do
-    # You add tests for the net_expenditures method
+  describe "net_expenditures" do
+    before do
+
+      @user = RideShare::User.new(id: 54, name: "Rogers Bartell IV", phone: "353-533-5334")
+
+
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), cost: 4, rating: 5)
+      @driver.add_driven_trip(trip)
+
+
+      trip = RideShare::Trip.new(id: 8, driver: 5, passenger: @driver,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), cost: 10, rating: 5)
+
+      @user.add_trip(trip)
+      it 'checks if driver.net_expenditures overrides user.net_expenditures' do
+      difference = @driver.net_expenditures
+      expect(difference).must_equal 10 - ((4 - 1.65) * 0.80)
+      end
+    end
   end
 end
