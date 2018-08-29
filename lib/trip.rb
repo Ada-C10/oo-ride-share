@@ -6,8 +6,8 @@ module RideShare
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating
 
     def initialize(input)
-      @id = input[:id]
-      @passenger = input[:passenger]
+      @id = input[:id] #trip ID
+      @passenger = input[:passenger] #passenger ID
       @start_time = input[:start_time]
       @end_time = input[:end_time]
       @cost = input[:cost]

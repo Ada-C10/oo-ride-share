@@ -89,12 +89,12 @@ describe "Trip class" do
           }
 
 
+          # create bunny as an instance of a trip.
 
         bunny = RideShare::Trip.new(trip_data)
-
+        # calls the method duration
         expect bunny.duration.must_equal 1500.0
       end
-# binding.pry
 
     end
   end

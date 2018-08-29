@@ -42,16 +42,16 @@ module RideShare
         start_time = Time.parse(raw_trip[:start_time])
         end_time = Time.parse(raw_trip[:end_time])
 
-
+        # in trips ID = Driver ID
         parsed_trip = {
-          id: raw_trip[:id].to_i,
-          passenger: passenger,
+          id: raw_trip[:id].to_i, #trip ID
+          passenger: passenger, #passenger ID
           start_time: start_time,
           end_time: end_time,
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i
         }
-
+        # adding passenger from user.rb to into trip
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
         trips << trip

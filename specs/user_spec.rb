@@ -59,4 +59,32 @@ describe "User class" do
       end
     end
   end
+
+  describe "total amount of money user has spent on trips" do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III", phone: "1-602-620-2330 x3723",
+        trips: [{
+          id: 8,
+          passenger: RideShare::User.new(id: 1,
+            name: "Ada",
+            phone: "412-432-7640"),
+            cost: 30.00,
+            rating: 3
+          },
+
+          {
+            id: 8,
+            passenger: RideShare::User.new(id: 1,
+              name: "Ada",
+              phone: "412-432-7640"),
+              cost: 25.00,
+              rating: 3
+          }]
+      )
+    end
+    it "total amount of money user has spent on trips" do
+      expect(@user.net_expenditures).must_equal 55.00
+    end
+  end
+
 end
