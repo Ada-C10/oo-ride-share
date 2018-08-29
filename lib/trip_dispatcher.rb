@@ -64,11 +64,11 @@ module RideShare
         driver_data = {}
 
         driver_data[:id] = line[0].to_i
-        # driver_data[:name] = line[1]
-        # driver_data[:phone] = line[2]
-        # driver_data[:trips] = line[3]
         driver_data[:vin] = line[1]
-        driver_data[:status ] = line[2]
+        driver_data[:status] = line[2]
+
+        driver_data[:name] = find_passenger(line[0].to_i).name
+        driver_data[:phone] = find_passenger(line[0].to_i).phone_number
 
         drivers << Driver.new(driver_data)
       end
