@@ -59,4 +59,34 @@ describe "User class" do
       end
     end
   end
+
+  describe '#net_expenditures' do
+    before do
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723", trips: [])
+
+      trip_1 =  { id: 8, passenger: RideShare::User.new(id: 1, name: "Ada",
+        phone: "412-432-7640"), start_time: start_time, end_time: end_time,
+        cost: 50, rating: 3}
+
+      trip_2 = { id: 8, passenger: RideShare::User.new(id: 1, name: "Ada",
+          phone: "412-432-7640"), start_time: start_time, end_time: end_time,
+          cost: 50, rating: 3}
+
+
+      trip_1_instance_of_trip = RideShare::Trip.new(trip_1)
+      trip_2_instance_of_trip = RideShare::Trip.new(trip_2)
+
+      @user.add_trip(trip_1_instance_of_trip)
+      @user.add_trip(trip_2_instance_of_trip)
+
+    end
+
+    it "return the net expenditure for user" do
+       expect(@user.net_expenditures).must_equal 100 
+
+    end
+
+
+  end
 end

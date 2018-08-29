@@ -1,4 +1,3 @@
-require 'pry'
 module RideShare
   class User
     attr_reader :id, :name, :phone_number, :trips
@@ -18,7 +17,18 @@ module RideShare
       @trips << trip
     end
 
+    # that will return the total amount of money that user has spent on their trips
+    def net_expenditures
+      cost_array = []
 
+      @trips.each do |trip|
+        cost_array << trip[:cost]
+      end
+
+      net = cost_array.sum
+      return net
+
+    end
 
   end
 end

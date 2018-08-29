@@ -31,23 +31,11 @@ module RideShare
       "PassengerID=#{passenger&.id.inspect}>"
     end
 
-    # end_time = Time.parse('2014-05-21T12:14:00+40:00')
-    # start_time = Time.parse('2014-05-21T12:14:00+00:00')
-    # seconds = t.hour * 3600 + t.min * 60 + t.sec
 
     def duration #duration of the trip in second
-      # @end_time = Time.parse(@end_time)
-      # @start_time = Time.parse(@start_time)
 
       @duration = @end_time - @start_time
-      # @duration = Time.parse(@duration)
-
-      # @duration_in_hour = @end_time.hour - @start_time.hour
-      # @duration_in_min = @end_time.min - @start_time.min
-      # @duration_in_sec = @end_time.sec - @end_time.sec
-
-      # @final_duration = @duration.hour * 3600 + @duration.min * 60 + @duration.sec
-      # @duration = @duration_in_hour * 3600 + @duration_in_min * 60 + @duration_in_sec
+    
       return @duration.to_i
     end
   end
