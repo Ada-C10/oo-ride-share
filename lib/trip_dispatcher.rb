@@ -1,8 +1,10 @@
 require 'csv'
 require 'time'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
+require_relative 'driver'
 
 module RideShare
   class TripDispatcher
@@ -10,10 +12,11 @@ module RideShare
 
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv',
-                  driver_file = 'support/drivers.csv')
+                   driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
       @drivers = load_drivers(driver_file)
+      @trips = load_trips(trip_file)
+
     end
 
     def load_users(filename)
@@ -24,10 +27,8 @@ module RideShare
         input_data[:id] = line[0].to_i
         input_data[:name] = line[1]
         input_data[:phone] = line[2]
-
         users << User.new(input_data)
       end
-
       return users
     end
 
@@ -37,12 +38,11 @@ module RideShare
       CSV.read(filename, headers: true).each do |line|
         input_data = {}
         input_data[:id] = line[0].to_i
-        input_data[:vehicle_id] = line[1]
+        input_data[:vin] = line[1]
         input_data[:status] = line[2].to_sym
-
         drivers << Driver.new(input_data)
       end
-
+      # binding.pry
       return drivers
     end
 
@@ -73,8 +73,8 @@ module RideShare
         passenger.add_trip(trip)
         driver.add_trip(trip)
         trips << trip
+        # binding.pry
       end
-
       return trips
     end
 

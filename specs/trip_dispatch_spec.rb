@@ -8,19 +8,20 @@ describe "TripDispatcher class" do
   describe "Initializer" do
     it "is an instance of TripDispatcher" do
       dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE)
+                                                 TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
       expect(dispatcher).must_be_kind_of RideShare::TripDispatcher
     end
 
     it "establishes the base data structures when instantiated" do
       dispatcher = RideShare::TripDispatcher.new
-      [:trips, :passengers].each do |prop|
+      [:drivers, :trips, :passengers].each do |prop|
         expect(dispatcher).must_respond_to prop
       end
 
       expect(dispatcher.trips).must_be_kind_of Array
       expect(dispatcher.passengers).must_be_kind_of Array
-      # expect(dispatcher.drivers).must_be_kind_of Array
+      expect(dispatcher.drivers).must_be_kind_of Array
     end
   end
 
@@ -59,11 +60,12 @@ describe "TripDispatcher class" do
   describe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE)
+                                                 TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
     end
 
     it "accurately loads driver information into drivers array" do
-      skip # Unskip After Wave 2
+      # skip # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -76,7 +78,7 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-      skip # Unskip after wave 2
+      # skip # Unskip after wave 2
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
@@ -90,7 +92,8 @@ describe "TripDispatcher class" do
   describe "User & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE)
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
     end
 
     it "accurately loads passenger information into passengers array" do
