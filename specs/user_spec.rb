@@ -65,6 +65,17 @@ describe "User class" do
       expect(@user.net_expenditures).must_equal 25
     end
 
+    it "verify that total_time_spent is accurate" do
+      trip = RideShare::Trip.new(id: 10, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-10"),
+                                 end_time: Time.parse("2016-08-11"),
+                                 cost: 15,
+                                 rating: 5)
+      @user.add_trip(trip)
+      expect(@user.total_time_spent).must_equal 172800
+    end
+
+
     it "all Trips must have the same passenger's user id" do
       @user.trips.each do |trip|
         expect(trip.passenger.id).must_equal 9
