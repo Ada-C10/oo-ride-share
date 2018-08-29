@@ -4,7 +4,7 @@ USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
 
-describe "TripDispatcher class" do
+xdescribe "TripDispatcher class" do
   before do
     @dispatcher = RideShare::TripDispatcher.new(
       USER_TEST_FILE,
