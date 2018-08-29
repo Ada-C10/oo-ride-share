@@ -28,7 +28,7 @@ module RideShare
        else
          raise ArgumentError.new('Invalid VIN ')
        end
-       
+
        @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
       if [:AVAILABLE, :UNAVAILABLE].include? (input[:status])
@@ -41,7 +41,4 @@ module RideShare
 
   end
   #Created add_driven_trip method for a driver
-  def add_driven_trip(driver_trip)
-    @driven_trips << driver_trip
-  end
 end
