@@ -13,6 +13,13 @@ describe "Trip class" do
           name: "Ada",
           phone: "412-432-7640"
         ),
+        driver: RideShare::Driver.new(
+          id: 10,
+          name: "Drylan Batz",
+          phone: "711-674-6798",
+          vin: "1C9EVBRM0YBC564DZ",
+          status: :AVAILABLE
+        ),
         start_time: start_time,
         end_time: end_time,
         cost: 23.45,
@@ -30,7 +37,7 @@ describe "Trip class" do
     end
 
     it "stores an instance of driver" do
-      skip  # Unskip after wave 2
+      # skip  # Unskip after wave 2
       expect(@trip.driver).must_be_kind_of RideShare::Driver
     end
 
