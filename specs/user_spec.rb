@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'pry'
 
 describe "User class" do
 
@@ -42,6 +43,7 @@ describe "User class" do
       trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-09"),
+                                 cost: 10,
                                  rating: 5)
 
       @user.add_trip(trip)
@@ -51,6 +53,16 @@ describe "User class" do
       @user.trips.each do |trip|
         expect(trip).must_be_kind_of RideShare::Trip
       end
+    end
+
+    it "verify that total_money_spent is accurate" do
+      trip = RideShare::Trip.new(id: 10, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 15,
+                                 rating: 5)
+      @user.add_trip(trip)
+      expect(@user.net_expenditures).must_equal 25
     end
 
     it "all Trips must have the same passenger's user id" do
