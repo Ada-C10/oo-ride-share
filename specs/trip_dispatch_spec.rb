@@ -97,13 +97,26 @@ describe "TripDispatcher class" do
   end
 
   describe '#request_trip method' do
-    it "assigns the first AVAILABLE driver to a new Trip" do
-      requested_trip = @dispatcher.request_trip(1)
-    driver  = requested_trip.driver
 
-    expect(driver).must_be_instance_of RideShare::Driver
+    before do
+      @requested_trip = @dispatcher.request_trip(1)
+    end
+
+    it "assigns the first :AVAILABLE driver to a new Trip" do
+
+      driver  = @requested_trip.driver
+
+      expect(driver).must_be_instance_of RideShare::Driver
 
     end
+
+    # Issue with assertion using Time.now
+    # it "uses the current time as @start_time for new Trip" do
+    #   start_time = @requested_trip.start_time
+    #   expect(start_time).must_equal Time.now
+    # end
+
+    
   end
 
 
