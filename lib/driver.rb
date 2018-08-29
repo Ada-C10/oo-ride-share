@@ -7,10 +7,6 @@ module RideShare
     def initialize(input)
       super(input)
 
-      @id = input[:id]
-      # @name =
-      # @phone_number =
-
       @vin = input[:vin]
       if @vin.length != 17
         raise ArgumentError.new("Invalid VIN")
@@ -18,8 +14,9 @@ module RideShare
         @vin = input[:vin]
       end
 
-      @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
+      # @vin = input[:vin].length = 17 ? input[:vin] : raise ArgumentError.new("Invalid VIN")
 
+      @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
       @status = input[:status]
 
       if @status != :AVAILABLE && @status != :UNAVAILABLE
