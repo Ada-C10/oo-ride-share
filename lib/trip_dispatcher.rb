@@ -13,7 +13,7 @@ module RideShare
                    driver_file = 'support/driver.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
-      @drivers = load_drivers(driver_file, user_file, trip_file)
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -39,7 +39,7 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
-        driver = find_driver(raw_driver[:driver_id].to_i)
+        driver = find_driver(raw_trip[:driver_id].to_i)
 
 
         start_time = Time.parse(raw_trip[:start_time])
@@ -51,7 +51,7 @@ module RideShare
           start_time: start_time,
           end_time: end_time,
           cost: raw_trip[:cost].to_f,
-          rating: raw_trip[:rating].to_i
+          rating: raw_trip[:rating].to_i,
           driver: driver
         }
 
@@ -63,33 +63,34 @@ module RideShare
       return trips
     end
 
-    def load_drivers(driver_file, user_file, trip_file)
+    def load_drivers(filename)
       drivers = []
 
-      driver_data = CSV.open(driver_file, "r", headers:true, header_converters: :symbol)
-      user_data = CSV.open(user_file, "r", headers:true, header_converters: :symbol)
-      trip_data = CSV.open(trip_file, "r", headers:true, header_converters: :symbol)
-
-
+      driver_data = CSV.open(filename, "r", headers:true, header_converters: :symbol)
 
 
 
       driver_data.each do |raw_driver|
 
-        # TODO: GO THROUGH THE OTHER CSV FILES TO GAIN DATA
-        # QUESTION: NAME+PHONE NUMBER FOR WHOM? DRIVER??? HOW??? IF NOT, THEN PASSENGER? OR SOMEHOW FIND DRIVER AS PASSENGER?
         # NOTE: ALL IDS ARE THE SAME (no repeats between driver and passenger)
 
+        user = find_passenger(raw_driver[:id])
+
         parsed_driver = {
-          id: raw_driver[:id].to_i
-          name: nil
-          phone_number: nil
-          trips: nil
-          vehicle_id: raw_driver[:vin]
-          driven_trips: nil
-          status: raw_driver[:status].to_sym
-          passenger: nil
+          id: raw_driver[:id].to_i,
+          name: user.name,
+          phone_number: user.phone,
+          # trips: user.trips,
+          vehicle_id: raw_driver[:vin],
+          driven_trips: [],
+          status: raw_driver[:status].to_sym,
+          # passenger: nil
         }
+
+        driver = Driver.new(parsed_driver)
+        # passenger.add_trip(trip)
+        drivers << driver
+
       end
     end
 

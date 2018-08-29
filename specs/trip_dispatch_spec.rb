@@ -12,7 +12,7 @@ xdescribe "TripDispatcher class" do
       expect(dispatcher).must_be_kind_of RideShare::TripDispatcher
     end
 
-    it "establishes the base data structures when instantiated" do
+    xit "establishes the base data structures when instantiated" do
       dispatcher = RideShare::TripDispatcher.new
       [:trips, :passengers].each do |prop|
         expect(dispatcher).must_respond_to prop
@@ -24,7 +24,7 @@ xdescribe "TripDispatcher class" do
     end
   end
 
-  describe "find_user method" do
+  xdescribe "find_user method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new
     end

@@ -34,6 +34,11 @@ module RideShare
       # @phone_number = input[:phone]
 
     end
+
+    def add_trip(trip)
+      @trips << trip
+    end
+
   end
 end
 
