@@ -155,5 +155,4 @@ describe "User class" do
       expect(@user.total_time_spent).must_equal 0
     end
   end
-
 end
