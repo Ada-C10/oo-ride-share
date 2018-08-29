@@ -14,6 +14,7 @@ module RideShare
       @name = input[:name]
       @phone_number = input[:phone]
       @trips = input[:trips].nil? ? [] : input[:trips]
+
     end
 
     def add_trip(trip)
@@ -54,7 +55,39 @@ module RideShare
     end
 
     def add_driven_trip(trip)
-      @driven_trips << trip
+      if trip.class == RideShare::Trip
+        @driven_trips << trip
+      else
+        raise ArgumentError, 'trip is not provided'
+      end
+    end
+
+    def average_rating
+      if @driven_trips == []
+        return 0
+      else
+        total_ratings = @driven_trips.reduce(0) do |result, trip|
+          result + trip.rating
+        end
+        return (total_ratings.to_f/@driven_trips.length).round(2)
+      end
+    end
+
+    def total_revenue
+      total_revenue = @driven_trips.reduce(0) do |result, trip|
+        result + 0.8 * (trip.cost-1.65)
+      end
+      return total_revenue
+    end
+    def net_expenditures
+      made_as_driver = total_revenue
+      if @trips != []
+        spent_as_passenger = total_ratings = @driven_trips.reduce(0) {|result, trip|result + trip.cost}
+        net_earnings = spent_as_passenger - made_as_driver
+      else
+        net_earnings = made_as_driver
+      end
+      return net_earnings
     end
   end
 end
