@@ -44,19 +44,9 @@ module RideShare
         driver_data[:name] = user.name
         driver_data[:phone_number] = user.phone_number
         driver_data[:trips] = user.trips
-        
+
         drivers << Driver.new(driver_data)
       end
-      #iterating through the drivers array and putting the passenger info into the driver object
-      drivers.each do |driver|
-        user = self.find(driver.id)
-        if user
-          driver.name = user.name
-          driver.phone_number = user.phone_number
-          driver.trips = user.trips
-        end
-        #switching passenger for driver
-        @passengers[@passengers.index(user)] = driver
       return drivers
       end
     end
