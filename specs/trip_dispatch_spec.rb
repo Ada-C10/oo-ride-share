@@ -99,18 +99,18 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-    
+
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
+        expect(driver.driven_trips).must_include trip
       end
     end
   end
 
-  xdescribe "User & Trip loader methods" do
+  describe "User & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE,
