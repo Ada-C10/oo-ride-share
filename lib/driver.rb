@@ -39,5 +39,13 @@ module RideShare
       end
       return trip_revenue.sum.round(2)
     end
+
+    def net_expenditures
+      total_expenditures = 0
+      @trips.each do |trip|
+        total_expenditures += trip.cost
+      end
+      return total_expenditures - self.total_revenue
+    end
   end
 end
