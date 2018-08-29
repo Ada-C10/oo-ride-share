@@ -115,44 +115,36 @@ describe "Driver class" do
 
   end
 
-  # Setting up trip for test
-  before do
-    @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-      vin: "1C9EVBRM0YBC564DZ",
-      phone: '111-111-1111',
-      status: :AVAILABLE)
-
-    start_time = Time.parse('2015-05-20T12:14:00+00:00')
-    end_time = start_time + 25 * 60 # 25 minutes
-    @trip_data = {
-      id: 8,
-      passenger: RideShare::User.new(id: 1,
-                                     name: "Ada",
-                                     phone: "412-432-7640"),
-      start_time: start_time,
-      end_time: end_time,
-      cost: 23.45,
-      rating: 3
-    }
-
-    # Adding three trips for testing
-    @trip = RideShare::Trip.new(@trip_data)
-    @trip2 = RideShare::Trip.new(@trip_data)
-    @trip3 = RideShare::Trip.new(@trip_data)
-
-
-  end
-
   describe "Driver#total_revenue" do
+    # Setting up trip for test
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
         vin: "1C9EVBRM0YBC564DZ",
         phone: '111-111-1111',
         status: :AVAILABLE)
+
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time + 25 * 60 # 25 minutes
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+
+      # Adding three trips for testing
+      @trip = RideShare::Trip.new(@trip_data)
+      @trip2 = RideShare::Trip.new(@trip_data)
+      @trip3 = RideShare::Trip.new(@trip_data)
+
     end
 
   	it "returns a float" do
-
+      expect(@driver.total_revenue).must_be_kind_of Float
   	end
 
   	it "calculates the the total amount a driver has earned" do
@@ -164,7 +156,12 @@ describe "Driver class" do
   	end
 
   	it "returns 0 if a driver has not driven yet" do
-
+      # Ceating driver with no trips
+      @driver = RideShare::Driver.new(id: 82, name: "Cassy A",
+        vin: "1C9EVBRM0YBC564DZ",
+        phone: '111-111-1111',
+        status: :AVAILABLE)
+      expect(@driver).total_revenue.must_equal 0 
   	end
   end
 
