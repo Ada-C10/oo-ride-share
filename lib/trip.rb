@@ -34,9 +34,6 @@ module RideShare
     end
 
 def driver
-
-
-
 end
 
 
