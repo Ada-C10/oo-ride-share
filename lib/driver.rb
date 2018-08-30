@@ -1,3 +1,5 @@
+# require 'pry'
+
 module RideShare
   class Driver < User
     class InvalidVinError < ArgumentError
@@ -27,13 +29,25 @@ module RideShare
     # def average_rating
     #   @trips
     # end
-
     def add_driven_trip(trip)
-      if trip.class != Driver
+      if trip.class != Trip
         raise ArgumentError, "No trip provided"
       end
 
       @driven_trips << trip
     end
+
+    def average_rating
+      sum = 0.00
+      @driven_trips.each do |trip|
+        sum += trip.rating.to_f
+        # binding.pry
+      end
+      size = @driven_trips.length
+      average = sum/size
+
+      return average
+    end
+
   end
 end

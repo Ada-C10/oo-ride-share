@@ -61,18 +61,20 @@ describe "Driver class" do
     end
   end
 
-  xdescribe "average_rating method" do
+  describe "average_rating method" do
     before do
       start_time = "2018-05-25 11:20:00 -0700"
       end_time = "2018-05-25 11:30:00 -0700"
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                 start_time: Time.parse(start_time), end_time: Time.parse(end_time), cost: 15.0, rating: 5)
+
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse(start_time), end_time: Time.parse(end_time), cost: 15.0, rating: 5)
+
       @driver.add_driven_trip(trip)
     end
 
     it "returns a float" do
+      expect(@driver.average_rating).must_equal 5.0
       expect(@driver.average_rating).must_be_kind_of Float
     end
 
@@ -82,13 +84,13 @@ describe "Driver class" do
       expect(average).must_be :<=, 5.0
     end
 
-    it "returns zero if no trips" do
+    xit "returns zero if no trips" do
       driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
       expect(driver.average_rating).must_equal 0
     end
 
-    it "correctly calculates the average rating" do
+    xit "correctly calculates the average rating" do
       trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                   start_time: Time.parse("2018-04-25 11:20:00 -0700"), end_time: Time.parse("2018-04-25 11:30:00 -0700"), cost: 10.0, rating: 1)
       @driver.add_driven_trip(trip2)
