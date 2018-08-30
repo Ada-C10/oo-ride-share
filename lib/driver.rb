@@ -11,14 +11,16 @@ module RideShare
         raise ArgumentError, 'ID cannot be blank or less than zero.'
       end
 
+      if input[:vin] == nil || input[:vin].length != 17 || input[:vin] == " "
+        # binding.pry
+        raise ArgumentError, 'Vin inaccurate, must be 17 characters long.'
+      end
+
       @vin	= input[:vin]
       @status = input[:status]
       @driven_trips	= driven_trips
 
-      if @vin == nil || @vin != 17 || @vin == " "
-        # binding.pry
-        raise ArgumentError 'Vin inaccurate, must be 17 characters long.'
-      end
+
 
 
       status_array = [:AVAILABLE, :UNAVAILABLE ]

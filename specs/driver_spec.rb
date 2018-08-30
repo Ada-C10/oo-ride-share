@@ -16,8 +16,8 @@ describe "Driver class" do
 
       it "throws an argument error with a bad ID value" do
         expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133")}.must_raise ArgumentError
-        binding.pry 
       end
+
 
       it "throws an argument error with a bad VIN value" do
         expect{ RideShare::Driver.new(id: 100, name: "George", vin: "")}.must_raise ArgumentError
