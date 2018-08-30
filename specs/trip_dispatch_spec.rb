@@ -114,4 +114,22 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+  describe "assign_driver method tests" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                 DRIVER_TEST_FILE)
+      @drivers = [id: 4, trips: nil, vin:"12345678912345678", status: :UNAVAILABLE, name: nil, phone: nil ]
+      # @user = RideShare::User.new(id: 2, name: "Merl Glover III",
+      #                             phone: "1-602-620-2330 x3723", trips: [])
+    end
+    it "raises argument error if no drivers available" do
+      expect { @dispatcher.assign_driver(2) }.must_raise ArgumentError
+    end
+  end
 end
+
+
+
+# expect { @dispatcher.find_driver(0) }.must_raise ArgumentError

@@ -121,15 +121,15 @@ module RideShare
 
     def assign_driver(passenger_id)
       available_drivers = @drivers.map do |driver|
-        if driver.status == :AVAILABLE && driver.id != passenger.id
+        if driver.status == :AVAILABLE && driver.id != passenger_id
         end
       end
 
       chosen_driver = available_drivers[0]
+      if chosen_driver == nil
+        raise ArgumentError, "No drivers available"
+      end
       chosen_driver.status = :UNAVAILABLE
-        if available_drivers[0] == nil
-          raise ArgumentError, "No drivers available"
-        end
       return chosen_driver
     end
   end
