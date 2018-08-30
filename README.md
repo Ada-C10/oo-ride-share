@@ -188,11 +188,11 @@ Update the `TripDispatcher` class to add or update the following Methods:
 
 **Method**|**Description**
 -----|-----
-load_drivers|Load the Drivers from the `support/drivers.csv` file and return a collection of `Driver` instances, note that **drivers can be passengers too!** Replace the instance of `User` in the `passengers` array with a cooresponding instance of `Driver`
+load_drivers|Load the Drivers from the `support/drivers.csv` file and return a collection of `Driver` instances.  Drivers are users too!  You will need to find the driver's data from the `passenger` array.  Make sure you replace those instances with instances of Driver
 find_driver |This method takes an `id` number and returns the corresponding `Driver` instance.
 load_trips|This method should be updated to add a corresponding `Driver` to the trip instance.
 
-## Driver methods
+#### Driver methods
 
 After each trip has a reference to its `Driver` and TripDispatcher can load a list of `Driver`s, add the following functionality to the `Driver` class:
 
