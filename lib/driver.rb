@@ -76,20 +76,23 @@ module RideShare
     # TODO: making tests for total revenue (that's where we left off!)
 
     def net_expenditures()
+      total_driver_revenue = total_revenue()
 
+	    return (super - total_driver_revenue)
     end
 
   end
 end
 
 
-# pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
-#
-# driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
-#
-# trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 55, rating: 5, driver: driver})
-# #
-#
+pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+
+driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
+
+trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 55, rating: 5, driver: driver})
+
+
+
 # ap driver.status
 # ap driver.id
 # ap driver.name

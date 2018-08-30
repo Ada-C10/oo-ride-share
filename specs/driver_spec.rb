@@ -121,11 +121,24 @@ describe "Driver class" do
                                   end_time: Time.parse("2016-08-09"),
                                   rating: 1, status: :AVAILABLE, cost: 10)
       @driver.add_driven_trip(trip2)
-
     end
+
+    xit 'returns a floating point with correct money format' do
   end
 
   xdescribe "net_expenditures" do
-    # You add tests for the net_expenditures method
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), rating: 5, cost: 100)
+      @driver.add_driven_trip(trip)
+    end
+
+    it 'Correctly calculates the total expenditures' do
+      
+    end
+        # You add tests for the net_expenditures method
   end
 end
