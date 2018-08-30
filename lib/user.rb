@@ -34,6 +34,10 @@ module RideShare
       end
       return total_time.round
     end
+
+    def in_progress_trip(trip)
+      @trips << trip
+    end
   end
 
   class Driver < User
