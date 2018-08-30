@@ -131,6 +131,8 @@ module RideShare
 
       @trips << Trip.new(new_trip)
 
+      return new_trip
+
     end
 
     def find_available_driver
