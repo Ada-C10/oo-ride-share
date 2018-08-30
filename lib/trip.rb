@@ -16,18 +16,12 @@ module RideShare
       @rating = input[:rating]
       @driver = input[:driver]
 
-      if @rating == nil
-        @rating = nil
-      elsif
-        @rating > 5 || @rating < 1
+      if @rating != nil && (@rating > 5 || @rating < 1)
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
 
-      if @end_time == nil
-        @end_time = nil
-      elsif
-        @start_time > @end_time
-        raise ArgumentError.new("Start time greater")
+      if @end_time != nil && (@start_time > @end_time)
+        raise ArgumentError.new("Start time greater than end time.")
       end
     end
 
@@ -49,15 +43,3 @@ module RideShare
     end
   end
 end
-
-
-# trip_data = {
-#   id: 8,
-#   passenger: "Div",
-#   start_time: "2018-06-07 04:18:47 -0700",
-#   end_time: "2018-06-07 04:19:25 -0700",
-#   cost: 23.45,
-#   rating: 3
-# }
-# trip = RideShare::Trip.new(trip_data)
-# trip.duration_of_trip

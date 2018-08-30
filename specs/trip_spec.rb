@@ -48,6 +48,7 @@ describe "Trip class" do
 
     it "checks to make sure the duration is accurate and returned in seconds" do
       duration = @trip.duration_of_trip
+
       expect(duration).must_equal 1500
     end
 
