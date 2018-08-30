@@ -112,6 +112,15 @@ describe "Driver class" do
       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
     end
 
+    it "does not include in-progress trips when calculating the average rating" do
+      trip1 = RideShare::Trip.new({id: 8, driver: @driver, passenger: nil, start_time: "2016-08-08", end_time:"2016-08-09", rating: 1})
+       @driver.add_driven_trip(trip1)
+      trip2 = RideShare::Trip.new({id: 8, driver: @driver, passenger: nil, start_time: "2016-08-08", end_time: nil, rating: nil})
+        @driver.add_driven_trip(trip2)
+
+        # Should only be 1 as there is one completed trip with a rating of 1
+        expect(@driver.average_rating).must_equal 1
+    end
 
   end
 
@@ -140,11 +149,28 @@ describe "Driver class" do
       @trip = RideShare::Trip.new(@trip_data)
       @trip2 = RideShare::Trip.new(@trip_data)
       @trip3 = RideShare::Trip.new(@trip_data)
+      @trip4 = RideShare::Trip.new({
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: nil,
+        cost: nil,
+        rating: nil
+        })
 
       @driver_with_revenue.add_driven_trip(@trip)
       @driver_with_revenue.add_driven_trip(@trip2)
       @driver_with_revenue.add_driven_trip(@trip3)
+    end
 
+    it "Does not include in-progress trips" do
+      # Should not include trip 4 as that trip is in progress
+      # Adding invalid trip to driver
+      @driver_with_revenue.add_driven_trip(@trip4)
+
+      expect(@driver_with_revenue.total_revenue).must_equal (((23.45 - 1.65) * 3 ) * 0.80).round(2)
     end
 
   	it "returns a float" do
