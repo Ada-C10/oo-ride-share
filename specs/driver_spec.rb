@@ -90,6 +90,7 @@ describe "Driver class" do
     it "correctly calculates the average rating" do
       trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                   date: Time.parse("2016-08-08"), rating: 1)
+
       @driver.add_driven_trip(trip2)
 
       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01

@@ -6,7 +6,7 @@ module RideShare
       super(input)
       @vehicle_id = input[:vin]
       # @id = input[:id]
-      @status = input[:status]
+      @status = input[:status] ||= :AVAILABLE
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
       raise ArgumentError, "No VIN number provided" if @vehicle_id == nil || @vehicle_id.length != 17
