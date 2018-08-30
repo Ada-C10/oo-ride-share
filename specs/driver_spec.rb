@@ -149,7 +149,7 @@ describe "Driver class" do
         @driver.add_trip(@trip)#user
 
         @driver.add_driven_trip(@trip)#driver
-          expect(@driver.net_expenditures).must_equal (80 - 101.65)
+          expect(@driver.net_expenditures).must_equal (101.65-80)
         end
 
   end
