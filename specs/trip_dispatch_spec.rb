@@ -140,4 +140,55 @@ describe "TripDispatcher class" do
     end
 
   end
+
+  describe "select the first available driver" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+    end
+
+    it "return a dirver who is available" do
+
+      expect(@dispatcher.available_driver).must_be_instance_of RideShare::Driver
+      expect(@dispatcher.available_driver.status).must_equal :AVAILABLE
+      expect(@dispatcher.available_driver.id).must_equal 5
+    end
+
+  end
+
+  describe "request trip by a user" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                                  phone: "1-602-620-2330 x3723", trips: [])
+    end
+
+
+    it " will add the trip object to driver's driven_trips array"do
+        trip_generated = @dispatcher.request_trip(@user.id)
+        driven_trips = trip_generated.driver.driven_trips
+        expect(driven_trips).must_include trip_generated
+    end
+
+    it " will add the trip object to passenger's trips array"do
+
+    end
+
+    it " will add the trip object to the collection of all trips in trip dispatcher" do
+
+    end
+
+    it " will change the driver status to unavailabe" do
+
+    end
+
+    it " will return the trip" do
+
+    end
+
+  end
+
 end
