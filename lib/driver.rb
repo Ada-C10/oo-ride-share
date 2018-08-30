@@ -46,7 +46,9 @@ module RideShare
     end
 
     def net_expenditures
-      return trips.reduce{|sum, trip| sum.cost + trip.cost } - self.total_revenue
+      #money_spent = super
+      money_spent = trips.reduce(0){|sum, trip| sum + trip.cost }
+      return money_spent - self.total_revenue
     end
 
   end
