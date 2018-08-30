@@ -43,9 +43,11 @@ describe "Driver class" do
 
   describe "add_driven_trip method" do
     before do
+      start_time = "2018-05-25 11:30:00 -0700"
+      end_time = "2018-05-25 11:40:00 -0700"
       pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
       @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
-      @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, start_time: "2018-05-25 11:52:40 -0700", end_time: "2018-05-25 11:58:40 -0700",  rating: 5})
+      @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, start_time: Time.parse(start_time), end_time: Time.parse(end_time), cost: 10,  rating: 5})
     end
 
     it "throws an argument error if trip is not provided" do
@@ -61,10 +63,12 @@ describe "Driver class" do
 
   xdescribe "average_rating method" do
     before do
+      start_time = "2018-05-25 11:20:00 -0700"
+      end_time = "2018-05-25 11:30:00 -0700"
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
       trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                 date: Time.parse("2016-08-08"), rating: 5)
+                                 start_time: Time.parse(start_time), end_time: Time.parse(end_time), cost: 15.0, rating: 5)
       @driver.add_driven_trip(trip)
     end
 
@@ -86,7 +90,7 @@ describe "Driver class" do
 
     it "correctly calculates the average rating" do
       trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                  date: Time.parse("2016-08-08"), rating: 1)
+                                  start_time: Time.parse("2018-04-25 11:20:00 -0700"), end_time: Time.parse("2018-04-25 11:30:00 -0700"), cost: 10.0, rating: 1)
       @driver.add_driven_trip(trip2)
 
       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
