@@ -34,13 +34,19 @@ module RideShare
       @driven_trips = input[:trips].nil? ? [] : input[:trips]
     end
 
-    def add_driven_trip(driven_trip)
-      if driven_trip == nil
-        raise ArgumentError, "No trip provided."
-      else
-        @driven_trips << driven_trip
-      end
+    def add_driven_trip
+      @trip.each do |trip|
+        if user.id == trip[1]
+          @driven_trips << trip
+        end
+
+        if @driven_trips.length == 0
+          raise ArgumentError, "No trip provided."
+        end
+        
+        return @driven_trips
     end
+
 
     def average_rating
       total_rating = 0
