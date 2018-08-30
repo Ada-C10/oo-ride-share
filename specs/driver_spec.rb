@@ -71,7 +71,6 @@ describe "Driver class" do
 
     it "returns a float within range of 1.0 to 5.0" do
       average = @driver.average_rating
-
       expect(average).must_be :>=, 1.0
       expect(average).must_be :<=, 5.0
     end
