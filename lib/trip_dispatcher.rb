@@ -53,7 +53,7 @@ module RideShare
 
         drivers << Driver.new(input_data)
 
-        end
+      end
 
       return drivers
     end
@@ -65,6 +65,8 @@ module RideShare
 
         trip_data.each do |raw_trip|
           passenger = find_passenger(raw_trip[:passenger_id].to_i)
+          driver = find_driver(raw_trip[:driver_id].to_i)
+
 
           parsed_trip = {
             id: raw_trip[:id].to_i,
@@ -72,7 +74,8 @@ module RideShare
             start_time: Time.parse(raw_trip[:start_time]), #currently value saved as string
             end_time: Time.parse(raw_trip[:end_time]),
             cost: raw_trip[:cost].to_f,
-            rating: raw_trip[:rating].to_i
+            rating: raw_trip[:rating].to_i,
+            driver: driver
           }
 
           trip = Trip.new(parsed_trip)
