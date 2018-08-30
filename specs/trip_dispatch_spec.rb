@@ -125,7 +125,27 @@ describe "TripDispatcher class" do
       #                             phone: "1-602-620-2330 x3723", trips: [])
     end
     it "raises argument error if no drivers available" do
+      @dispatcher.drivers.each do |driver|
+        driver.status = :UNAVAILABLE
+      end
       expect { @dispatcher.assign_driver(2) }.must_raise ArgumentError
+    end
+  end
+
+  describe "request_trip method test" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                 DRIVER_TEST_FILE)
+      @trips = RideShare::Trip.new(id: 8, passenger: nil, start_time: nil, end_time: nil, cost: nil, rating: nil, driver: nil)
+
+      # @dispatcher.request_trip(2)
+
+    end
+    it "accurately requests a trip" do
+      valid_trip_id = @dispatcher.request_trip(1).driver.id
+      # binding.pry
+      expect(valid_trip_id).must_equal 5
     end
   end
 end

@@ -1,5 +1,3 @@
-require_relative 'user'
-
 module RideShare
   class Driver < User
     attr_reader :vin

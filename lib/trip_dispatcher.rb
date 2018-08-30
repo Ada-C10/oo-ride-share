@@ -104,26 +104,31 @@ module RideShare
     end
 
     def request_trip(user_id)
-      assign_driver
+      chosen_driver = assign_driver(user_id)
       passenger = find_passenger(user_id)
 
       valid_trip_id = [1..1000].select
-        if @trips.id.include?(valid_trip_id)
+      @trips.each do |trip|
+        if trip.id == valid_trip_id
           raise ArgumentError, "ID already exists"
         end
+      end
 
       trip = RideShare::Trip.new(id: valid_trip_id, driver: chosen_driver, passenger: passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil)
 
-      @drivers.add_driven_trip(trip)
-      @user.add_trip(trip)
+      chosen_driver.add_driven_trip(trip)
+      passenger.add_trip(trip)
       @trips << trip
+      return trip
     end
 
     def assign_driver(passenger_id)
-      available_drivers = @drivers.map do |driver|
+      available_drivers = @drivers.select do |driver|
         if driver.status == :AVAILABLE && driver.id != passenger_id
+          driver
         end
       end
+      # binding.pry
 
       chosen_driver = available_drivers[0]
       if chosen_driver == nil
