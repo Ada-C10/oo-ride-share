@@ -11,6 +11,13 @@ describe "Trip class" do
         passenger: RideShare::User.new(id: 1,
           name: "Ada",
           phone: "412-432-7640"),
+          driver: RideShare::Driver.new(
+            id: 54,
+            name: "Rogers Bartell IV",
+            vin: "1C9EVBRM0YBC564DZ",
+            phone: '111-111-1111',
+            status: :AVAILABLE
+          ),
           start_time: start_time,
           end_time: end_time,
           cost: 23.45,
@@ -24,14 +31,11 @@ describe "Trip class" do
         expect(@trip).must_be_kind_of RideShare::Trip
       end
 
-
-
       it "stores an instance of user" do
         expect(@trip.passenger).must_be_kind_of RideShare::User
       end
 
       it "stores an instance of driver" do
-        skip  # Unskip after wave 2
         expect(@trip.driver).must_be_kind_of RideShare::Driver
       end
 
@@ -46,13 +50,13 @@ describe "Trip class" do
 
       it "Raises an Argument Error if start time is after end time" do
 
-         @trip_data[:start_time] = Time.parse('2015-05-20T12:14:00+00:00')
-         @trip_data[:end_time] = @trip_data[:start_time] - 60
+        @trip_data[:start_time] = Time.parse('2015-05-20T12:14:00+00:00')
+        @trip_data[:end_time] = @trip_data[:start_time] - 60
 
-         expect {
-           RideShare::Trip.new(@trip_data)
-         }.must_raise ArgumentError
-       end
+        expect {
+          RideShare::Trip.new(@trip_data)
+        }.must_raise ArgumentError
+      end
 
     end
   end

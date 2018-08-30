@@ -50,20 +50,26 @@ describe "Driver class" do
     end
   end
 
-  xdescribe "add_driven_trip method" do
+  describe "add_driven_trip method" do
+
     before do
       pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
-      @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
-      @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5})
+      @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
+
+      @trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5, start_time: 30, end_time: 60)
+
     end
 
+
     it "throws an argument error if trip is not provided" do
+
       expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
     end
 
     it "increases the trip count by one" do
       previous = @driver.driven_trips.length
-      @driver.add_driven_trips(@trip)
+
+      @driver.add_driven_trip(@trip)
       expect(@driver.driven_trips.length).must_equal previous + 1
     end
   end
