@@ -34,11 +34,6 @@ module RideShare
       @driven_trips << trip
     end
 
-    # returns an array of only completed driven trips
-    def filter_completed_trips(driven_or_riden_trips)
-      return driven_or_riden_trips.select { |trip| trip.end_time != nil }
-    end
-
     # sums up the ratings from all a Driver's trips and returns the average
     def average_rating
       if driven_trips.empty?

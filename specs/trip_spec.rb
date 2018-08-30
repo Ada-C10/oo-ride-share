@@ -100,7 +100,7 @@ describe "Trip class" do
         }
       )
 
-      expect(@trip.duration).must_raise InProgressTripError
+      expect(@trip.duration).must_raise RideShare::InProgressTripError
     end
   end
 

@@ -34,7 +34,13 @@ module RideShare
     end
 
     def duration
+      if end_time == nil
+        raise RideShare::InProgressTripError.new("Trip is still in progress.")
+      end
       return end_time - start_time
     end
+  end
+
+  class InProgressTripError < StandardError
   end
 end

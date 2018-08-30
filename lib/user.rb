@@ -18,12 +18,19 @@ module RideShare
     end
 
     def net_expenditures
+      completed_riden = filter_completed_trips(trips)
       # Add all the trip costs together
-      return @trips.reduce(0) { |sum, trip| sum + trip.cost }
+      return completed_riden.reduce(0) { |sum, trip| sum + trip.cost }
     end
 
     def total_time_spent
-      return trips.reduce(0) {|sum, trip| sum + trip.duration}
+      completed_riden = filter_completed_trips(trips)
+      return completed_riden.reduce(0) {|sum, trip| sum + trip.duration}
+    end
+
+    # returns an array of only completed driven trips
+    def filter_completed_trips(driven_or_riden_trips)
+      return driven_or_riden_trips.select { |trip| trip.end_time != nil }
     end
   end
 end
