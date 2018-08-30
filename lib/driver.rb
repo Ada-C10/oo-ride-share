@@ -43,11 +43,7 @@ module RideShare
     end
 
     def net_expenditures
-      total_expenditures = 0
-      @trips.each do |trip|
-        total_expenditures += trip.cost
-      end
-      return (total_expenditures - self.total_revenue).round(2)
+      return (super - total_revenue).round(2)
     end
 
     def is_unavailable
