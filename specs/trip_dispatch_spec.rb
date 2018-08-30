@@ -28,9 +28,9 @@ describe "TripDispatcher class" do
 
   describe "Load Trip method" do
     it "makes sure start_time and end_time is an instance of Time " do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+      dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
 
-      @dispatcher.trips.each do |trip|
+      dispatcher.trips.each do |trip|
         expect(trip.start_time).must_be_instance_of Time
         expect(trip.end_time).must_be_instance_of Time
       end
@@ -95,12 +95,13 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-
       trips = @dispatcher.trips
+
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
+        
+        expect(driver.driven_trips).must_include trip
       end
     end
   end
