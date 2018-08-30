@@ -15,7 +15,7 @@ describe "TripDispatcher class" do
 
     it "establishes the base data structures when instantiated" do
       dispatcher = RideShare::TripDispatcher.new
-      [:trips, :passengers].each do |prop|
+      [:trips, :passengers, :drivers].each do |prop|
         expect(dispatcher).must_respond_to prop
       end
 
@@ -27,7 +27,8 @@ describe "TripDispatcher class" do
 
   describe "find_user method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -43,7 +44,9 @@ describe "TripDispatcher class" do
   # Uncomment for Wave 2
   describe "find_driver method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                        TRIP_TEST_FILE,
+                                        DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -51,7 +54,7 @@ describe "TripDispatcher class" do
     end
 
     it "finds a driver instance" do
-      driver = @dispatcher.find_driver(3)
+      driver = @dispatcher.find_driver(2)
       expect(driver).must_be_kind_of RideShare::Driver
     end
   end
@@ -59,7 +62,8 @@ describe "TripDispatcher class" do
   describe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE, DRIVER_TEST_FILE)
+                                        TRIP_TEST_FILE,
+                                        DRIVER_TEST_FILE)
     end
 
     it "accurately loads driver information into drivers array" do
