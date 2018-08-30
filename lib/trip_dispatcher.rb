@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -91,7 +90,16 @@ module RideShare
     end
 
     def first_available_driver
-      @drivers.find { |driver| driver.status == :AVAILABLE }
+      first_available_driver  = generate_available_drivers.first
+    end
+
+    def generate_available_drivers
+      available_drivers = @drivers.find_all do |driver|
+        driver.status == :AVAILABLE
+      end
+
+      raise ArgumentError.new("NO DRIVERS AVAILABLE") if available_drivers.empty?
+      return available_drivers
     end
 
     def request_trip(user_id)
@@ -107,9 +115,10 @@ module RideShare
       }
 
       requested_trip = Trip.new(trip_data)
+      driver.is_unavailable
+      driver.add_driven_trip(requested_trip)
 
       passenger.add_trip(requested_trip)
-      driver.add_in_progress_trip(requested_trip)
       @trips << requested_trip
       return requested_trip
     end
