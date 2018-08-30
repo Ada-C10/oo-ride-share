@@ -25,16 +25,18 @@ module RideShare
       if @trips == 0
         return 0
       else
-        total_spent = @trips.reduce(0) do |result, trip|
-          result + trip.cost
+        total_spent = 0
+        @trips.each do |trip|
+          total_spent += trip.cost if trip.cost != nil
         end
         return total_spent.round(2)
       end
     end
 
     def total_time_spent
-      total_time = @trips.reduce(0) do |result, trip|
-        result + (trip.end_time - trip.start_time)
+      total_time = 0
+      @trips.each do |trip|
+        total_time += trip.duration_of_trip if trip.end_time != nil
       end
       return total_time.round
     end
