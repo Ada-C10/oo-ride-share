@@ -39,32 +39,37 @@ module RideShare
     # attr_accessor :name, :trips
 
 
-    def initialize(input)
-
-      # super(trips)
+    def initialize(input, status = :UNAVAILABLE)
 
       @id = input[:id]
       @name = input[:name]
       @phone_number = input[:phone]
       @trips = input[:trips].nil? ? [] : input[:trips]
-      # we don't need these because it already has it (it inherits from user)
 
       unless input[:vin].length == 17
         raise ArgumentError, "Vehicle ID is invalid."
       end
       @vehicle_id = input[:vin]  #check to make sure has 17
+
+      @status = input[:status].nil? ? input[:status] = :UNAVAILABLE : input[:status]
+
       valid_status = [:AVAILABLE, :UNAVAILABLE]
+
       unless valid_status.include? input[:status]
         raise ArgumentError, "Invalid driver status."
       end
-      @status = input[:status].nil? ? input[:status] = :UNAVAILABLE : input[:status]
+
       #check to make sure status is valid
 
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
     end
 
     def add_driven_trip(trip)
-      @driven_trips << trip
+      if trip.class != RideShare::Trip
+        raise ArgumentError, "Invalid Trip"
+      else
+        @driven_trips << trip
+      end
     end
 
     def average_rating
