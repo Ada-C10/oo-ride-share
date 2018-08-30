@@ -19,10 +19,12 @@ module RideShare
     # Add an instance method, net_expenditures, to User that will return
     # the total amount of money that user has spent on their trips
     def net_expenditures
+
       total = 0
       @trips.each do |trip_inst|
         total += trip_inst.cost
       end
+      # binding.pry
       return total
     end
 
@@ -38,6 +40,7 @@ module RideShare
       # Time.at(t).utc.strftime("%H:%M:%S")
       # => "00:03:56"
       return total_time
+
     end
   end
 end

@@ -9,8 +9,8 @@ module RideShare
       @passenger = input[:passenger]
       @start_time = input[:start_time]
       @end_time = input[:end_time]
-      @cost = input[:cost]
-      @rating = input[:rating]
+      @cost = input[:cost].to_f
+      @rating = input[:rating].to_i
       @driver = input[:driver]
 
       if @rating > 5 || @rating < 1
@@ -34,7 +34,6 @@ module RideShare
     end
 
     def driver
-
       @driver
     end
   end
