@@ -1,10 +1,11 @@
-require_relative "user"
 require 'csv'
 require 'time'
+require_relative "user"
 
 module RideShare
+
   class Driver < User
-    attr_reader :vehicle_id, :status, :driven_trips  #:trips is the trips taken as a user
+    attr_reader :vin, :status, :driven_trips  #:trips is the trips taken as a user
 
     def initialize(input) #rather than input, pass in symbol vin, status, and driven trips
       super(input)
@@ -12,9 +13,9 @@ module RideShare
       # inherits @trips from User (?) as instance variable not parameter
       # rather than input[:vin], just :vin
 
-      @vehicle_id = input[:vin]
+      @vin = input[:vin].to_s
 
-      if @vehicle_id.nil? || @vehicle_id == 0
+      if @vin.nil? || @vin == 0
         raise ArgumentError, 'ID cannot be blank or less than zero.'
       end
 
