@@ -55,14 +55,6 @@ module RideShare
 
         end
 
-      #   #
-      #   # input_data[:name] = line[1]
-      #   # input_data[:phone] = line[2]
-      #   # #the below two should be coming from drivers.csv
-      #   # input_data[:vin] = line[1]
-      #   # input_data[:status] = line[2]
-      #   # drivers << Driver.new(input_data)
-      # end
       return drivers
     end
 
