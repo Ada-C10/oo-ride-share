@@ -112,10 +112,46 @@ describe "Driver class" do
       it "calculates total_revenue correctly accounting for $1.56 fee/ride and returns 80% of net revenue to driver" do
         expect(@driver.total_revenue).must_equal 9.24
       end
-      # You add tests for the total_revenue method
+
+      it "returns a float within" do
+        total_revenue = @driver.total_revenue
+        expect(total_revenue).must_be_kind_of Float
+      end
+
+      it "returns zero if no driven trips" do
+        driver_2 = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
+
+        expect(driver_2.total_revenue).must_equal 0
+      end
     end
 
-    # describe "net_expenditures" do
-    #   # You add tests for the net_expenditures method
-    # end
+    describe "net_expenditures" do
+      before do
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
+
+        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse("2018-05-25 11:52:40 -0700"), end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5, cost: 4.50)
+
+        trip2 = RideShare::Trip.new(id: 8, driver: "Fred Jones", passenger: @driver, start_time: Time.parse("2018-05-25 11:52:40 -0700"), end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5, cost: 5.50)
+
+        trip3 = RideShare::Trip.new(id: 8, driver: "Rosie Stuart", passenger: @driver, start_time: Time.parse("2018-05-25 11:52:40 -0700"), end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5, cost: 6.50)
+
+        @driver.add_driven_trip(trip)
+        @driver.add_trip(trip2)
+        @driver.add_trip(trip3)
+      end
+
+      it "accurately calculates net expenditures" do
+        expect(@driver.net_expenditures).must_equal 9.72
+      end
+
+      it "returns a float within" do
+        expect(@driver.net_expenditures).must_be_kind_of Float
+      end
+
+      it "returns zero if no trips" do
+        driver_2 = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
+
+        expect(driver_2.net_expenditures).must_equal 0
+      end
+    end
   end

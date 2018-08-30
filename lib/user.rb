@@ -17,14 +17,6 @@ module RideShare
       @trips << trip
     end
 
-    def net_expenditures
-      total = 0
-      @trips.each do |trip|
-        total += trip.cost
-      end
-      return total
-    end
-
     def total_time_spent #theres a way to use reduce
       total_time = 0
       @trips.each do |trip|
@@ -32,7 +24,14 @@ module RideShare
       end
       return total_time
     end
+
+    def net_expenditures
+      total = @trips.reduce(0) { |sum, trip| sum + trip.cost}
+      
+    return total
+    end
   end
+
 
   class Driver < User
     attr_reader :vehicle_id, :driven_trips, :status, :id, :name, :phone_number, :trips, :driven_trips
@@ -89,7 +88,14 @@ module RideShare
       return total_revenue.to_f.round(2)
 
     end
-#     total_revenue	This method calculates that driver's total revenue across all their trips. Each driver gets 80% of the trip cost after a fee of $1.65 per trip is subtracted.
+
+    def net_expenditures
+      spent_as_passenger = self.trips.reduce(0){|memo, trip| memo + trip.cost}
+
+      net_expenditures = spent_as_passenger.to_f.round(2) - self.total_revenue
+
+      return net_expenditures
+    end
 
 # net_expenditures	This method will override the cooresponding method in User and take the total amount a driver has spent as a passenger and subtract the amount they have earned as a driver (see above). If the number is negative the driver will earn money.
 
