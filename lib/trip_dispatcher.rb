@@ -55,7 +55,6 @@ module RideShare
     return users
   end
 
-
   def load_trips(filename)
     trips = []
     trip_data = CSV.open(filename, 'r', headers: true,
@@ -89,23 +88,30 @@ module RideShare
       return @passengers.find { |passenger| passenger.id == id }
     end
 
-    def first_available_driver
-      first_available_driver  = generate_available_drivers.first
+    def first_available_driver(user_id)
+      first_available_driver  = unique_drivers(user_id).first
+    end
+
+    def unique_drivers(user_id)
+      available_drivers = generate_available_drivers
+
+      unique_drivers = available_drivers.find_all do |driver| driver.id != find_passenger(user_id).id
+      end
+
+      raise ArgumentError.new("NO DRIVERS AVAILABLE") if unique_drivers.empty?
+      return unique_drivers
     end
 
     def generate_available_drivers
       available_drivers = @drivers.find_all do |driver|
         driver.status == :AVAILABLE
       end
-
-      raise ArgumentError.new("NO DRIVERS AVAILABLE") if available_drivers.empty?
-      return available_drivers
     end
 
     def request_trip(user_id)
       id = @trips.length + 1
       passenger = find_passenger(user_id)
-      driver = first_available_driver
+      driver = first_available_driver(user_id)
 
       trip_data = {
         id: id,
@@ -117,7 +123,6 @@ module RideShare
       requested_trip = Trip.new(trip_data)
       driver.is_unavailable
       driver.add_driven_trip(requested_trip)
-
       passenger.add_trip(requested_trip)
       @trips << requested_trip
       return requested_trip
