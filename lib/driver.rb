@@ -40,11 +40,16 @@ module RideShare
       end
 
       rating = (rating/@driven_trips.length).round(2)
-      #
-      # binding.pry
       return rating
     end
 
+    def total_revenue
+      total_revenue = 0.0
+      @driven_trips.each do |trip|
+        total_revenue += trip.cost
+      end
+      return ((total_revenue - (1.65 * @driven_trips.length)) * 0.8)
+    end
 
   end
 end

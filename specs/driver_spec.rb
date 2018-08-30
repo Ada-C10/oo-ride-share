@@ -103,14 +103,12 @@ describe "Driver class" do
       end
 
       it "accurately calculates the total_revenue" do
-        expect(@driver.total_revenue).must_be_close_to 25.64
+        expect(@driver.total_revenue).must_equal 25.64
       end
 
       it "returns a float" do
         expect(@driver.total_revenue).must_be_instance_of Float
       end
-
-
 
 
 
