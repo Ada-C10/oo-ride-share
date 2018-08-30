@@ -48,8 +48,6 @@ describe "TripDispatcher class" do
       before do
         @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
           TRIP_TEST_FILE, DRIVER_TEST_FILE)
-      hello = RideShare::TripDispatcher.new
-      binding.pry
       end
 
       it "throws an argument error for a bad ID" do
