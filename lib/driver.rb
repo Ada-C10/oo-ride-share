@@ -81,6 +81,13 @@ module RideShare
 	    return ("%.2f" % (super - total_driver_revenue)).to_f
     end
 
+    def change_status()
+      if @status == :AVAILABLE
+        return @status == :UNAVAILABLE
+      end
+
+    end
+
   end
 end
 

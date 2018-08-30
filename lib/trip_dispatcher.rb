@@ -67,10 +67,6 @@ module RideShare
         driver.add_driven_trip(trip)
         trips << trip
 
-
-
-
-
       end
 
       return trips
@@ -112,6 +108,31 @@ module RideShare
       return @drivers.find { |driver| driver.id == id }
     end
 
+    def request_trip(user_id)
+      current_passenger = find_passenger(user_id)
+      available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+
+
+      parsed_trip = {
+        id: @trips.length + 1,
+        passenger: current_passenger,
+        start_time: Time.now,
+        end_time: nil,
+        cost: nil,
+        rating: nil,
+        driver: available_driver
+      }
+
+      available_driver.change_status
+      trip_in_progress = Trip.new(parsed_trip)
+
+      current_passenger.add_trip(trip_in_progress)
+      available_driver.add_driven_trip(trip_in_progress)
+      @trips << trip_in_progress
+
+      return trip_in_progress
+    end
+
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
               #{trips.count} trips, \
@@ -128,14 +149,19 @@ module RideShare
 end
 
 
-# pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
-# driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
-#
-# trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: "2016-08-08T12:14:00+00:00", end_time: "2018-05-20T12:14:00+00:00",  cost: 55, rating: 5, driver: driver})
+pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+driver_1 = RideShare::Driver.new(id: 3, name: "Stella", vin: "12345678912345678", status: :AVAILABLE)
+driver_2 = RideShare::Driver.new(id: 4, name: "Bernie", vin: "12345678912345679", status: :AVAILABLE)
+
+trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: "2016-08-08T12:14:00+00:00", end_time: "2018-05-20T12:14:00+00:00",  cost: 55, rating: 5, driver: driver_1})
 
 
 # ap pass
-# ap driver
+ride = RideShare::TripDispatcher.new
+ap ride.request_trip
+
+
+
 # ap trip.start_time.class
 # ap RideShare::TripDispatcher.trips
 # ap trip.calculate_trip_duration
