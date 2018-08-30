@@ -87,4 +87,39 @@ describe "User class" do
     end
   end
 
+  describe "total amount of time user has spent on trips" do
+    before do
+      end_time = "2018-08-29T10:18:00-07:00"
+      start_time = "2018-08-29T10:00:00-07:00"
+      end_time2 = "2018-08-29T09:20:00-07:00"
+      start_time2 = "2018-08-29T09:00:00-07:00"
+
+      @user = RideShare::User.new(id: 9, name: "Merl Glover III", phone: "1-602-620-2330 x3723",
+      trips: [{
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+          name: "Ada",
+          phone: "412-432-7640"),
+          start_time: Time.parse(start_time),
+          end_time: Time.parse(end_time),
+          cost: 23.45,
+          rating: 3
+        },
+        {
+          id: 8,
+          passenger: RideShare::User.new(id: 1,
+            name: "Ada",
+            phone: "412-432-7640"),
+            start_time: Time.parse(start_time2),
+            end_time: Time.parse(end_time2),
+            cost: 23.45,
+            rating: 3
+          }]
+      )
+    end
+    it "total amount of time user has spent on trips" do
+      expect(@user.total_time_spent).must_equal 2280
+    end
+  end
+
 end

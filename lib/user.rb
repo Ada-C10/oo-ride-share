@@ -28,8 +28,16 @@ module RideShare
       end
       return ride_total
     end
-    # return total amout of time user has spent on the trips
-    def total_time_spent
-    end
-  end
+
+  #   RideShare::Trip.duration
+  #
+  #   return total amout of time user has spent on the trips
+  #   def total_time_spent
+  #     total_time = 0
+  #     @trips.each do |trip|
+  #       total_time += trip
+  #     end
+  #     return total_time
+  #   end
+  # end
 end
