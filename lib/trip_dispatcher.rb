@@ -108,6 +108,24 @@ module RideShare
       return @drivers.find { |driver| driver.id == id }
     end
 
+    def request_trip(user_id)
+      user_id = 2
+      driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+
+      parsed_trip = {
+        id: "id",
+        passenger: user_id,
+        driver: driver.id,
+        # Modify load_trips to store the start_time and end_time
+        start_time: Time.now,
+        end_time: nil,
+        cost: nil,
+        rating: nil
+      }
+
+      trip = Trip.new(parsed_trip)
+    end
+
     private
 
     def check_id(id)

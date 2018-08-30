@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'pry'
 
 describe "Driver class" do
 
@@ -50,6 +51,7 @@ describe "Driver class" do
 
     it "throws an argument error if trip is not provided" do
       expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
+
     end
 
     it "increases the trip count by one" do

@@ -3,7 +3,7 @@ module RideShare
   class Driver < User
     attr_reader :vehicle_id, :status, :driven_trips
 
-    def initialize(input)
+    def initialize(input, status=:UNAVAILABLE)
       super(input)
 
 
@@ -17,6 +17,9 @@ module RideShare
           raise ArgumentError, 'Invalid VIN'
         end
       @status = (input[:status]).to_sym
+        unless @status == :UNAVAILABLE || @status == :AVAILABLE
+          raise ArgumentError, "invalid status"
+        end
       @driven_trips = []
     end
 

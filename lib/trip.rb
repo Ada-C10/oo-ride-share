@@ -9,15 +9,18 @@ module RideShare
       @passenger = input[:passenger]
       @start_time = input[:start_time]
       @end_time = input[:end_time]
-      @cost = input[:cost].to_f
-      @rating = input[:rating].to_i
+      @cost = input[:cost] ? input[:cost].to_f : nil
+      @rating = input[:rating] ? input[:rating].to_i : nil
       @driver = input[:driver]
-
-      if @rating > 5 || @rating < 1
-        raise ArgumentError.new("Invalid rating #{@rating}")
+      unless @end_time == nil
+        if @rating > 5 || @rating < 1
+          raise ArgumentError.new("Invalid rating #{@rating}")
+        end
       end
-      if @start_time > @end_time
-        raise ArgumentError, "Invalid input. Start time must be before end time."
+      unless @end_time == nil
+        if @start_time > @end_time
+          raise ArgumentError, "Invalid input. Start time must be before end time."
+        end
       end
       # raise an ArgumentError if the end time is before the start time,
 
