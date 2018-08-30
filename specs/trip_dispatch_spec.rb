@@ -108,4 +108,40 @@ describe "TripDispatcher class" do
         expect(passenger.trips).must_include trip
       end
     end
+
+    describe "Request Trip Method" do
+      before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+      end
+
+      it "Was the driver selected AVAILABLE?" do
+
+        available_driver = @dispatcher.drivers
+
+        expect(available_driver[1]).must_equal :AVAILABLE
+
+      end
+
+      xit "What happens if you try to request a trip when there are no AVAILABLE drivers?" do
+      end
+
+      xit "Drivers cannot drive themselves" do
+      end
+
+      xit "is the trip created properly?" do
+      end
+
+      xit "Were the trip lists for the driver updated?" do
+      end
+
+      xit "Where the trip lists for the user updated?" do
+      end
+
+
+
+
+
+
+
+    end
   end
