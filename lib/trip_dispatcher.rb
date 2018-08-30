@@ -67,7 +67,7 @@ module RideShare
 
         driver_data[:id] = line[0].to_i
         driver_data[:vin] = line[1]
-        driver_data[:status] = line[2]
+        driver_data[:status] = line[2].to_sym
 
         driver_data[:name] = find_passenger(line[0].to_i).name
         driver_data[:phone] = find_passenger(line[0].to_i).phone_number
