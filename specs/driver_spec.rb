@@ -157,13 +157,12 @@ describe "Driver class" do
 
       @driver.add_driven_trip(@trip)
       @driver.add_trip(@trip2)
-
-      expect(@driver.net_expenditures).must_be_close_to 7.28
+      expect(@driver.net_expenditures).must_be_close_to -7.28
     end
 
     it 'returns only the total revenue if no trips given' do
       @driver.add_driven_trip(@trip)
-      expect(@driver.net_expenditures).must_be_close_to 12.28
+      expect(@driver.net_expenditures).must_be_close_to -12.28
     end
 
     it 'returns 0 if only in-progress trip' do
