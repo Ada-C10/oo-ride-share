@@ -27,13 +27,28 @@ module RideShare
     end
 
     def average_rating
-      if driven_trips = []
-        driven_trips = 0.to_f
+    sum = 0
+      @driven_trips.each do |trip|
+        sum += trip.rating
+      end
+      if @driven_trips.length == 0
+        return 0
       else
-      return driven_trips {|sum,trip| (sum.rating + trip.rating / driven_trips.length)}.to_f
-    end
+        return sum.to_f/@driven_trips.length
+      end
     end
 
+    def total_revenue
+      total_revenue = 0
+      @driven_trips.each do |driven_trip|
+        total_revenue += (driven_trip.cost - 1.65) * 0.8
+      end
+      return total_revenue
+    end
+
+def net_expenditures
+  return self.total_revenue - super
+end
 
     def add_driven_trip(trip)
       if trip.class == Trip
