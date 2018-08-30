@@ -96,7 +96,13 @@ describe "Driver class" do
       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
     end
 
+    it 'correctly calculates the average rating while trip is in progress' do
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                  start_time: Time.parse("2016-08-08"), end_time: nil, rating: nil)
+      @driver.add_driven_trip(trip2)
 
+      expect(@driver.average_rating).must_equal 5.0
+    end
   end
 
   describe "total_revenue" do
@@ -121,6 +127,19 @@ describe "Driver class" do
 
     it 'returns 0 if there are no trips' do
       expect(@driver.total_revenue).must_equal 0
+    end
+
+    it 'can calculate total_revenue while trip is in progress' do
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, cost: 15,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_driven_trip(trip)
+      trip = RideShare::Trip.new(id: 9, driver: @driver, passenger: nil, cost: 10,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_driven_trip(trip)
+      trip = RideShare::Trip.new(id: 10, driver: @driver, passenger: nil, cost: nil,
+                                 start_time: Time.parse("2016-08-08"), end_time: nil, rating: nil)
+      @driver.add_driven_trip(trip)
+      expect(@driver.total_revenue).must_be_close_to ((15 + 10 - 1.65 * 2 ) * 0.8).round(2)
     end
   end
 
@@ -186,6 +205,29 @@ describe "Driver class" do
       expect(@driver.net_expenditures).must_be :>, 0
     end
 
+    it 'correctly calculates net expenditures while trip is in progress' do
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, cost: 15,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_driven_trip(trip)
+      trip = RideShare::Trip.new(id: 9, driver: @driver, passenger: nil, cost: 10,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_driven_trip(trip)
+      trip = RideShare::Trip.new(id: 10, driver: @driver, passenger: nil, cost: nil,
+                                 start_time: Time.parse("2016-08-08"), end_time: nil, rating: nil)
+      @driver.add_driven_trip(trip)
 
+      trip = RideShare::Trip.new(id: 18, driver: @other_driver, passenger: @driver, cost: 5,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_trip(trip)
+      trip = RideShare::Trip.new(id: 91, driver: @other_driver, passenger: @driver, cost: 10,
+                                 start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-10"), rating: 5)
+      @driver.add_trip(trip)
+      trip = RideShare::Trip.new(id: 110, driver: @other_driver, passenger: @driver, cost: nil,
+                                 start_time: Time.parse("2016-08-08"), end_time: nil, rating: nil)
+      @driver.add_trip(trip)
+
+      expect(@driver.net_expenditures).must_equal (5 + 10) - ((15 + 10 - 1.65 * 2 ) * 0.8).round(2)
+
+    end
   end
 end

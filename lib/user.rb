@@ -20,7 +20,9 @@ module RideShare
     def net_expenditures
       total = 0
       @trips.each do |trip|
-        total += trip.cost
+        unless trip.end_time == nil
+          total += trip.cost
+        end
       end
       return total
       # Returns the total amount of money that user has spent on their trips
@@ -30,7 +32,9 @@ module RideShare
       # Returns the total amount of time that user has spent on their trips
       total_time = 0
       @trips.each do |trip|
-        total_time += trip.trip_duration
+        unless trip.end_time == nil
+          total_time += trip.trip_duration
+        end
       end
       return total_time
     end
@@ -55,13 +59,19 @@ module RideShare
 
     def average_rating
       sum = 0
+      in_progress = 0
       @driven_trips.each do |trip|
-        sum += trip.rating
+        if trip.end_time == nil
+          in_progress += 1
+        else
+          sum += trip.rating
+        end
       end
-      if @driven_trips.length == 0
+      valid_trips = @driven_trips.length - in_progress
+      if valid_trips == 0
         return 0
       else
-        return sum.to_f/@driven_trips.length
+        return sum.to_f/valid_trips
       end
     end
 
@@ -75,7 +85,9 @@ module RideShare
       #This method calculates that driver's total revenue across all their trips. Each driver gets 80% of the trip cost after a fee of $1.65 per trip is subtracted.
       sum = 0
       @driven_trips.each do |driven_trip|
-        sum += (driven_trip.cost - 1.65) * 0.8
+        unless driven_trip.end_time == nil
+          sum += (driven_trip.cost - 1.65) * 0.8
+        end
       end
       return sum.round(2)
     end

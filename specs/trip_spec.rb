@@ -97,4 +97,26 @@ describe "Trip class" do
       }.must_raise ArgumentError
     end
   end
+
+  describe 'test trip duration if trip in progress' do
+    it 'returns nil if trip is in progress' do
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = nil
+      trip_data = {
+        id: 8,
+        driver: RideShare::Driver.new(id: 2, vin: '11111111111111111', status: :UNAVAILABLE),
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+
+      my_trip = RideShare::Trip.new(trip_data)
+
+      expect(my_trip.trip_duration).must_be_nil
+    end
+  end
 end
