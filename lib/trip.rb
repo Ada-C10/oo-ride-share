@@ -15,17 +15,21 @@ module RideShare
       @rating = input[:rating]
       @driver = input[:driver]
 
-      if @rating > 5 || @rating < 1
-        raise ArgumentError.new("Invalid rating #{@rating}")
+
+      if @end_time != nil
+        if (@rating > 5 || @rating < 1)
+          raise ArgumentError.new("Invalid rating #{@rating}")
+        end
+
+        if @start_time > @end_time
+          raise ArgumentError.new("Start_time cannot be later than end_time")
+        end
+
+        if @start_time > Time.now || @end_time > Time.now
+          raise ArgumentError.new("Time is in the future! That can't be right.")
+        end
       end
 
-      if @start_time > @end_time
-        raise ArgumentError.new("Start_time cannot be later than end_time")
-      end
-
-      if @start_time > Time.now || @end_time > Time.now
-        raise ArgumentError.new("Time is in the future! That can't be right.")
-      end
     end
 
     def inspect

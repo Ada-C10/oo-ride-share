@@ -1,6 +1,10 @@
 require_relative 'spec_helper'
 require 'pry'
 
+USER_TEST_FILE   = 'specs/test_data/users_test.csv'
+TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
+DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+
 describe "Driver class" do
 
   describe "Driver instantiation" do
@@ -93,6 +97,21 @@ describe "Driver class" do
       expect(driver.average_rating).must_equal 0
     end
 
+    it "ignores in progress trips in calculating average rating" do
+        @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                   TRIP_TEST_FILE,
+                                                    DRIVER_TEST_FILE)
+        start_time = Time.parse("2015-05-20T12:14:00+00:00")
+        end_time = Time.parse("2015-05-20T12:14:00+00:00")
+        user1 = @dispatcher.find_passenger(1)
+        test_driver = @dispatcher.find_driver(2)
+        test_trip = RideShare::Trip.new(id: 2, driver: test_driver, passenger: user1,
+                                    start_time: start_time, end_time: nil, rating: nil, cost: nil)
+
+        expect(test_driver.average_rating).must_equal 4.0
+
+    end
+
     it "correctly calculates the average rating" do
       start_time = Time.parse("2015-05-20T12:14:00+00:00")
       end_time = Time.parse("2015-05-20T12:14:00+00:00")
@@ -108,10 +127,40 @@ describe "Driver class" do
   end
 
   describe "total_revenue" do
-    # You add tests for the total_revenue method
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+    end
+
+    it "calculates total_revenue for a driver" do
+      test_driver = @dispatcher.drivers[0]
+      money = ((10 - 1.65) * 0.8) + ((7 - 1.65) * 0.8)
+      money = money.round(2)
+
+      expect(test_driver.total_revenue).must_equal money
+    end
   end
 
   describe "net_expenditures" do
-    # You add tests for the net_expenditures method
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+      start_time = Time.parse("2015-05-20T12:14:00+00:00")
+      end_time = Time.parse("2015-05-20T12:14:00+00:00")
+      test_trip = RideShare::Trip.new(id: 2, driver: @driver, passenger: nil,
+                                  start_time: start_time, end_time: end_time, rating: 1, cost: 3)
+      @dispatcher.trips << test_trip
+      @driver = @dispatcher.find_driver(2)
+      @driver.trips << test_trip
+    end
+    it "calculates driver's cost of trips taken minus total revenue" do
+      revenue = 3 - (@driver.total_revenue)
+      test_driver = @dispatcher.find_driver(2)
+
+      expect(test_driver.net_expenditures).must_equal revenue
+
+    end
   end
 end

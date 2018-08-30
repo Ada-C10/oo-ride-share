@@ -162,30 +162,43 @@ describe "TripDispatcher class" do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE,
                                                   DRIVER_TEST_FILE)
-      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
-                                  phone: "1-602-620-2330 x3723", trips: [])
     end
 
 
-    it " will add the trip object to driver's driven_trips array"do
-        trip_generated = @dispatcher.request_trip(@user.id)
+    it "will add the trip object to driver's driven_trips array" do
+        trip_generated = @dispatcher.request_trip(1)
         driven_trips = trip_generated.driver.driven_trips
+
         expect(driven_trips).must_include trip_generated
     end
 
-    it " will add the trip object to passenger's trips array"do
+    it "will add the trip object to passenger's trips array" do
+      trip_generated = @dispatcher.request_trip(1)
+      trips = trip_generated.passenger.trips
+
+      expect(trips).must_include trip_generated
+    end
+
+    it "will add the trip object to the collection of all trips in trip dispatcher" do
+      all_trips = @dispatcher.trips
+      trip_generated = @dispatcher.request_trip(1)
+
+      expect(all_trips).must_include trip_generated
 
     end
 
-    it " will add the trip object to the collection of all trips in trip dispatcher" do
+    it "will change the driver status to unavailabe" do
+      trip_generated = @dispatcher.request_trip(1)
+      status = trip_generated.driver.status
+
+      expect(status).must_equal :UNAVAILABLE
 
     end
 
-    it " will change the driver status to unavailabe" do
+    it "will return the trip" do
+      trip_generated = @dispatcher.request_trip(1)
 
-    end
-
-    it " will return the trip" do
+      expect(trip_generated).must_be_kind_of RideShare::Trip
 
     end
 

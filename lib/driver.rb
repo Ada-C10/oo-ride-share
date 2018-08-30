@@ -1,6 +1,7 @@
 module RideShare
   class Driver < User
-    attr_reader :vehicle_id, :driven_trips, :status
+    attr_reader :vehicle_id, :driven_trips
+    attr_accessor :status
 
     def initialize(input)
       super(input)
@@ -25,10 +26,15 @@ module RideShare
       if driven_trips.length == 0
         return 0
       else
-        total_rate = @driven_trips.sum do |trip|
-          trip.rating
+        ratings = driven_trips.map do |trip|
+          if trip.rating != nil
+            trip.rating
+          end
         end
-        return total_rate.to_f / @driven_trips.length
+        total_rate = driven_trips.sum do |trip|
+            trip.rating
+        end
+        return total_rate.to_f / ratings.length
       end
     end
 

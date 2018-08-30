@@ -112,16 +112,20 @@ module RideShare
       start_time = Time.now
       end_time = nil
       trip_id = @trips.length + 1
-      passenger = find_driver(user_id)
-      new_trip = Trip.new({driver: driver, start_time: start_time, end_time: end_time, passenger: passenger, id: trip_id})
+      passenger = find_passenger(user_id)
+      new_trip = Trip.new({
+        driver: driver, start_time: start_time, end_time: end_time, passenger: passenger, id: trip_id
+        })
+
       driver.driven_trips << new_trip
       passenger.trips << new_trip
       @trips << new_trip
+
       driver.status = :UNAVAILABLE
 
       return new_trip
 
-    end
+      end
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
