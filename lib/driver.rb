@@ -33,7 +33,7 @@ module RideShare
       if trip.class == Trip
         @driven_trips << trip
       else
-        raise ArgumentError, "not at trip"
+        raise ArgumentError, "not a trip"
         @driven_trips << trip
       end
       end
