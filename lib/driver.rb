@@ -3,8 +3,9 @@ require_relative 'trip.rb'
 require_relative 'user.rb'
 
 module RideShare
-  class Driver < User
-    attr_reader :id, :name, :vehicle_id, :phone, :status, :driven_trips, :trips
+  class Driver < RideShare::User
+    attr_reader :id, :name, :vin, :phone, :status, :driven_trips, :trips
+    attr_writer :status
     def initialize(id: 0, name: "", vin: "", phone:"", trips: [], status: :AVAILABLE, driven_trips: [])
       if id <= 0
         raise ArgumentError.new("Bad ID Value")
@@ -14,7 +15,7 @@ module RideShare
       if vin.empty? || vin.length != 17
         raise ArgumentError.new("Invalid VIN number")
       end
-      @vehicle_id = vin
+      @vin = vin
       @phone = phone
       @status = status
       @driven_trips = driven_trips
@@ -58,9 +59,9 @@ module RideShare
       return net_earnings.round(2)
     end
 
-    def in_progress_trip(trip)
+    def in_progress_trip(trip, driver)
       @driven_trips << trip
-      trip.status = :UNAVAILABLE
+      driver.status = :UNAVAILABLE
     end
   end
 end

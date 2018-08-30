@@ -16,11 +16,17 @@ module RideShare
       @rating = input[:rating]
       @driver = input[:driver]
 
-
-      if @rating > 5 || @rating < 1
+      if @rating == nil
+        @rating = nil
+      elsif
+        @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
-      if @start_time > @end_time
+
+      if @end_time == nil
+        @end_time = nil
+      elsif
+        @start_time > @end_time
         raise ArgumentError.new("Start time greater")
       end
     end

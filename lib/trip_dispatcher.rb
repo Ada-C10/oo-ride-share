@@ -114,7 +114,7 @@ module RideShare
 
       new_trip = RideShare::Trip.new(id: driver.id, passenger: passenger, driver: driver, start_time: Time.now, end_time: nil, cost: nil, rating: nil)
 
-      driver.in_progress_trip(new_trip)
+      driver.in_progress_trip(new_trip, driver)
       passenger.add_trip(new_trip)
 
 

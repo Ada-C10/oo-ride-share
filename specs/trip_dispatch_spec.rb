@@ -115,4 +115,31 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+  describe "Request trip method" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+    end
+
+    it "returns an instance of trip" do
+      new_trip = @dispatcher.request_trip(3)
+      expect(new_trip).must_be_kind_of RideShare::Trip
+    end
+
+    it "updates the passenger trip list" do
+      current_passenger = @dispatcher.find_passenger(3)
+      current_number_of_trips = current_passenger.trips.length
+      new_trip = @dispatcher.request_trip(3)
+      expect(current_passenger.trips.length).must_equal (current_number_of_trips +1)
+    end
+
+    it "updates the driver trip list" do
+      current_driver = @dispatcher.find_driver(5)
+      current_number_of_trips = current_driver.driven_trips.length
+      new_trip = @dispatcher.request_trip(3)
+      expect(current_driver.driven_trips.length).must_equal (current_number_of_trips +1)
+    end
+  end
+
 end
