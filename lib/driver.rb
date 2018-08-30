@@ -21,8 +21,11 @@ module RideShare
       unless trip.is_a?(Trip)
         raise ArgumentError
       end
-
+      if trip.end_time == nil
+        @status = :UNAVAILABLE
+      end
       @driven_trips << trip
+    
     end
 
 

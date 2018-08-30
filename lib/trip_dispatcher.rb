@@ -5,7 +5,6 @@ require 'pry'
 require_relative 'user'
 require_relative 'trip'
 require_relative 'driver'
-require 'time'
 
 module RideShare
   class TripDispatcher
@@ -106,6 +105,40 @@ module RideShare
       def check_id(id)
         raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
       end
+
+      def request_trip(user_id)
+
+        # find user_id from the instance of a passanger
+        passenger = find_passenger(user_id)
+        available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+        # make an exception to let the user know there are no available drivers
+        # Trip detail end_time, cost adn rating set to nil
+        trip = {
+          id: rand(0..150),
+          driver: available_driver,
+          passenger: passenger,
+          start_time: Time.now,
+          end_time: nil,
+          cost: nil,
+          rating: nil
+        }
+        # creating an instance of trip
+        new_trip = Trip.new(trip)
+        # Adding the new trio to the collection of trips for passanger
+        passenger.add_trip(new_trip)
+        # adding to the collection of trips for driver
+        driver.add_driven_trip(new_trip)
+        # adding to the collection of trips
+        trips << new_trip
+
+        return new_trip
+      end
+
+
+
+
+
+
 
     end
   end
