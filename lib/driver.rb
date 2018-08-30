@@ -57,5 +57,10 @@ module RideShare
 
     end
 
+    def net_expenditures
+      net_expenditures = super - self.total_revenue
+      return net_expenditures.round(2)
+    end
+
   end
 end

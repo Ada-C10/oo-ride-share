@@ -139,5 +139,56 @@ describe "Driver class" do
 
   describe "net_expenditures" do
     # You add tests for the net_expenditures method
+    before do
+      @driver = RideShare::Driver.new(
+        id: 54,
+        name: "Rogers Bartell IV",
+        vin: "1C9EVBRM0YBC564DZ",
+        status: :AVAILABLE
+      )
+    end
+
+    it "return zero if the user has not taken any trips and have not driven any trips" do
+
+      expect(@driver.net_expenditures).must_equal 0
+    end
+
+    it "correctly calculates driver net_expenditures" do
+
+      trip = RideShare::Trip.new(
+        id: 8,
+        driver: @driver,
+        passenger: nil,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-09-08"),
+        cost: 30,
+        rating: 5
+      )
+      @driver.add_driven_trip(trip)
+
+      trip = RideShare::Trip.new(
+        id: 8,
+        driver: @driver,
+        passenger: nil,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"),
+        cost: 70,
+        rating: 1
+      )
+      @driver.add_driven_trip(trip)
+
+      trip = RideShare::Trip.new(
+        id: 8,
+        driver: @driver,
+        passenger: nil,
+        start_time: Time.parse("2016-08-08"),
+        end_time: Time.parse("2016-08-09"),
+        cost: 20,
+        rating: 1
+      )
+      @driver.add_trip(trip)
+
+      expect(@driver.net_expenditures).must_equal -68.96
+    end
   end
 end
