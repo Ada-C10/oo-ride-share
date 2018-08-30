@@ -34,8 +34,8 @@ describe "Driver class" do
     end
 
     it "sets trips to an empty array if not provided" do
-      expect(@driver.trips).must_be_kind_of Array
-      expect(@driver.trips.length).must_equal 0
+      expect(@driver.driven_trips).must_be_kind_of Array
+      expect(@driver.driven_trips.length).must_equal 0
     end
 
     it "is set up for specific attributes and data types" do
@@ -62,8 +62,8 @@ describe "Driver class" do
     end
 
     it "increases the trip count by one" do
-      previous = @driver.trips.length
-      @driver.add_driven_trip(@trip)
+      previous = @driver.driven_trips.length
+      @driver.add_driven_trips(@trip)
       expect(@driver.driven_trips.length).must_equal previous + 1
     end
   end
