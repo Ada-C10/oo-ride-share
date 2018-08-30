@@ -16,9 +16,9 @@ module RideShare
         raise ArgumentError, 'Vin inaccurate, must be 17 characters long.'
       end
 
-      # if input[:driven_trips] == []
-
-      @vin	= input[:vin]
+      @id = input[:id].to_i
+      @name = input[:name].to_s
+      @vin	= input[:vin].to_s
       @status = input[:status]
       @driven_trips	= []
 
