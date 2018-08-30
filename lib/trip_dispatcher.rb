@@ -73,43 +73,48 @@ module RideShare
         parsed_driver = {id: raw_data[:id].to_i, vin: raw_data[:vin], status: raw_data[:status].to_sym, name: driver.name, phone:driver.phone_number}
         driver = Driver.new(parsed_driver)
         drivers << driver
-      end
-      return drivers
-    end
-
-    def add_driven_trips
-      @drivers.each do |driver|
-        @trips.each do |trip|
-          if trip.driver.id == driver.id
-            driver.add_driven_trip(trip)
+        @passengers.each_with_index do |user, index|
+          if driver.id == user.id
+            @passengers[index] = driver
           end
         end
       end
-    end
+        return drivers
+      end
+
+      # def add_driven_trips
+      #   @drivers.each do |driver|
+      #     @trips.each do |trip|
+      #       if trip.driver.id == driver.id
+      #         driver.add_driven_trip(trip)
+      #       end
+      #     end
+      #   end
+      # end
 
 
 
-        def find_driver(id)
-          check_id(id)
-          return @drivers.find { |driver| driver.id == id }
-        end
+      def find_driver(id)
+        check_id(id)
+        return @drivers.find { |driver| driver.id == id }
+      end
 
-        def find_passenger(id)
-          check_id(id)
-          return @passengers.find { |passenger| passenger.id == id }
-        end
+      def find_passenger(id)
+        check_id(id)
+        return @passengers.find { |passenger| passenger.id == id }
+      end
 
-        def inspect
-          return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-          #{trips.count} trips, \
-          #{drivers.count} drivers, \
-          #{passengers.count} passengers>"
-        end
+      def inspect
+        return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
+        #{trips.count} trips, \
+        #{drivers.count} drivers, \
+        #{passengers.count} passengers>"
+      end
 
-        private
+      private
 
-        def check_id(id)
-          raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
-        end
+      def check_id(id)
+        raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
       end
     end
+  end

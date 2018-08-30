@@ -31,14 +31,17 @@ module RideShare
 
        @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
-      if [:AVAILABLE, :UNAVAILABLE].include? (input[:status])
+       if [:AVAILABLE, :UNAVAILABLE].include? (input[:status])
         @status = input[:status]
-      else
-        raise ArgumentError.new('Invalid STATUS')
-      end
+       else
+         raise ArgumentError.new('Invalid STATUS')
+       end
 
     end
 
   end
-  #Created add_driven_trip method for a driver
+
+  def add_driven_trip(trips)
+    @driven_trips << trips
+  end
 end
