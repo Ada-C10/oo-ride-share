@@ -10,6 +10,7 @@ module RideShare
 
       @vehicle_id = input[:vin].to_s
       @status = input[:status]
+      @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
       raise ArgumentError.new() unless [:UNAVAILABLE, :AVAILABLE].include?(@status)
 
