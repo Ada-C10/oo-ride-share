@@ -29,7 +29,7 @@ describe "TripDispatcher class" do
     before do
       @dispatcher = RideShare::TripDispatcher.new
     end
-    
+
     it "throws an argument error for a bad ID" do
       expect{ @dispatcher.find_passenger(0) }.must_raise ArgumentError
     end
@@ -42,20 +42,20 @@ describe "TripDispatcher class" do
 
 
   # Uncomment for Wave 2
-  # describe "find_driver method" do
-  #   before do
-  #     @dispatcher = RideShare::TripDispatcher.new
-  #   end
-  #
-  #   it "throws an argument error for a bad ID" do
-  #     expect { @dispatcher.find_driver(0) }.must_raise ArgumentError
-  #   end
-  #
-  #   it "finds a driver instance" do
-  #     driver = @dispatcher.find_driver(2)
-  #     expect(driver).must_be_kind_of RideShare::Driver
-  #   end
-  # end
+   describe "find_driver method" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+    end
+
+    it "throws an argument error for a bad ID" do
+      expect { @dispatcher.find_driver(0) }.must_raise ArgumentError
+    end
+
+    it "finds a driver instance" do
+      driver = @dispatcher.find_driver(2)
+      expect(driver).must_be_kind_of RideShare::Driver
+    end
+  end
 
   xdescribe "Driver & Trip loader methods" do
     before do
