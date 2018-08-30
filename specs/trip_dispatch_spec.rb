@@ -117,12 +117,12 @@ describe "TripDispatcher class" do
     end
 
     it "Does not assign a driver with same ID as passenger" do
-      new_dispatcher = RideShare::TripDispatcher.new
-      new_trip = new_dispatcher.request_trip(9)
+      new_trip = @dispatcher.request_trip(5)
       driver_id = new_trip.driver.id
       passenger_id = new_trip.passenger.id
 
       expect(driver_id).wont_equal passenger_id
+      expect(driver_id).must_equal 8
     end
 
     it "Raises an error if there are no :AVAILABLE drivers" do
