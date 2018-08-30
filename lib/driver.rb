@@ -24,9 +24,15 @@ module RideShare
       else
         raise ArgumentError.new('Invalid STATUS')
       end
-
     end
 
+    def average_rating
+      if driven_trips = []
+        driven_trips = 0.to_f
+      else
+      return driven_trips {|sum,trip| (sum.rating + trip.rating / driven_trips.length)}.to_f
+    end
+    end
 
 
     def add_driven_trip(trip)
@@ -36,6 +42,6 @@ module RideShare
         raise ArgumentError, "not a trip"
         @driven_trips << trip
       end
-      end
     end
   end
+end

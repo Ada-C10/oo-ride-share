@@ -66,7 +66,7 @@ describe "Driver class" do
     describe "average_rating method" do
       before do
         @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                        vin: "1C9EVBRM0YBC564DZ")
+                                        vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
         trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                    start_time: Time.parse("2016-08-08"),
                                    end_time: Time.parse("2016-08-08"), rating: 5)
@@ -85,7 +85,7 @@ describe "Driver class" do
 
       it "returns zero if no driven trips" do
         driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                       vin: "1C9EVBRM0YBC564DZ")
+                                       vin: "1C9EVBRM0YBC564DZ",status: :AVAILABLE)
         expect(driver.average_rating).must_equal 0
       end
 
