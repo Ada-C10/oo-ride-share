@@ -32,10 +32,50 @@ module RideShare
 
 
       @driven_trips = input[:trips].nil? ? [] : input[:trips]
+    end
+
+    def add_driven_trip(driven_trip)
+      if driven_trip == nil
+        raise ArgumentError, "No trip provided."
+      else
+        @driven_trips << driven_trip
+      end
+    end
+
+    def average_rating
+      total_rating = 0
+
+      @driven_trip.each do |trip|
+        total_rating += trip.rating
+      end
+
+      if @driven_trip.length == 0
+        average = 0
+      else
+        average = total_ratings.to_f/@driven_trip.length
+      end
+        return average
+    end
 
 
+    def total_revenue
+      total_revenue = 0
+
+      @driven_trip.each do |trip|
+        total_revenue += trip.cost
+      end
+
+      if @driven_trip.length == 0
+        total = 0
+      else
+        total = (total_revenue.to_f - 1.65)*0.8
+      end
+        return total
+    end
 
 
+    def net_expenditures
+      return super - total_revenue
 
     end
 
