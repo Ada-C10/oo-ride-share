@@ -16,12 +16,24 @@ module RideShare
         raise InvalidVinError, "Wrong number of VIN character"
       end
 
-      @driven_trips = input[:trips]
+      @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
       @status = input[:status].to_sym
       unless @status == :AVAILABLE || @status == :UNAVAILABLE
-        raise InvalidStatusError, "Wrong status"
+        raise InvalidStatusError, "Wrong status #{@status}, type #{@status.class}"
       end
+    end
+
+    # def average_rating
+    #   @trips
+    # end
+
+    def add_driven_trip(trip)
+      if trip.class != Driver
+        raise ArgumentError, "No trip provided"
+      end
+
+      @driven_trips << trip
     end
   end
 end
