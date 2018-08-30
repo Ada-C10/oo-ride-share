@@ -22,7 +22,7 @@ module RideShare
       @trips.each do |trip|
         total_expenditures += trip.cost
       end
-      return total_expenditures
+      return total_expenditures.round(2)
     end
 
     def total_time_spent
