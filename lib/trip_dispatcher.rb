@@ -1,5 +1,5 @@
 require 'csv'
-require 'time'
+# require 'time'
 require 'pry'
 require 'awesome_print'
 
@@ -53,15 +53,13 @@ module RideShare
             cost: raw_trip[:cost].to_f,
             rating: raw_trip[:rating].to_i
           }
-#binding.pry
+          #binding.pry
           trip = Trip.new(parsed_trip)
           passenger.add_trip(trip)
           driver.add_driven_trip(trip)
           trips << trip
         end
-
         return trips
-
       end
 
       def load_drivers(filename)
@@ -78,26 +76,14 @@ module RideShare
           }
           driver = Driver.new(parsed_driver)
           drivers << driver
-            @passengers.each_with_index do |user, index|
-              if driver.id == user.id
-                @passengers[index] = driver
-              end
+          @passengers.each_with_index do |user, index|
+            if driver.id == user.id
+              @passengers[index] = driver
             end
-
+          end
         end
         return drivers
-
       end
-      # def add_driven_trip
-      #   @drivers.each do |driver|
-      #     @trips.each do |trip|
-      #
-      #       if trip.driver.id == driver.id
-      #         driver.add_driven_trip(trip)
-      #       end
-      #     end
-      #   end
-      # end
 
 
 
@@ -113,28 +99,32 @@ module RideShare
       end
 
 
-      # def inspect
-      #   return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-      #           #{trips.count} trips, \
-      #           #{drivers.count} drivers, \
-      #           #{passengers.count} passengers>"
-      # end
+      def inspect
+        return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
+                #{trips.count} trips, \
+                #{drivers.count} drivers, \
+                #{passengers.count} passengers>"
+      end
 
       private
 
       def check_id(id)
         raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
       end
+
+      def request_trip(user_id)
+        # The user ID will be supplied (this is the person requesting a trip)
+        # Your code should automatically assign a driver to the trip
+        # For this initial version, choose the first driver whose status is :AVAILABLE
+        # Your code should use the current time for the start time
+        # The end date, cost and rating will all be nil
+        # The trip hasn't finished yet!
+      end
     end
   end
 
-  def request_trip(user_id)
-  end
 
-   rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
-# ap rideshare.trips.driver
-  # rideshare.drivers.each do |driver|
-  #   puts driver.total_revenue
-  #   puts driver.id
-  # end(
-puts rideshare.trips[0].driver.driven_trips
+
+  # rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
+  #
+  # puts rideshare.trips[0].driver.driven_trips
