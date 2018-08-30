@@ -15,14 +15,21 @@ module RideShare
     end
 
     def add_driven_trip(trip)
+      if trip.class != Trip
+        raise ArgumentError, "A Trip was not provided"
+      end
       @driven_trips << trip
     end
 
     def average_rating
-      total_rate = @driven_trips.sum do |trip|
-        trip.rating
+      if driven_trips.length == 0
+        return 0
+      else
+        total_rate = @driven_trips.sum do |trip|
+          trip.rating
+        end
+        return total_rate.to_f / @driven_trips.length
       end
-      return total_rate / @driven_trips.length
     end
 
     def total_revenue
