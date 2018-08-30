@@ -220,10 +220,47 @@ describe "Driver class" do
       @trip = RideShare::Trip.new(@trip_data)
       @trip2 = RideShare::Trip.new(@trip_data)
       @trip3 = RideShare::Trip.new(@trip_data)
+      @trip4 = RideShare::Trip.new({
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: nil,
+        cost: nil,
+        rating: nil
+        })
 
       @driver_net_expenditures.add_driven_trip(@trip)
       @driver_net_expenditures.add_driven_trip(@trip2)
       @driver_net_expenditures.add_driven_trip(@trip3)
+    end
+
+    it "does not include in-progress trips" do
+      # Adding in-progress trip
+      @driver_net_expenditures.add_driven_trip(@trip4)
+      # Validating that in-progress trip is not included in calculation
+      # add passenger trip where driver is a passenger
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      end_time = start_time + 25 * 60 # 25 minutes
+      @ride_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 54,
+                                       name: "Rogers Bartell IV",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
+      }
+
+      @ride_trip = RideShare::Trip.new(@ride_data)
+
+      # Add trip to trips
+      @driver_net_expenditures.add_trip(@ride_trip)
+
+      # Amount spent as passenger - Amount earned as a driver
+      expect(@driver_net_expenditures.net_expenditures).must_equal(23.45 - @driver_net_expenditures.total_revenue)
     end
 
   	it "returns a float" do
