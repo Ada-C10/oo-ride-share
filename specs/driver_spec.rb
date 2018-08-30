@@ -118,8 +118,8 @@ describe "Driver class" do
       trip2 = RideShare::Trip.new({id: 8, driver: @driver, passenger: nil, start_time: "2016-08-08", end_time: nil, rating: nil})
         @driver.add_driven_trip(trip2)
 
-        # Should only be 1 as there is one completed trip with a rating of 1
-        expect(@driver.average_rating).must_equal 1
+        # Should only be 1 as there is one completed trip with a rating of 3
+        expect(@driver.average_rating).must_equal 3
     end
 
   end

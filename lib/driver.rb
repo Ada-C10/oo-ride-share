@@ -34,25 +34,38 @@ module RideShare
       @driven_trips << trip
     end
 
+    # returns an array of only completed driven trips
+    def filter_completed_trips(driven_or_riden_trips)
+      return driven_or_riden_trips.select { |trip| trip.end_time != nil }
+    end
+
     # sums up the ratings from all a Driver's trips and returns the average
     def average_rating
       if driven_trips.empty?
-        return 0
-      else
-        return (driven_trips.sum {|driven_trip| driven_trip.rating}).to_f / driven_trips.length
+        return 0.0
       end
+
+      completed = filter_completed_trips(driven_trips)
+
+      return (completed.sum { |completed_trip|
+          completed_trip.rating
+        }).to_f / completed.length
     end
 
     def total_revenue
       if driven_trips.empty?
         return 0.00
-      else
-        return ((driven_trips.sum {|driven_trip| driven_trip.cost - 1.65}) * 0.8).round(2)
       end
+
+      completed = filter_completed_trips(driven_trips)
+
+      return ((completed.sum {|completed_trip| completed_trip.cost - 1.65}) * 0.8).round(2)
     end
 
     def net_expenditures
-      return (@trips.reduce(0) { |sum, trip| sum + trip.cost }) - self.total_revenue
+      completed_riden = filter_completed_trips(trips)
+
+      return (completed_riden.reduce(0) { |sum, completed_trip| sum + completed_trip.cost }) - total_revenue
     end
 
     # Helper method to add a trip/set status to unavailable when trip is in progress for driver
