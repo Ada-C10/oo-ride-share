@@ -90,7 +90,7 @@ describe "Driver class" do
       expect(driver.average_rating).must_equal 0
     end
 
-    xit "correctly calculates the average rating" do
+    it "correctly calculates the average rating" do
       trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                   start_time: Time.parse("2018-04-25 11:20:00 -0700"), end_time: Time.parse("2018-04-25 11:30:00 -0700"), cost: 10.0, rating: 1)
       @driver.add_driven_trip(trip2)
@@ -101,7 +101,7 @@ describe "Driver class" do
 
   end
 
-  xdescribe "total_revenue" do
+  describe "total_revenue" do
     # You add tests for the total_revenue method
   end
 
