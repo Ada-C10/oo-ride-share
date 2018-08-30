@@ -18,7 +18,7 @@ describe "Trip class" do
         rating: 3
       }
       @trip = RideShare::Trip.new(@trip_data)
-      
+
     end
 
     it "is an instance of Trip" do
@@ -30,7 +30,6 @@ describe "Trip class" do
     end
 
     it "stores an instance of driver" do
-      skip  # Unskip after wave 2
       expect(@trip.driver).must_be_kind_of RideShare::Driver
     end
 

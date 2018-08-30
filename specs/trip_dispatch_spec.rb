@@ -22,11 +22,6 @@ describe "TripDispatcher class" do
       expect(dispatcher.passengers).must_be_kind_of Array
       # expect(dispatcher.drivers).must_be_kind_of Array
     end
-      #
-      # expect(dispatcher.trips).must_be_kind_of Array
-      # expect(dispatcher.passengers).must_be_kind_of Array
-      # # expect(dispatcher.drivers).must_be_kind_of Array
-    end
   end
 
   describe "find_user method" do

@@ -25,6 +25,13 @@ module RideShare
       end
     end
 
+    def driver #How to access driver's data
+      data[:vehicle_id] = nil
+      data[:driven_trips] = @passenger.trips
+      data[:status]
+      @driver = RideShare::Driver.new(data)
+    end
+
     def inspect
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
       "ID=#{id.inspect} " +
@@ -35,7 +42,6 @@ module RideShare
       duration = @end_time - @start_time
       return duration
       # @trip_data[:duration] = @trip_data[:end_time] - @trip_data[:start_time]
-
     end
 
   end

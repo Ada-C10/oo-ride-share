@@ -25,6 +25,8 @@ module RideShare
         input_data[:name] = line[1]
         input_data[:phone] = line[2]
 
+
+
         users << User.new(input_data)
       end
 
@@ -54,7 +56,6 @@ module RideShare
         # it adds each trip to its corresponding instance of passanger
         # every instance of a passanger is saved in @passagers
         passenger.add_trip(trip)
-        binding.pry
         trips << trip
       end
 
