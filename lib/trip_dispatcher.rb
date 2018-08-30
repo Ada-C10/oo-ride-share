@@ -118,23 +118,23 @@ module RideShare
         # The user ID will be supplied (this is the person requesting a trip)
 
         new_driver = self.available_driver
-        new_passenger = nil
+        new_passenger = self.find_passenger(user_id)
 
 
-        @passengers.each do |passenger|
-          if passenger.id == user_id
-            new_passenger = passenger
-          end
-        end
+        # @passengers.each do |passenger|
+        #   if passenger.id == user_id
+        #     new_passenger = passenger
+        #   end
+        # end
 
         parsed_trip = {
           id: user_id,
           driver: new_driver,
           passenger: new_passenger,
           start_time: Time.new,
-          end_time: nil,
-          cost: nil,
-          rating: nil
+          # end_time: nil,
+          # cost: nil,
+          # rating: nil
         }
 
         in_progress_ride = Trip.new(parsed_trip)
