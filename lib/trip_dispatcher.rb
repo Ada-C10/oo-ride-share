@@ -1,4 +1,5 @@
 require 'csv'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -79,7 +80,6 @@ module RideShare
         driver.add_driven_trip(trip)
         trips << trip
       end
-
       return trips
     end
 
@@ -96,16 +96,34 @@ module RideShare
 
     def unique_drivers(user_id)
       available_drivers = generate_available_drivers
-
       unique_drivers = available_drivers.find_all do |driver| driver.id != find_passenger(user_id).id
       end
-
-      raise ArgumentError.new("NO DRIVERS AVAILABLE") if unique_drivers.empty?
       return unique_drivers
     end
 
+    def find_no_trips_driver(user_id)
+      unique_drivers = unique_drivers(user_id)
+      return unique_drivers.find { |driver| driver.driven_trips.length == 0  }
+    end
+
+    def find_oldest_trip_driver(user_id)
+      unique_drivers = unique_drivers(user_id)
+
+      oldest_trip_driver = unique_drivers.find do |driver|
+        driver.driven_trips.min_by do |trip|
+          trip.end_time
+        end
+      end
+      return oldest_trip_driver
+    end
+
     def first_available_driver(user_id)
-      first_available_driver  = unique_drivers(user_id).first
+      no_trips_driver = find_no_trips_driver(user_id)
+      oldest_trip_driver = find_oldest_trip_driver(user_id)
+
+      raise ArgumentError.new("NO DRIVERS AVAILABLE") if (no_trips_driver.nil? && oldest_trip_driver.nil?)
+
+      no_trips_driver ? no_trips_driver : oldest_trip_driver
     end
 
     def request_trip(user_id)

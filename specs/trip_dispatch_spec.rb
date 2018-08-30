@@ -119,6 +119,7 @@ describe "TripDispatcher class" do
     end
 
     it "Assigns the first :AVAILABLE driver to a new Trip" do
+      @requested_trip = @dispatcher.request_trip(1)
       driver  = @requested_trip.driver
       expect(driver).must_be_instance_of RideShare::Driver
     end
@@ -133,17 +134,24 @@ describe "TripDispatcher class" do
     end
 
     it "Does not assign a driver with same ID as passenger" do
-      new_trip = @dispatcher.request_trip(5)
+      new_trip = @dispatcher.request_trip(8)
       driver_id = new_trip.driver.id
       passenger_id = new_trip.passenger.id
 
       expect(driver_id).wont_equal passenger_id
-      expect(driver_id).must_equal 8
+      expect(driver_id).must_equal 5
+    end
+
+    it "Raises an error if the only :AVAILABLE driver is the Passenger" do
+      expect{ @dispatcher.request_trip(5)}.must_raise ArgumentError
+
     end
 
     it "Raises an error if there are no :AVAILABLE drivers" do
-      new_trip = @dispatcher.request_trip(5)
-      expect{ @dispatcher.request_trip(2) }.must_raise ArgumentError
+        new_trip = @dispatcher.request_trip(2)
+          expect{ @dispatcher.request_trip(1)}.must_raise ArgumentError
+
     end
   end
+
 end
