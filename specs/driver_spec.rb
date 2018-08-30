@@ -3,13 +3,13 @@ require 'time'
 
 describe "Driver class" do
 
-    describe "Driver instantiation" do
-      before do
-        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-          vin: "1C9EVBRM0YBC564DZ",
-          phone: '111-111-1111',
-          status: :AVAILABLE)
-    end
+  describe "Driver instantiation" do
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+        vin: "1C9EVBRM0YBC564DZ",
+        phone: '111-111-1111',
+        status: :AVAILABLE)
+      end
 
       it "is an instance of Driver" do
         expect(@driver).must_be_kind_of RideShare::Driver
@@ -62,11 +62,10 @@ describe "Driver class" do
 
     describe "average_rating method" do
       before do
-        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                        vin: "1C9EVBRM0YBC564DZ")
-        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                   start_time: Time.parse("2018-05-25 11:52:40 -0700"),
-                                   end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5)
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
+
+        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse("2018-05-25 11:52:40 -0700"), end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5)
+
         @driver.add_driven_trip(trip)
       end
 
@@ -81,29 +80,42 @@ describe "Driver class" do
       end
 
       it "returns zero if no driven trips" do
-        driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                       vin: "1C9EVBRM0YBC564DZ")
+        driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
+
         expect(driver.average_rating).must_equal 0
       end
 
       it "correctly calculates the average rating" do
-        trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                    start_time: Time.parse("2018-05-25 11:52:40 -0700"),
-                                    end_time: Time.parse("2018-05-25 12:25:00 -0700"),
-                                    rating: 1)
+        trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse("2018-05-25 11:52:40 -0700"), end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 1)
+
         @driver.add_driven_trip(trip2)
 
         expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
       end
-
-
     end
 
-  describe "total_revenue" do
-    # You add tests for the total_revenue method
-  end
+    describe "total_revenue" do
+      before do
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
 
-  describe "net_expenditures" do
-    # You add tests for the net_expenditures method
+        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse("2018-05-25 11:52:40 -0700"), end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5, cost: 4.50)
+
+        trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse("2018-05-25 11:52:40 -0700"), end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5, cost: 5.50)
+
+        trip3 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse("2018-05-25 11:52:40 -0700"), end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5, cost: 6.50)
+
+        @driver.add_driven_trip(trip)
+        @driver.add_driven_trip(trip2)
+        @driver.add_driven_trip(trip3)
+      end
+
+      it "calculates total_revenue correctly accounting for $1.56 fee/ride and returns 80% of net revenue to driver" do
+        expect(@driver.total_revenue).must_equal 9.24
+      end
+      # You add tests for the total_revenue method
+    end
+
+    # describe "net_expenditures" do
+    #   # You add tests for the net_expenditures method
+    # end
   end
-end

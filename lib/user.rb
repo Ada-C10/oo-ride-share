@@ -82,9 +82,12 @@ module RideShare
     end
 
     def total_revenue
-      #before_fees = reduce through drivers $
+      sum_costs = self.driven_trips.reduce(0){|memo, trip| memo + trip.cost}
 
-      #driver_earnings = (before_fees - (trips.length*1.65)) * .80
+      total_revenue = (sum_costs - (self.driven_trips.length * 1.65)) * 0.80
+
+      return total_revenue.to_f.round(2)
+
     end
 #     total_revenue	This method calculates that driver's total revenue across all their trips. Each driver gets 80% of the trip cost after a fee of $1.65 per trip is subtracted.
 
