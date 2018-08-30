@@ -13,8 +13,10 @@ module RideShare
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv', driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
+      # binding.pry
       @trips = load_trips(trip_file)
       @drivers =  load_drivers(driver_file)
+
     end
 
     def load_users(filename)
@@ -25,10 +27,11 @@ module RideShare
         input_data[:id] = line[0].to_i
         input_data[:name] = line[1]
         input_data[:phone] = line[2]
-
+        # binding.pry
         @users << User.new(input_data)
       end
       return @users
+      # binding.pry
     end
 
 
@@ -40,21 +43,27 @@ module RideShare
       drivers = []
       driver_users = []
 
-      CSV.read('support/drivers.csv', headers: true).each do |line|
+      CSV.read(filename, headers: true).each do |line|
         input_data = {}
         input_data[:id] = line[0].to_i
         input_data[:vin] = line[1]
         input_data[:status] = line[2]
+        input_data[:driver_trips] = []
 
         driver_users << input_data
       end
 
       driver_users.each do |driver|
         user = find_passenger(driver[:id])
-          drivers << Driver.new({id: user[:id], name: user[:name], vin: driver[:vin], phone: user[:phone], status: driver[:status], driven_trips: []})
+
+
+          driver1 = Driver.new({id: driver[:id], name: user.name, vin: driver[:vin], phone: user.phone_number, status: driver[:status].to_sym, driven_trips: []})
+          # binding.pry
+          drivers << driver1
+          # binding.pry
         end
 
-        ap drivers
+        return drivers
       end
 
       # load drivers, collect the instances
