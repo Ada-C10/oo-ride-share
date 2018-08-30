@@ -6,7 +6,7 @@ module RideShare
     attr_reader :vin, :driven_trips, :status
 
     def initialize(input)
-      super(input)
+      super
 
       @vin = input[:vin]
       if @vin.length != 17
@@ -27,7 +27,7 @@ module RideShare
     def add_driven_trip(trip)
       if trip.is_a? Trip
       # binding.pry
-      @driven_trips << trip
+        @driven_trips << trip
       # binding.pry
       else
         raise ArgumentError.new("Invalid trip instance")
@@ -69,13 +69,14 @@ module RideShare
      driver_revenue_rounded = driver_revenue.round(2)
 
      return driver_revenue_rounded
-   end
+    end
 
-   def net_expenditures
+    def net_expenditures
      net_expenditures = super
      difference = net_expenditures - total_revenue
-     return difference
-   end
+     # difference = super - total_revenue # can use super in place of above code.
+    return difference
+    end
 
   end
 end

@@ -76,8 +76,8 @@ module RideShare
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
         driver.add_trip(trip)
+        driver.add_driven_trip(trip)
         trips << trip
-        # binding.pry
       end
       return trips
     end
@@ -99,10 +99,60 @@ module RideShare
               #{passengers.count} passengers>"
     end
 
-    private
+    # private
 
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
+
+
+
+    # Note: The user_id must correspond to a User instance
+   def request_trip(user_id)
+
+     # Checking for available drivers that do not have the same id as the user requesting a ride
+     available_drivers = []
+     @drivers.each do |x|
+       if x.status == :AVAILABLE && x.id != user_id.to_i
+         available_drivers << x
+       end
+     end
+
+     # Finding the User instance
+     current_passenger = @passengers.find { |passenger| passenger.id == user_id }
+
+     # If there are available drivers, then create trip instance.
+     if available_drivers.length > 0
+       number_of_drivers = available_drivers.length
+       random_driver = available_drivers[rand(0...number_of_drivers)]
+       random_driver_id = random_driver.id
+
+       trip_info = {
+         id: @trips.length + 1,
+         passenger: current_passenger,
+         start_time: Time.now,
+         end_time: nil,
+         cost: nil,
+         rating: nil,
+         driver: random_driver
+       }
+
+       trip = Trip.new(trip_info)
+       @trips << trip
+
+       # Changing driver data
+       random_driver.add_driven_trip(trip)
+       random_driver.status = :UNAVAILABLE
+
+       # Changing current passenger data
+       current_passenger.add_trip(trip)
+
+       return trip
+
+     else
+       puts "No available drivers"
+       return nil
+     end
+   end
   end
 end
