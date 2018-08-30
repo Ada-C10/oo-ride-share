@@ -24,7 +24,6 @@ module RideShare
 
     def request_trip(user_id)
       driver = @drivers.find{|driver| driver.status == :AVAILABLE && driver.id != user_id}
-      passenger = find_passenger(user_id)
       parsed_trip = {
         id: @trips.last.id + 1,
         driver: driver,
@@ -40,7 +39,7 @@ module RideShare
       driver.add_driven_trip(new_trip)
       passenger.add_trip(new_trip)
       driver.driver_on_trip
-return new_trip
+      return new_trip
     end
 
     def load_users(filename)
@@ -90,18 +89,18 @@ return new_trip
 
     def load_drivers(filename)
       driver_data = CSV.open(filename, 'r', headers: true,
-                                          header_converters: :symbol)
+      header_converters: :symbol)
 
       return driver_data.map do |raw_driver|
         user = find_passenger(raw_driver[:id].to_i)
 
         parse_driver = {
-        id: raw_driver[:id].to_i,
-        name: user.name,
-        phone: user.phone_number,
-        trips: user.trips,
-        vin: raw_driver[:vin],
-        status: raw_driver[:status].to_sym,
+          id: raw_driver[:id].to_i,
+          name: user.name,
+          phone: user.phone_number,
+          trips: user.trips,
+          vin: raw_driver[:vin],
+          status: raw_driver[:status].to_sym,
         }
 
         Driver.new(parse_driver)

@@ -123,8 +123,20 @@ describe "TripDispatcher class" do
     end
 
     it "returns an instance of trip" do
-       @dispatcher.request_trip(5)
+      @dispatcher.request_trip(5)
       expect(@dispatcher.trips.last).must_be_instance_of RideShare::Trip
+    end
+    it "trip list is updated properly" do
+      #was the trip list updated?
+    end
+    it "was the driver selected available?" do
+      #was the driver selected available
+    end
+    it "should throw argument error if no driver is avalible" do
+      #what happens if no driver is available
+    end
+    it "should throw argument error if a driver is trying to drive themselves" do
+      #driver can't drive themselves
     end
   end
 end
