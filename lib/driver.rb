@@ -10,8 +10,8 @@ module RideShare
         if input[:vin] == nil || input[:vin] == "" || input[:vin].length > 17
           raise ArgumentError.new('Invalid Vin')
         end
-        @vehicle_id = input[:vin]
-        @driven_trips = input[:driven_trips]
+        @vin = input[:vin]
+        @driven_trips = input[:driven_trips] ||= []
         @status = input[:status] ||= :AVAILABLE
         raise ArgumentError.new("Invalid Status") unless @status == :AVAILABLE || @status == :UNAVAILABLE
     end

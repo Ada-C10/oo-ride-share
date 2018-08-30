@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'pry'
 
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
@@ -28,7 +29,7 @@ describe "TripDispatcher class" do
     before do
       @dispatcher = RideShare::TripDispatcher.new
     end
-
+    
     it "throws an argument error for a bad ID" do
       expect{ @dispatcher.find_passenger(0) }.must_raise ArgumentError
     end
@@ -56,16 +57,17 @@ describe "TripDispatcher class" do
   #   end
   # end
 
-  describe "Driver & Trip loader methods" do
+  xdescribe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "accurately loads driver information into drivers array" do
-      skip # Unskip After Wave 2
+       # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
+
 
       expect(first_driver.name).must_equal "Driver2"
       expect(first_driver.id).must_equal 2
@@ -75,7 +77,7 @@ describe "TripDispatcher class" do
       expect(last_driver.status).must_equal :AVAILABLE
     end
 
-    it "Connects drivers with trips" do
+     it "Connects drivers with trips" do
       skip # Unskip after wave 2
       trips = @dispatcher.trips
 
@@ -93,9 +95,11 @@ describe "TripDispatcher class" do
                                                   TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
+
     it "accurately loads passenger information into passengers array" do
       first_passenger = @dispatcher.passengers.first
       last_passenger = @dispatcher.passengers.last
+
 
       expect(first_passenger.name).must_equal "User1"
       expect(first_passenger.id).must_equal 1

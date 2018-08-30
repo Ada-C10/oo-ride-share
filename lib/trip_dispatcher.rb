@@ -37,25 +37,32 @@ module RideShare
 
     def load_drivers(filename)
       drivers = []
+
       CSV.read(filename, headers: true).each do |line|
         input_data = {}
-        input_data[:id] = line[0].to_i
-        binding.pry
 
-        @passengers.each do |passenger|
-          if passenger.include?(input_data[:id])
-            puts "Yasss"
-          end
-        end
-        binding.pry
+        user = find_passenger(line[0].to_i)
 
-        input_data[:name] = line[1]
-        input_data[:phone] = line[2]
-        #the below two should be coming from drivers.csv
+        input_data[:id] = user.id
+        input_data[:name] = user.name
+        input_data[:phone] = user.phone_number
+
         input_data[:vin] = line[1]
-        input_data[:status] = line[2]
+        input_data[:status] = line[2].to_sym
+
+
         drivers << Driver.new(input_data)
-      end
+
+        end
+
+      #   #
+      #   # input_data[:name] = line[1]
+      #   # input_data[:phone] = line[2]
+      #   # #the below two should be coming from drivers.csv
+      #   # input_data[:vin] = line[1]
+      #   # input_data[:status] = line[2]
+      #   # drivers << Driver.new(input_data)
+      # end
       return drivers
     end
 
