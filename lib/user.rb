@@ -29,7 +29,7 @@ module RideShare
       return ride_total
     end
 
-  #   RideShare::Trip.duration
+  #   RideShare::Trip.duration - don't need RideShare? NO, same module
   #
   #   return total amout of time user has spent on the trips
   #   def total_time_spent
