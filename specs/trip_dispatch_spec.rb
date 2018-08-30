@@ -121,4 +121,37 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+
+
+  describe "New in-progress trip: Request Trip(user_id)" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                 DRIVER_TEST_FILE)
+      end
+
+    it "creates trip properly" do
+      @dispatcher.request_trip(5)
+      expect(@dispatcher.trips.last).must_be_instance_of RideShare::Trip
+    end
+
+    it "updates trip list for user" do
+
+    end
+
+    it "updates trip list for driver" do
+    end
+
+    it "selects first available driver" do
+    end
+
+    it "correctly handles NO AVILABLE DRIVERS situation" do
+    end
+
+    it "never has driver and passenger with same id" do
+    end
+
+
+  end
 end
