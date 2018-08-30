@@ -84,7 +84,7 @@ describe "Driver class" do
       expect(average).must_be :<=, 5.0
     end
 
-    xit "returns zero if no trips" do
+    it "returns zero if no trips" do
       driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
       expect(driver.average_rating).must_equal 0

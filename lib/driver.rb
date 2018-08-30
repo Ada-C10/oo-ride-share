@@ -46,6 +46,10 @@ module RideShare
       size = @driven_trips.length
       average = sum/size
 
+      if @driven_trips.length == 0
+        average = 0
+      end
+      
       return average
     end
 
