@@ -11,6 +11,10 @@ require 'awesome_print'
 # TRIP_TEST_FILE   = 'support/trips.csv'
 # DRIVER_TEST_FILE = 'support/drivers.csv'
 
+USER_TEST_FILE   = 'specs/test_data/users_test.csv'
+TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
+DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+
 
 module RideShare
   class TripDispatcher
@@ -162,7 +166,7 @@ module RideShare
         # Pick the next available driver
         selected_driver = available_drivers[1]
       end
-
+      # binding.pry
       # Creating new trip data
       new_trip_data = {
         id: (trips.last.id + 1),
@@ -180,6 +184,13 @@ module RideShare
       # Adding new trip to trips
       trips << new_trip
 
+      # Using helper method to set driver status to unavailable
+        # And to add the trip to the drivers driven_trips collection
+      selected_driver.drive_in_progress(new_trip)
+
+      # Adding trip to passenger's trip collection 
+      new_trip.passenger.add_trip(new_trip)
+
       return new_trip
       #new_trip_data = {id: ???new trip id??????, passenger: find_passenger(user_id),
       #         start_time: Time.current????, end_time: nil, cost: nil, rating: nil, driver: the driver we found above}
@@ -194,8 +205,10 @@ module RideShare
 end
 
 #
-# dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-#                                                  TRIP_TEST_FILE)
-#
+dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                               DRIVER_TEST_FILE)
+
+dispatcher.request_trip(1)
 #
 # binding.pry

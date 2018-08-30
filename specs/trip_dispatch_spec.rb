@@ -131,21 +131,28 @@ describe "TripDispatcher class" do
 
     it "must return the correct trip information" do
       expect(@dispatcher.request_trip(1).id).must_equal 6
+      @dispatcher.find_driver(5).status = :AVAILABLE
       expect(@dispatcher.request_trip(1).passenger).must_equal @dispatcher.find_passenger(1)
       # expect(@dispatcher.request_trip(1).start_time).must_equal Time.now
+      @dispatcher.find_driver(5).status = :AVAILABLE
       expect(@dispatcher.request_trip(1).end_time).must_equal nil
+      @dispatcher.find_driver(5).status = :AVAILABLE
       expect(@dispatcher.request_trip(1).cost).must_equal nil
+      @dispatcher.find_driver(5).status = :AVAILABLE
       expect(@dispatcher.request_trip(1).rating).must_equal nil
+      @dispatcher.find_driver(5).status = :AVAILABLE
       expect(@dispatcher.request_trip(1).driver).must_equal @dispatcher.find_driver(5)
     end
 
     it "must update the driver's driven trips and status" do
+      @dispatcher.request_trip(1)
       # previously driver 5 had 3 trips
       expect(@dispatcher.find_driver(5).driven_trips.length).must_equal 4
       expect(@dispatcher.find_driver(5).status).must_equal :UNAVAILABLE
     end
 
     it "must update the user's trips" do
+      @dispatcher.request_trip(1)
       # previously passenger 1 had 1 trip
       expect(@dispatcher.find_passenger(1).trips.length).must_equal 2
     end

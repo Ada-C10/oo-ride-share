@@ -55,9 +55,11 @@ module RideShare
       return (@trips.reduce(0) { |sum, trip| sum + trip.cost }) - self.total_revenue
     end
 
-    # helper method that is modifying driver IN DRIVER
-    # driver.add_driven_trip(new_trip)
-    # driver.status = :UNAVAILABLE
+    # Helper method to add a trip/set status to unavailable when trip is in progress for driver
+    def drive_in_progress(trip)
+      self.add_driven_trip(trip)
+      self.status = :UNAVAILABLE
+    end
 
   end
 end
