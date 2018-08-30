@@ -76,6 +76,7 @@ module RideShare
           }
           driver = Driver.new(parsed_driver)
           drivers << driver
+
           @passengers.each_with_index do |user, index|
             if driver.id == user.id
               @passengers[index] = driver
@@ -110,6 +111,7 @@ module RideShare
             return driver
           end
         end
+        raise ArgumentError.new('There are no drivers available')
       end
 
       def request_trip(user_id)

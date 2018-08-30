@@ -10,12 +10,11 @@ module RideShare
 
     def initialize(input)
       super (input) #id, name, phone_number, trips
-
+      @status = input[:status]
+      @vin = input[:vin]
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
-      if input[:vin].length == 17
-        @vin = input[:vin]
-      else
+      if input[:vin].length != 17
         raise ArgumentError.new('That is not a valid VIN number')
       end
 
@@ -24,7 +23,6 @@ module RideShare
       else
         raise ArgumentError.new('That is not a valid status')
       end
-
     end
 
     def add_driven_trip(driver_trip)
@@ -47,22 +45,10 @@ module RideShare
     end
 
     def net_expenditures
-      #money_spent = super
-      money_spent = trips.reduce(0){|sum, trip| sum + trip.cost }
+      money_spent = super
+      # money_spent = trips.reduce(0){|sum, trip| sum + trip.cost }
       return money_spent - self.total_revenue
     end
 
-
-
-
   end
 end
-
-# driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-#                                 vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-# trip = RideShare::Trip.new(id: 8, driver: driver, passenger: nil,
-#                            start_time: Time.parse("2016-08-08"),
-#                            end_time: Time.parse("2016-08-08"), rating: 5)
-# driver.add_driven_trip(trip)
-# binding.pry
-# puts driver

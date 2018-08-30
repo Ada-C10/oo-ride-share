@@ -136,5 +136,10 @@ describe "TripDispatcher class" do
 
       expect(driver.status).must_equal :AVAILABLE
     end
+    it 'All drivers are unavailable - Raise ArgumentError' do
+      @dispatcher.drivers[1].status = :UNAVAILABLE
+      @dispatcher.drivers[2].status = :UNAVAILABLE
+      expect{@dispatcher.available_driver}.must_raise ArgumentError
+    end
   end
 end

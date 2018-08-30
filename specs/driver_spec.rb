@@ -154,6 +154,6 @@ describe "Driver class" do
     it "correctly calculates the net expenditure that's positive" do
       expect(@driver.net_expenditures.abs).must_be_close_to 4.36, 0.01
     end
-    # You add tests for the net_expenditures method
+
   end
 end
