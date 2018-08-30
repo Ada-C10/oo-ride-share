@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 module RideShare
   class Trip
@@ -25,7 +24,6 @@ module RideShare
           raise ArgumentError.new("Start time cannot be greater than End time")
         end
       end
-
     end
 
     def inspect

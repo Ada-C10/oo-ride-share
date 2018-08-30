@@ -32,6 +32,5 @@ module RideShare
       end
       return total_time
     end
-
   end
 end
