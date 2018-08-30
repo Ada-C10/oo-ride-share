@@ -80,6 +80,14 @@ describe "User class" do
                                 end_time: Time.parse("2016-08-09"),
                                 cost: 5.60,
                                 rating: 5)
+      # In progress trip
+      @trip4 = RideShare::Trip.new(
+        id: 8, driver: nil, passenger: @user,
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: nil,
+                                  cost: nil,
+                                  rating: nil
+      )
       @user.add_trip(trip1)
       @user.add_trip(trip2)
       @user.add_trip(trip3)
@@ -88,7 +96,10 @@ describe "User class" do
                                   phone: "1-602-620-2330 x3723", trips: [])
     end
 
-    it "calculates the total cost of all of a user's rides" do
+    it "calculates the total cost of all of a user's rides excluding in-progress trips" do
+      # Adding in progress trip
+      @user.add_trip(@trip4)
+      # Total should not include in progres trip
       expect(@user.net_expenditures).must_equal (10.35 + 20.20 + 5.60)
     end
 
@@ -120,6 +131,15 @@ describe "User class" do
                                 cost: 5.60,
                                 rating: 5)
 
+        # In progress trip
+      @trip4 = RideShare::Trip.new(
+        id: 8, driver: nil, passenger: @user,
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: nil,
+                                  cost: nil,
+                                  rating: nil
+      )
+
       @user.add_trip(trip1)
       @user.add_trip(trip2)
       @user.add_trip(trip3)
@@ -128,7 +148,10 @@ describe "User class" do
                                   phone: "1-602-620-2330 x3723", trips: [])
     end
 
-    it "calculates the total amount of time spent for all trips" do
+    it "calculates the total amount of time spent for all trips and does not include in-progress trips" do
+      # Adding in-progres trip
+      @user.add_trip(@trip4)
+      # Total should not include trip 4 
       expect(@user.total_time_spent).must_equal (@user.trips[0].duration + @user.trips[1].duration + @user.trips[2].duration)
     end
 
