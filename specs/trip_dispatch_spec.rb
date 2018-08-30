@@ -102,6 +102,22 @@ describe "TripDispatcher class" do
       @requested_trip = @dispatcher.request_trip(1)
     end
 
+    it "generates an array of :AVAILABLE drivers" do
+      available_drivers = @dispatcher.generate_available_drivers
+      expect(available_drivers).must_be_kind_of Array
+      expect(available_drivers.first.status).must_equal :AVAILABLE
+      expect(available_drivers.last.status).must_equal :AVAILABLE
+    end
+
+    it "returns an array of :AVAILABLE drivers that aren't the Passenger" do
+      unique_drivers = @dispatcher.unique_drivers(5)
+      expect(unique_drivers).must_be_kind_of Array
+
+      unique_drivers.each do |driver|
+        expect(driver.id).wont_equal 5
+      end
+    end
+
     it "Assigns the first :AVAILABLE driver to a new Trip" do
       driver  = @requested_trip.driver
       expect(driver).must_be_instance_of RideShare::Driver
