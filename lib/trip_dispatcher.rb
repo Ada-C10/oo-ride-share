@@ -117,8 +117,8 @@ module RideShare
         driver: driver, start_time: start_time, end_time: end_time, passenger: passenger, id: trip_id
         })
 
-      driver.driven_trips << new_trip
-      passenger.trips << new_trip
+      driver.add_driven_trip(new_trip)
+      passenger.add_trip(new_trip)
       @trips << new_trip
 
       driver.status = :UNAVAILABLE
