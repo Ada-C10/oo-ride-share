@@ -143,14 +143,14 @@ describe "Driver class" do
     before do
       trip3 = RideShare::Trip.new(id: 8,
                                  driver: nil,
-                                 passenger: @user,
+                                 passenger: 54,
                                  start_time: Time.parse("2018-07-30 22:23:55 -0700"),
                                  end_time: Time.parse("2018-07-30 22:30:55 -0700"),
                                  cost: 15,
                                  rating: 5)
       trip4 = RideShare::Trip.new(id: 8,
                                  driver: nil,
-                                 passenger: @user,
+                                 passenger: 54,
                                  start_time: Time.parse("2018-08-19 20:08:00 -0700"),
                                  end_time: Time.parse("2018-08-19 20:20:14 -0700"),
                                  cost: 35,

@@ -44,6 +44,11 @@ module RideShare
       @driven_trips << trip
     end
 
+    def add_trip_in_progress(trip)
+      @status = :UNAVAILABLE
+      @driven_trips << trip
+    end
+
     def total_revenue
       total = 0
       @driven_trips.each do |trip|

@@ -121,6 +121,8 @@ describe "TripDispatcher class" do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE,
                                                 DRIVER_TEST_FILE)
+
+      @trips_length = (@dispatcher.trips).length
       @user_id = 2
       @driver_trip = @dispatcher.request_trip(@user_id)
     end
@@ -136,20 +138,44 @@ describe "TripDispatcher class" do
     it "assigns start time as current time" do
       expect(@driver_trip.start_time).must_be_close_to Time.now
     end
-    
+
     it "returns nil for end time, cost, and rating" do
       expect(@driver_trip.end_time).must_be_nil
       expect(@driver_trip.cost).must_be_nil
       expect(@driver_trip.rating).must_be_nil
     end
-    # it "creates a new trip in the driver's collection of trips" do
-    #   user_id = 2
-    #   driver_trip = @dispatcher.request_trip(user_id)
-    #
-    #   driver = @drivers.find { |driver| driver.id == 5 }
-    #   expect(driver.driven_trips.length).must_equal 4
-    #
-    # end
+
+    it "creates a new trip in the driver's collection of trips" do
+      driver = @dispatcher.drivers.find { |driver| driver.id == 8 }
+      expect(driver.driven_trips.length).must_equal 0
+      @user_id = 4
+      @driver_trip = @dispatcher.request_trip(@user_id)
+      expect(@driver_trip.driver).must_equal 8
+      expect(driver.driven_trips.length).must_equal 1
+    end
+
+    it "converts a driver's status to :UNAVAILABLE when trip in progress" do
+      driver = @dispatcher.drivers.find { |driver| driver.id == 5 }
+      expect(driver.status).must_equal :UNAVAILABLE
+    end
+
+    it "creates a new trip in the user's collection of trips" do
+      id = 4
+      passenger = @dispatcher.passengers.find { |user| user.id == id }
+      puts passenger
+
+      expect(passenger.trips.length).must_equal 1
+      @driver_trip = @dispatcher.request_trip(id)
+      # binding.pry
+      expect(passenger.trips.length).must_equal 2
+    end
+
+    it "add a new trip onto the trips array" do
+      @trips_length = (@dispatcher.trips).length
+      expect(@trips_length).must_equal 6
+    end
+
+
 
   end
 end
