@@ -1,4 +1,5 @@
 require 'csv'
+require 'pry'
 
 module RideShare
   class Driver < User
@@ -22,6 +23,22 @@ module RideShare
       end
 
       @driven_trips << trip
+    end
+
+
+    def average_rating
+      rating_sum = 0
+      @driven_trips.each do |trip|
+        rating_sum += trip.rating
+      end
+      if @driven_trips.length == 0
+         average_rating = 0
+      else
+         average_rating = (rating_sum / @driven_trips.length).to_f
+      end
+
+      return average_rating
+
     end
 
   end
