@@ -107,4 +107,61 @@ describe "TripDispatcher class" do
       expect(trip_end_time).must_be_instance_of Time
     end
   end
+
+  describe "TripDispatcher#request_trip" do
+    # this is the trip that should get created from the test data files
+    #   @trip_data = {
+    #     id: 6,
+    #     passenger: @dispatcher.find_passenger(1),
+    #     start_time: Time.now,
+    #     end_time: nil,
+    #     cost: nil,
+    #     rating: nil,
+    #     driver: @dispatcher.find_driver(5)
+    #   }
+
+    it "must call an available driver" do
+      expect(@dispatcher.find_driver(5).status).must_equal :AVAILABLE
+      expect(@dispatcher.request_trip(1).driver).must_equal @dispatcher.find_driver(5)
+    end
+
+    it "must return an instance of Trip" do
+      expect(@dispatcher.request_trip(1)).must_be_kind_of Trip
+    end
+
+    it "must return the correct trip information" do
+      expect(@dispatcher.request_trip(1).id).must_equal 6
+      expect(@dispatcher.request_trip(1).passenger).must_equal @dispatcher.find_passenger(1)
+      expect(@dispatcher.request_trip(1).start_time).must_equal Time.now
+      expect(@dispatcher.request_trip(1).end_time).must_equal nil
+      expect(@dispatcher.request_trip(1).cost).must_equal nil
+      expect(@dispatcher.request_trip(1).rating).must_equal nil
+      expect(@dispatcher.request_trip(1).driver).must_equal @dispatcher.find_driver(5)
+    end
+
+    it "must update the driver's driven trips and status" do
+      # previously driver 5 had 3 trips
+      expect(@dispatcher.find_driver(5).driven_trips.length).must_equal 4
+      expect(@dispatcher.find_driver(5).status).must_equal :UNAVAILABLE
+    end
+
+    it "must update the user's trips" do
+      # previously passenger 1 had 1 trip
+      expect(@dispatcher.find_passenger(1).trips.length).must_equal 2
+    end
+
+    it "must assign a driver who is not the passenger" do
+      # driver 5 is the passenger
+      expect(@dispatcher.request_trip(5).driver).must_equal @dispatcher.find_driver(8)
+    end
+
+    it "must raise an ArgumentError" do # possibly custom error later on
+      # set all drivers to unavailable
+      @dispatcher.find_driver(5).status = :UNAVAILABLE
+      @dispatcher.find_driver(8).status = :UNAVAILABLE
+
+      expect{@dispatcher.request_trip(1)}.must_raise ArgumentError
+    end
+
+  end
 end

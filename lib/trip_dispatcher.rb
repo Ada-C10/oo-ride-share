@@ -126,6 +126,16 @@ module RideShare
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
 
+    # def request_trip(user_id)
+    #   # map drivers based on available status
+    #   #randomly first driver from that pool
+    #   new_trip_data = {id: ???new trip id??????, passenger: find_passenger(user_id),
+    #         start_time: Time.current????, end_time: nil, cost: nil, rating: nil, driver: the driver we found above}
+    #   new_trip = Trip.new(new_trip_data)
+    #   trips << new_trip (push new trip into array of trips in tripdispatcher)
+    #   return new_trip
+    # end
+
     private
   end
 end

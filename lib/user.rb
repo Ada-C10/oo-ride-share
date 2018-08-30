@@ -25,6 +25,9 @@ module RideShare
     def total_time_spent
       return trips.reduce(0) {|sum, trip| sum + trip.duration}
     end
+
+    # helper method IN USER
+    # passenger.add_trip(new_trip)
   end
 
 end

@@ -18,6 +18,7 @@ module RideShare
         # If status is not nil/UNAVAILABLE/AVAILABLE - Raise error
         raise ArgumentError, "Invalid status, must be :AVAILABLE or :UNAVAILABLE"
       end
+      raise ArgumentError, "Invalid VIN, must be 17 characters long" if input[:vin].length != 17
       @vehicle_id = input[:vin]
       @driven_trips = []
     end
@@ -48,6 +49,14 @@ module RideShare
         return ((driven_trips.sum {|driven_trip| driven_trip.cost - 1.65}) * 0.8).round(2)
       end
     end
+
+    def net_expenditures
+      return (@trips.reduce(0) { |sum, trip| sum + trip.cost }) - self.total_revenue
+    end
+
+    # helper method that is modifying driver IN DRIVER
+    # driver.add_driven_trip(new_trip)
+    # driver.status = :UNAVAILABLE
 
   end
 end

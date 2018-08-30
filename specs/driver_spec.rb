@@ -31,7 +31,7 @@ describe "Driver class" do
       expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133")}.must_raise ArgumentError
     end
 
-    xit "throws an argument error with a bad VIN value" do
+    it "throws an argument error with a bad VIN value" do
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "")}.must_raise ArgumentError
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
     end
