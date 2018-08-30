@@ -66,7 +66,7 @@ module RideShare
         input_data = {}
         input_data[:id] = line[0].to_i
         input_data[:vin] = line[1]
-        input_data[:status] = line[2]
+        input_data[:status] = line[2].to_sym
 
         drivers << Driver.new(input_data)
       end
@@ -88,7 +88,7 @@ module RideShare
 
     def find_driver(id)
       check_id(id)
-      return @drivers.find { |drivers|
+      return @drivers.find { |driver|
         driver.id == id }
     end
 
