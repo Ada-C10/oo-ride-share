@@ -39,7 +39,8 @@ module RideShare
                                           header_converters: :symbol)
 
       trip_data.each do |raw_trip|
-        passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        passenger_num = raw_trip[:passenger_id].to_i
+        passenger = find_passenger(passenger_num)
         driver_number = raw_trip[:driver_id].to_i
         #binding.pry
         driver = find_driver(driver_number)

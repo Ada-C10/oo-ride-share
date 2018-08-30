@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 require 'time'
-
+require 'pry'
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
@@ -28,7 +28,9 @@ describe "TripDispatcher class" do
 
   describe "find_user method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -45,7 +47,9 @@ describe "TripDispatcher class" do
   # Uncomment for Wave 2
   describe "find_driver method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -77,13 +81,15 @@ describe "TripDispatcher class" do
       expect(last_driver.status).must_equal :AVAILABLE
     end
 
-    it "Connects drivers with trips" do
+    it "Connects drivers with driven trips" do
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
+
         expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
+        expect(driver.driven_trips).must_include trip
+
       end
     end
   end
