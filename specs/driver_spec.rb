@@ -1,5 +1,5 @@
 require_relative 'spec_helper'
-
+require 'pry'
 xdescribe "Driver class" do
 
     describe "Driver instantiation" do
@@ -99,7 +99,22 @@ xdescribe "Driver class" do
     end
 
   describe "total_revenue" do
-    # You add tests for the total_revenue method
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"),rating: 1,cost: 5)
+      @driver.add_driven_trip(trip)
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: Time.parse("2016-08-09"),
+                                  rating: 5,cost: 10)
+      @driver.add_driven_trip(trip2)
+    end
+    it "correctly calculates the total revenue" do
+      expect(@driver.total_revenue).must_be_close_to 9.36, 0.01
+    end
   end
 
   describe "net_expenditures" do

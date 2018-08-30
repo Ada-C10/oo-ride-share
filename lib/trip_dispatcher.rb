@@ -86,8 +86,6 @@ module RideShare
       end
 
 
-
-
       def find_passenger(id)
         check_id(id)
         return @passengers.find { |passenger| passenger.id == id }
