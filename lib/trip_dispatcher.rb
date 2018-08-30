@@ -88,8 +88,10 @@ module RideShare
       return @passengers.find { |passenger| passenger.id == id }
     end
 
-    def first_available_driver(user_id)
-      first_available_driver  = unique_drivers(user_id).first
+    def generate_available_drivers
+      available_drivers = @drivers.find_all do |driver|
+        driver.status == :AVAILABLE
+      end
     end
 
     def unique_drivers(user_id)
@@ -102,10 +104,8 @@ module RideShare
       return unique_drivers
     end
 
-    def generate_available_drivers
-      available_drivers = @drivers.find_all do |driver|
-        driver.status == :AVAILABLE
-      end
+    def first_available_driver(user_id)
+      first_available_driver  = unique_drivers(user_id).first
     end
 
     def request_trip(user_id)
