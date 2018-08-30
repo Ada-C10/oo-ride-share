@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -35,11 +34,6 @@ module RideShare
       drivers << driver
     end
     return drivers
-  end
-
-  def find_driver(id)
-    check_id(id)
-    return @drivers.find { |driver| driver.id == id }
   end
 
   def load_users(filename)
@@ -83,6 +77,11 @@ module RideShare
       return trips
     end
 
+    def find_driver(id)
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id }
+    end
+
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
@@ -94,22 +93,24 @@ module RideShare
       end
     end
 
-    def unique_drivers(user_id)
-      available_drivers = generate_available_drivers
-      unique_drivers = available_drivers.find_all do |driver| driver.id != find_passenger(user_id).id
+    def check_drivers_not_passenger?(user_id)
+      all_available_drivers = generate_available_drivers
+      available_drivers = all_available_drivers.find_all do |driver| driver.id != find_passenger(user_id).id
       end
-      return unique_drivers
+      return available_drivers
     end
 
     def find_no_trips_driver(user_id)
-      unique_drivers = unique_drivers(user_id)
-      return unique_drivers.find { |driver| driver.driven_trips.length == 0  }
+      available_drivers = check_drivers_not_passenger?(user_id)
+      return available_drivers.find do |driver|
+        driver.driven_trips.empty?
+      end
     end
 
     def find_oldest_trip_driver(user_id)
-      unique_drivers = unique_drivers(user_id)
+      available_drivers = check_drivers_not_passenger?(user_id)
 
-      oldest_trip_driver = unique_drivers.find do |driver|
+      oldest_trip_driver = available_drivers.find do |driver|
         driver.driven_trips.min_by do |trip|
           trip.end_time
         end

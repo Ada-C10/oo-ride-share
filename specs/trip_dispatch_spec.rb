@@ -110,10 +110,10 @@ describe "TripDispatcher class" do
     end
 
     it "returns an array of :AVAILABLE drivers that aren't the Passenger" do
-      unique_drivers = @dispatcher.unique_drivers(5)
-      expect(unique_drivers).must_be_kind_of Array
+      available_drivers = @dispatcher.check_drivers_not_passenger?(5)
+      expect(available_drivers).must_be_kind_of Array
 
-      unique_drivers.each do |driver|
+      available_drivers.each do |driver|
         expect(driver.id).wont_equal 5
       end
     end
