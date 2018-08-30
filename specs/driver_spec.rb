@@ -10,7 +10,7 @@ describe "Driver class" do
         status: :AVAILABLE)
   end
 
-    it "is an instance of Driver" do 
+    it "is an instance of Driver" do
       expect(@driver).must_be_kind_of RideShare::Driver
     end
 
@@ -18,9 +18,14 @@ describe "Driver class" do
       expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133")}.must_raise ArgumentError
     end
 
+
     it "throws an argument error with a bad VIN value" do
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "")}.must_raise ArgumentError
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
+    end
+
+    it "throws an argument error for an invalid driver status" do
+      expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133", status: :available)}.must_raise ArgumentError
     end
 
     it "sets trips to an empty array if not provided" do
@@ -40,7 +45,7 @@ describe "Driver class" do
     end
   end
 
-  describe "add_driven_trip method" do
+  xdescribe "add_driven_trip method" do
     before do
       pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
       @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
@@ -58,7 +63,7 @@ describe "Driver class" do
     end
   end
 
-  describe "average_rating method" do
+  xdescribe "average_rating method" do
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ")
