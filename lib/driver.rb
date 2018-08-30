@@ -51,5 +51,8 @@ module RideShare
       return ((total_revenue - (1.65 * @driven_trips.length)) * 0.8)
     end
 
+    def net_expenditures
+    end
+
   end
 end

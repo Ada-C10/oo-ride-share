@@ -110,12 +110,29 @@ describe "Driver class" do
         expect(@driver.total_revenue).must_be_instance_of Float
       end
 
-
-
     end
 
     describe "net_expenditures" do
-      # You add tests for the net_expenditures method
+      before do
+        @user = RideShare::User.new(id: 1, name: "Lovelace", phone: "353-533-5334")
+        @driver = RideShare::Driver.new(id:1, name: "Lovelace", vin: "12345678912345678")
+        @trip1 = RideShare::Trip.new({id: 8, driver: pass, passenger: @user, date: "2016-08-08", rating: 5, cost: 10})
+        @trip2 = RideShare::Trip.new({id: 9, driver: pass, passenger: @user, date: "2016-08-08", rating: 5, cost: 11})
+        @trip3 = RideShare::Trip.new({id: 10, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5, cost: 10})
+
+        @user.add_trip(@trip1)
+        @user.add_trip(@trip2)
+        @driver.add_trip(@trip3)
+      end
+
+      it "accurately calculates net_expenditures of a driver" do
+        expect(@driver.net_expenditures).must_equal 14.32
+      end
+
+      it "returns a float" do
+        expect(@driver.net_expenditures).must_be_instance_of Float
+      end
+
     end
 
 
