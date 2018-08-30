@@ -102,17 +102,17 @@ describe "TripDispatcher class" do
       @requested_trip = @dispatcher.request_trip(1)
     end
 
-    xit "Assigns the first :AVAILABLE driver to a new Trip" do
+    it "Assigns the first :AVAILABLE driver to a new Trip" do
       driver  = @requested_trip.driver
       expect(driver).must_be_instance_of RideShare::Driver
     end
 
-    xit "uses the current time as @start_time for new Trip" do
+    it "uses the current time as @start_time for new Trip" do
       start_time = @requested_trip.start_time
       expect(start_time).must_be_instance_of Time
     end
 
-    xit "Adds new Trip to collection of all Trips in TripDispatcher" do
+    it "Adds new Trip to collection of all Trips in TripDispatcher" do
       expect(@dispatcher.trips.last).must_equal @requested_trip
     end
 
@@ -126,7 +126,8 @@ describe "TripDispatcher class" do
     end
 
     it "Raises an error if there are no :AVAILABLE drivers" do
-
+      new_trip = @dispatcher.request_trip(5)
+      expect{ @dispatcher.request_trip(2) }.must_raise ArgumentError
     end
   end
 end
