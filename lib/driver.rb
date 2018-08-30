@@ -4,7 +4,7 @@ require 'pry'
 module RideShare
   class Driver < User
 
-    attr_reader :id, :name, :vin, :phone_number, :status, :driven_trips
+    attr_reader :id, :name, :vin, :phone_number, :status, :driven_trips, :trips
 
     def initialize(input)
       super
@@ -22,6 +22,10 @@ module RideShare
     end
 
     def add_trip(trip)
+      super
+    end
+
+    def add_driven_trip(trip)
       if trip.class == Trip
         @driven_trips << trip
       else
@@ -52,6 +56,8 @@ module RideShare
     end
 
     def net_expenditures
+      net_income = super - self.total_revenue
+      return net_income
     end
 
   end
