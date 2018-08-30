@@ -140,6 +140,11 @@ describe "TripDispatcher class" do
       new_trip = @dispatcher.request_trip(3)
       expect(current_driver.driven_trips.length).must_equal (current_number_of_trips +1)
     end
+
+    it "ensures that driver assigned is available" do
+      driver = @dispatcher.check_driver_availability_and_assign(3)
+      expect(driver.status).must_equal :AVAILABLE
+    end
   end
 
 end

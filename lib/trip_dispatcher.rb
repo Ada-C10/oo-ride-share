@@ -99,9 +99,7 @@ module RideShare
       return @drivers.find {|driver| driver.id == id}
     end
 
-    def request_trip(user_id)
-      #user_id is passenger requesting trip
-      passenger = find_passenger(user_id)
+    def check_driver_availability_and_assign(user_id)
       all_available_drivers = @drivers.find_all {|driver| driver.status == :AVAILABLE}
 
       if all_available_drivers.length == 1 && all_available_drivers[0].id == user_id # Zero available drivers AND if there is one driver who is the user
@@ -111,6 +109,12 @@ module RideShare
       else
         driver = all_available_drivers[0]
       end
+      return driver
+    end
+
+    def request_trip(user_id)
+      passenger = find_passenger(user_id)
+      driver = check_driver_availability_and_assign(user_id)
 
       new_trip = RideShare::Trip.new(id: driver.id, passenger: passenger, driver: driver, start_time: Time.now, end_time: nil, cost: nil, rating: nil)
 
