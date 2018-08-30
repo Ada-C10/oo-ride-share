@@ -42,7 +42,8 @@ module RideShare
 
       CSV.read(filename, headers: true, header_converters: :symbol).each do |line|
 
-        user = find_passenger(line[:id].to_i) #change index to symbol        #what does it do if it can't fine a passenger/user
+        user = find_passenger(line[:id].to_i)
+
 
         driver_data = {}
         driver_data[:id] = user.id.to_i
@@ -59,7 +60,6 @@ module RideShare
     end
 
     def replace_passenger(passenger_array, driver_array)
-
       driver_n_passengers = passenger_array.map do |passenger|
         driver_array.each do |driver|
           if passenger.id == driver.id
@@ -82,6 +82,9 @@ module RideShare
 
         driver = find_driver(raw_trip[:driver_id].to_i)
 
+        driver_as_passenger = find_driver(raw_trip[:passenger_id].to_i)
+        ######## added trips for drivers
+
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
@@ -94,11 +97,17 @@ module RideShare
         # add_driven_trip(user.id.to_i)
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
-        driver.add_trip(trip)
-        #
-        # if trip.driver.id == driver.id
-        #   driver.add_trip(trip)
+
+        #######################
+        # if driver_as_passenger != nil && !(driver_as_passenger.trips.include? trip)
+        #   driver_as_passenger.add_trip(trip)
         # end
+########added trips for drivers -Jane
+        #
+        driver.add_driven_trip(trip)
+############ should be add_driven_trip #########
+#             and .driven_trips
+
         trips << trip
 
       end
@@ -122,15 +131,15 @@ module RideShare
       # end
     end
 
-    def add_driven_trip(driver_id)
-      driven_trips = []
-      @trips.each do |trip|
-        if trip.driver[:id] == driver_id
-          driven_trips << trip
-        end
-      end
-      return driven_trips
-    end
+    # def add_driven_trip(driver_id)
+    #   driven_trips = []
+    #   @trips.each do |trip|
+    #     if trip.driver[:id] == driver_id
+    #       driven_trips << trip
+    #     end
+    #   end
+    #   return driven_trips
+    # end
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \

@@ -41,7 +41,7 @@ module RideShare
 
     def initialize(input)
 
-      # super(id, name, phone_number, trips)
+      # super(trips)
 
       @id = input[:id]
       @name = input[:name]
@@ -57,14 +57,15 @@ module RideShare
       unless valid_status.include? input[:status]
         raise ArgumentError, "Invalid driver status."
       end
-      @status = input[:status] #check to make sure status is valid
-      @driven_trips = []
+      @status = input[:status].nil? ? input[:status] = :UNAVAILABLE : input[:status]
+      #check to make sure status is valid
+
+      @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
     end
-    # def add_driven_trip(trip)
-    #   # if trip.driver == driver
-    #   @driven_trips << trip
-    #   # end
-    # end
+
+    def add_driven_trip(trip)
+      @driven_trips << trip
+    end
 
     def average_rating
       #returns 0 for no trips
