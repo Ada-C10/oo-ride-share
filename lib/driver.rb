@@ -5,21 +5,21 @@ module RideShare
     attr_reader :vin, :driven_trips, :status
 
     def initialize(input)
-        super(input)
+      super(input)
 
-        if input[:vin] == nil || input[:vin] == "" || input[:vin].length > 17
-          raise ArgumentError.new('Invalid Vin')
-        end
-        @vin = input[:vin]
-        @driven_trips = input[:driven_trips] ||= []
-        @status = input[:status] ||= :AVAILABLE
-        raise ArgumentError.new("Invalid Status") unless @status == :AVAILABLE || @status == :UNAVAILABLE
+      if input[:vin] == nil || input[:vin] == "" || input[:vin].length > 17
+        raise ArgumentError.new('Invalid Vin')
+      end
+      @vin = input[:vin]
+      @driven_trips = input[:driven_trips] ||= []
+      @status = input[:status] ||= :AVAILABLE
+      raise ArgumentError.new("Invalid Status") unless @status == :AVAILABLE || @status == :UNAVAILABLE
     end
 
     def add_driven_trip(trip)
 
-        raise ArgumentError.new("Invalid Driver") unless trip.instance_of? RideShare::Trip
-        @driven_trips << trip
+      raise ArgumentError.new("Invalid Driver") unless trip.instance_of? RideShare::Trip
+      @driven_trips << trip
 
     end
 
@@ -27,5 +27,13 @@ module RideShare
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
 
+    def average_rating
+      return 0 if driven_trips.empty?
+      all_ratings = []
+      driven_trips.each do |trip|
+        all_ratings << trip.rating
+      end
+      return average = (all_ratings.sum / all_ratings.length).to_f.round(1)
+    end
   end
 end
