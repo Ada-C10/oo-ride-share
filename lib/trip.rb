@@ -9,6 +9,16 @@ module RideShare
     def initialize(input)
       @id = input[:id]
       @passenger = input[:passenger]
+      # 1. find which passanger is a driver by using ID (ID will be the same, drivers are super users which hahve extra id like driver id, and passager id in their trips)
+            # the driver ID is the same as the user ID - use this find the passangers who are drivers 
+            # 1. find driver ID in trip.csv
+            # 2. look in user.csv not the trip csv file , to find the driver info
+            # 3. find the passangers who's driver is is the same as the passanger id, contact information will be in the user class and this has to be added to the passangers instance,
+            # summary the passanger who are drivers will have information about their car and contact information, and their instance will be save in here
+      # 2. add the diver info (like vin, and status, to their instance and save it in passangers -> each passanger that has )
+           # the trip id is not the same as driver id
+
+      #@passenger will be updated after replacing
       @start_time = input[:start_time]
       @end_time = input[:end_time]
       @cost = input[:cost]
@@ -25,11 +35,11 @@ module RideShare
       end
     end
 
-    def driver #How to access driver's data
+    def driver #return the driver from driver class using the driver's id from driver csv file
       data[:vehicle_id] = nil
       data[:driven_trips] = @passenger.trips
       data[:status]
-      @driver = RideShare::Driver.new(data)
+      @driver = RideShare::Driver.new(input)
     end
 
     def inspect

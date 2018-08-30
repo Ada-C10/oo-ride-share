@@ -4,7 +4,7 @@ module RideShare
     attr_reader :vehicle_id, :driven_trips, :status
 
     VALID_STATUS = [:AVAILABLE, :UNAVAILABLE]
-    # ID, NAME, and PHONT NUMBER
+    # ID, NAME, and PHONE NUMBER
     # id: 54, name: "Rogers Bartell IV",
       # vin: "1C9EVBRM0YBC564DZ",
       # phone: '111-111-1111',
