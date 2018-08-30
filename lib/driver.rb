@@ -49,8 +49,20 @@ module RideShare
       if @driven_trips.length == 0
         average = 0
       end
-      
+
       return average
+    end
+
+    def total_revenue
+      total = 0.00
+      fee = 1.65
+
+      @driven_trips.each do |trip|
+        subtotal = (trip.cost.to_f - fee)
+        total += subtotal
+      end
+      total = total * 0.80
+      return total
     end
 
   end
