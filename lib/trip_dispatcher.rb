@@ -128,10 +128,13 @@ module RideShare
     end
   end
 
+  def request_trip(user_id)
+  end
+
    rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
 # ap rideshare.trips.driver
   # rideshare.drivers.each do |driver|
   #   puts driver.total_revenue
   #   puts driver.id
   # end(
-puts rideshare.trips[0].driver.driven_trips 
+puts rideshare.trips[0].driver.driven_trips
