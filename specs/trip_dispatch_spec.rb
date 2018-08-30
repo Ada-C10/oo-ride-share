@@ -1,11 +1,12 @@
 require_relative 'spec_helper'
 require 'time'
 
+USER_TEST_FILE = 'specs/test_data/users_test.csv'
+TRIP_TEST_FILE = 'specs/test_data/trips_test.csv'
+DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+
 describe "TripDispatcher class" do
   before do
-    USER_TEST_FILE   = 'specs/test_data/users_test.csv'
-    TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
-    DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
     @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
   end
 
@@ -113,11 +114,11 @@ describe "TripDispatcher class" do
       expect(@dispatcher.request_trip(1).passenger).must_equal @dispatcher.find_passenger(1)
       expect(@dispatcher.request_trip(1).start_time).must_be_close_to Time.now, 0.01
       change_status_to_available(5)
-      expect(@dispatcher.request_trip(1).end_time).must_equal nil
+      expect(@dispatcher.request_trip(1).end_time).must_be_nil
       change_status_to_available(5)
-      expect(@dispatcher.request_trip(1).cost).must_equal nil
+      expect(@dispatcher.request_trip(1).cost).must_be_nil
       change_status_to_available(5)
-      expect(@dispatcher.request_trip(1).rating).must_equal nil
+      expect(@dispatcher.request_trip(1).rating).must_be_nil
       change_status_to_available(5)
       expect(@dispatcher.request_trip(1).driver).must_equal @dispatcher.find_driver(5)
     end
@@ -144,7 +145,7 @@ describe "TripDispatcher class" do
       # set all drivers to unavailable
       @dispatcher.find_driver(5).status = :UNAVAILABLE
       @dispatcher.find_driver(8).status = :UNAVAILABLE
-      expect{@dispatcher.request_trip(1)}.must_raise ArgumentError
+      expect{@dispatcher.request_trip(1)}.must_raise RideShare::NoAvailableDriversError
     end
   end
 end

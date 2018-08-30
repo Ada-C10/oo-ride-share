@@ -6,9 +6,8 @@ describe "Trip class" do
       vin: "1C9EVBRM0YBC564DZ",
       phone: '111-111-1111',
       status: :AVAILABLE)
-
+    @pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
     @inprogress_trip = RideShare::Trip.new({id: 5, driver: @driver, passenger: @pass, start_time: "2016-08-08", end_time: nil, cost: nil, rating: nil})
-
 
     start_time = Time.parse('2015-05-20T12:14:00+00:00')
     end_time = start_time + 25 * 60 # 25 minutes
