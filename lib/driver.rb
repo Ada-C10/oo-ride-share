@@ -1,5 +1,7 @@
 require_relative 'trip'
+require_relative 'user'
 require 'Time'
+require 'pry'
 
 module RideShare
   class Driver < User
@@ -29,7 +31,12 @@ module RideShare
     end
 
     def average_rating
-      return driven_trips.reduce{|sum, trip| sum.rating + trip.rating } / driven_trips.length
+      if driven_trips.length == 0
+        return 0
+      else
+        sum_ratings =  driven_trips.reduce(0){|sum, trip| sum + trip.rating.to_f }
+        return sum_ratings / driven_trips.length
+      end
     end
 
     def total_revenue
@@ -44,3 +51,12 @@ module RideShare
 
   end
 end
+
+# driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+#                                 vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+# trip = RideShare::Trip.new(id: 8, driver: driver, passenger: nil,
+#                            start_time: Time.parse("2016-08-08"),
+#                            end_time: Time.parse("2016-08-08"), rating: 5)
+# driver.add_driven_trip(trip)
+# binding.pry
+# puts driver

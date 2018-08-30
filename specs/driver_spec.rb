@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 require 'pry'
-xdescribe "Driver class" do
+describe "Driver class" do
 
     describe "Driver instantiation" do
       before do
@@ -29,13 +29,13 @@ xdescribe "Driver class" do
       end
 
       it "is set up for specific attributes and data types" do
-        [:id, :name, :vehicle_id, :status, :driven_trips].each do |prop|
+        [:id, :name, :vin, :status, :driven_trips].each do |prop|
           expect(@driver).must_respond_to prop
         end
 
         expect(@driver.id).must_be_kind_of Integer
         expect(@driver.name).must_be_kind_of String
-        expect(@driver.vehicle_id).must_be_kind_of String
+        expect(@driver.vin).must_be_kind_of String
         expect(@driver.status).must_be_kind_of Symbol
       end
     end
@@ -62,7 +62,7 @@ xdescribe "Driver class" do
     describe "average_rating method" do
       before do
         @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                        vin: "1C9EVBRM0YBC564DZ")
+                                        vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
         trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                    start_time: Time.parse("2016-08-08"),
                                    end_time: Time.parse("2016-08-08"), rating: 5)
@@ -81,7 +81,7 @@ xdescribe "Driver class" do
 
       it "returns zero if no driven trips" do
         driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                       vin: "1C9EVBRM0YBC564DZ")
+                                       vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
         expect(driver.average_rating).must_equal 0
       end
 
@@ -112,8 +112,14 @@ xdescribe "Driver class" do
                                   rating: 5,cost: 10)
       @driver.add_driven_trip(trip2)
     end
-    it "correctly calculates the total revenue" do
+    it "correctly calculates the total revenue that's positive" do
       expect(@driver.total_revenue).must_be_close_to 9.36, 0.01
+    end
+    xit "correctly calculates when the ride is less than $1.65" do
+      @driver.driven_trips[0].cost = 1
+      @driver.driven_trips[1].cost = 1
+
+      expect(@driver.total_revenue).must_be_close_to -0.56, 0.01
     end
   end
 
