@@ -29,15 +29,16 @@ module RideShare
       return ride_total
     end
 
-  #   RideShare::Trip.duration - don't need RideShare? NO, same module
-  #
-  #   return total amout of time user has spent on the trips
-  #   def total_time_spent
-  #     total_time = 0
-  #     @trips.each do |trip|
-  #       total_time += trip
-  #     end
-  #     return total_time
-  #   end
-  # end
+    # RideShare::Trip.duration - don't need RideShare? NO, same module
+
+    # return total amout of time user has spent on the trips
+    def total_time_spent
+      total_time = 0
+      @trips.each do |trip|
+        trip_in_seconds = trip[:end_time] - trip[:start_time]
+        total_time += trip_in_seconds
+      end
+      return total_time
+    end
+  end
 end
