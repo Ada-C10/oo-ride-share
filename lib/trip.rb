@@ -33,10 +33,14 @@ module RideShare
 
     #Add an instance method to the Trip class to calculate the duration of the trip in seconds, and a corresponding test
     def duration_of_trip
-      return @end_time - @start_time
+      begin
+        duration = @end_time - @start_time
+      rescue NoMethodError
+        duration = nil
+        puts "Cannot calculate duration of trip: still in progress."
+      end
+      return duration
     end
-
-
   end
 end
 

@@ -59,20 +59,6 @@ module RideShare
         drivers << driver
       end
 
-      # CSV.read(filename, headers: true, header_converters: :symbol).each do |line|
-      #
-      #   user = find_passenger(line[0].to_i)
-      #   driver = Driver.new(id: user.id, name: user.name, vin: line[1], phone: user.phone_number, status: line[2].to_sym)
-      #   # Replace Passengers with Drivers
-      #   @passengers.each_with_index do |person, i|
-      #     if person.id == driver.id
-      #       passengers[i] = driver
-      #     end
-      #   end
-      #
-      #   drivers << driver
-      # end
-
       return drivers
     end
 
@@ -111,6 +97,30 @@ module RideShare
     def find_driver(id)
       check_id(id)
       return @drivers.find {|driver| driver.id == id}
+    end
+
+    def request_trip(user_id)
+      #user_id is passenger requesting trip
+      passenger = find_passenger(user_id)
+      all_available_drivers = @drivers.find_all {|driver| driver.status == :AVAILABLE}
+
+      if all_available_drivers.length == 1 && all_available_drivers[0].id == user_id # Zero available drivers AND if there is one driver who is the user
+        raise ArgumentError.new("No Available Drivers. Try later.")
+      elsif all_available_drivers.length > 1 && all_available_drivers[0].id == user_id
+        driver = all_available_drivers[1]
+      else
+        driver = all_available_drivers[0]
+      end
+
+      new_trip = RideShare::Trip.new(id: driver.id, passenger: passenger, driver: driver, start_time: Time.now, end_time: nil, cost: nil, rating: nil)
+
+      driver.in_progress_trip(new_trip)
+      passenger.add_trip(new_trip)
+
+
+      @trips << new_trip
+
+      return new_trip
     end
 
     def inspect
