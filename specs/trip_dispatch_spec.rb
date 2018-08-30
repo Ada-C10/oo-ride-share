@@ -65,7 +65,7 @@ describe "TripDispatcher class" do
   end
 
 
-  xdescribe "Driver & Trip loader methods" do
+  describe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
@@ -84,16 +84,16 @@ describe "TripDispatcher class" do
       expect(last_driver.status).must_equal :AVAILABLE
     end
 
-    it "Connects drivers with trips" do
-     # Unskip after wave 2
-      trips = @dispatcher.trips
-
-      [trips.first, trips.last].each do |trip|
-        driver = trip.driver
-        expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
-      end
-    end
+    # it "Connects drivers with trips" do
+    #  # Unskip after wave 2
+    #   trips = @dispatcher.trips
+    #
+    #   [trips.first, trips.last].each do |trip|
+    #     driver = trip.driver
+    #     expect(driver).must_be_instance_of RideShare::Driver
+    #     expect(driver.trips).must_include trip
+    #   end
+    # end
   end
 
   xdescribe "User & Trip loader methods" do

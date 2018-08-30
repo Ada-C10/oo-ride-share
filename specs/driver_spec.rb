@@ -74,14 +74,23 @@ describe "Driver class" do
     end
   end
 
-  xdescribe "average_rating method" do
+  describe "average_rating method" do
     before do
-      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-        vin: "1C9EVBRM0YBC564DZ")
-        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-          date: Time.parse("2016-08-08"), rating: 5)
-          @driver.add_driven_trip(trip)
-        end
+
+      start_time = '2015-05-20T12:14:00+00:00'
+      end_time = '2015-05-20T12:15:00+00:00'#
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+
+
+        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334"), start_time: start_time, end_time: end_time, cost: 10, rating: 5)
+
+        @driver.add_driven_trip(trip)
+
+        trip2 = RideShare::Trip.new(id: 9, driver: @driver, passenger: RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334"), start_time: start_time, end_time: end_time, cost: 10, rating: 1)
+
+        @driver.add_driven_trip(trip2)
+
+      end
 
         it "returns a float" do
           expect(@driver.average_rating).must_be_kind_of Float
