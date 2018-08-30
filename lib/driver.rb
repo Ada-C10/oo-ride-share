@@ -1,3 +1,5 @@
+require 'pry'
+
 module RideShare
   class Driver < User
     attr_reader :vehicle_id, :driven_trips
@@ -6,12 +8,11 @@ module RideShare
     def initialize(input)
       super(input)
       @vehicle_id = input[:vin]
-      # @id = input[:id]
       @status = input[:status] ||= :AVAILABLE
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
       raise ArgumentError, "No VIN number provided" if @vehicle_id == nil || @vehicle_id.length != 17
-      # raise ArgumentError, "No id number provided" if @id <= 0
+
       raise ArgumentError, "Invalid status, must be either :AVAILABLE or :UNAVAILABLE" if @status != :AVAILABLE && @status != :UNAVAILABLE
     end
 
@@ -19,6 +20,11 @@ module RideShare
       if trip.class != Trip
         raise ArgumentError, "A Trip was not provided"
       end
+      @driven_trips.each do |item|
+         if item == trip
+           raise ArgumentError, "Duplicated trip"
+         end
+       end
       @driven_trips << trip
     end
 
@@ -26,23 +32,15 @@ module RideShare
       if driven_trips.length == 0
         return 0
       else
-        ratings = driven_trips.map do |trip|
-          if trip.rating != nil
-            trip.rating
-          end
-        end
-        total_rate = driven_trips.sum do |trip|
-            trip.rating
-        end
-        return total_rate.to_f / ratings.length
+        completed_trips = driven_trips.reject {|trip| trip.rating.nil?}.map{|item| item.rating}
+        return completed_trips.sum.to_f / completed_trips.length
       end
     end
 
     def total_revenue
-      revenue = @driven_trips.sum do |trip|
-        (trip.cost - 1.65) * 0.8.round(2)
-      end
-      return revenue
+      costs = @driven_trips.reject {|trip| trip.cost.nil?}.map {|item| item.cost}
+      calculated_costs = costs.sum {|item| (item - 1.65) * 0.8.round(2)}
+      return calculated_costs
     end
 
     def net_expenditures

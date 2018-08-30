@@ -172,6 +172,7 @@ describe "TripDispatcher class" do
         expect(driven_trips).must_include trip_generated
     end
 
+
     it "will add the trip object to passenger's trips array" do
       trip_generated = @dispatcher.request_trip(1)
       trips = trip_generated.passenger.trips

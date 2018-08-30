@@ -59,9 +59,16 @@ describe "Driver class" do
     end
 
     it "throws an argument error if trip is not provided" do
-      #binding.pry
+
       expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
     end
+
+    it "will throw ArgumentError if user attemps to add trip objects to the driver's driven_trips array more than once" do
+
+      @driver.add_driven_trip(@trip)
+      expect{ @driver.add_driven_trip(@trip) }.must_raise ArgumentError
+    end
+
 
     it "increases the trip count by one" do
       previous = @driver.driven_trips.length
@@ -131,14 +138,30 @@ describe "Driver class" do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE,
                                                   DRIVER_TEST_FILE)
+
+   @test_driver = @dispatcher.find_driver(5)
+    @test_trip = RideShare::Trip.new(id: 5, driver: @test_driver, passenger: nil,
+                                start_time: Time.parse("2015-05-20T12:14:00+00:00"), end_time: nil, rating: nil, cost: nil)
+
     end
 
     it "calculates total_revenue for a driver" do
-      test_driver = @dispatcher.drivers[0]
+      second_driver = @dispatcher.find_driver(2)
       money = ((10 - 1.65) * 0.8) + ((7 - 1.65) * 0.8)
       money = money.round(2)
 
-      expect(test_driver.total_revenue).must_equal money
+      expect(second_driver.total_revenue).must_equal money
+    end
+    it "calculates the total revenue when the driver has a in-progress trip, cost is nil" do
+      new_driver = @dispatcher.find_driver(5)
+       @test_trip = RideShare::Trip.new(id: 5, driver: new_driver, passenger: nil,
+                                   start_time: Time.parse("2015-05-20T12:14:00+00:00"), end_time: nil, rating: nil, cost: nil)
+
+      new_driver.add_driven_trip(@test_trip)
+      money = ((15 - 1.65) * 0.8) + ((8 - 1.65) * 0.8)
+      money = money.round(2)
+
+      expect(new_driver.total_revenue).must_equal money
     end
   end
 
@@ -151,6 +174,7 @@ describe "Driver class" do
       end_time = Time.parse("2015-05-20T12:14:00+00:00")
       test_trip = RideShare::Trip.new(id: 2, driver: @driver, passenger: nil,
                                   start_time: start_time, end_time: end_time, rating: 1, cost: 3)
+
       @dispatcher.trips << test_trip
       @driver = @dispatcher.find_driver(2)
       @driver.trips << test_trip
@@ -162,5 +186,6 @@ describe "Driver class" do
       expect(test_driver.net_expenditures).must_equal revenue
 
     end
+
   end
 end
