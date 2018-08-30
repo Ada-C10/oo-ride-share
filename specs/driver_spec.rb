@@ -111,7 +111,7 @@ describe "Driver class" do
 
             start_time = '2015-05-20T12:14:00+00:00'
             end_time = '2015-05-20T12:15:00+00:00'
-            
+
             trip2 = RideShare::Trip.new(id: 9, driver: @driver, passenger: RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334"), start_time: start_time, end_time: end_time, cost: 10, rating: 1)
               @driver.add_driven_trip(trip2)
 
@@ -122,6 +122,25 @@ describe "Driver class" do
           end
 
           describe "total_revenue" do
+            it 'will calculate revenue' do
+
+            start_time = '2015-05-20T12:14:00+00:00'
+            end_time = '2015-05-20T12:15:00+00:00'#
+            @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+
+
+              trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334"), start_time: start_time, end_time: end_time, cost: 30, rating: 5)
+
+              @driver.add_driven_trip(trip)
+
+              trip2 = RideShare::Trip.new(id: 9, driver: @driver, passenger: RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334"), start_time: start_time, end_time: end_time, cost: 10, rating: 1)
+
+                @driver.add_driven_trip(trip2)
+
+                expect(@driver.total_revenue).must_be_close_to 29.36
+              end
+
+
             # You add tests for the total_revenue method
           end
 

@@ -29,7 +29,7 @@ module RideShare
       if @driven_trips.length == 0
         return 0
       end
-      
+
       rating = 0.0
       @driven_trips.each do |trip|
         rating += trip.rating
@@ -37,8 +37,23 @@ module RideShare
       return rating / @driven_trips.length
 
     end
+#This method calculates that driver's total revenue across all their trips. Each driver gets 80% of the trip cost after a fee of $1.65 per trip is subtracted.
 
-    # This method sums up the ratings from all a Driver's trips and returns the average
+
+def total_revenue
+  total = 0.0
+  @driven_trips.each do |trip|
+    total += 0.8 * (trip.cost - 1.65)
+
+  end
+  return total
+
+
+end
+
+
+
+
 
 
     # def add_driven_trip
