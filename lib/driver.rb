@@ -28,11 +28,24 @@ module RideShare
         return 0
       else
         sum = 0
-        driven_trips.each do |trip|
+        @driven_trips.each do |trip|
           sum += trip.rating
         end
         return sum.to_f / @driven_trips.length
       end
+    end
+
+    def total_revenue
+      total = 0
+      @driven_trips.each do |trip|
+        total += trip.cost
+      end
+      revenue = (total-(1.65 * @driven_trips.length))*0.80
+      return revenue
+    end
+
+    def net_expenditures
+      return total_revenue - super
     end
 
   end

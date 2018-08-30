@@ -18,7 +18,6 @@ describe "Driver class" do
         expect{ RideShare::Driver.new(id: 0, name: "George", vehicle_id: "33133313331333133")}.must_raise ArgumentError
       end
 
-###################### FAIL: #########################
       it "throws an argument error with a bad vehicle_id value" do
         expect{ RideShare::Driver.new(id: 100, name: "George", vehicle_id: "")}.must_raise ArgumentError
         expect{ RideShare::Driver.new(id: 100, name: "George", vehicle_id: "33133313331333133extranums")}.must_raise ArgumentError
@@ -28,7 +27,7 @@ describe "Driver class" do
         expect(@driver.driven_trips).must_be_kind_of Array
         expect(@driver.driven_trips.length).must_equal 0
       end
-###################### FAIL: #########################
+
       it "is set up for specific attributes and data types" do
         [:id, :name, :vehicle_id, :status, :driven_trips].each do |prop|
           expect(@driver).must_respond_to prop
@@ -49,7 +48,6 @@ describe "Driver class" do
         end_time: Time.parse("2018-08-09"), rating: 5)
       end
 
-###################### FAIL: #########################
       it "throws an argument error if trip is not provided" do
         expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
       end
@@ -100,11 +98,59 @@ describe "Driver class" do
 
     end
 
-  xdescribe "total_revenue" do
-    # You add tests for the total_revenue method
+  describe "total_revenue" do
+
+    before do
+      start_time = Time.parse("2018-05-25 11:51:40 -0700")
+      end_time = Time.parse("2018-05-25 11:52:40 -0700")
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: end_time,
+        cost: 101.65,
+        rating: 3
+      }
+      @trip = RideShare::Trip.new(@trip_data)
+
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                     vehicle_id: "1C9EVBRM0YBC564DZ")
+    end
+
+    it "will correctly calculate total revenue" do
+      @driver.add_driven_trip(@trip)
+      @driver.add_driven_trip(@trip)
+      expect(@driver.total_revenue).must_equal ((101.65-1.65)*2)*0.8
+    end
   end
 
-  xdescribe "net_expenditures" do
-    # You add tests for the net_expenditures method
+  describe "net_expenditures" do
+    it "correctly returns net" do
+      start_time = Time.parse("2018-05-25 11:51:40 -0700")
+      end_time = Time.parse("2018-05-25 11:52:40 -0700")
+      @trip_data = {
+        id: 8,
+        passenger: RideShare::User.new(id: 1,
+          name: "Ada",
+          phone: "412-432-7640"),
+          start_time: start_time,
+          end_time: end_time,
+          cost: 101.65,
+          rating: 3
+        }
+
+        @trip = RideShare::Trip.new(@trip_data)
+
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+          vehicle_id: "1C9EVBRM0YBC564DZ")
+
+        @driver.add_trip(@trip)#user
+
+        @driver.add_driven_trip(@trip)#driver
+          expect(@driver.net_expenditures).must_equal (80 - 101.65)
+        end
+
   end
 end

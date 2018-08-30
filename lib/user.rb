@@ -23,7 +23,6 @@ module RideShare
         sum += trip.cost
       end
       return sum
-      #return total amount of money user has spent on Trips
     end
 
     def total_time_spent
@@ -33,8 +32,6 @@ module RideShare
       end
       return total_time
     end
-
-
 
   end
 end

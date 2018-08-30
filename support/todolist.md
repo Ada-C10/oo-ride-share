@@ -8,7 +8,7 @@
 - [ ] it "handles case driver not found" do -- write expectation
 - [ ] it "handles case user not found" do -- write expectation
 - [ ] why is trip rating a float? (also, make sure avg in driver.rb returns float) (dispatch has .to_i)
-
+- [ ] replace passenger with driver???
 
 ## user.rb
 
