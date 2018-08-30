@@ -21,6 +21,9 @@ module RideShare
     def net_expenditures
       cost_array = []
       @trips.each do |trip|
+        if trip.cost == nil
+          raise ArgumentError, "Trip is in progress, no cost"
+        end
         cost = trip.cost
         cost_array << cost
       end
@@ -30,6 +33,9 @@ module RideShare
     def total_time_spent
       time_array = []
       @trips.each do |trip|
+        if trip.end_time == nil
+          raise ArgumentError, "Trip is in progress, no end time"
+        end
         time_per_trip = trip.end_time.to_i - trip.start_time.to_i
         time_array << time_per_trip
       end

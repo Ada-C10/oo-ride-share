@@ -75,7 +75,9 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
+        driver.add_driven_trip(trip)
         trips << trip
+
       end
       return trips
     end
@@ -99,6 +101,36 @@ module RideShare
 
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
+    end
+
+    def request_trip(user_id)
+      assign_driver
+      passenger = find_passenger(user_id)
+
+      valid_trip_id = [1..1000].select
+        if @trips.id.include?(valid_trip_id)
+          raise ArgumentError, "ID already exists"
+        end
+
+      trip = RideShare::Trip.new(id: valid_trip_id, driver: chosen_driver, passenger: passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil)
+
+      @drivers.add_driven_trip(trip)
+      @user.add_trip(trip)
+      @trips << trip
+    end
+
+    def assign_driver(passenger_id)
+      available_drivers = @drivers.map do |driver|
+        if driver.status == :AVAILABLE && driver.id != passenger.id
+        end
+      end
+
+      chosen_driver = available_drivers[0]
+      chosen_driver.status = :UNAVAILABLE
+        if available_drivers[0] == nil
+          raise ArgumentError, "No drivers available"
+        end
+      return chosen_driver
     end
   end
 end

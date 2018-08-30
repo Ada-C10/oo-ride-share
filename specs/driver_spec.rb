@@ -120,6 +120,13 @@ describe "Driver class" do
         expect(@driver.total_revenue).must_equal 61.36
       end
     end
+    it "raises an argument error if cost is nil" do
+      expect{ RideShare::Trip.new(id: nil, driver: nil, passenger: nil, start_time: Time.parse("2016-08-08"),
+      end_time: Time.parse("2016-08-08"), rating: 5, cost: nil)}.must_raise ArgumentError
+      # if @trips.cost == nil
+      #   expect { @driver.total_revenue }.must_raise ArgumentError
+      # end
+    end
   end
 
   describe "net_expenditures" do

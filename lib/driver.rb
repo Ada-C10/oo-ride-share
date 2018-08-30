@@ -66,6 +66,9 @@ module RideShare
       revenue = 0.0
       income = 0.0
       @driven_trips.each do |trip|
+        if trip.cost == nil
+          raise ArgumentError, "Trip still in progress, no revenue"
+        end
         revenue = (trip.cost - 1.65) * 0.8
         income += revenue
       end
