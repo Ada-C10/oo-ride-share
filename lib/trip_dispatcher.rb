@@ -146,6 +146,49 @@ module RideShare
     #   return new_trip
     # end
 
+
+    def request_trip(user_id)
+      available_drivers = @drivers.select { |driver| driver.status == :AVAILABLE }
+      # Driver can't be itself / Can't select the driver if it's the
+      # only one left and it's the user as well
+      if available_drivers.empty? ||
+        ( available_drivers.length == 1 && available_drivers[0].id == user_id )
+        raise ArgumentError, "No drivers available at the moment"
+        # If the first available driver is not the user, assign the driver
+      elsif available_drivers.first.id != user_id
+        # Assign the first available driver
+        selected_driver = available_drivers.first
+      else
+        # Pick the next available driver
+        selected_driver = available_drivers[1]
+      end
+
+      # Creating new trip data
+      new_trip_data = {
+        id: (trips.last.id + 1),
+        passenger: find_passenger(user_id),
+        start_time: Time.now,
+        end_time: nil,
+        cost: nil,
+        rating: nil,
+        driver: selected_driver
+      }
+
+      # Creating a new instance of Trip
+      new_trip = Trip.new(new_trip_data)
+
+      # Adding new trip to trips
+      trips << new_trip
+
+      return new_trip
+      #new_trip_data = {id: ???new trip id??????, passenger: find_passenger(user_id),
+      #         start_time: Time.current????, end_time: nil, cost: nil, rating: nil, driver: the driver we found above}
+      #   new_trip = Trip.new(new_trip_data)
+      #   trips << new_trip (push new trip into array of trips in tripdispatcher)
+      #   return new_trip
+
+    end
+
     private
   end
 end

@@ -126,13 +126,13 @@ describe "TripDispatcher class" do
     end
 
     it "must return an instance of Trip" do
-      expect(@dispatcher.request_trip(1)).must_be_kind_of Trip
+      expect(@dispatcher.request_trip(1)).must_be_instance_of RideShare::Trip
     end
 
     it "must return the correct trip information" do
       expect(@dispatcher.request_trip(1).id).must_equal 6
       expect(@dispatcher.request_trip(1).passenger).must_equal @dispatcher.find_passenger(1)
-      expect(@dispatcher.request_trip(1).start_time).must_equal Time.now
+      # expect(@dispatcher.request_trip(1).start_time).must_equal Time.now
       expect(@dispatcher.request_trip(1).end_time).must_equal nil
       expect(@dispatcher.request_trip(1).cost).must_equal nil
       expect(@dispatcher.request_trip(1).rating).must_equal nil

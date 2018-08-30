@@ -16,13 +16,15 @@ module RideShare
       @rating = input[:rating]
       @driver = input[:driver]
 
-      if @start_time > @end_time
-        raise ArgumentError, "Start time can't be after end time"
+      if @end_time != nil && @rating != nil
+        if @start_time > @end_time
+          raise ArgumentError, "Start time can't be after end time"
+        end
+        if @rating > 5 || @rating < 1
+          raise ArgumentError.new("Invalid rating #{@rating}")
+        end
       end
 
-      if @rating > 5 || @rating < 1
-        raise ArgumentError.new("Invalid rating #{@rating}")
-      end
     end
 
     def inspect
