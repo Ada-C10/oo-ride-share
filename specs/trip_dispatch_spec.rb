@@ -121,31 +121,35 @@ describe "TripDispatcher class" do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE,
                                                 DRIVER_TEST_FILE)
+      @user_id = 2
+      @driver_trip = @dispatcher.request_trip(@user_id)
     end
     it 'creates a new trip instance' do
-      user_id = 2
-      expect(@dispatcher.request_trip(user_id)).must_be_kind_of RideShare::Trip
-
+      expect(@driver_trip).must_be_kind_of RideShare::Trip
     end
 
     it "assigns first driver avaialable" do
-      user_id = 2
-      driver_trip = @dispatcher.request_trip(user_id)
-      expect(driver_trip.driver).must_equal 5
-      expect(driver_trip.driver).wont_equal 2
+      expect(@driver_trip.driver).must_equal 5
+      expect(@driver_trip.driver).wont_equal 2
     end
 
     it "assigns start time as current time" do
-      user_id = 2
-      driver_trip = @dispatcher.request_trip(user_id)
-      expect(driver_trip.start_time).must_be_close_to Time.now
+      expect(@driver_trip.start_time).must_be_close_to Time.now
     end
+    
     it "returns nil for end time, cost, and rating" do
-      user_id = 2
-      driver_trip = @dispatcher.request_trip(user_id)
-      expect(driver_trip.end_time).must_be_nil
-      expect(driver_trip.cost).must_be_nil
-      expect(driver_trip.rating).must_be_nil
+      expect(@driver_trip.end_time).must_be_nil
+      expect(@driver_trip.cost).must_be_nil
+      expect(@driver_trip.rating).must_be_nil
     end
+    # it "creates a new trip in the driver's collection of trips" do
+    #   user_id = 2
+    #   driver_trip = @dispatcher.request_trip(user_id)
+    #
+    #   driver = @drivers.find { |driver| driver.id == 5 }
+    #   expect(driver.driven_trips.length).must_equal 4
+    #
+    # end
+
   end
 end

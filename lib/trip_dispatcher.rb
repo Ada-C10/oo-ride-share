@@ -110,6 +110,7 @@ module RideShare
 
     def request_trip(user_id)
       user_id = 2
+      passenger = find_passenger(user_id)
       driver = @drivers.find { |driver| driver.status == :AVAILABLE }
 
       parsed_trip = {
@@ -125,6 +126,12 @@ module RideShare
 
       trip = Trip.new(parsed_trip)
     end
+
+    # def update_trips
+    #   driver.add_trip(trip)
+    #   passenger.add_trip(trip)
+    #   trips << trip
+    # end
 
     private
 
