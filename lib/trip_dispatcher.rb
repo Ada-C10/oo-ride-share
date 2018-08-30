@@ -122,7 +122,7 @@ module RideShare
 
         id: trips.last.id + 1,
         passenger: find_passenger(user_id),
-        driver: find_available_driver,
+        driver: find_available_driver #drivers cannot drive themselves,
         start_time: Time.now,
         end_time: nil,
         cost: nil,
@@ -130,12 +130,18 @@ module RideShare
       }
 
       @trips << Trip.new(new_trip)
+=beginadd trip to driver/add trip to passenger
+      new_trip.driver.add_driven_trip(new_trip)
+      new_trip.passenger.add_trip(trip)
 
+=end
       return new_trip
 
     end
 
     def find_available_driver
+      #what happens with no available drivers
+      #drivers cannot drive themselves
       driver = @drivers.each do |driver|
         if driver.status == :AVAILABLE
           return driver
