@@ -145,6 +145,13 @@ describe "TripDispatcher class" do
       driver = @dispatcher.check_driver_availability_and_assign(3)
       expect(driver.status).must_equal :AVAILABLE
     end
+
+    it "raises an ArgumentError if there are no available drivers" do
+      @dispatcher.request_trip(6)
+      @dispatcher.request_trip(3)
+      expect{@dispatcher.request_trip(1)}.must_raise ArgumentError
+    end
+
   end
 
 end
