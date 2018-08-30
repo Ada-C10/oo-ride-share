@@ -22,6 +22,7 @@ module RideShare
       @passengers = load_users(user_file)
       @drivers = load_drivers(driver_file)
       @trips = load_trips(trip_file)
+      self.load_driven_trips_to_drivers
     end
 
     def load_users(filename)
@@ -110,10 +111,19 @@ module RideShare
           driver.phone_number = user.phone_number
           driver.trips = user.trips
         end
+
         # Swapping out passenger with driver
         @passengers[@passengers.index(user)] = driver
       end
+
       return drivers
+    end
+
+    def load_driven_trips_to_drivers
+      trips.each do |trip|
+        trip_driver = find_driver(trip.driver.id)
+        trip_driver.add_driven_trip(trip)
+      end
     end
 
     # Method to find drivers
