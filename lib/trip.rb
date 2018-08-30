@@ -14,12 +14,15 @@ module RideShare
       @driver = input[:driver]
       # find_driver(input[:driver].id.to_i)
 
-      if @end_time < @start_time
+      if @end_time != nil
+        if @end_time < @start_time
         raise ArgumentError, "Ride cannot end before it is started"
+        end
       end
-
-      if @rating > 5 || @rating < 1
-        raise ArgumentError.new("Invalid rating #{@rating}")
+      if @rating != nil
+        if @rating > 5 || @rating < 1
+          raise ArgumentError.new("Invalid rating #{@rating}")
+        end
       end
     end
 
@@ -32,6 +35,6 @@ module RideShare
     def duration
       return @end_time - @start_time
     end
-  
+
   end
 end

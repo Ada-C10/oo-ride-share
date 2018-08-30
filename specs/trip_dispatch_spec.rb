@@ -116,4 +116,37 @@ describe "TripDispatcher class" do
             expect(passenger.trips).must_include trip
           end
         end
+
+        describe "request_trip method" do
+          before do
+            @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE,  DRIVER_TEST_FILE)
+
+            @dispatcher.request_trip(1)
+
+          end
+
+          it "creates new instance of trip" do
+            expect(@dispatcher.trips.last).must_be_kind_of RideShare::Trip
+          end
+
+          it "assigns first :AVAILABLE driver to the ride" do
+            expect(@dispatcher.trips.last. driver.id).must_equal 5
+          end
+
+          it "assigns an available driver to the ride" do
+            expect(@dispatcher.trips.last.driver.status).must_equal :AVAILABLE
+          end
+
+          it "should start time now" do
+            expect(@dispatcher.trips.last.start_time).must_be_close_to Time.now
+          end
+
+          it "should have an endtime of nil" do
+            expect(@dispatcher.trips.last.end_time).must_equal nil
+          end
+
+          it "should have a rating of nil" do
+            expect(@dispatcher.trips.last.rating).must_equal nil
+          end
+        end
       end
