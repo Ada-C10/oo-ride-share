@@ -69,33 +69,42 @@ module RideShare
       else
         total_sum = @driven_trips.sum { |driven_trip| (driven_trip.cost - 1.65) }
 
-        return total_sum * 0.80
+        return ("%.2f" % (total_sum * 0.80)).to_f
       end
     end
 
-    # TODO: making tests for total revenue (that's where we left off!)
 
     def net_expenditures()
+
       total_driver_revenue = total_revenue()
 
-	    return (super - total_driver_revenue)
+	    return ("%.2f" % (super - total_driver_revenue)).to_f
     end
 
   end
 end
 
 
-pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+# pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+#
+# driver = RideShare::Driver.new(id: 1, name: "Ada", vin: "12345678912345678")
+#
+# trip_1 = RideShare::Trip.new({id: 8, passenger: "michael", start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 20, rating: 5, driver: driver})
+#
+# trip_2 = RideShare::Trip.new({id: 10, passenger: driver, start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 100, rating: 5, driver: "person"})
 
-driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
-
-trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 55, rating: 5, driver: driver})
-
+# driver.add_driven_trip(trip_1)
+# driver.add_trip(trip_2)
+#
+# ap pass.trips
+#
+# ap driver.total_revenue
+# ap driver.net_expenditures
 
 
 # ap driver.status
 # ap driver.id
 # ap driver.name
-# driver.add_trip(trip)
+
 # driver.add_driven_trip
 # ap driver.driven_trips

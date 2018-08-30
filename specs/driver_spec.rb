@@ -98,47 +98,80 @@ describe "Driver class" do
 
     end
 
-  xdescribe "total_revenue" do
+  describe "total_revenue" do
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+      trip_1 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-08"), rating: 5, cost: 100)
-      @driver.add_driven_trip(trip)
+
+      trip_2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,start_time: Time.parse("2016-08-08"),
+      end_time: Time.parse("2016-08-08"), rating: 5, cost: 10)
+
+      @driver.add_driven_trip(trip_1)
+      @driver.add_driven_trip(trip_2)
     end
     # You add tests for the total_revenue method
     it 'returns a float' do
       expect(@driver.total_revenue).must_be_kind_of Float
     end
 
-    xit 'returns zero for no driven trips' do
+    it 'returns zero for no driven trips' do
+      driver_2 = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+
+      expect(driver_2.total_revenue).must_equal 0
     end
 
-    xit 'correctly calculates the total' do
-      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: Time.parse("2016-08-09"),
-                                  rating: 1, status: :AVAILABLE, cost: 10)
-      @driver.add_driven_trip(trip2)
+    it 'correctly calculates the total' do
+      expect(@driver.total_revenue).must_equal 85.36
     end
 
-    xit 'returns a floating point with correct money format' do
+    it 'returns a floating point with correct money format' do
+      trip_3 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,start_time: Time.parse("2016-08-08"),
+      end_time: Time.parse("2016-08-08"), rating: 5, cost: 66.66)
+
+      @driver.add_driven_trip(trip_3)
+
+      expect(@driver.total_revenue).must_equal 137.37
+    end
   end
 
-  xdescribe "net_expenditures" do
+  describe "net_expenditures" do
     before do
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+      trip_1 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-08"), rating: 5, cost: 20)
+      @driver.add_driven_trip(trip_1)
+
+      trip_2 = RideShare::Trip.new(id: 8, driver: nil, passenger: @driver,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-08"), rating: 5, cost: 100)
-      @driver.add_driven_trip(trip)
+
+      @driver.add_trip(trip_2)
+
+
     end
 
     it 'Correctly calculates the total expenditures' do
-      
+
+
+      expect(@driver.net_expenditures).must_equal 85.32
     end
-        # You add tests for the net_expenditures method
+
+    it "returns a float" do
+      expect(@driver.net_expenditures).must_be_kind_of Float
+    end
+
+    it "returns a float with correct money format" do
+    trip_3 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,start_time: Time.parse("2016-08-08"),
+    end_time: Time.parse("2016-08-08"), rating: 5, cost: 66.66)
+
+    @driver.add_driven_trip(trip_3)
+
+    expect(@driver.net_expenditures).must_equal 33.31
+    end
   end
 end
