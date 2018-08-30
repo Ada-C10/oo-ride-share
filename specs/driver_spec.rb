@@ -99,7 +99,44 @@ describe "Driver class" do
   end
 
   describe "total_revenue" do
-    # You add tests for the total_revenue method
+
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: 51.65, rating: 5)
+      @driver.add_driven_trip(trip)
+    end
+
+    it "returns a float" do
+      expect(@driver.total_revenue).must_be_kind_of Float
+    end
+
+    it "raises argument error if revenue is a negetive number" do
+
+      driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: -2, rating: 5)
+      driver.add_driven_trip(trip)
+
+      expect {driver.total_revenue}.must_raise ArgumentError
+
+    end
+
+    it "returns zero if no trips" do
+      driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                     vin: "1C9EVBRM0YBC564DZ")
+      expect(driver.total_revenue).must_equal 0
+    end
+
+    it "correctly calculates the total revenue" do
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                  start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: 51.65, rating: 1)
+      @driver.add_driven_trip(trip2)
+
+      expect(@driver.total_revenue).must_be_close_to 80
+    end
   end
 
   describe "net_expenditures" do
