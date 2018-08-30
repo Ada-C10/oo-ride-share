@@ -7,6 +7,9 @@ describe "Trip class" do
       phone: '111-111-1111',
       status: :AVAILABLE)
 
+    @inprogress_trip = RideShare::Trip.new({id: 5, driver: @driver, passenger: @pass, start_time: "2016-08-08", end_time: nil, cost: nil, rating: nil})
+
+
     start_time = Time.parse('2015-05-20T12:14:00+00:00')
     end_time = start_time + 25 * 60 # 25 minutes
     @trip_data = {
@@ -53,7 +56,7 @@ describe "Trip class" do
     it "raises an ArgumentError if start time is after end time" do
       start_time = Time.parse('2015-05-20T12:14:00+00:00')
       end_time = Time.parse('2014-05-20T12:14:00+00:00')
-      @trip_data = {
+      @bad_trip_data = {
         id: 8,
         passenger: RideShare::User.new(id: 1,
                                        name: "Ada",
@@ -64,7 +67,7 @@ describe "Trip class" do
         rating: 3
       }
 
-      expect{RideShare::Trip.new(@trip_data)}.must_raise ArgumentError
+      expect{RideShare::Trip.new(@bad_trip_data)}.must_raise ArgumentError
     end
 
     it "raises an error for an invalid rating" do
@@ -77,31 +80,17 @@ describe "Trip class" do
     end
   end
 
-  describe 'Trip.duration returns duration of trip in seconds' do
-    it 'responds to duration method' do
+  describe 'Trip.duration' do
+    it 'returns duration of trip in seconds' do
       expect(@trip.duration).must_equal (25 * 60)
     end
 
-    it 'raise an InProgressTripError if called on an in-progress trip' do
-      # Creating an in-progress trip
-      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+    it 'correctly calculates the duration in seconds' do
+      expect(@trip.duration).must_equal(@trip.end_time - @trip.start_time)
+    end
 
-      @trip = RideShare::Trip.new(
-        {
-          id: 8,
-          passenger: RideShare::User.new(id: 1,
-                                         name: "Ada",
-                                         phone: "412-432-7640"),
-          start_time: start_time,
-          end_time: nil,
-          cost: nil,
-          rating: nil,
-          driver: @driver
-        }
-      )
-
-      expect{@trip.duration}.must_raise RideShare::InProgressTripError
+    it 'raises an InProgressTripError if called on an in-progress trip' do
+      expect{@inprogress_trip.duration}.must_raise RideShare::InProgressTripError
     end
   end
-
 end
