@@ -46,7 +46,7 @@ module RideShare
       return (super - total_revenue).round(2)
     end
 
-    def is_unavailable
+    def becomes_unavailable
       @status = :UNAVAILABLE
     end
   end

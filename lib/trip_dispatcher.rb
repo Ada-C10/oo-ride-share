@@ -140,7 +140,7 @@ module RideShare
       }
 
       requested_trip = Trip.new(trip_data)
-      driver.is_unavailable
+      driver.becomes_unavailable
       driver.add_driven_trip(requested_trip)
       passenger.add_trip(requested_trip)
       @trips << requested_trip
