@@ -50,8 +50,7 @@ module RideShare
       return (total_expenditures - self.total_revenue).round(2)
     end
 
-    def add_in_progress_trip(trip)
-      @driven_trips << trip
+    def is_unavailable
       @status = :UNAVAILABLE
     end
   end
