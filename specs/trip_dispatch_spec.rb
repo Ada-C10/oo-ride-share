@@ -115,6 +115,7 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
   describe "Request trip method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
@@ -130,15 +131,15 @@ describe "TripDispatcher class" do
     it "updates the passenger trip list" do
       current_passenger = @dispatcher.find_passenger(3)
       current_number_of_trips = current_passenger.trips.length
-      new_trip = @dispatcher.request_trip(3)
-      expect(current_passenger.trips.length).must_equal (current_number_of_trips +1)
+      @dispatcher.request_trip(3)
+      expect(current_passenger.trips.length).must_equal (current_number_of_trips + 1)
     end
 
     it "updates the driver trip list" do
       current_driver = @dispatcher.find_driver(5)
       current_number_of_trips = current_driver.driven_trips.length
-      new_trip = @dispatcher.request_trip(3)
-      expect(current_driver.driven_trips.length).must_equal (current_number_of_trips +1)
+      @dispatcher.request_trip(3)
+      expect(current_driver.driven_trips.length).must_equal (current_number_of_trips + 1)
     end
 
     it "ensures that driver assigned is available" do
@@ -150,6 +151,45 @@ describe "TripDispatcher class" do
       @dispatcher.request_trip(6)
       @dispatcher.request_trip(3)
       expect{@dispatcher.request_trip(1)}.must_raise ArgumentError
+    end
+
+    it "checks that drivers are not driving themselves" do
+      new_trip = @dispatcher.request_trip(5)
+      passenger = new_trip.passenger.id
+      driver = new_trip.driver.id
+
+      expect(passenger).wont_equal driver
+    end
+  end
+
+  describe "In Progress Trips" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+    end
+
+    it "will calculate total money spent even with an in progress trip" do
+      new_trip = @dispatcher.request_trip(3)
+      total_spent = new_trip.passenger.net_expenditures
+
+      expect(total_spent).must_equal 7
+    end
+
+    it "will calculate the average hourly revenue for a driver with an in progress trip" do
+      new_trip = @dispatcher.request_trip(3)
+
+      total_seconds_driven = 0
+      new_trip.driver.driven_trips.each do |trip|
+        if trip.end_time != nil
+          total_seconds_driven += trip.end_time - trip.start_time
+        end
+      end
+
+      total_hours_driven = (total_seconds_driven.to_f / 3600).round(2)
+      average_hourly_rate = (new_trip.driver.total_revenue / total_hours_driven).round(2)
+
+      expect(average_hourly_rate).must_equal 31.28
     end
 
   end
