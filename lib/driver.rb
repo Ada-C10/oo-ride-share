@@ -22,7 +22,11 @@ module RideShare
     end
 
     def add_trip(trip)
-      @driven_trips << trip
+      if trip.class == Trip
+        @driven_trips << trip
+      else
+        raise ArgumentError, 'No Trip provided'
+      end
     end
 
     def average_rating
@@ -36,8 +40,8 @@ module RideShare
       end
 
       rating = (rating/@driven_trips.length).round(2)
-#
-# binding.pry
+      #
+      # binding.pry
       return rating
     end
 
