@@ -114,4 +114,17 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+  describe "testing new trip method" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+      TRIP_TEST_FILE,
+      DRIVER_TEST_FILE)
+    end
+
+    it "returns an instance of trip" do
+       @dispatcher.request_trip(5)
+      expect(@dispatcher.trips.last).must_be_instance_of RideShare::Trip
+    end
+  end
 end

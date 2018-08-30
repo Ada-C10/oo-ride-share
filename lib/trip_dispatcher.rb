@@ -20,8 +20,27 @@ module RideShare
       @drivers = load_drivers(driver_file)
       @trips = load_trips(trip_file)
 
+    end
 
+    def request_trip(user_id)
+      driver = @drivers.find{|driver| driver.status == :AVAILABLE && driver.id != user_id}
+      passenger = find_passenger(user_id)
+      parsed_trip = {
+        id: @trips.last.id + 1,
+        driver: driver,
+        passenger: passenger,
+        start_time: Time.now,
+        end_time: nil,
+        cost: nil,
+        rating: nil
+      }
+      new_trip = Trip.new(parsed_trip)
+      @trips << new_trip
 
+      driver.add_driven_trip(new_trip)
+      passenger.add_trip(new_trip)
+      driver.driver_on_trip
+return new_trip
     end
 
     def load_users(filename)

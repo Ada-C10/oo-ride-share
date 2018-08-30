@@ -6,6 +6,7 @@ module RideShare
 
   class Driver < User
     attr_reader :vin, :driven_trips, :status
+    attr_writer :status
 
     def initialize(input)
       super (input)
@@ -48,6 +49,10 @@ module RideShare
 
 def net_expenditures
   return self.total_revenue - super
+end
+
+def driver_on_trip
+  @status = :UNAVAILABLE
 end
 
     def add_driven_trip(trip)
