@@ -27,7 +27,6 @@ module RideShare
 
         users << User.new(input_data)
       end
-
       return users
     end
 
