@@ -11,11 +11,10 @@ module RideShare
 
     def initialize(user_file = 'support/users.csv',
       trip_file = 'support/trips.csv', drivers_file = 'support/drivers.csv')
-
       @passengers = load_users(user_file) # [drivers & passengers]
-      @trips = load_trips(trip_file)
       @drivers = load_drivers(drivers_file)
       replace_passenger(@passengers, @drivers)
+      @trips = load_trips(trip_file)
 
     end
 
@@ -59,40 +58,16 @@ module RideShare
       return drivers
     end
 
-
-    # def match_driver_to_passengers(driver_id)
-    #   total_users = []
-    #   @drivers.each do |driver|
-    #     if @passengers.include? driver[:id]
-    #       passenger_info = find_passenger(driver[:id])
-    #       driver.name = passenger_info[:name]
-    #       driver.trips = passenger_info [:trips]
-    #     else total_users << driver
-    #     end
-    #   end
-    # end
-    #
-    # def create_total_users_array
-    #   total_users= []
-    #   @passengers.each do |passenger|
-    #     if @drivers.include? passenger[:id]
-    #       match_driver_to_passengers(driver_id)
-    #     else total_users << passenger
-    #   end
-    #
-    # end
-
     def replace_passenger(passenger_array, driver_array)
 
       driver_n_passengers = passenger_array.map do |passenger|
-        driver_array.map do |driver|
+        driver_array.each do |driver|
           if passenger.id == driver.id
             passenger = driver
           end
         end
         passenger
       end
-
       passenger_array.replace(driver_n_passengers)
 
       return passenger_array
@@ -105,19 +80,27 @@ module RideShare
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
 
+        driver = find_driver(raw_trip[:driver_id].to_i)
+
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
+          driver: driver,
           start_time: Time.parse(raw_trip[:start_time]),
           end_time: Time.parse(raw_trip[:end_time]),
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i
         }
-
-
+        # add_driven_trip(user.id.to_i)
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
+        driver.add_trip(trip)
+        #
+        # if trip.driver.id == driver.id
+        #   driver.add_trip(trip)
+        # end
         trips << trip
+
       end
 
       return trips
@@ -130,12 +113,23 @@ module RideShare
 
     def find_driver(id)
       check_id(id)
+
       return @drivers.find { |driver| driver.id == id }
       # @drivers.each do |driver|
       #   if driver.id == id
       #     return driver
       #   end
       # end
+    end
+
+    def add_driven_trip(driver_id)
+      driven_trips = []
+      @trips.each do |trip|
+        if trip.driver[:id] == driver_id
+          driven_trips << trip
+        end
+      end
+      return driven_trips
     end
 
     def inspect

@@ -30,12 +30,12 @@ module RideShare
       @trips.each do |trip|
         total_time += trip.duration
       end
-    return total_time
+      return total_time
     end
   end
 
   class Driver < User
-    attr_reader :vehicle_id, :driven_trips, :status, :id, :name, :phone_number, :trips
+    attr_reader :vehicle_id, :driven_trips, :status, :id, :name, :phone_number, :trips, :driven_trips
     # attr_accessor :name, :trips
 
 
@@ -60,7 +60,20 @@ module RideShare
       @status = input[:status] #check to make sure status is valid
       @driven_trips = []
     end
+    # def add_driven_trip(trip)
+    #   # if trip.driver == driver
+    #   @driven_trips << trip
+    #   # end
+    # end
+
+    def average_rating
+      #returns 0 for no trips
+
+      return average_rating.to_f.round(2)
+    end
+
   end
+
 
 
 end
