@@ -115,7 +115,7 @@ describe "Driver class" do
     it "correctly calculates the total revenue that's positive" do
       expect(@driver.total_revenue).must_be_close_to 9.36, 0.01
     end
-    # before do
+
     #   @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
     #                                   vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
     #   trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
@@ -127,10 +127,9 @@ describe "Driver class" do
     #                               end_time: Time.parse("2016-08-09"),
     #                               rating: 5,cost: 1)
     #   @driver.add_driven_trip(trip2)
-    # end
     # it "correctly calculates when the ride is less than $1.65" do
     #
-    #   expect(@driver.total_revenue).must_be_close_to -0.56, 0.01
+    #   expect(@driver.total_revenue).must_be_close_to -1.04, 0.01
     # end
   end
 

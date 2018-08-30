@@ -5,7 +5,8 @@ require 'pry'
 
 module RideShare
   class Driver < User
-    attr_reader :vin, :driven_trips, :status
+    attr_reader :vin, :driven_trips
+    attr_accessor :status
 
     def initialize(input)
       super (input) #id, name, phone_number, trips
@@ -42,7 +43,7 @@ module RideShare
     def total_revenue
       revenue = driven_trips.reduce(0){|sum, trip| sum + (trip.cost - 1.65) }
       revenue*= 0.8
-      return revenue
+      return revenue.round(2)
     end
 
     def net_expenditures
@@ -50,6 +51,9 @@ module RideShare
       money_spent = trips.reduce(0){|sum, trip| sum + trip.cost }
       return money_spent - self.total_revenue
     end
+
+
+
 
   end
 end

@@ -104,20 +104,55 @@ module RideShare
                 #{passengers.count} passengers>"
       end
 
+      def available_driver
+        @drivers.each do |driver|
+          if driver.status == :AVAILABLE
+            return driver
+          end
+        end
+      end
+
+      def request_trip(user_id)
+        # The user ID will be supplied (this is the person requesting a trip)
+
+        new_driver = self.available_driver
+        new_passenger = nil
+
+
+        @passengers.each do |passenger|
+          if passenger.id == user_id
+            new_passenger = passenger
+          end
+        end
+
+        parsed_trip = {
+          id: user_id,
+          driver: new_driver,
+          passenger: new_passenger,
+          start_time: Time.new,
+          end_time: nil,
+          cost: nil,
+          rating: nil
+        }
+
+        in_progress_ride = Trip.new(parsed_trip)
+
+        new_driver.status = :UNAVAILABLE
+        new_driver.add_driven_trip(in_progress_ride)
+        new_passenger.add_trip(in_progress_ride)
+        @trips << in_progress_ride
+
+        return in_progress_ride
+
+      end
+
       private
 
       def check_id(id)
         raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
       end
 
-      def request_trip(user_id)
-        # The user ID will be supplied (this is the person requesting a trip)
-        # Your code should automatically assign a driver to the trip
-        # For this initial version, choose the first driver whose status is :AVAILABLE
-        # Your code should use the current time for the start time
-        # The end date, cost and rating will all be nil
-        # The trip hasn't finished yet!
-      end
+
     end
   end
 
