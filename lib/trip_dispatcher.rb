@@ -4,6 +4,8 @@ require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
+require_relative 'driver'
+
 
 
 module RideShare
@@ -58,63 +60,56 @@ module RideShare
         }
 
         trip = Trip.new(parsed_trip)
-        passenger.add_trip(trip)
-        driver.add_trip(trip)
         trips << trip
+
+        passenger.add_trip(trip)
+        driver.add_driven_trip(trip)
+
       end
       return trips
     end
 
     def load_drivers(filename)
-      drivers = []
-      driver_data = CSV.open(filename,'r', headers: true, header_converters: :symbol)
-      driver_data.each do |raw_data|
-        driver = find_passenger(raw_data[:id].to_i)
-        parsed_driver = {id: raw_data[:id].to_i, vin: raw_data[:vin], status: raw_data[:status].to_sym, name: driver.name, phone:driver.phone_number}
-        driver = Driver.new(parsed_driver)
-        drivers << driver
-        @passengers.each_with_index do |user, index|
-          if driver.id == user.id
-            @passengers[index] = driver
-          end
-        end
-      end
-        return drivers
-      end
+      driver_data = CSV.open(filename, 'r', headers: true,
+                                          header_converters: :symbol)
 
-      # def add_driven_trips
-      #   @drivers.each do |driver|
-      #     @trips.each do |trip|
-      #       if trip.driver.id == driver.id
-      #         driver.add_driven_trip(trip)
-      #       end
-      #     end
-      #   end
-      # end
+      return driver_data.map do |raw_driver|
+        user = find_passenger(raw_driver[:id].to_i)
 
+        parse_driver = {
+        id: raw_driver[:id].to_i,
+        name: user.name,
+        phone: user.phone_number,
+        trips: user.trips,
+        vin: raw_driver[:vin],
+        status: raw_driver[:status].to_sym,
+        }
 
-
-      def find_driver(id)
-        check_id(id)
-        return @drivers.find { |driver| driver.id == id }
-      end
-
-      def find_passenger(id)
-        check_id(id)
-        return @passengers.find { |passenger| passenger.id == id }
-      end
-
-      def inspect
-        return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-        #{trips.count} trips, \
-        #{drivers.count} drivers, \
-        #{passengers.count} passengers>"
-      end
-
-      private
-
-      def check_id(id)
-        raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
+        Driver.new(parse_driver)
       end
     end
+
+    def find_driver(id)
+      check_id(id)
+      return @drivers.find { |driver| driver.id == id }
+    end
+
+    def find_passenger(id)
+      check_id(id)
+      return @passengers.find { |passenger| passenger.id == id }
+    end
+
+    def inspect
+      return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
+      #{trips.count} trips, \
+      #{drivers.count} drivers, \
+      #{passengers.count} passengers>"
+    end
+
+    private
+
+    def check_id(id)
+      raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
+    end
   end
+end

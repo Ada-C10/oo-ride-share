@@ -43,9 +43,13 @@ describe "Driver class" do
     describe "add_driven_trip method" do
       before do
         pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
-        @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
-        @trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: pass, start_time: Time.parse("2016-08-08"),
-        end_time: Time.parse("2018-08-09"), rating: 5)
+        # @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+          vin: "1C9EVBRM0YBC564DZ",
+          phone: '111-111-1111',
+          status: :AVAILABLE)
+         @trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: pass, start_time: Time.parse("2016-08-08"),
+         end_time: Time.parse("2018-08-09"), rating: 5)
       end
 
       it "throws an argument error if trip is not provided" do
