@@ -1,8 +1,5 @@
 require 'csv'
 
-# TODO Add driver attribute to reference the driver for the trip
-# TODO Create driver method to retrieve associated Driver instance
-
 module RideShare
   class Trip
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :driver
@@ -16,15 +13,12 @@ module RideShare
       @rating = input[:rating]
       @driver = input[:driver]
 
-      if @end_time != nil && @rating != nil
-        if @start_time > @end_time
-          raise ArgumentError, "Start time can't be after end time"
-        end
-        if @rating > 5 || @rating < 1
-          raise ArgumentError.new("Invalid rating #{@rating}")
-        end
+      if @end_time != nil && (@start_time > @end_time)
+        raise ArgumentError, "Start time can't be after end time"
       end
-
+      if @rating != nil && (@rating > 5 || @rating < 1)
+        raise ArgumentError.new("Invalid rating: #{@rating}")
+      end
     end
 
     def inspect
