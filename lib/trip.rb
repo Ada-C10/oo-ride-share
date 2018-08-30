@@ -1,6 +1,7 @@
 require 'csv'
 require 'time'
 require_relative 'driver'
+require_relative 'user'
 # All times may have fraction. Be aware of this fact when comparing times with each other – times that are apparently equal when displayed may be different when compared.
 #Time.new(year, month, date)
 

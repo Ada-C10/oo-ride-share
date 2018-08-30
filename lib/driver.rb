@@ -1,4 +1,5 @@
-require 'user'
+require_relative 'user'
+
 module RideShare
   class Driver < RideShare::User
     attr_reader :vin, :vehicle_id, :driven_trips, :status

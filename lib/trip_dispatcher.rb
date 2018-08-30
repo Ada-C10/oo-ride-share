@@ -1,5 +1,7 @@
 require 'csv'
 require 'time'
+require 'awesome_print'
+require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -9,13 +11,14 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv', driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers =  load_drivers(driver_file)
     end
 
     def load_users(filename)
-      users = []
+      @users = []
 
       CSV.read(filename, headers: true).each do |line|
         input_data = {}
@@ -23,14 +26,57 @@ module RideShare
         input_data[:name] = line[1]
         input_data[:phone] = line[2]
 
-        users << User.new(input_data)
+        @users << User.new(input_data)
       end
 
-      return users
+      return @users
     end
 
+
+    def load_drivers(filename)
+      # load drivers, collect the instances
+      # if driver id is user id
+      # in the passenger array, replace the old information with the new combined info
+      # users = load_users('./support/users.csv')
+      # binding.pry
+      @drivers = []
+      driver_users = []
+
+      CSV.read('support/drivers.csv', headers: true).each do |line|
+        input_data = {}
+        input_data[:id] = line[0].to_i
+        input_data[:vin] = line[1]
+        input_data[:status] = line[2]
+
+        @drivers << input_data
+      end
+
+
+
+        @drivers.each do |driver|
+        user = find_passenger(driver[:id])
+          driver_users << {id: user[:id], name: user[:name], vin: driver[:vin], phone: user[:phone], status: driver[:status]}
+        end
+
+
+
+      return driver_users
+      end
+
+      #
+      #
+      # driver = 1, 67382992873, status
+      # user = 1, Joe Smith, 555-55555
+      #
+      # driver/user = 1, Joe Smith, 627281919, 555-5555
+      #
+      # passengers array = [ {id: 1, name: Joe Smith, vin: 9484832222, phone: 555-5555, status}, {id: 2, name: Joanna Smith, phone 555-5555} ]
+
+
+
+
     # Modify TripDispatcher#load_trips to store the start_time and end_time as Time instances
-    def load_trips(filename)
+    def load_trips(filename) #WAVE 2 update to add Driver to trip instance
       trips = []
       trip_data = CSV.open(filename, 'r', headers: true,
                                           header_converters: :symbol)
@@ -59,6 +105,9 @@ module RideShare
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
     end
+
+    # def find_driver(id)
+    # end
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
