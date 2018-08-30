@@ -86,9 +86,8 @@ describe "Driver class" do
 
         @driver.add_driven_trip(trip)
 
-        trip2 = RideShare::Trip.new(id: 9, driver: @driver, passenger: RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334"), start_time: start_time, end_time: end_time, cost: 10, rating: 1)
 
-        @driver.add_driven_trip(trip2)
+
 
       end
 
@@ -104,13 +103,16 @@ describe "Driver class" do
 
         it "returns zero if no trips" do
           driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-            vin: "1C9EVBRM0YBC564DZ")
+            vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
             expect(driver.average_rating).must_equal 0
           end
 
           it "correctly calculates the average rating" do
-            trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-              date: Time.parse("2016-08-08"), rating: 1)
+
+            start_time = '2015-05-20T12:14:00+00:00'
+            end_time = '2015-05-20T12:15:00+00:00'
+            
+            trip2 = RideShare::Trip.new(id: 9, driver: @driver, passenger: RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334"), start_time: start_time, end_time: end_time, cost: 10, rating: 1)
               @driver.add_driven_trip(trip2)
 
               expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01

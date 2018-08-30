@@ -26,6 +26,10 @@ module RideShare
     end
 
     def average_rating
+      if @driven_trips.length == 0
+        return 0
+      end
+      
       rating = 0.0
       @driven_trips.each do |trip|
         rating += trip.rating
