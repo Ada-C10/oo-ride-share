@@ -15,7 +15,8 @@ module RideShare
 
       @vehicle_id = input[:vin]
       @driven_trips = input[:trips].nil? ? [] : input[:trips]
-      @status = input[:status]
+      @status = input[:status] ? input[:status] : :AVAILABLE
+
 
       unless @vehicle_id.length == 17
         raise ArgumentError, 'Vehicle ID must contain 17 characters'
@@ -25,10 +26,10 @@ module RideShare
         raise ArgumentError, 'Not a valid status.'
       end
 
-      # if input[:id].nil? || input[:id] <= 0
-      #   raise ArgumentError, 'ID cannot be blank or less than zero.'
-      # end
-      #
+      if input[:id].nil? || input[:id] <= 0
+        raise ArgumentError, 'ID cannot be blank or less than zero.'
+      end
+
       # @id = input[:id]
       # @name = input[:name]
       # @phone_number = input[:phone]
@@ -84,10 +85,12 @@ end
 
 # pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
 #
-# driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
+# driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
 #
 # trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 55, rating: 5, driver: driver})
+# #
 #
+# ap driver.status
 # ap driver.id
 # ap driver.name
 # driver.add_trip(trip)
