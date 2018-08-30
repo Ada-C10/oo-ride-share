@@ -17,8 +17,9 @@ module RideShare
     end
 
     def add_driven_trip(trip)
-      check_id(trip.id)
-      @driven_trips << super(trip) 
+
+        raise ArgumentError.new("Invalid Driver") unless trip.instance_of? RideShare::Trip
+        @driven_trips << trip
 
     end
 

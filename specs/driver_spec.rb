@@ -46,7 +46,7 @@ describe "Driver class" do
     before do
       pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
       @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
-      @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5})
+      @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-08"), rating: 5})
     end
 
     it "throws an argument error if trip is not provided" do
@@ -57,6 +57,7 @@ describe "Driver class" do
       previous = @driver.driven_trips.length
       @driver.add_driven_trip(@trip)
       expect(@driver.driven_trips.length).must_equal previous + 1
+
     end
   end
 
@@ -67,6 +68,7 @@ describe "Driver class" do
       trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                  date: Time.parse("2016-08-08"), rating: 5)
       @driver.add_driven_trip(trip)
+
     end
 
     it "returns a float" do
