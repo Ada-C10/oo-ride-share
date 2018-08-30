@@ -73,10 +73,22 @@ module RideShare
     end
 
     def average_rating
-      #returns 0 for no trips
-
-      return average_rating.to_f.round(2)
+      if self.driven_trips.length < 1
+        return average_rating = 0
+      end
+      sum_ratings = self.driven_trips.reduce(0){|memo, trip| memo + trip.rating}
+      average_rating = (sum_ratings/self.driven_trips.length).to_f.round(2)
+      return average_rating
     end
+
+    def total_revenue
+      #before_fees = reduce through drivers $
+
+      #driver_earnings = (before_fees - (trips.length*1.65)) * .80
+    end
+#     total_revenue	This method calculates that driver's total revenue across all their trips. Each driver gets 80% of the trip cost after a fee of $1.65 per trip is subtracted.
+
+# net_expenditures	This method will override the cooresponding method in User and take the total amount a driver has spent as a passenger and subtract the amount they have earned as a driver (see above). If the number is negative the driver will earn money.
 
   end
 

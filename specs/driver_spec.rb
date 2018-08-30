@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'time'
 
 describe "Driver class" do
 
@@ -51,58 +52,58 @@ describe "Driver class" do
       it "throws an argument error if trip is not provided" do
         expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
       end
-  
+
       it "increases the trip count by one" do
         previous = @driver.driven_trips.length
         @driver.add_driven_trip(@trip)
         expect(@driver.driven_trips.length).must_equal previous + 1
       end
     end
-  #
-  #   describe "average_rating method" do
-  #     before do
-  #       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-  #                                       vin: "1C9EVBRM0YBC564DZ")
-  #       trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-  #                                  start_time: Time.parse("2018-05-25 11:52:40 -0700),
-  #                                  end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5)
-  #       @driver.add_driven_trip(trip)
-  #     end
-  #
-  #     it "returns a float" do
-  #       expect(@driver.average_rating).must_be_kind_of Float
-  #     end
-  #
-  #     it "returns a float within range of 1.0 to 5.0" do
-  #       average = @driver.average_rating
-  #       expect(average).must_be :>=, 1.0
-  #       expect(average).must_be :<=, 5.0
-  #     end
-  #
-  #     it "returns zero if no driven trips" do
-  #       driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-  #                                      vin: "1C9EVBRM0YBC564DZ")
-  #       expect(driver.average_rating).must_equal 0
-  #     end
-  #
-  #     it "correctly calculates the average rating" do
-  #       trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-  #                                   start_time: Time.parse("2018-05-25 11:52:40 -0700"),
-  #                                   end_time: Time.parse("2018-05-25 12:25:00 -0700"),
-  #                                   rating: 1)
-  #       @driver.add_driven_trip(trip2)
-  #
-  #       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
-  #     end
-  #
-  #
-  #   end
-  #
-  # describe "total_revenue" do
-  #   # You add tests for the total_revenue method
-  # end
-  #
-  # describe "net_expenditures" do
-  #   # You add tests for the net_expenditures method
-  # end
+
+    describe "average_rating method" do
+      before do
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                        vin: "1C9EVBRM0YBC564DZ")
+        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                   start_time: Time.parse("2018-05-25 11:52:40 -0700"),
+                                   end_time: Time.parse("2018-05-25 12:25:00 -0700"), rating: 5)
+        @driver.add_driven_trip(trip)
+      end
+
+      it "returns a float" do
+        expect(@driver.average_rating).must_be_kind_of Float
+      end
+
+      it "returns a float within range of 1.0 to 5.0" do
+        average = @driver.average_rating
+        expect(average).must_be :>=, 1.0
+        expect(average).must_be :<=, 5.0
+      end
+
+      it "returns zero if no driven trips" do
+        driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                       vin: "1C9EVBRM0YBC564DZ")
+        expect(driver.average_rating).must_equal 0
+      end
+
+      it "correctly calculates the average rating" do
+        trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                    start_time: Time.parse("2018-05-25 11:52:40 -0700"),
+                                    end_time: Time.parse("2018-05-25 12:25:00 -0700"),
+                                    rating: 1)
+        @driver.add_driven_trip(trip2)
+
+        expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
+      end
+
+
+    end
+
+  describe "total_revenue" do
+    # You add tests for the total_revenue method
+  end
+
+  describe "net_expenditures" do
+    # You add tests for the net_expenditures method
+  end
 end
