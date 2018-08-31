@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require "pry"
 
 describe "Driver class" do
 
@@ -98,11 +99,79 @@ describe "Driver class" do
 
     end
 
-  xdescribe "total_revenue" do
-    # You add tests for the total_revenue method
-  end
+    describe "total_revenue method" do
+        before do
+          @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                          vin: "1C9EVBRM0YBC564DZ")
+          trip1 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                     start_time: Time.parse("2016-08-08"),
+                                     end_time: Time.parse("2016-08-08"), cost: 20, rating: 5)
+          @driver.add_driven_trip(trip1)
+        end
 
-  xdescribe "net_expenditures" do
-    # You add tests for the net_expenditures method
-  end
+        it "returns zero if no driven trips" do
+          driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                         vin: "1C9EVBRM0YBC564DZ")
+          expect(driver.total_revenue).must_equal 0
+        end
+
+        it "correctly calculates the total_revenue" do
+          trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                      start_time: Time.parse("2016-08-08"),
+                                      end_time: Time.parse("2016-08-09"),
+                                      cost: 10, rating: 1)
+          @driver.add_driven_trip(trip2)
+
+          expect(@driver.total_revenue).must_be_close_to 22.68
+          # ((20.0 + 10.0) - 1.65) * 0.8 = 22.68
+        end
+      end
+    end
+
+      describe "net_expenditures method" do
+
+        it "returns a positive number (negative earnings) that are the same as the net_ependitures as a passenger if no driven_trips" do
+          @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                         vin: "1C9EVBRM0YBC564DZ")
+
+          @user = RideShare::User.new(id: 54, name: "Rogers Bartell IV",
+          phone: "1-602-620-2330 x3723", trips: [])
+
+          trip = RideShare::Trip.new(id: 10, passenger: @user,
+          start_time: Time.parse("2016-08-08"),
+          end_time: Time.parse("2016-08-09"), cost: 5, rating: 5)
+
+          @driver.add_trip(trip)
+          # binding.pry
+
+          expect(@driver.net_expenditures).must_equal 5
+        end
+
+        it "returns a negative number (positive earnings) if total_reveneue as a driver exceeds net_expenditures as passenger" do
+
+          @user = RideShare::User.new(id: 54, name: "Rogers Bartell IV", phone: "1-602-620-2330 x3723", trips: [])
+
+          trip = RideShare::Trip.new(id: 10, passenger: @user,
+          start_time: Time.parse("2016-08-08"),
+          end_time: Time.parse("2016-08-09"), cost: 5, rating: 5)
+
+          trip2 = RideShare::Trip.new(id: 12, passenger: @user,
+              start_time: Time.parse("2016-08-08"),
+              end_time: Time.parse("2016-08-09"), cost: 5, rating: 5)
+
+
+          @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+            vin: "1C9EVBRM0YBC564DZ")
+            trip1 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+              start_time: Time.parse("2016-08-08"),
+              end_time: Time.parse("2016-08-08"), cost: 20, rating: 5)
+              @driver.add_driven_trip(trip1)
+
+          @driver.add_trip(trip)
+          @driver.add_trip(trip2)
+
+
+
+          expect(@driver.net_expenditures).must_equal -4.68
+        end
 end

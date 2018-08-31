@@ -44,19 +44,6 @@ module RideShare
 
     end
 
-    # def add_driven_trip
-    #   @trip.each do |trip|
-    #     if user.id == trip[1]
-    #       @driven_trips << trip
-    #     end
-    #
-    #     if @driven_trips.length == 0
-    #       raise ArgumentError, "No trip provided."
-    #     end
-    #
-    #     return @driven_trips
-    #   end
-
 
     def average_rating
       total_rating = 0
@@ -91,7 +78,7 @@ module RideShare
 
 
     def net_expenditures
-      return super - total_revenue
+      return super - total_revenue.round(2)
 
     end
 
