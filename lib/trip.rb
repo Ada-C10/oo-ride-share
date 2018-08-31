@@ -10,7 +10,7 @@ module RideShare
       @id = input[:id]
       @passenger = input[:passenger]
       # 1. find which passanger is a driver by using ID (ID will be the same, drivers are super users which hahve extra id like driver id, and passager id in their trips)
-            # the driver ID is the same as the user ID - use this find the passangers who are drivers 
+            # the driver ID is the same as the user ID - use this find the passangers who are drivers
             # 1. find driver ID in trip.csv
             # 2. look in user.csv not the trip csv file , to find the driver info
             # 3. find the passangers who's driver is is the same as the passanger id, contact information will be in the user class and this has to be added to the passangers instance,
@@ -35,12 +35,12 @@ module RideShare
       end
     end
 
-    def driver #return the driver from driver class using the driver's id from driver csv file
-      data[:vehicle_id] = nil
-      data[:driven_trips] = @passenger.trips
-      data[:status]
-      @driver = RideShare::Driver.new(input)
-    end
+    # def driver #return the driver from driver class using the driver's id from driver csv file
+    #   data[:vehicle_id] = nil
+    #   data[:driven_trips] = @passenger.trips
+    #   data[:status]
+    #   @driver = RideShare::Driver.new(input)
+    # end
 
     def inspect
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +

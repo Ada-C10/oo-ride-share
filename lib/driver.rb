@@ -12,10 +12,10 @@ module RideShare
     # this is from user=> :id, :name, :phone_number, :trips
     def initialize (input)
       super(input)
+      @id = input[:id]
       @vehicle_id = input[:vin]
-      @driven_trips = trips
       @status = input[:status]
-      raise ArgumentError if not VALID_STATUS.include?(status)
+      #raise ArgumentError if not VALID_STATUS.include?(status)
     end
   end
 end

@@ -4,15 +4,18 @@ require 'pry'
 require 'time'
 require_relative 'user'
 require_relative 'trip'
+require_relative 'driver'
 
 module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
 
-    def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+    def initialize(user_file = 'specs/test_data/users_test.csv',
+                   trip_file = 'specs/test_data/trips_test.csv',
+                    driver_file = 'specs/test_data/drivers_test.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers = load_drivers(driver_file)
     end
 
     # creates instances of users and saves them in @passangers
@@ -25,13 +28,29 @@ module RideShare
         input_data[:name] = line[1]
         input_data[:phone] = line[2]
 
-
-
         users << User.new(input_data)
       end
-
       return users
     end
+
+    def load_drivers(filename)
+      drivers = []
+      CSV.read(filename, headers: true).each do |line|
+        input_data = {}
+        input_data[:id] = line[0].to_i
+        input_data[:vin] = line[1]
+        input_data[:status] = line[2].to_sym
+        user_data = find_passenger(input_data[:id])
+        input_data[:name] = user_data.name
+        input_data[:phone_number] = user_data.phone_number
+        drivers << Driver.new(input_data)
+      end
+
+      return drivers
+
+    end
+
+
 
     # creates instances of trips and saves them in @trips, AND
     # it adds each trip to its corresponding instance of passanger

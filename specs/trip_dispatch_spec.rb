@@ -59,11 +59,11 @@ describe "TripDispatcher class" do
   describe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE)
+                                                 TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
     end
 
     it "accurately loads driver information into drivers array" do
-      skip # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
