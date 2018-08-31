@@ -1,4 +1,4 @@
-# require 'pry'
+require 'pry'
 
 module RideShare
   class Driver < User
@@ -41,7 +41,6 @@ module RideShare
       sum = 0.00
       @driven_trips.each do |trip|
         sum += trip.rating.to_f
-        # binding.pry
       end
       size = @driven_trips.length
       average = sum/size
@@ -63,6 +62,10 @@ module RideShare
       end
       total = total * 0.80
       return total
+    end
+
+    def net_expenditures
+      super
     end
 
   end

@@ -95,7 +95,7 @@ describe "TripDispatcher class" do
                                                   TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
-    xit "accurately loads passenger information into passengers array" do
+    it "accurately loads passenger information into passengers array" do
       first_passenger = @dispatcher.passengers.first
       last_passenger = @dispatcher.passengers.last
 
@@ -105,7 +105,7 @@ describe "TripDispatcher class" do
       expect(last_passenger.id).must_equal 8
     end
 
-    xit "accurately loads trip info and associates trips with passengers" do
+    it "accurately loads trip info and associates trips with passengers" do
       trip = @dispatcher.trips.first
       passenger = trip.passenger
 

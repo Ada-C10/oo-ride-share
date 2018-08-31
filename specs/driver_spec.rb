@@ -132,7 +132,29 @@ describe "Driver class" do
                 end
               end
 
-                describe "net_expenditures" do
-                  # You add tests for the net_expenditures method
+              describe "net_expenditures" do
+                before do
+                  start_time = "2018-05-25 11:30:00 -0700"
+                  end_time = "2018-05-25 11:40:00 -0700"
+
+                  pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+                  @trip = RideShare::Trip.new({id: 3, driver: nil, passenger: pass, start_time: Time.parse(start_time), end_time: Time.parse(end_time), cost: 10,  rating: 5})
+
+                  @driver = RideShare::Driver.new(id: 1, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
+
+                  trip = RideShare::Trip.new(id: 1, driver: @driver, passenger: nil, start_time: Time.parse("2018-05-20 11:30:00 -0700"), end_time: Time.parse("2018-05-25 11:40:00 -0700"), cost: 15, rating: 5)
+
+                  @driver.add_driven_trip(trip)
+
                 end
+
+                it "accurately returns the net expenditures of driver" do
+                  expect(@driver.net_expenditures).must_equal
+                end
+
+                it "checks if driver is an instance of driver" do
+                  expect(@driver).must_be_kind_of RideShare::Driver
+                end
+
               end
+            end
