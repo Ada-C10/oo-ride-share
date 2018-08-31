@@ -25,7 +25,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "find_user method" do
+  describe "find_user method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(user_file = USER_TEST_FILE, trip_file = TRIP_TEST_FILE, driver_file = DRIVER_TEST_FILE)
     end
@@ -44,9 +44,10 @@ describe "TripDispatcher class" do
 
 
   # Uncomment for Wave 2
-  xdescribe "find_driver method" do
+  describe "find_driver method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -59,7 +60,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "Driver & Trip loader methods" do
+  describe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE, DRIVER_TEST_FILE)
@@ -79,7 +80,7 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-      skip # Unskip after wave 2
+       # Unskip after wave 2
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
@@ -90,7 +91,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "User & Trip loader methods" do
+  describe "User & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE, DRIVER_TEST_FILE)

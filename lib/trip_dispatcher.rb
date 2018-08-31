@@ -44,13 +44,11 @@ module RideShare
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
         driver = find_driver(raw_trip[:driver_id].to_i)
-        ap "INSIDE LOAD_TRIPS. INSTANCE OF DRIVER #{driver}"
 
         # #NOTE: WHY DON'T THESE TWO LINES WORK THO?
         start_time = Time.parse(raw_trip[:start_time])
         end_time = Time.parse(raw_trip[:end_time])
         # binding.pry
-        ap "#{start_time}.class"
 
         parsed_trip = {
           id: raw_trip[:id].to_i,

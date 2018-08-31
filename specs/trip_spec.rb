@@ -61,7 +61,7 @@ describe "Trip class" do
   end
 
 
-  xdescribe "#calculate_trip_duration" do
+  describe "#calculate_trip_duration" do
     before do
       @start_time = Time.parse('2015-05-20T12:14:00+00:00')
       @end_time = Time.parse('2015-05-20T12:15:00+00:00')
