@@ -180,6 +180,6 @@ end
 # TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 # DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
 
-hello = RideShare::TripDispatcher.new()
-
-ap hello
+# hello = RideShare::TripDispatcher.new()
+#
+# ap hello
