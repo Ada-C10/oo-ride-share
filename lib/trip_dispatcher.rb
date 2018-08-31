@@ -13,8 +13,8 @@ module RideShare
                    trip_file = 'support/trips.csv',
                    driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
       @drivers = load_drivers(driver_file)
+      @trips = load_trips(trip_file)
     end
 
     def load_users(filename)
@@ -41,6 +41,8 @@ module RideShare
       trip_data.each do |raw_trip|
 
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        driver = find_driver(raw_trip[:driver_id].to_i)
+
 
         start_time = Time.parse(raw_trip[:start_time])
         end_time = Time.parse(raw_trip[:end_time])
@@ -52,48 +54,55 @@ module RideShare
           start_time: start_time,
           end_time: end_time,
           cost: raw_trip[:cost].to_f,
-          rating: raw_trip[:rating].to_i
+          rating: raw_trip[:rating].to_i,
+          driver: driver
         }
         # adding passenger from user.rb to into trip
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
-        binding.pry
+        driver.add_trip(trip)
+        driver.add_trip(trip)
         trips << trip
 
       end
-
       return trips
     end
 
     def load_drivers(filename)
+
       drivers = []
+
       driver_data = CSV.open(filename, 'r', headers: true,
         header_converters: :symbol)
 
         driver_data.each do |raw_driver|
 
-          driver = find_driver(raw_driver[:id].to_i)
+          # driver_name = find_passenger(raw_driver[:id].to_i).name
+          # driver_phone = find_passenger(raw_driver[:id].to_i).phone_number
 
           parsed_trip = {
             id: raw_driver[:id].to_i, #trip ID
             vin: raw_driver[:vin],
-            status: raw_driver[:status]
+            status: raw_driver[:status],
+
           }
 
-          driver = Driver.new(parsed_trip)
 
-          # find them and replace the `User` object with a `Driver` object. You should also be loading the `driven_trips` for each `Driver` at this stage.
-          # driver = @passengers.find do |user|
-          #   user == driver
-
-            binding.pry
-          # end
-          # add to drivers array
-          # passenger.add_driver(driver)
-          # drivers << driver
-          # end
-        end
-        return @trips
+          drivers << Driver.new(parsed_trip)
+      #
+      #     # find them and replace the `User` object with a `Driver` object. You should also be loading the `driven_trips` for each `Driver` at this stage.
+      #     # driver = @passengers.find do |user|
+      #     #   user == driver
+      #
+          end
+      #     # add to drivers array
+      #     # passenger.add_driver(driver)
+      #     binding.pry
+      #
+      #     drivers << driver
+      #     # end
+      #   end
+        return drivers
 
       end
 
@@ -117,7 +126,7 @@ module RideShare
               #{passengers.count} passengers>"
     end
 
-    private
+    # private
 
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0

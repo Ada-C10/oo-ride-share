@@ -16,12 +16,12 @@ module RideShare
         raise ArgumentError, 'Vin inaccurate, must be 17 characters long.'
       end
 
-      if input[:driven_trips] == ""
-        raise ArgumentError, "No trip is provided"
-      end
-
-      @id = input[:id].to_i
-      @name = input[:name].to_s
+      # if input[:driven_trips] == ""
+      #   raise ArgumentError, "No trip is provided"
+      # end
+      super(input)
+      # @id = input[:id].to_i
+      # @name = input[:name].to_s
       @vin	= input[:vin].to_s
       @status = input[:status]
       @driven_trips	= []
@@ -38,7 +38,10 @@ module RideShare
 
 
     end
+    def add_driven_trip(trip)
+      @trips << trip
 
+    end
 
 
   end
