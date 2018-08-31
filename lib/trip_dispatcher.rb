@@ -104,13 +104,21 @@ module RideShare
 
     def check_driver_availability_and_assign(user_id)
       all_available_drivers = @drivers.find_all {|driver| driver.status == :AVAILABLE}
-
-      if (all_available_drivers == []) || (all_available_drivers.length == 1 && all_available_drivers[0].id == user_id)
+      new_available_drivers = all_available_drivers.dup
+       new_available_drivers.each do |instance|
+         if instance.id == user_id
+           new_available_drivers.delete(instance)
+         end
+       end
+      if new_available_drivers == []
         raise ArgumentError.new("No Available Drivers. Try later.")
-      elsif all_available_drivers.length > 1 && all_available_drivers[0].id == user_id
-        driver = all_available_drivers[1]
       else
-        driver = all_available_drivers[0]
+        driver = new_available_drivers[0]
+        new_available_drivers.each_with_index do |instance, index|
+          if instance.trips == []
+            driver = new_available_drivers[index]
+          end
+        end
       end
 
       return driver
