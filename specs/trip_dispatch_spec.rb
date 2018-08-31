@@ -141,7 +141,7 @@ describe "TripDispatcher class" do
       new_trip = @dispatcher.request_trip(3)
       driver = new_trip.driver
 
-      expect(driver.trips.length).must_equal 1
+      expect(driver.id).must_equal 8
     end
 
     it "will ensure that the driver selected has the oldest trip given all drivers have trips" do
