@@ -115,7 +115,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "testing new trip method" do
+  describe "testing request trip method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
       TRIP_TEST_FILE,
