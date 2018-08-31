@@ -155,7 +155,7 @@ describe "User class" do
       @user.add_trip(trip2)
       @user.add_trip(trip3)
 
-      expect(@user.total_time_spent).must_equal 24*60*60*3
+      expect(@user.total_time_spent).must_equal 24 * 60 * 60 * 3
     end
 
     it 'calculates total time to 0 if user has no trips' do
@@ -167,7 +167,7 @@ describe "User class" do
       @user.add_trip(trip_in_progress)
       @user.add_trip(trip3)
 
-      expect(@user.total_time_spent).must_equal 24*60*60*2
+      expect(@user.total_time_spent).must_equal 24 * 60 * 60 * 2
     end
   end
 
