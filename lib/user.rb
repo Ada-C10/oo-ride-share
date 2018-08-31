@@ -17,7 +17,7 @@ module RideShare
       @trips << trip
     end
 
-    def total_time_spent #theres a way to use reduce
+    def total_time_spent
       total_time = 0
       @trips.each do |trip|
         if trip.end_time != nil
@@ -28,7 +28,6 @@ module RideShare
     end
 
     def net_expenditures
-  #there will be costs that will be nil
       completed_trips = @trips.select{|trip| trip.end_time != nil}
       total = completed_trips.reduce(0) { |sum, trip| sum + trip.cost}
 
@@ -63,8 +62,6 @@ module RideShare
         raise ArgumentError, "Invalid driver status."
       end
 
-      #check to make sure status is valid
-
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
     end
 
@@ -77,6 +74,7 @@ module RideShare
     end
 
     def average_rating
+      #exclude costs that == nil
       if self.driven_trips.length < 1
         return average_rating = 0
       end
@@ -86,26 +84,28 @@ module RideShare
     end
 
     def total_revenue
-      sum_costs = self.driven_trips.reduce(0){|memo, trip| memo + trip.cost}
+      #exclude costs that == nil
+      completed_trips = self.driven_trips.select{|trip| trip.end_time != nil}
 
-      total_revenue = (sum_costs - (self.driven_trips.length * 1.65)) * 0.80
+      sum_costs = completed_trips.reduce(0){|memo, trip| memo + trip.cost}
+
+      total_revenue = (sum_costs - (completed_trips.length * 1.65)) * 0.80
 
       return total_revenue.to_f.round(2)
 
     end
 
     def net_expenditures
-      spent_as_passenger = self.trips.reduce(0){|memo, trip| memo + trip.cost}
+      #exclude costs that == nil
+      completed_trips_as_passenger = self.trips.select{|trip| trip.end_time != nil}
+
+      spent_as_passenger = completed_trips_as_passenger.reduce(0){|memo, trip| memo + trip.cost}
 
       net_expenditures = spent_as_passenger.to_f.round(2) - self.total_revenue
 
       return net_expenditures
     end
 
-# net_expenditures	This method will override the cooresponding method in User and take the total amount a driver has spent as a passenger and subtract the amount they have earned as a driver (see above). If the number is negative the driver will earn money.
-
   end
-
-
 
 end

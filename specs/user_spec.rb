@@ -71,7 +71,12 @@ describe "User class" do
     it "calculates total expenditure of all rides for a given user except for in-progress trips" do
 
       expect(@dispatcher.passengers[0].net_expenditures).must_equal 10.00
-      # inprogress_trip = @dispatcher.request_trip(8)
+      expect(@dispatcher.passengers[0].trips.length).must_equal 1
+
+      @dispatcher.request_trip(1)
+
+      expect(@dispatcher.passengers[0].trips.length).must_equal 2
+      expect(@dispatcher.passengers[0].net_expenditures).must_equal 10.00
     end
 
     it "will return the total amount of time that user has spent on their trips" do
