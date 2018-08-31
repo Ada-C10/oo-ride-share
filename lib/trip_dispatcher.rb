@@ -25,6 +25,7 @@ module RideShare
     def request_trip(user_id)
       passenger = find_passenger(user_id)
       driver = @drivers.find{|driver| driver.status == :AVAILABLE && driver.id != user_id}
+      raise ArgumentError.new "no drivers!" if driver == nil
       parsed_trip = {
         id: @trips.last.id + 1,
         driver: driver,

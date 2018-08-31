@@ -127,16 +127,21 @@ describe "TripDispatcher class" do
       expect(@dispatcher.trips.last).must_be_instance_of RideShare::Trip
     end
     it "trip list is updated properly" do
-      #was the trip list updated?
+      original_trips = @dispatcher.trips.length
+      @dispatcher.request_trip(5)
+      trips_plus_one = @dispatcher.trips.length
+      expect(trips_plus_one).must_equal original_trips + 1
+
     end
-    it "was the driver selected available?" do
-      #was the driver selected available
-    end
+  
     it "should throw argument error if no driver is avalible" do
-      #what happens if no driver is available
+      @dispatcher.find_driver(5).driver_on_trip
+      @dispatcher.find_driver(8).driver_on_trip
+      expect{@dispatcher.request_trip}.must_raise ArgumentError
     end
     it "should throw argument error if a driver is trying to drive themselves" do
-      #driver can't drive themselves
+      trip = @dispatcher.request_trip(5)
+      expect(trip.driver).wont_equal 5
     end
   end
 end
