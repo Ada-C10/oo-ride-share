@@ -124,6 +124,9 @@ describe "Driver class" do
         @driver.add_trip(@trip1)
         @driver.add_trip(@trip2)
         @driver.add_driven_trip(@trip3)
+
+
+
       end
 
       it "accurately calculates net_expenditures of a driver" do
@@ -136,5 +139,26 @@ describe "Driver class" do
       end
 
     end
+
+
+    describe "accept_trip method" do
+      before do
+        @passenger = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+          @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ", phone: '111-111-1111', status: :AVAILABLE)
+          @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: @passenger, date: "2016-08-08", rating: nil, cost: nil})
+        end
+
+        it "changes driver status from available to unavailable" do
+          @driver.accept_trip(@trip)
+          expect(@driver.status).must_equal :UNAVAILABLE
+        end
+
+        it "driver.trips now includes the new trip " do
+          @driver.accept_trip(@trip)
+          expect(@driver.driven_trips.last).must_equal @trip
+        end
+
+
+      end
 
   end

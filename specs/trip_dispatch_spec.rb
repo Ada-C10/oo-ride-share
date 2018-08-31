@@ -131,7 +131,6 @@ describe "TripDispatcher class" do
   end
 
   describe "request_trip method" do
-
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
@@ -170,6 +169,10 @@ describe "TripDispatcher class" do
       trip = @dispatcher.request_trip(1)
       expect(@dispatcher.trips.length).must_equal (length + 1)
     end
+
+    xit "raises ArgumentError if there are no Available drivers " do 
+    end
+
 
   end
 
