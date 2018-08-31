@@ -6,20 +6,18 @@ module RideShare
   class Driver < User
     attr_reader :id, :name, :vin, :phone, :driven_trips, :trips
     attr_accessor :status
+
     def initialize(id: 0, name: "", vin: "", phone:"", trips: [], status: :AVAILABLE, driven_trips: [])
-      if id <= 0
-        raise ArgumentError.new("Bad ID Value")
-      end
+      raise ArgumentError.new("Bad ID Value") if id <= 0
+      raise ArgumentError.new("Invalid VIN number") if vin.empty? || vin.length != 17
+
       @id = id
       @name = name
-      if vin.empty? || vin.length != 17
-        raise ArgumentError.new("Invalid VIN number")
-      end
       @vin = vin
       @phone = phone
+      @trips = trips
       @status = status
       @driven_trips = driven_trips
-      @trips = trips
     end
 
     def add_driven_trip(trip)
@@ -47,13 +45,13 @@ module RideShare
       @driven_trips.each do |trip|
         total_revenue += 0.8 * (trip.cost - 1.65) if trip.cost != nil
       end
+      
       return total_revenue.round(2)
     end
 
     def net_expenditures
       made_as_driver = total_revenue
       spent_as_passenger = super
-
       net_earnings = spent_as_passenger - made_as_driver
 
       return net_earnings.round(2)

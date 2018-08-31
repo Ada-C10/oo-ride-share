@@ -5,12 +5,14 @@ TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
 
 describe "TripDispatcher class" do
+  before do
+    @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
+  end
   describe "Initializer" do
     it "is an instance of TripDispatcher" do
-      dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE,
-                                                DRIVER_TEST_FILE)
-      expect(dispatcher).must_be_kind_of RideShare::TripDispatcher
+      expect(@dispatcher).must_be_kind_of RideShare::TripDispatcher
     end
 
     it "establishes the base data structures when instantiated" do
@@ -21,17 +23,11 @@ describe "TripDispatcher class" do
 
       expect(dispatcher.trips).must_be_kind_of Array
       expect(dispatcher.passengers).must_be_kind_of Array
-      # expect(dispatcher.drivers).must_be_kind_of Array
+      expect(dispatcher.drivers).must_be_kind_of Array
     end
   end
 
   describe "find_user method" do
-    before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE,
-                                                DRIVER_TEST_FILE)
-    end
-
     it "throws an argument error for a bad ID" do
       expect{ @dispatcher.find_passenger(0) }.must_raise ArgumentError
     end
@@ -42,14 +38,7 @@ describe "TripDispatcher class" do
     end
   end
 
-
   describe "find_driver method" do
-    before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE,
-                                                DRIVER_TEST_FILE)
-    end
-
     it "throws an argument error for a bad ID" do
       expect { @dispatcher.find_driver(0) }.must_raise ArgumentError
     end
@@ -61,12 +50,6 @@ describe "TripDispatcher class" do
   end
 
   describe "Driver & Trip loader methods" do
-    before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE,
-                                                DRIVER_TEST_FILE)
-    end
-
     it "accurately loads driver information into drivers array" do
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
@@ -91,12 +74,6 @@ describe "TripDispatcher class" do
   end
 
   describe "User & Trip loader methods" do
-    before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE,
-                                                  DRIVER_TEST_FILE)
-    end
-
     it "accurately loads passenger information into passengers array" do
       first_passenger = @dispatcher.passengers.first
       last_passenger = @dispatcher.passengers.last
@@ -117,14 +94,9 @@ describe "TripDispatcher class" do
   end
 
   describe "Request trip method" do
-    before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE,
-                                                  DRIVER_TEST_FILE)
-    end
-
     it "returns an instance of trip" do
       new_trip = @dispatcher.request_trip(3)
+
       expect(new_trip).must_be_kind_of RideShare::Trip
     end
 
@@ -132,6 +104,7 @@ describe "TripDispatcher class" do
       current_passenger = @dispatcher.find_passenger(3)
       current_number_of_trips = current_passenger.trips.length
       @dispatcher.request_trip(3)
+
       expect(current_passenger.trips.length).must_equal (current_number_of_trips + 1)
     end
 
@@ -139,17 +112,20 @@ describe "TripDispatcher class" do
       current_driver = @dispatcher.find_driver(5)
       current_number_of_trips = current_driver.driven_trips.length
       @dispatcher.request_trip(3)
+
       expect(current_driver.driven_trips.length).must_equal (current_number_of_trips + 1)
     end
 
     it "ensures that driver assigned is available" do
       driver = @dispatcher.check_driver_availability_and_assign(3)
+
       expect(driver.status).must_equal :AVAILABLE
     end
 
     it "raises an ArgumentError if there are no available drivers" do
       @dispatcher.request_trip(6)
       @dispatcher.request_trip(3)
+
       expect{@dispatcher.request_trip(1)}.must_raise ArgumentError
     end
 
@@ -160,15 +136,21 @@ describe "TripDispatcher class" do
 
       expect(passenger).wont_equal driver
     end
+
+    it "will ensure that the driver who is selected has no trips" do
+      new_trip = @dispatcher.request_trip(3)
+      driver = new_trip.driver
+
+      expect(driver.id).must_equal 8
+    end
+
+    it "will ensure that the driver selected has the oldest trip given all drivers have trips" do
+
+    end
+
   end
 
   describe "In Progress Trips" do
-    before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE,
-                                                  DRIVER_TEST_FILE)
-    end
-
     it "will calculate total money spent even with an in progress trip" do
       new_trip = @dispatcher.request_trip(3)
       total_spent = new_trip.passenger.net_expenditures
@@ -190,35 +172,6 @@ describe "TripDispatcher class" do
       average_hourly_rate = (new_trip.driver.total_revenue / total_hours_driven).round(2)
 
       expect(average_hourly_rate).must_equal 31.28
-    end
-
-  end
-  describe "Will ensure that the best driver was selected" do
-  let (:test_code)  {  RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                TRIP_TEST_FILE,
-                                                DRIVER_TEST_FILE)
-  }
-  #
-  # before do
-  #   @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-  #                                               TRIP_TEST_FILE,
-  #                                               DRIVER_TEST_FILE)
-  # end
-    xit "will check to make sure the driver does not have an in-progress trip"
-    end
-
-    xit "will ensure that the driver selected has never had a trip"
-    end
-
-    it "will ensure that the driver selected has the oldest driven trip"
-      driver = test_code.check_driver_availability_and_assign(3)
-      last_trip_time = 0
-      driver.each do |dri|
-        if dri.driven_trip.end_time < last_trip_time
-            last_trip_time = dri.driven_trip.end_time
-        end
-      end
-      expect(driver.status).must_equal last_trip_time
     end
   end
 end

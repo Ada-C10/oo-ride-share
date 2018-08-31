@@ -25,7 +25,6 @@ module RideShare
       if @trips == 0
         return 0
       else
-
         total_spent = 0
         @trips.each do |trip|
           total_spent += trip.cost if trip.cost != nil

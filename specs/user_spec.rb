@@ -43,7 +43,6 @@ describe "User class" do
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-09"),
                                  rating: 5)
-
       @user.add_trip(trip)
     end
 
@@ -76,7 +75,6 @@ describe "User class" do
                                   start_time: Time.parse("2016-08-01"),
                                   end_time: Time.parse("2016-08-03"), cost: 35.20,
                                   rating: 5)
-
       @user.add_trip(trip_1)
       @user.add_trip(trip_2)
       @user.add_trip(trip_3)
