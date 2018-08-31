@@ -11,9 +11,10 @@ module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
 
+
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv',
-                   driver_file = 'support/driver.csv')
+                   driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @drivers = load_drivers(driver_file)
       @trips = load_trips(trip_file)
@@ -81,18 +82,17 @@ module RideShare
 
         # NOTE: ALL IDS ARE THE SAME (no repeats between driver and passenger)
 
-        user = find_passenger(raw_id[:id])
+        user = find_passenger(raw_driver[:id])
 
         parsed_driver = {
           id: raw_driver[:id].to_i,
           name: user.name,
-          phone: user.phone_number,
+          phone: user.phone,
           vehicle_id: raw_driver[:vin],
           status: raw_driver[:status].to_sym
         }
 
         driver = Driver.new(parsed_driver)
-        ap "INSIDE OF LOAD_DRIVERS. INSTANCE OF DRIVER #{driver}"
         drivers << driver
 
       end
@@ -143,6 +143,7 @@ module RideShare
     private
 
     def check_id(id)
+      id = id.to_i
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
   end
@@ -166,9 +167,19 @@ end
 # write tests for Wave 3
 # edge case tests? thorough testing
 # write conditionals for nil values)
+# use LET with our test code
 # Refactor/clean up tabs/take out test code
 # Comprehension questions
 
 # ap trip.start_time.class
 # ap RideShare::TripDispatcher.trips
 # ap trip.calculate_trip_duration
+
+
+# USER_TEST_FILE   = 'specs/test_data/users_test.csv'
+# TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
+# DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+
+hello = RideShare::TripDispatcher.new()
+
+ap hello
