@@ -33,13 +33,5 @@ module RideShare
       return total_time
     end
 
-    # For Wave 3:
-
-    def add_new_in_progress_trip
-      # helper method in User:
-      # add new trip to user.trips [] (.add_trip)
-      # can this be the same as the other?
-    end
-
   end
 end

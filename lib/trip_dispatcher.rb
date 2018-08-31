@@ -43,8 +43,8 @@ module RideShare
           passenger = find_passenger(raw_trip[:passenger_id].to_i) # instance of User class
           parsed_trip = {
             id: raw_trip[:id].to_i,
-            driver: driver,
-            passenger: passenger,
+            driver: driver.id,
+            passenger: passenger.id,
             start_time: Time.parse(raw_trip[:start_time]),
             end_time: Time.parse(raw_trip[:end_time]),
             cost: raw_trip[:cost].to_f,
@@ -86,10 +86,11 @@ module RideShare
         return @drivers.find { |driver| driver.id == id } #instance of Driver class
       end
 
-      def available_driver
-        available = @drivers.find { |driver| driver.status == :AVAILABLE }
-        # if no available drivers, argument error?
-        # rescue?
+      def available_driver(user_id)
+        available = @drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id}
+        # if no available drivers, define custom error?
+        # rescue? wait a certain amount of time?
+        # max 5 tries?
         return available
       end
 
@@ -107,21 +108,26 @@ module RideShare
 
       def request_trip(user_id)
 
+        driver = available_driver(user_id)
+        passenger = find_passenger(user_id)
+
         input = {}
 
-        input[:id] = user_id,
-        input[:driver] = available_driver,
-        input[:passenger] = find_passenger(user_id),
+        input[:id] = trips.length + 1,
+        input[:driver] = driver.id,
+        input[:passenger] = user_id,
         input[:start_time] = Time.now
 
-        new_in_progress_trip = Trip.new(input)
 
-        input[:passenger].add_trip(new_in_progress_trip) # User.add_trip(trip) adds to @trips []
-        input[:driver].add_driven_trip(new_in_progress_trip) # Driver.add_trip(trip) adds to @trips []
+        new_in_progress_trip = Trip.new(input)
+        driver.status = :UNAVAILABLE
+
+        passenger.add_trip(new_in_progress_trip) # User.add_trip(trip) adds to @trips []
+        driver.add_driven_trip(new_in_progress_trip) # Driver.add_trip(trip) adds to @trips []
 
         trips << new_in_progress_trip
 
-        return trips
+        return new_in_progress_trip
       end
 
       # user_id, x
@@ -134,7 +140,7 @@ module RideShare
 
       # helper method in Driver:
       # add new_in_progress_trip to driver.driven_trips [] (.add_driven_trip)
-      # set driver.status = :unavailable
+      # set driver.status = :unavailable (SJ added accessor)
 
       # helper method in User:
       # add new trip to user.trips [] (.add_trip)

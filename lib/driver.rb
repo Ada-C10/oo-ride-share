@@ -51,15 +51,5 @@ module RideShare
       return super - total_revenue
     end
 
-    ## For Wave 3:
-
-    def add_new_in_progress_trip(trip) # overrides method with same name in User class
-    # helper method in Driver:
-    # add new_in_progress_trip to driver.driven_trips [] (.add_driven_trip)
-    # set driver.status = :unavailable
-      @status = :UNAVAILABLE # attr_accessor!!
-      add_driven_trip(trip)
-    end
-
   end
 end
