@@ -111,37 +111,39 @@ describe "TripDispatcher class" do
 
     describe "Request Trip Method" do
       before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+        @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+        @trip = @dispatcher.request_trip(3)
       end
 
-      it "Was the driver selected AVAILABLE?" do
+      it "is the trip created properly?" do
+        expect(@trip).must_be_instance_of RideShare::Trip
+      end
 
-        available_driver = @dispatcher.drivers
+      it "Drivers cannot drive themselves" do
+        expect(@trip.driver).wont_be_same_as @trip.passenger
+      end
 
-        expect(available_driver[1]).must_equal :AVAILABLE
+      it "Was the driver marked as UNAVAILABLE?" do
+        expect(@trip.driver.status).must_equal :UNAVAILABLE
+      end
 
+      it "Were the trip lists for the driver updated?" do
+        # this checks to see if the new trip (@trip) is in the driver's driven_trips
+        expect(@trip.driver.driven_trips.find { |t| t.id == @trip.id }).wont_be_nil
+      end
+
+      it "Where the trip lists for the user updated?" do
+        # this checks to see if the new trip (@trip) is in the passenger's trips
+        expect(@trip.passenger.trips.find { |t| t.id == @trip.id }).wont_be_nil
+      end
+
+      it "Was the trip list for trip dispatcher updated?" do
+        # this checks to see if the new trip (@trip) is in the dispatcher's trips
+        expect(@dispatcher.trips.find { |t| t.id == @trip.id }).wont_be_nil
       end
 
       xit "What happens if you try to request a trip when there are no AVAILABLE drivers?" do
       end
-
-      xit "Drivers cannot drive themselves" do
-      end
-
-      xit "is the trip created properly?" do
-      end
-
-      xit "Were the trip lists for the driver updated?" do
-      end
-
-      xit "Where the trip lists for the user updated?" do
-      end
-
-
-
-
-
-
 
     end
   end
