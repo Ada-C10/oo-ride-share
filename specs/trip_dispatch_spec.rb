@@ -1,10 +1,6 @@
 require_relative 'spec_helper'
 require 'pry'
 
-# USER_TEST_FILE   = 'specs/test_data/users_test.csv'
-# TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
-# DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
-
 describe "TripDispatcher class" do
   describe "Initializer" do
     it "is an instance of TripDispatcher" do
@@ -23,8 +19,6 @@ describe "TripDispatcher class" do
       expect(dispatcher.passengers).must_be_kind_of Array
       expect(dispatcher.drivers).must_be_kind_of Array
     end
-
-
   end
 
   describe "find_user method" do
@@ -42,8 +36,6 @@ describe "TripDispatcher class" do
     end
   end
 
-
-  # Uncomment for Wave 2
   describe "find_driver method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,TRIP_TEST_FILE,DRIVER_TEST_FILE)
@@ -60,7 +52,6 @@ describe "TripDispatcher class" do
     end
   end
 
-
   describe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
@@ -68,7 +59,6 @@ describe "TripDispatcher class" do
 
     it "accurately loads driver information into drivers array" do
 
-      # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -81,10 +71,8 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-     # Unskip after wave 2
 
       trips = @dispatcher.trips
-
 
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
@@ -124,7 +112,6 @@ describe "TripDispatcher class" do
 
       dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
 
-
       trip = dispatcher.request_trip(1)
 
       expect(trip).must_be_instance_of RideShare::Trip
@@ -138,5 +125,4 @@ describe "TripDispatcher class" do
       expect(trip.driver.status).must_equal :UNAVAILABLE
     end
   end
-
 end

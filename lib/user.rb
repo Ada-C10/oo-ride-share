@@ -30,13 +30,12 @@ module RideShare
     def net_expenditures
 
       @trips.reduce(0) do |sum, trip|
+
         if trip.end_time != nil
           sum + trip.cost
         end
       end
-      return sum
-
     end
-
+    
   end
 end

@@ -1,7 +1,6 @@
 require 'csv'
 require 'time'
 
-
 require_relative 'user'
 require_relative 'trip'
 require_relative 'driver'
@@ -20,7 +19,6 @@ module RideShare
 
     end
 
-
     def load_users(filename)
       users = []
 
@@ -35,8 +33,6 @@ module RideShare
 
       return users
     end
-
-
 
     def load_trips(filename)
       trips = []
@@ -68,7 +64,6 @@ module RideShare
       return trips
     end
 
-
     def load_drivers(filename)
       drivers = []
 
@@ -89,7 +84,6 @@ module RideShare
       return drivers
     end
 
-
     def find_passenger(id)
       check_id(id)
       return @passengers.find { |passenger| passenger.id == id }
@@ -109,14 +103,15 @@ module RideShare
               #{passengers.count} passengers>"
     end
 
-    #test -- dispatcher.request_trip
-    #in code
-
-
     def request_trip(user_id)
 
       passenger = find_passenger(user_id)
-      this_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+
+      this_driver = @drivers.find do |driver|
+        if driver.id != user_id
+          driver.status == :AVAILABLE
+        end
+      end
 
       start_time = Time.now
       id = @trips.length + 1
@@ -142,7 +137,6 @@ module RideShare
 
       return new_trip
     end
-
 
     private
 

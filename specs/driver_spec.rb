@@ -18,7 +18,6 @@ describe "Driver class" do
         phone: '111-111-1111',
         status: :AVAILABLE
       )
-
     end
 
     it "is an instance of Driver" do
@@ -62,9 +61,7 @@ describe "Driver class" do
       @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
 
       @trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5, start_time: 30, end_time: 60)
-
     end
-
 
     it "throws an argument error if trip is not provided" do
 
@@ -118,8 +115,6 @@ describe "Driver class" do
 
               expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
             end
-
-
           end
 
           describe "total_revenue" do
@@ -140,27 +135,15 @@ describe "Driver class" do
                 @driver.add_driven_trip(trip2)
 
                 expect(@driver.total_revenue).must_be_close_to 29.36
-
               end
           end
 
           describe "net_expenditures" do
 
         it 'will do something ' do
-
-
-              # @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-              #
-              #
-              # trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: RideShare::User.new(id: 1, name: "Smithy", phone: "353-533-5334"), start_time: start_time, end_time: end_time, cost: 10, rating: 5)
-              # binding.pry
-              #
-              # @driver.add_driven_trip(trip)
               @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,TRIP_TEST_FILE,DRIVER_TEST_FILE)
               start_time = '2015-05-20T12:14:00+00:00'
               end_time = '2015-05-20T12:15:00+00:00'
-
-
 
               driver = @dispatcher.drivers[0]
 
@@ -171,15 +154,7 @@ describe "Driver class" do
               # @dispatcher.drivers[0].trips[0].cost => 10.0
               #@dispatcher.drivers[0].trips[1].cost => 7.0
               # @dispatcher.drivers[0].driven_trips[0].cost => 40
-
-             expect(driver.net_expenditures).must_be_close_to 13.68
-
-          #trips
-          ##<RideShare::Trip:0x3ff9d18d3258 ID=1 PassengerID=1>, #<RideShare::Trip:0x3ff9d18cd6c8 ID=2 PassengerID=3>
-
-          #driven_trips
-          ##<RideShare::Trip:0x3ff9d1c84e74 ID=8 PassengerID=1
-
+              expect(driver.net_expenditures).must_be_close_to 13.68
             end
           end
         end

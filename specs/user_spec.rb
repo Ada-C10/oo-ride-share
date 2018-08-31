@@ -35,7 +35,6 @@ describe "User class" do
     end
   end
 
-
   describe "trips property" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
@@ -60,7 +59,6 @@ describe "User class" do
       end
     end
   end
-
 
   describe "net_expenditures" do
     before do

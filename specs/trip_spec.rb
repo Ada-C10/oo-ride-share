@@ -26,7 +26,6 @@ describe "Trip class" do
         @trip = RideShare::Trip.new(@trip_data)
       end
 
-
       it "is an instance of Trip" do
         expect(@trip).must_be_kind_of RideShare::Trip
       end

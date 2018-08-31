@@ -4,7 +4,6 @@ module RideShare
     attr_reader :vehicle_id
     attr_accessor :driven_trips, :status
 
-
     def initialize(input)
       super(input)
 
@@ -12,7 +11,6 @@ module RideShare
       @status = input[:status]
 
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
-
 
       raise ArgumentError.new() unless [:UNAVAILABLE, :AVAILABLE].include?(@status)
 
@@ -52,22 +50,12 @@ module RideShare
 
     def net_expenditures
 
-      total_expense = @trips.reduce(0) do |sum, trip|
-        if trip.end_time != nil
-          sum + trip.cost
-        end
-      end
-
-      return total_revenue - total_expense
-
-      # return  total_revenue - super
+      return  total_revenue - super
     end
 
     def update_status
       @status = :UNAVAILABLE
     end
-
-
 
   end
 end

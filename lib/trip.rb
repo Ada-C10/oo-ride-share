@@ -35,6 +35,5 @@ module RideShare
       return duration
     end
 
-
   end
 end
