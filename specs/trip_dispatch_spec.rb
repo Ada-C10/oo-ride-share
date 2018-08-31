@@ -170,14 +170,27 @@ describe "TripDispatcher class" do
       expect(@dispatcher.trips.length).must_equal (length + 1)
     end
 
+    it "the trip is added to a user's array of trips" do
+      trip = @dispatcher.request_trip(1)
+      user = @dispatcher.find_passenger(1)
+      expect(user.trips.last).must_equal trip
+    end
+
     it "add to driver's trips" do
       trip = @dispatcher.request_trip(1)
       expect(trip.driver.driven_trips.last).must_equal trip
     end
 
-    xit "raises ArgumentError if there are no Available drivers " do
+    it "it returns a message if there are no Available drivers " do
+      trip1 = @dispatcher.request_trip(1)
+      trip2 = @dispatcher.request_trip(3)
+      expect (@dispatcher.request_trip(4)).must_equal "Sorry no available drivers, try again later."
     end
 
+    it "it raises an ArgumentError if a driver tries to drive themselves" do
+      trip1 = @dispatcher.request_trip(1)
+      expect (@dispatcher.request_trip(8)).must_raise ArgumentError
+    end
 
   end
 

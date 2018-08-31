@@ -126,6 +126,7 @@ module RideShare
       trip = Trip.new(input)
       driver = find_available_driver
       driver.accept_trip(trip)
+      find_passenger(user_id).add_trip(trip)
       @trips << trip
       return trip
     end
