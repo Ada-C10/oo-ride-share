@@ -78,5 +78,12 @@ module RideShare
     return difference
     end
 
+    def change_availability
+      if @status == :AVAILABLE
+        @status = :UNAVAILABLE
+      else
+        @status = :AVAILABLE
+      end
+    end
   end
 end

@@ -87,7 +87,7 @@ describe "TripDispatcher class" do
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
+        expect(driver.driven_trips).must_include trip
       end
     end
   end
@@ -123,10 +123,33 @@ describe "TripDispatcher class" do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE,
                                                   DRIVER_TEST_FILE)
+      # binding.pry
     end
     it "creates a new Trip instance" do
       trip1 = @dispatcher.request_trip(1)
       expect (trip1).must_be_kind_of RideShare::Trip
+    end
+
+    it "updates trip lists for user, driver, and all trips" do
+      trip = @dispatcher.request_trip(1)
+
+      passenger = @dispatcher.passengers.first
+      driver = @dispatcher.drivers[1]
+      trips = @dispatcher.trips
+      # binding.pry
+      expect (passenger.trips.length).must_equal 2
+      expect (driver.driven_trips.length).must_equal 4
+      # binding.pry
+      expect (trips.length).must_equal 6
+    end
+
+    it "returns notice if no drivers are available" do
+
+      trip1 = @dispatcher.request_trip(1)
+      trip2 = @dispatcher.request_trip(1)
+      trip3 = @dispatcher.request_trip(1)
+
+      expect (trip3).must_equal "No available drivers"
     end
   end
 end

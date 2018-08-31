@@ -59,6 +59,8 @@ module RideShare
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
         driver = find_driver(raw_trip[:driver_id].to_i)
+        passenger_as_driver = find_driver(raw_trip[:passenger_id].to_i)
+
 
         start_time = Time.parse(raw_trip[:start_time])
         end_time = Time.parse(raw_trip[:end_time])
@@ -75,8 +77,10 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
-        driver.add_trip(trip)
         driver.add_driven_trip(trip)
+        if passenger_as_driver != nil
+          passenger_as_driver.add_trip(trip)
+        end
         trips << trip
       end
       return trips
@@ -123,9 +127,10 @@ module RideShare
 
      # If there are available drivers, then create trip instance.
      if available_drivers.length > 0
-       number_of_drivers = available_drivers.length
-       random_driver = available_drivers[rand(0...number_of_drivers)]
-       random_driver_id = random_driver.id
+       # number_of_drivers = available_drivers.length
+       # random_driver = available_drivers[rand(0...number_of_drivers)]
+       # random_driver_id = random_driver.id
+       first_available_driver = available_drivers.first
 
        trip_info = {
          id: @trips.length + 1,
@@ -134,15 +139,15 @@ module RideShare
          end_time: nil,
          cost: nil,
          rating: nil,
-         driver: random_driver
+         driver: first_available_driver
        }
 
        trip = Trip.new(trip_info)
        @trips << trip
 
        # Changing driver data
-       random_driver.add_driven_trip(trip)
-       random_driver.status = :UNAVAILABLE
+       first_available_driver.add_driven_trip(trip)
+       first_available_driver.change_availability
 
        # Changing current passenger data
        current_passenger.add_trip(trip)
@@ -150,8 +155,8 @@ module RideShare
        return trip
 
      else
-       puts "No available drivers"
-       return nil
+       return "No available drivers"
+       # return nil
      end
    end
   end
