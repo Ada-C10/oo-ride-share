@@ -163,23 +163,23 @@ describe "TripDispatcher class" do
     end
 
     it 'makes the previously available driver unavailable' do
-      old_status = @dispatcher.find_driver(5).status #5 is the first available driver
+      old_status = @dispatcher.find_driver(8).status #8 is the first available driver with no trips
 
       expect(old_status).must_equal :AVAILABLE
 
       trip = @dispatcher.request_trip(3)
 
-      expect(trip.driver.id).must_equal 5
+      expect(trip.driver.id).must_equal 8
 
-      new_status = @dispatcher.find_driver(5).status
+      new_status = @dispatcher.find_driver(8).status
 
       expect(new_status).must_equal :UNAVAILABLE
     end
 
     it 'does not allow the passenger to also be the driver' do
-      trip = @dispatcher.request_trip(5)  #5 is the first available driver
+      trip = @dispatcher.request_trip(8)  #8 is the first available driver with no trips
 
-      expect(trip.driver).wont_equal 5
+      expect(trip.driver).wont_equal 8
     end
 
     it 'adds a new trip to passenger trips array' do
@@ -192,7 +192,7 @@ describe "TripDispatcher class" do
     end
 
     it 'adds a new trip to driver trips array' do
-      driver = @dispatcher.find_driver(5) #5 is the first available driver
+      driver = @dispatcher.find_driver(8) #8 is the first available driver with no trips
       num_trips_before = driver.driven_trips.length
       @dispatcher.request_trip(2)
       num_trips_after = driver.driven_trips.length
@@ -210,8 +210,22 @@ describe "TripDispatcher class" do
       }.must_raise ArgumentError
     end
 
+    it 'chooses the first driver with no trips if possible' do
+      trip = @dispatcher.request_trip(1)
 
+      expect(trip.driver.id).must_equal 8 #driver 8 has no trips
+    end
+
+    it 'chooses the driver with the least recent trip end time if all drivers have driven rides' do
+      new_dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  'specs/test_data/trips_test_wave4.csv',
+                                                  DRIVER_TEST_FILE)
+
+      trip = new_dispatcher.request_trip(1)
+      expect(trip.driver.id).must_equal 8 #driver 8 is available and has the least recent trip
+    end
 
   end
+
 
 end

@@ -106,10 +106,12 @@ module RideShare
       # driver cannot drive themselves (driver cannot have same ID as user)
       # use current time for start time
       # end date, cost, rating will all be nil
-      driver = @drivers.find { |driver| driver.status == :AVAILABLE and driver.id != user_id }
+      available_drivers = @drivers.select { |driver| driver.status == :AVAILABLE and driver.id != user_id }
+      driver = available_drivers.find {|driver| driver.driven_trips.empty?}
+      driver ||= available_drivers.min_by {|driver| driver.driven_trips.max_by {|trip| trip.end_time}}
 
       raise ArgumentError, 'No drivers available' if driver == nil
-      
+
       passenger = find_passenger(user_id)
 
       input = {id: @trips.last.id + 1, driver: driver, passenger: passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil}
