@@ -26,57 +26,67 @@ module RideShare
 
       @status = input[:status]
       # valid_status = %i[AVAILABLE UNAVAILABLE]
-      unless @status == :AVAILABLE || @status == :UNAVAILABLE
-        raise ArgumentError, 'Not a valid status.'
+      unless @status == :AVAILABLE
+        @status == :UNAVAILABLE
+        # raise ArgumentError, 'Not a valid status.'
       end
 
 
       @driven_trips = input[:trips].nil? ? [] : input[:trips]
     end
 
-    def add_driven_trip
-      @trip.each do |trip|
-        if user.id == trip[1]
-          @driven_trips << trip
-        end
+    def add_driven_trip(driven_trip)
+      @driven_trips << driven_trip
 
-        if @driven_trips.length == 0
-          raise ArgumentError, "No trip provided."
-        end
-        
-        return @driven_trips
+      unless driven_trip.is_a? Trip
+        raise ArgumentError
+      end
+
     end
+
+    # def add_driven_trip
+    #   @trip.each do |trip|
+    #     if user.id == trip[1]
+    #       @driven_trips << trip
+    #     end
+    #
+    #     if @driven_trips.length == 0
+    #       raise ArgumentError, "No trip provided."
+    #     end
+    #
+    #     return @driven_trips
+    #   end
 
 
     def average_rating
       total_rating = 0
 
-      @driven_trip.each do |trip|
+      @driven_trips.each do |trip|
         total_rating += trip.rating
       end
 
-      if @driven_trip.length == 0
+      if @driven_trips.length == 0
         average = 0
       else
-        average = total_ratings.to_f/@driven_trip.length
+        average = total_rating.to_f/@driven_trips.length
       end
-        return average
+      return average
     end
 
 
     def total_revenue
       total_revenue = 0
 
-      @driven_trip.each do |trip|
+      @driven_trips.each do |trip|
         total_revenue += trip.cost
       end
 
-      if @driven_trip.length == 0
+      if @driven_trips.length == 0
         total = 0
       else
         total = (total_revenue.to_f - 1.65)*0.8
       end
-        return total
+      return total
     end
 
 
