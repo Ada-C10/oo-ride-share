@@ -5,7 +5,8 @@ require_relative "user"
 module RideShare
 
   class Driver < User
-    attr_reader :vin, :status, :driven_trips  #:trips is the trips taken as a user
+    attr_reader :vin, :driven_trips  #:trips is the trips taken as a user
+    attr_accessor :status
 
     def initialize(input) #rather than input, pass in symbol vin, status, and driven trips
       super(input)

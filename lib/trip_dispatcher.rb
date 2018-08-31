@@ -106,15 +106,20 @@ module RideShare
           start_time: Time.now,
           end_time: nil,
           passenger: find_passenger(user_id),
-          driver: available_drivers.sample,
+          driver: available_drivers.first,
           cost: nil,
           rating: nil
         }
-        
+
         new_trip = RideShare::Trip.new(trip_data)
+
+        trip_data[:driver].status = :UNAVAILABLE
+        # binding.pry
+
         trip_data[:driver].add_driven_trip(new_trip)
         trip_data[:passenger].add_trip(new_trip)
         @trips << new_trip
+
         return new_trip
       end
 

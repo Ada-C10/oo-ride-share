@@ -120,17 +120,26 @@ describe "TripDispatcher class" do
           end
     it "returns instance of Trip" do
       expect(@dispatcher.request_trip(1)).must_be_kind_of RideShare::Trip
+      # binding.pry
     end
     it "increases Driver-@driven_trips" do
 
     end
     it "increases User-@trips" do
+
     end
     it "increases TripDispatcher-@trips" do
+      # before = @trips.length
+      # @dispatcher.request_trip(1)
+      # after = before + 1
+      # expect()
+
     end
     it "selects first :AVAILABLE driver" do
     end
     it "sets driver's status to :UNAVAILABLE" do
+      trip = @dispatcher.request_trip(1)
+      expect(trip.driver.status).must_equal :UNAVAILABLE
     end
 
   end
