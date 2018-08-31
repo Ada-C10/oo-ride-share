@@ -115,14 +115,20 @@ module RideShare
       passenger = find_passenger(user_id)
       driver = @drivers.find { |driver| driver.status == :AVAILABLE }
 
-      trip = Trip.new {
+      start_time = Time.now
+    id = @trips.length + 1
+
+      trip_hash = {
+        id: id,
         passenger: passenger,
         driver: driver,
-        start_time: Time.now,
+        start_time: start_time,
         end_time: nil,
         cost: nil,
         rating: nil
       }
+
+      trip = Trip.new(trip_hash)
       return trip
     end
 

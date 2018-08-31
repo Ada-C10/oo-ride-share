@@ -118,4 +118,14 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+  describe "request trip method" do
+
+   dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+
+   trip = dispatcher.request_trip(2)
+  
+
+ end
+
 end
