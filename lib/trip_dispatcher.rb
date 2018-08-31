@@ -120,28 +120,19 @@ module RideShare
         new_driver = self.available_driver
         new_passenger = self.find_passenger(user_id)
 
-
-        # @passengers.each do |passenger|
-        #   if passenger.id == user_id
-        #     new_passenger = passenger
-        #   end
-        # end
-
         parsed_trip = {
           id: user_id,
           driver: new_driver,
           passenger: new_passenger,
-          start_time: Time.new,
-          # end_time: nil,
-          # cost: nil,
-          # rating: nil
+          start_time: Time.new
         }
 
         in_progress_ride = Trip.new(parsed_trip)
 
         new_driver.status = :UNAVAILABLE
         new_driver.add_driven_trip(in_progress_ride)
-        new_passenger.add_trip(in_progress_ride)
+        new_passenger.add_trip(in_progress_ride
+
         @trips << in_progress_ride
 
         return in_progress_ride
