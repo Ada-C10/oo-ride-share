@@ -66,21 +66,35 @@ describe "User class" do
                                   phone: "1-602-620-2330 x3723", trips: [])
     end
 
+    let (:trip1) {
+      RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+                          start_time: Time.parse("2016-08-08"),
+                          end_time: Time.parse("2016-08-09"),
+                          rating: 5, cost: 5 )
+    }
+
+    let (:trip2) {
+      RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
+                          start_time: Time.parse("2016-08-08"),
+                          end_time: Time.parse("2016-08-09"),
+                          rating: 5, cost: 10 )
+    }
+
+    let (:trip3) {
+      RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
+                          start_time: Time.parse("2016-08-08"),
+                          end_time: Time.parse("2016-08-09"),
+                          rating: 5, cost: 7 )
+    }
+
+    let (:trip_in_progress) {
+      RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
+                          start_time: Time.parse("2016-08-08"),
+                          end_time: nil,
+                          rating: nil, cost: nil )
+    }
+
     it 'calculates the total paid by a user' do
-
-      trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
-                                 rating: 5, cost: 5 )
-      trip2 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: Time.parse("2016-08-09"),
-                                  rating: 5, cost: 10 )
-      trip3 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: Time.parse("2016-08-09"),
-                                  rating: 5, cost: 7 )
-
       @user.add_trip(trip1)
       @user.add_trip(trip2)
       @user.add_trip(trip3)
@@ -93,22 +107,10 @@ describe "User class" do
     end
 
     it 'is able to calculate net expenditures while trip is in progress' do
-      trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
-                                 rating: 5, cost: 5 )
-      trip2 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: Time.parse("2016-08-09"),
-                                  rating: 5, cost: 10 )
-      trip3 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: nil,
-                                  rating: nil, cost: nil )
 
       @user.add_trip(trip1)
       @user.add_trip(trip2)
-      @user.add_trip(trip3)
+      @user.add_trip(trip_in_progress)
 
       expect(@user.net_expenditures).must_equal 15
     end
@@ -120,19 +122,35 @@ describe "User class" do
                                   phone: "1-602-620-2330 x3723", trips: [])
     end
 
-    it 'calculates the total time spent by user on all trips' do
-      trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+    let (:trip1) {
+      RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-09"),
                                  rating: 5, cost: 5 )
-      trip2 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
+    }
+
+    let (:trip2) {
+      RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
                                   start_time: Time.parse("2016-08-08"),
                                   end_time: Time.parse("2016-08-09"),
                                   rating: 5, cost: 10 )
-      trip3 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
+    }
+
+    let (:trip3) {
+      RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
                                   start_time: Time.parse("2016-08-08"),
                                   end_time: Time.parse("2016-08-09"),
                                   rating: 5, cost: 7 )
+    }
+
+    let (:trip_in_progress) {
+      RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
+                          start_time: Time.parse("2016-08-08"),
+                          end_time: nil,
+                          rating: nil, cost: nil )
+    }
+
+    it 'calculates the total time spent by user on all trips' do
       @user.add_trip(trip1)
       @user.add_trip(trip2)
       @user.add_trip(trip3)
@@ -145,20 +163,8 @@ describe "User class" do
     end
 
     it 'can calculate total time spent while trip is in progress' do
-      trip1 = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
-                                 rating: 5, cost: 5 )
-      trip2 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: nil,
-                                  rating: nil, cost: nil )
-      trip3 = RideShare::Trip.new(id: 3, driver: 6, passenger: @user,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: Time.parse("2016-08-09"),
-                                  rating: 5, cost: 7 )
       @user.add_trip(trip1)
-      @user.add_trip(trip2)
+      @user.add_trip(trip_in_progress)
       @user.add_trip(trip3)
 
       expect(@user.total_time_spent).must_equal 24*60*60*2
