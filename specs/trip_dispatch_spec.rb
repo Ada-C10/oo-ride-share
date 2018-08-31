@@ -92,7 +92,7 @@ describe "TripDispatcher class" do
   describe "User & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE)
+                                                  TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "accurately loads passenger information into passengers array" do

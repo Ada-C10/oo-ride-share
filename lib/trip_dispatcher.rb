@@ -1,6 +1,6 @@
 require 'csv'
 require 'time'
-require 'pry'
+
 require_relative 'user'
 require_relative 'trip'
 require_relative 'driver'
@@ -62,6 +62,7 @@ module RideShare
         return trips
       end
 
+
       def load_drivers(filename)
         drivers = []
         driver_data = CSV.open(filename, 'r', headers: true, header_converters: :symbol)
@@ -72,7 +73,6 @@ module RideShare
           parsed_driver = {
             id: raw_driver[0].to_i,
             vin: raw_driver[1],
-            #trips: user.trips,
             name: user_with_same_id.name,
             phone_number: user_with_same_id.phone_number,
             status: raw_driver[2].to_sym
@@ -80,26 +80,23 @@ module RideShare
 
           driver = Driver.new(parsed_driver)
           drivers << driver
-
-          # @passengers.each do |passenger|
-          #   if passenger.id == user_with_same_id
-          #     @passengers.delete_at(index(passenger))
-          #   end
-          # end
-
         end
+
         return drivers
       end
+
 
       def find_passenger(id)
         check_id(id)
         return @passengers.find { |passenger| passenger.id == id }
       end
 
+
       def find_driver(id)
         check_id(id)
         return @drivers.find { |driver| driver.id == id }
       end
+
 
       def inspect
         return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
