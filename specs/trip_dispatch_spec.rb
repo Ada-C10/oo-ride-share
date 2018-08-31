@@ -46,7 +46,7 @@ describe "TripDispatcher class" do
 
   describe "find_user method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -100,7 +100,7 @@ describe "TripDispatcher class" do
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
-        
+
         expect(driver.driven_trips).must_include trip
       end
     end
@@ -129,4 +129,41 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+  describe "request_trip" do
+
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+    end
+
+    it "returns an instance of trip" do
+      expect (@dispatcher.request_trip(1)).must_be_instance_of Trip
+    end
+
+    it "intializes the trip with cost, rating and end time set as nil" do
+      trip = @dispatcher.request_trip(1)
+
+      expect(trip.cost).must_be nil
+      expect(trip.rating).must_be nil
+      expect(trip.end_time).must_be nil
+    end
+
+    it "passenger is user" do
+      trip = @dispatcher.request_trip(1)
+      expect(trip.passenger).must_be_instance_of RideShare::User
+    end
+
+    it "finds first driver with 'available' status" do
+      trip = @dispatcher.request_trip(1)
+      expect(trip.driver).must_be_instance_of RideShare::Driver
+    end
+
+    it "adds trip to @trips" do
+      length = @dispatcher.trips.length
+      trip = @dispatcher.request_trip(1)
+      expect(@dispatcher.trips.length).must_equal (length + 1)
+    end
+
+  end
+
 end

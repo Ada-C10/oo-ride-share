@@ -100,8 +100,12 @@ module RideShare
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
       #{trips.count} trips, \
-      # {drivers.count} drivers, \
+      #{drivers.count} drivers, \
       #{passengers.count} passengers>"
+    end
+
+    def request_trip(user_id)
+
     end
 
     private
@@ -109,5 +113,6 @@ module RideShare
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
+
   end
 end
