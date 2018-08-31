@@ -149,17 +149,17 @@ module RideShare
 end
 
 
-pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
-driver_1 = RideShare::Driver.new(id: 3, name: "Stella", vin: "12345678912345678", status: :AVAILABLE)
-driver_2 = RideShare::Driver.new(id: 4, name: "Bernie", vin: "12345678912345679", status: :AVAILABLE)
-
-trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: "2016-08-08T12:14:00+00:00", end_time: "2018-05-20T12:14:00+00:00",  cost: 55, rating: 5, driver: driver_1})
-
-
-# ap pass
-ride = RideShare::TripDispatcher.new
-ap ride.request_trip
-
+# pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+# driver_1 = RideShare::Driver.new(id: 3, name: "Stella", vin: "12345678912345678", status: :AVAILABLE)
+# driver_2 = RideShare::Driver.new(id: 4, name: "Bernie", vin: "12345678912345679", status: :AVAILABLE)
+#
+# trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: "2016-08-08T12:14:00+00:00", end_time: "2018-05-20T12:14:00+00:00",  cost: 55, rating: 5, driver: driver_1})
+#
+#
+# # ap pass
+# ride = RideShare::TripDispatcher.new
+# ap ride.request_trip
+#
 
 
 # TODO:
@@ -167,7 +167,7 @@ ap ride.request_trip
 # edge case tests? thorough testing
 # write conditionals for nil values)
 # Refactor/clean up tabs/take out test code
-# Comprehension
+# Comprehension questions
 
 # ap trip.start_time.class
 # ap RideShare::TripDispatcher.trips
