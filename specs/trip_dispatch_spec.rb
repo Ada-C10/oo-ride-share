@@ -135,17 +135,24 @@ describe "TripDispatcher class" do
       expect(dispatcher.trips.last).must_be_instance_of RideShare::Trip
     end
 
-    it "updates trip list for passenger" do
+    it "Selects first available driver, and then updates trip list for passenger" do
       old_number_of_trips = (dispatcher.find_passenger(5).trips).length
       new_trip = dispatcher.request_trip(5)
       expect((dispatcher.find_passenger(5).trips).length).must_equal (old_number_of_trips + 1)
     end
 
     it "updates trip list for driver" do
+
+      old_number_of_driven_trips = (dispatcher.find_driver(8).trips).length
+      new_trip = dispatcher.request_trip(1)
+      expect((dispatcher.find_driver(8).trips).length).must_equal (old_number_of_driven_trips)
+
+      old_number_of_driven_trips = (dispatcher.find_driver(8).trips).length
+      new_trip = dispatcher.request_trip(1)
+      expect((dispatcher.find_driver(8).trips).length).must_equal (old_number_of_driven_trips + 1)
+
     end
 
-    it "selects first available driver" do
-    end
 
     it "correctly handles NO AVILABLE DRIVERS situation" do
       #not required
@@ -153,12 +160,15 @@ describe "TripDispatcher class" do
     end
 
     it "never has driver and passenger with same id" do
+      new_trip = dispatcher.request_trip(5)
+      expect(new_trip.driver).must_equal 8
+
     end
 
-    # it "sets driver's status to :UNAVAILABLE" do
-    #   dispatcher.request_trip(5)
-    #   expect()
-    # end
+    it "sets driver's status to :UNAVAILABLE" do
+      new_trip = dispatcher.request_trip(1)
+      expect((dispatcher.find_driver(5)).status).must_equal :UNAVAILABLE
+    end
 
     it "Wave 1&2 code ignores all in-progress trips (end time = nil)" do
     end
