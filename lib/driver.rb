@@ -42,7 +42,9 @@ module RideShare
     def total_revenue
       total = 0.0
       @driven_trips.each do |trip|
-        total += 0.8 * (trip.cost - 1.65)
+        if trip.end_time != nil
+          total += 0.8 * (trip.cost - 1.65)
+        end
       end
 
       return total
@@ -51,7 +53,9 @@ module RideShare
     def net_expenditures
 
       total_expense = @trips.reduce(0) do |sum, trip|
-        sum + trip.cost
+        if trip.end_time != nil
+          sum + trip.cost
+        end
       end
 
       return total_revenue - total_expense

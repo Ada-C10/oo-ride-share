@@ -129,6 +129,8 @@ describe "TripDispatcher class" do
 
       expect(trip).must_be_instance_of RideShare::Trip
 
+      expect(dispatcher.trips).must_include trip
+
       expect(trip.passenger).must_equal dispatcher.trips[0].passenger
 
       expect(trip.end_time).must_equal nil

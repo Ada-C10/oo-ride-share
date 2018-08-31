@@ -8,7 +8,7 @@ module RideShare
       end
 
       @id = input[:id]
-      
+
       @name = input[:name]
       @phone_number = input[:phone]
       @trips = input[:trips].nil? ? [] : input[:trips]
@@ -21,14 +21,18 @@ module RideShare
     def total_time_spent
       time = 0
       @trips.each do |trip|
-        time += trip.calculate_duration
+        if trip.end_time != nil
+          time += trip.calculate_duration
+        end
       end
     end
 
     def net_expenditures
 
       @trips.reduce(0) do |sum, trip|
-        sum + trip.cost
+        if trip.end_time != nil
+          sum + trip.cost
+        end
       end
       return sum
 

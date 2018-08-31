@@ -116,15 +116,15 @@ module RideShare
     def request_trip(user_id)
 
       passenger = find_passenger(user_id)
-      driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+      this_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
 
       start_time = Time.now
-    id = @trips.length + 1
+      id = @trips.length + 1
 
       trip_hash = {
         id: id,
         passenger: passenger,
-        driver: driver,
+        driver: this_driver,
         start_time: start_time,
         end_time: nil,
         cost: nil,
@@ -134,13 +134,13 @@ module RideShare
       new_trip = RideShare::Trip.new(trip_hash)
 
       #make driver unavailable first
-      driver.update_status
+      this_driver.update_status
 
       passenger.add_trip(new_trip)
-      driver.add_driven_trip(new_trip)
+      this_driver.add_driven_trip(new_trip)
       @trips << new_trip
 
-    return new_trip
+      return new_trip
     end
 
 
