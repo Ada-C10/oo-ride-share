@@ -78,13 +78,17 @@ module RideShare
       if self.driven_trips.length < 1
         return average_rating = 0
       end
-      sum_ratings = self.driven_trips.reduce(0){|memo, trip| memo + trip.rating}
-      average_rating = (sum_ratings/self.driven_trips.length).to_f.round(2)
+
+      ratings_without_nil = self.driven_trips.select{|trip| trip.rating != nil}
+
+      sum_ratings = ratings_without_nil.reduce(0){|memo, trip| memo + trip.rating}
+
+      average_rating = (sum_ratings/ratings_without_nil.length).to_f.round(2)
       return average_rating
     end
 
     def total_revenue
-      #exclude costs that == nil
+
       completed_trips = self.driven_trips.select{|trip| trip.end_time != nil}
 
       sum_costs = completed_trips.reduce(0){|memo, trip| memo + trip.cost}
@@ -96,7 +100,7 @@ module RideShare
     end
 
     def net_expenditures
-      #exclude costs that == nil
+
       completed_trips_as_passenger = self.trips.select{|trip| trip.end_time != nil}
 
       spent_as_passenger = completed_trips_as_passenger.reduce(0){|memo, trip| memo + trip.cost}

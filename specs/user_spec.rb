@@ -39,20 +39,17 @@ describe "User class" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
 
+      # 1,2,1,2018-05-25 11:52:40 -0700,2018-05-25 12:25:00 -0700,10,5
+
       # @user = RideShare::User.new(id: 9, name: "Merl Glover III",
       #                             phone: "1-602-620-2330 x3723", trips: [])
       #
-      # trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-      #                            start_time: Time.parse("2018-05-25 11:52:40 -0700"),
-      #                            end_time: Time.parse("2018-05-25 12:25:00 -0700"),cost: 5.0,
-      #                            rating: 5)
-      # second_trip = RideShare::Trip.new(id: 8, driver: nil,
-      #                            passenger:  @user,
-      #                            start_time: Time.parse("2018-07-23 04:39:00 -0700"),
-      #                            end_time: Time.parse("2018-07-23 04:55:00 -0700"),cost: 3.0,
-      #                            rating: 5)
-      # @user.add_trip(trip)
-      # @user.add_trip(second_trip)
+      trip = RideShare::Trip.new(id: 6, driver: @dispatcher.drivers[0], passenger: @dispatcher.passengers[0], start_time: Time.parse("2018-05-25 11:52:40 -0700"), end_time: Time.parse("2018-05-25 12:25:00 -0700"),cost: 5.0, rating: 5)
+
+      second_trip = RideShare::Trip.new(id: 7, driver: @dispatcher.drivers[0], passenger: @dispatcher.passengers[0], start_time: Time.parse("2018-07-23 04:39:00 -0700"), end_time: Time.parse("2018-07-23 04:55:00 -0700"),cost: 3.0, rating: 5)
+
+      @dispatcher.passengers[0].add_trip(trip)
+      @dispatcher.passengers[0].add_trip(second_trip)
 
     end
 
@@ -70,17 +67,19 @@ describe "User class" do
 
     it "calculates total expenditure of all rides for a given user except for in-progress trips" do
 
-      expect(@dispatcher.passengers[0].net_expenditures).must_equal 10.00
-      expect(@dispatcher.passengers[0].trips.length).must_equal 1
+      expect(@dispatcher.passengers[0].net_expenditures).must_equal 18.00
+      expect(@dispatcher.passengers[0].trips.length).must_equal 3
 
       @dispatcher.request_trip(1)
 
-      expect(@dispatcher.passengers[0].trips.length).must_equal 2
-      expect(@dispatcher.passengers[0].net_expenditures).must_equal 10.00
+      expect(@dispatcher.passengers[0].trips.length).must_equal 4
+      expect(@dispatcher.passengers[0].net_expenditures).must_equal 18.00
     end
 
     it "will return the total amount of time that user has spent on their trips" do
-      expect(@dispatcher.passengers[0].total_time_spent).must_equal 1940.0
+      expect(@dispatcher.passengers[0].total_time_spent).must_equal 4840.0
+      @dispatcher.request_trip(1)
+      expect(@dispatcher.passengers[0].total_time_spent).must_equal 4840.0
     end
 
   end

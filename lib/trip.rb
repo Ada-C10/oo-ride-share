@@ -35,8 +35,7 @@ module RideShare
     end
 
     def duration
-#unless or if to determine if end time is nil
-      return @end_time - @start_time
+        return @end_time - @start_time
     end
 
   end
