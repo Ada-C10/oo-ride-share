@@ -24,6 +24,7 @@ module RideShare
       @cost = input[:cost]
       @rating = input[:rating]
       @driver_id = input[:driver_id]
+      @driver = input[:driver]
 
 
       if @rating > 5 || @rating < 1
@@ -36,10 +37,9 @@ module RideShare
       end
     end
 
-    # def driver
-    #   binding.pry # check how to find driver that has this driver_id
-    #   return RideShare::TripDispatcher.@drivers.find { |driver| driver.id == @driver_id }
-    # end
+    def driver
+      return @driver
+    end
 
     def inspect
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +

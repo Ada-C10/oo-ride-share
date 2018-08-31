@@ -14,8 +14,8 @@ module RideShare
                    trip_file = 'specs/test_data/trips_test.csv',
                     driver_file = 'specs/test_data/drivers_test.csv')
       @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
       @drivers = load_drivers(driver_file)
+      @trips = load_trips(trip_file)
     end
 
     # creates instances of users and saves them in @passangers
@@ -71,8 +71,10 @@ module RideShare
           end_time: Time.parse(raw_trip[:end_time]),
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i,
-          driver_id: raw_trip[:driver_id].to_i
+          driver_id: raw_trip[:driver_id].to_i,
+          driver: find_driver(raw_trip[:driver_id].to_i)
         }
+
         trip = Trip.new(parsed_trip)
         # it adds each trip to its corresponding instance of passanger
         # every instance of a passanger is saved in @passagers
