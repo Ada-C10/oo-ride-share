@@ -142,7 +142,15 @@ describe "TripDispatcher class" do
         expect(@dispatcher.trips.find { |t| t.id == @trip.id }).wont_be_nil
       end
 
-      xit "What happens if you try to request a trip when there are no AVAILABLE drivers?" do
+      it "What happens if you try to request a trip when there are no AVAILABLE drivers?" do
+
+          @dispatcher.drivers.each do |driver|
+            if driver.status == :AVAILABLE
+              driver.status = :UNAVAILABLE
+            end
+          end
+
+        expect{ @trip = @dispatcher.request_trip(3) }.must_raise StandardError
       end
 
     end

@@ -8,7 +8,7 @@ require_relative 'driver'
 
 module RideShare
   class TripDispatcher
-    attr_reader :drivers, :passengers, :trips
+    attr_reader :passengers, :trips, :drivers 
 
     def initialize(user_file = 'support/users.csv', trip_file = 'support/trips.csv', driver_file = 'support/trips.csv')
       @passengers = load_users(user_file)
@@ -80,7 +80,6 @@ module RideShare
           temp_passanger = find_passenger(line[0].to_i)
           driver_data[:name] = temp_passanger.name
 
-
           driver = Driver.new(driver_data)
           drivers << driver
         end
@@ -104,34 +103,39 @@ module RideShare
 
         # find user_id from the instance of a passanger
         passenger = find_passenger(user_id)
+
         available_driver = @drivers.find { |driver| driver.status == :AVAILABLE && driver.id != passenger.id }
         # make an exception to let the user know there are no available drivers
-        # Trip detail end_time, cost adn rating set to nil
-        trip = {
-          id: rand(0..150),
-          driver: available_driver,
-          passenger: passenger,
-          start_time: Time.now,
-          end_time: nil,
-          cost: nil,
-          rating: nil
-        }
-        # creating an instance of trip
-        new_trip = Trip.new(trip)
-        # Adding the new trio to the collection of trips for passanger
-        passenger.add_trip(new_trip)
-        # adding to the collection of trips for driver
-        available_driver.add_driven_trip(new_trip)
-        # adding to the collection of trips
-        trips << new_trip
+        if available_driver == nil
+          raise StandardError.new("There are no avaiable drivers")
+        end
 
-        return new_trip
-      end
+      # Trip detail end_time, cost adn rating set to nil
+      trip = {
+        id: rand(0..150),
+        driver: available_driver,
+        passenger: passenger,
+        start_time: Time.now,
+        end_time: nil,
+        cost: nil,
+        rating: nil
+      }
+      # creating an instance of trip
+      new_trip = Trip.new(trip)
+      # Adding the new trio to the collection of trips for passanger
+      passenger.add_trip(new_trip)
+      # adding to the collection of trips for driver
+      available_driver.add_driven_trip(new_trip)
+      # adding to the collection of trips
+      trips << new_trip
 
-      private
+      return new_trip
+    end
 
-      def check_id(id)
-        raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
-      end
+    private
+
+    def check_id(id)
+      raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
   end
+end

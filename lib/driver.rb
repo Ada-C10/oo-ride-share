@@ -3,7 +3,9 @@ require 'pry'
 
 module RideShare
   class Driver < User
-    attr_reader :vin, :status, :driven_trips
+    attr_reader :vin, :driven_trips
+    attr_accessor :status
+
     VALID_STATUSES = [:AVAILABLE, :UNAVAILABLE]
 
     def initialize(input)
@@ -17,7 +19,7 @@ module RideShare
      if input[:vin].length != 17
             raise ArgumentError
           end
-          
+
       super (input)
       @vin = input[:vin]
       @status = input[:status]
