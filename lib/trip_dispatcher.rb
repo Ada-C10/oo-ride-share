@@ -8,7 +8,7 @@ require_relative 'driver'
 
 module RideShare
   class TripDispatcher
-    attr_reader :passengers, :trips, :drivers 
+    attr_reader :passengers, :trips, :drivers
 
     def initialize(user_file = 'support/users.csv', trip_file = 'support/trips.csv', driver_file = 'support/trips.csv')
       @passengers = load_users(user_file)
@@ -67,7 +67,6 @@ module RideShare
       end
 
 
-
       def load_drivers(filename)
         drivers = []
 
@@ -110,32 +109,32 @@ module RideShare
           raise StandardError.new("There are no avaiable drivers")
         end
 
-      # Trip detail end_time, cost adn rating set to nil
-      trip = {
-        id: rand(0..150),
-        driver: available_driver,
-        passenger: passenger,
-        start_time: Time.now,
-        end_time: nil,
-        cost: nil,
-        rating: nil
-      }
-      # creating an instance of trip
-      new_trip = Trip.new(trip)
-      # Adding the new trio to the collection of trips for passanger
-      passenger.add_trip(new_trip)
-      # adding to the collection of trips for driver
-      available_driver.add_driven_trip(new_trip)
-      # adding to the collection of trips
-      trips << new_trip
+        # Trip detail end_time, cost adn rating set to nil
+        trip = {
+          id: rand(0..150),
+          driver: available_driver,
+          passenger: passenger,
+          start_time: Time.now,
+          end_time: nil,
+          cost: nil,
+          rating: nil
+        }
+        # creating an instance of trip
+        new_trip = Trip.new(trip)
+        # Adding the new trio to the collection of trips for passanger
+        passenger.add_trip(new_trip)
+        # adding to the collection of trips for driver
+        available_driver.add_driven_trip(new_trip)
+        # adding to the collection of trips
+        trips << new_trip
 
-      return new_trip
-    end
+        return new_trip
+      end
 
-    private
+      private
 
-    def check_id(id)
-      raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
+      def check_id(id)
+        raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
+      end
     end
   end
-end
