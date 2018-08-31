@@ -136,6 +136,18 @@ describe "TripDispatcher class" do
 
       expect(passenger).wont_equal driver
     end
+
+    it "will ensure that the driver who is selected has no trips" do
+      new_trip = @dispatcher.request_trip(3)
+      driver = new_trip.driver
+
+      expect(driver.trips.length).must_equal 1
+    end
+
+    it "will ensure that the driver selected has the oldest trip given all drivers have trips" do
+
+    end
+
   end
 
   describe "In Progress Trips" do
