@@ -4,6 +4,7 @@ require 'pry'
 require_relative 'user'
 require_relative 'trip'
 require_relative 'driver'
+
 module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
@@ -57,6 +58,7 @@ module RideShare
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
         trips << trip
+
       end
 
       return trips
@@ -79,18 +81,20 @@ module RideShare
 
           driver = Driver.new(parsed_trip)
 
-        # find them and replace the `User` object with a `Driver` object. You should also be loading the `driven_trips` for each `Driver` at this stage.
-          driver = @passengers.find do |user|
-            user == driver
-            drivers << driver
-          end
+          # find them and replace the `User` object with a `Driver` object. You should also be loading the `driven_trips` for each `Driver` at this stage.
+          # driver = @passengers.find do |user|
+          #   user == driver
+
+            binding.pry
+          # end
           # add to drivers array
           # passenger.add_driver(driver)
-          #
-        
+          # drivers << driver
+          # end
         end
-      return drivers
-    end
+        return @trips
+
+      end
 
       def find_driver(id)
         check_id(id)
