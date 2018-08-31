@@ -98,11 +98,26 @@ describe "Driver class" do
 
 
   end
-  #
-  # describe "total_revenue" do
-  #   # You add tests for the total_revenue method
-  # end
-  #
+
+  describe "total_revenue" do
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 date: Time.parse("2016-08-08"), rating: 5, cost: 8.0)
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                                             date: Time.parse("2016-08-08"), rating: 1, cost: 2)
+      @driver.add_driven_trip(trip)
+      @driver.add_driven_trip(trip2)
+    end
+
+    it "returns total revenue" do
+      expect(@driver.total_revenue).must_be_close_to 8.37
+
+    # You add tests for the total_revenue method
+  end
+end
+
   # describe "net_expenditures" do
   #   # You add tests for the net_expenditures method
   # end

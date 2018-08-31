@@ -46,5 +46,18 @@ module RideShare
     end
 
 
+def total_revenue
+total_revenue = 0
+@driven_trips.each do |trip|
+
+total_revenue += (trip.cost - 1.65)
+end
+
+  #drivers total revenue across all trips
+  #each driver cost - $1.65
+  #then calculate 80% of remainder
+return (total_revenue/ 0.8).round(2)
+end
+
   end
 end
