@@ -27,15 +27,16 @@ module RideShare
 
     def net_expenditures
       total = @trips.reduce(0) { |sum, trip| sum + trip.cost}
-      
+
     return total
     end
   end
 
 
   class Driver < User
-    attr_reader :vehicle_id, :driven_trips, :status, :id, :name, :phone_number, :trips, :driven_trips
-    # attr_accessor :name, :trips
+    attr_reader :vehicle_id, :driven_trips, :id, :name, :phone_number, :trips, :driven_trips
+
+    attr_accessor :status
 
 
     def initialize(input, status = :UNAVAILABLE)

@@ -122,31 +122,34 @@ module RideShare
 
         id: trips.last.id + 1,
         passenger: find_passenger(user_id),
-        driver: find_available_driver #drivers cannot drive themselves,
+        driver: find_available_driver(user_id),
         start_time: Time.now,
         end_time: nil,
         cost: nil,
         rating: nil
       }
+      requested_trip = Trip.new(new_trip)
 
-      @trips << Trip.new(new_trip)
-=beginadd trip to driver/add trip to passenger
-      new_trip.driver.add_driven_trip(new_trip)
-      new_trip.passenger.add_trip(trip)
+      requested_trip.driver.add_driven_trip(requested_trip)
 
-=end
+      requested_trip.passenger.add_trip(requested_trip)
+      @trips << requested_trip
+
+
+
       return new_trip
 
     end
 
-    def find_available_driver
-      #what happens with no available drivers
-      #drivers cannot drive themselves
-      driver = @drivers.each do |driver|
-        if driver.status == :AVAILABLE
+    def find_available_driver(user_id)
+
+      @drivers.each do |driver|
+        if (driver.status == :AVAILABLE) && (driver.id != user_id)
+          driver.status = :UNAVAILABLE
           return driver
         end
       end
+      raise ArgumentError, "There are no available drivers"
     end
 
 

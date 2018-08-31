@@ -22,7 +22,7 @@ describe "TripDispatcher class" do
 
         expect(dispatcher.trips).must_be_kind_of Array
         expect(dispatcher.passengers).must_be_kind_of Array
-        # expect(dispatcher.drivers).must_be_kind_of Array
+        expect(dispatcher.drivers).must_be_kind_of Array
       end
     end
 
@@ -119,7 +119,13 @@ describe "TripDispatcher class" do
 
         describe "request_trip method" do
           before do
-            @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE,  DRIVER_TEST_FILE)
+            @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+
+            @before_trips = @dispatcher.drivers[1].driven_trips.length
+
+            @before_new_trip_driver = @dispatcher.drivers[1].status
+
+            @before_passenger_trips = @dispatcher.passengers[0].trips.length
 
             @dispatcher.request_trip(1)
 
@@ -130,11 +136,11 @@ describe "TripDispatcher class" do
           end
 
           it "assigns first :AVAILABLE driver to the ride" do
-            expect(@dispatcher.trips.last. driver.id).must_equal 5
+            expect(@dispatcher.trips.last.driver.id).must_equal 5
           end
 
           it "assigns an available driver to the ride" do
-            expect(@dispatcher.trips.last.driver.status).must_equal :AVAILABLE
+            expect(@before_new_trip_driver).must_equal :AVAILABLE
           end
 
           it "should start time now" do
@@ -148,5 +154,30 @@ describe "TripDispatcher class" do
           it "should have a rating of nil" do
             expect(@dispatcher.trips.last.rating).must_equal nil
           end
+
+          # check if requested trip was added to driver instance
+          it "adds new instance of requested trip to driver's driven_trips array" do
+
+            expect(@dispatcher.drivers[1].driven_trips.length).must_equal (@before_trips + 1)
+
+            expect(@dispatcher.drivers[1].driven_trips.last.passenger.id).must_equal 1
+          end
+
+          it "adds new instance of requested trip to passengers's trips array" do
+
+            expect(@dispatcher.passengers[0].trips.length).must_equal (@before_passenger_trips + 1)
+
+            expect(@dispatcher.passengers[0].trips.last.driver.id).must_equal 5
+          end
+
+          it "changes drivers status to unavailble after assigning to requested trip" do
+
+          expect(@dispatcher.drivers[1].status).must_equal :UNAVAILABLE
+        end
+          #check to make sure chosen driver for requested trip is unavailable
+
+          # #driver can't drive self
+
+
         end
       end
