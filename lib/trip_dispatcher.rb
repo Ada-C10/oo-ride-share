@@ -77,19 +77,21 @@ module RideShare
 
         driver_data.each do |raw_driver|
 
-          # driver_name = find_passenger(raw_driver[:id].to_i).name
-          # driver_phone = find_passenger(raw_driver[:id].to_i).phone_number
+          driver_name = find_passenger(raw_driver[:id].to_i).name
+          driver_phone = find_passenger(raw_driver[:id].to_i).phone_number
 
           parsed_trip = {
             id: raw_driver[:id].to_i, #trip ID
             vin: raw_driver[:vin],
-            status: raw_driver[:status],
+            status: raw_driver[:status].to_sym,
+            name: driver_name,
+            phone: driver_phone
 
           }
 
 
           drivers << Driver.new(parsed_trip)
-      #
+      # binding.pry
       #     # find them and replace the `User` object with a `Driver` object. You should also be loading the `driven_trips` for each `Driver` at this stage.
       #     # driver = @passengers.find do |user|
       #     #   user == driver
