@@ -4,7 +4,7 @@ require 'time'
 
 module RideShare
   class Trip
-    attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :driver_id
+    attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :driver_id, :driver
 
     def initialize(input)
       @id = input[:id]

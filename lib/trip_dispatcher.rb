@@ -8,7 +8,7 @@ require_relative 'driver'
 
 module RideShare
   class TripDispatcher
-    attr_reader :drivers, :passengers, :trips
+    attr_reader :drivers, :passengers, :trips, :driver
 
     def initialize(user_file = 'specs/test_data/users_test.csv',
                    trip_file = 'specs/test_data/trips_test.csv',
@@ -74,7 +74,6 @@ module RideShare
           driver_id: raw_trip[:driver_id].to_i,
           driver: find_driver(raw_trip[:driver_id].to_i)
         }
-
         trip = Trip.new(parsed_trip)
         # it adds each trip to its corresponding instance of passanger
         # every instance of a passanger is saved in @passagers
