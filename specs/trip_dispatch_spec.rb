@@ -82,7 +82,7 @@ describe "TripDispatcher class" do
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
+        expect(driver.driven_trips).must_include trip
       end
     end
   end
@@ -121,14 +121,14 @@ describe "TripDispatcher class" do
       # binding.pry
     end
     it "increases Driver-@driven_trips" do
-      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-        vin: "1C9EVBRM0YBC564DZ",
-        phone: '111-111-1111',
-        status: :AVAILABLE)
-      before = @driver.driven_trips.length
-      trip = @dispatcher.request_trip()
+      # @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+      #   vin: "1C9EVBRM0YBC564DZ",
+      #   phone: '111-111-1111',
+      #   status: :AVAILABLE)
+      before = RideShare::Driver.driven_trips.length
+      trip = @dispatcher.request_trip(1)
       after = before + 1
-      expect(@driver.driven_trips.length).must_equal after
+      expect(@driven_trips.length).must_equal after
 
     end
 

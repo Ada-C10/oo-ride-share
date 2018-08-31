@@ -55,9 +55,7 @@ module RideShare
             driver: driver
           }
 
-          trip = Trip.new(parsed_trip)
-          passenger.add_trip(trip)
-          trips << trip
+          create_trip(parsed_trip, driver, passenger, trips)
         end
 
         return trips
@@ -98,27 +96,32 @@ module RideShare
         return @drivers.find { |driver| driver.id == id }
       end
 
+      def create_trip(trip_data, driver, passenger, trip_list)
+        trip = Trip.new(trip_data)
+        passenger.add_trip(trip)
+        driver.add_driven_trip(trip)
+        trip_list << trip
+        return trip
+      end
+
 
       def request_trip(user_id)
         available_drivers = @drivers.select { |driver| driver.status == :AVAILABLE}
 
+        passenger = find_passenger(user_id)
+        driver = available_drivers.first
+
         trip_data = {
           start_time: Time.now,
           end_time: nil,
-          passenger: find_passenger(user_id),
-          driver: available_drivers.first,
+          passenger: passenger,
+          driver: driver,
           cost: nil,
           rating: nil
         }
 
-        new_trip = RideShare::Trip.new(trip_data)
-
         trip_data[:driver].status = :UNAVAILABLE
-        # binding.pry
-
-        trip_data[:driver].add_driven_trip(new_trip)
-        trip_data[:passenger].add_trip(new_trip)
-        @trips << new_trip
+        new_trip = create_trip(trip_data, driver, passenger, @trips)
 
         return new_trip
       end
