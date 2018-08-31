@@ -135,6 +135,13 @@ describe "TripDispatcher class" do
       expect {@dispatcher.request_trip(40000)}.must_raise ArgumentError
     end
 
+    it "returns a driver who is AVAILABLE" do
+      expect(@dispatcher.request_trip(1).driver.status).must_equal :AVAILABLE
+    end
+
+    it "returns a driver who is AVAILABLE" do
+      expect{}(@dispatcher.request_trip(1).driver.status).must_raise ArgumentError
+    end
 
 
     # it "will add trip to trips array" do
