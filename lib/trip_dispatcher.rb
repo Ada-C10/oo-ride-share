@@ -15,7 +15,9 @@ module RideShare
 
       @passengers = load_users(user_file)
       @drivers = load_drivers(driver_file)
+
       @trips = load_trips(trip_file)
+
     end
 
 
@@ -53,10 +55,13 @@ module RideShare
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i,
           driver: driver
+
         }
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
+        driver.add_trip(trip)
+        
         trips << trip
       end
 

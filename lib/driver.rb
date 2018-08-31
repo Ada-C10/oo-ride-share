@@ -13,6 +13,7 @@ module RideShare
 
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
 
+
       raise ArgumentError.new() unless [:UNAVAILABLE, :AVAILABLE].include?(@status)
 
       raise ArgumentError.new() unless @vehicle_id.length == 17
@@ -37,32 +38,28 @@ module RideShare
       return rating / @driven_trips.length
 
     end
-#This method calculates that driver's total revenue across all their trips. Each driver gets 80% of the trip cost after a fee of $1.65 per trip is subtracted.
+
+    def total_revenue
+      total = 0.0
+      @driven_trips.each do |trip|
+        total += 0.8 * (trip.cost - 1.65)
+      end
+
+      return total
+    end
+
+    def net_expenditures
+
+      total_expense = @trips.reduce(0) do |sum, trip|
+        sum + trip.cost
+      end
+
+      return total_revenue - total_expense
+
+      # return  total_revenue - super
+    end
 
 
-def total_revenue
-  total = 0.0
-  @driven_trips.each do |trip|
-    total += 0.8 * (trip.cost - 1.65)
-
-  end
-  return total
-
-
-end
-
-
-
-
-
-
-    # def add_driven_trip
-#   @trips.each do |trip|
-#     if user.id == trip[1]
-#       @driven_trips << trip
-#     end
-#   end
-# end
 
   end
 end

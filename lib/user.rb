@@ -27,7 +27,7 @@ module RideShare
     def net_expenditures
 
       @trips.reduce(0) do |sum, trip|
-        sum + trip[:cost]
+        sum + trip.cost
       end
       return sum
 
