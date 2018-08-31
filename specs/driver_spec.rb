@@ -2,13 +2,13 @@ require_relative 'spec_helper'
 require 'pry'
 describe "Driver class" do
 
-    describe "Driver instantiation" do
-      before do
-        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-          vin: "1C9EVBRM0YBC564DZ",
-          phone: '111-111-1111',
-          status: :AVAILABLE)
-    end
+  describe "Driver instantiation" do
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+        vin: "1C9EVBRM0YBC564DZ",
+        phone: '111-111-1111',
+        status: :AVAILABLE)
+      end
 
       it "is an instance of Driver" do
         expect(@driver).must_be_kind_of RideShare::Driver
@@ -40,10 +40,10 @@ describe "Driver class" do
       end
     end
 
-    xdescribe "add_driven_trip method" do
+    describe "add_driven_trip method" do
       before do
         pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
-        @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
+        @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :AVAILABLE)
         @trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: pass, start_time: Time.parse("2016-08-08"),
         end_time: Time.parse("2018-08-09"), rating: 5)
       end
@@ -54,18 +54,17 @@ describe "Driver class" do
 
       it "increases the trip count by one" do
         previous = @driver.driven_trips.length
+        puts previous
         @driver.add_driven_trip(@trip)
+        puts @driver.driven_trips.length
         expect(@driver.driven_trips.length).must_equal previous + 1
       end
     end
 
     describe "average_rating method" do
       before do
-        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                        vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                   start_time: Time.parse("2016-08-08"),
-                                   end_time: Time.parse("2016-08-08"), rating: 5)
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+        trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse("2016-08-08"), end_time: Time.parse("2016-08-08"), rating: 5)
         @driver.add_driven_trip(trip)
       end
 
@@ -80,16 +79,12 @@ describe "Driver class" do
       end
 
       it "returns zero if no driven trips" do
-        driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                       vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+        driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
         expect(driver.average_rating).must_equal 0
       end
 
       it "correctly calculates the average rating" do
-        trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                    start_time: Time.parse("2016-08-08"),
-                                    end_time: Time.parse("2016-08-09"),
-                                    rating: 1)
+        trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-09"),rating: 1)
         @driver.add_driven_trip(trip2)
 
         expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
@@ -98,62 +93,46 @@ describe "Driver class" do
 
     end
 
-  describe "total_revenue" do
-    before do
-      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-08"),rating: 1,cost: 5)
-      @driver.add_driven_trip(trip)
-      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: Time.parse("2016-08-09"),
-                                  rating: 5,cost: 10)
-      @driver.add_driven_trip(trip2)
-    end
-    it "correctly calculates the total revenue that's positive" do
-      expect(@driver.total_revenue).must_be_close_to 9.36, 0.01
-    end
+    describe "total_revenue" do
+      before do
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+          vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+          trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+            start_time: Time.parse("2016-08-08"),
+            end_time: Time.parse("2016-08-08"),rating: 1,cost: 5)
+            @driver.add_driven_trip(trip)
+            trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+              start_time: Time.parse("2016-08-08"),
+              end_time: Time.parse("2016-08-09"),
+              rating: 5,cost: 10)
+              @driver.add_driven_trip(trip2)
+            end
+            it "correctly calculates the total revenue that's positive" do
+              expect(@driver.total_revenue).must_be_close_to 9.36, 0.01
+          end
+        end
 
-    #   @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-    #                                   vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-    #   trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-    #                              start_time: Time.parse("2016-08-08"),
-    #                              end_time: Time.parse("2016-08-08"),rating: 1,cost: 1)
-    #   @driver.add_driven_trip(trip)
-    #   trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-    #                               start_time: Time.parse("2016-08-08"),
-    #                               end_time: Time.parse("2016-08-09"),
-    #                               rating: 5,cost: 1)
-    #   @driver.add_driven_trip(trip2)
-    # it "correctly calculates when the ride is less than $1.65" do
-    #
-    #   expect(@driver.total_revenue).must_be_close_to -1.04, 0.01
-    # end
-  end
+          describe "net_expenditures" do
+            before do
+              @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+                trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                  start_time: Time.parse("2016-08-08"),
+                  end_time: Time.parse("2016-08-08"),rating: 1,cost: 5)
+                  @driver.add_driven_trip(trip)
+                  trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil ,
+                    start_time: Time.parse("2016-08-08"),
+                    end_time: Time.parse("2016-08-09"),
+                    rating: 5,cost: 10)
+                    @driver.add_driven_trip(trip2)
+                    trip3 = RideShare::Trip.new(id: 8, driver: nil, passenger: @driver,
+                      start_time: Time.parse("2016-08-08"),
+                      end_time: Time.parse("2016-08-09"), cost: 5, rating: 5)
+                      @driver.add_trip(trip3)
+            end
+                    it "correctly calculates the net expenditure that's positive" do
+                      expect(@driver.net_expenditures.abs).must_be_close_to 4.36, 0.01
+                    end
 
-  describe "net_expenditures" do
-    before do
-      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-08"),rating: 1,cost: 5)
-      @driver.add_driven_trip(trip)
-      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil ,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: Time.parse("2016-08-09"),
-                                  rating: 5,cost: 10)
-      @driver.add_driven_trip(trip2)
-      trip3 = RideShare::Trip.new(id: 8, driver: nil, passenger: @driver,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"), cost: 5, rating: 5)
-      @driver.add_trip(trip3)
-    end
-    it "correctly calculates the net expenditure that's positive" do
-      expect(@driver.net_expenditures.abs).must_be_close_to 4.36, 0.01
-    end
-
-  end
-end
+                end
+            end

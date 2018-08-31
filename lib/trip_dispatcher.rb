@@ -100,9 +100,9 @@ module RideShare
 
       def inspect
         return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-                #{trips.count} trips, \
-                #{drivers.count} drivers, \
-                #{passengers.count} passengers>"
+        #{trips.count} trips, \
+        #{drivers.count} drivers, \
+        #{passengers.count} passengers>"
       end
 
       def available_driver
@@ -119,29 +119,22 @@ module RideShare
         available_drivers = available_drivers.sort_by{|driver| driver.driven_trips.last.end_time}
 
         return available_drivers.first
-        # return available_drivers.first
-      end
 
-        # @drivers.each do |driver|
-          # if driver.status == :AVAILABLE
-          #   return driver
-          # end
-      #   raise ArgumentError.new('There are no drivers available')
-      # end
+      end
 
       def request_trip(user_id)
         # The user ID will be supplied (this is the person requesting a trip)
         @drivers.each do |driver|
-        if driver.id == user_id && driver.status == :AVAILABLE
-          driver.status = :UNAVAILABLE
+          if driver.id == user_id && driver.status == :AVAILABLE
+            driver.status = :UNAVAILABLE
+          end
         end
-      end
 
         new_driver = self.available_driver
         new_passenger = self.find_passenger(user_id)
 
         parsed_trip = {
-          id: user_id,
+          id: (@trips.length) + 1,
           driver: new_driver,
           passenger: new_passenger,
           start_time: Time.new
@@ -154,14 +147,12 @@ module RideShare
         new_passenger.add_trip(in_progress_ride)
 
         @trips << in_progress_ride
-  # binding.pry
+
         @drivers.each do |driver|
-        if driver.id == user_id
-          driver.status = :AVAILABLE
+          if driver.id == user_id
+            driver.status = :AVAILABLE
+          end
         end
-      end
-
-
 
         return in_progress_ride
 
@@ -172,15 +163,5 @@ module RideShare
       def check_id(id)
         raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
       end
-
-
     end
   end
-
-
-
-  rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
-
-  puts driver = rideshare.request_trip(8)
-  puts rideshare.passengers[2]
-  #binding.pry

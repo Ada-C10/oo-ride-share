@@ -26,9 +26,12 @@ module RideShare
     end
 
     def add_driven_trip(driver_trip)
-      @driven_trips << driver_trip
+      if driver_trip.class != RideShare::Trip
+        raise ArgumentError.new("To add a driven trip needs to be a class of a trip.")
+      else
+        @driven_trips << driver_trip
+      end
     end
-
     def average_rating
       if driven_trips.length == 0
         return 0

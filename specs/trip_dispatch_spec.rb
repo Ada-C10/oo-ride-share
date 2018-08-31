@@ -19,7 +19,7 @@ describe "TripDispatcher class" do
 
       expect(dispatcher.trips).must_be_kind_of Array
       expect(dispatcher.passengers).must_be_kind_of Array
-      # expect(dispatcher.drivers).must_be_kind_of Array
+      expect(dispatcher.drivers).must_be_kind_of Array
     end
   end
 
@@ -116,6 +116,7 @@ describe "TripDispatcher class" do
       it "Add's an in-progress trip correctly driver, passenger & dispatched trips" do
         trip =@dispatcher.request_trip(2)
         expect(trip).must_be_instance_of RideShare::Trip
+        expect(trip.id).must_equal @dispatcher.trips.length
         expect(trip.end_time).must_be_nil
         expect(trip.rating).must_be_nil
         expect(trip.cost).must_be_nil

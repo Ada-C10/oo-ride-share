@@ -73,7 +73,4 @@ describe "User class" do
               expect(@user.total_time_spent).must_equal 172800
               end
             end
-
-
-
           end
