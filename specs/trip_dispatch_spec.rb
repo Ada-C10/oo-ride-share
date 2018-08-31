@@ -141,7 +141,6 @@ describe "TripDispatcher class" do
       # new_dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
       #                                               TRIP_TEST_FILE, DRIVER_TEST_FILE)
       # new_dispatcher.request_trip(5)
-      binding.pry
       expect(@dispatcher.trips.length).must_equal 600
       # expect(new_dispatcher.trips.length).must_equal 601
       # expect{(new_dispatcher.trips.length > @dispatcher.trips.length)}.must_equal true
