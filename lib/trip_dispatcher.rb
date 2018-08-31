@@ -107,20 +107,19 @@ module RideShare
 
       def request_trip(user_id)
 
-        passenger_trip = {}
-        # can we rename "passenger_trip" to "new_in_progress_trip"?
+        input = {}
 
-        passenger_trip[:id] = user_id,
-        passenger_trip[:driver] = available_driver,
-        passenger_trip[:passenger] = find_passenger(user_id),
-        passenger_trip[:start_time] = Time.now
+        input[:id] = user_id,
+        input[:driver] = available_driver,
+        input[:passenger] = find_passenger(user_id),
+        input[:start_time] = Time.now
 
-        trip = Trip.new(passenger_trip)
+        new_in_progress_trip = Trip.new(input)
 
-        passenger_trip[:passenger].add_trip(trip) # User.add_trip(trip) adds to @trips []
-        passenger_trip[:driver].add_driven_trip(trip) # Driver.add_trip(trip) adds to @trips []
-        @trips << trip
-        # should be @trips?
+        input[:passenger].add_trip(new_in_progress_trip) # User.add_trip(trip) adds to @trips []
+        input[:driver].add_driven_trip(new_in_progress_trip) # Driver.add_trip(trip) adds to @trips []
+
+        trips << new_in_progress_trip
 
         return trips
       end

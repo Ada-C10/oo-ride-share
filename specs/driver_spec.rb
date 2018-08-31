@@ -59,6 +59,7 @@ describe "Driver class" do
       end
     end
 
+##### add another driver to find average rating ########
     describe "average_rating method" do
       before do
         @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
@@ -67,7 +68,15 @@ describe "Driver class" do
                                    start_time: Time.parse("2016-08-08"),
                                    end_time: Time.parse("2016-08-08"), rating: 5)
         @driver.add_driven_trip(trip)
+        # @driver.add_driven_trip(trip1)
       end
+
+      #think about refactoring with let
+      # let (:trip2) {
+      #   RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+      #                              start_time: Time.parse("2016-08-08"),
+      #                              end_time: Time.parse("2016-08-08"), rating: 5)
+      # }
 
       it "returns a float" do
         expect(@driver.average_rating).must_be_kind_of Float
