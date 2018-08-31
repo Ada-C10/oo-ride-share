@@ -24,7 +24,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "find_user method" do
+  describe "find_passenger method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new
     end
