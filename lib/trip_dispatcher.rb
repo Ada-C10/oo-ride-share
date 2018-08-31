@@ -106,13 +106,28 @@ module RideShare
       end
 
       def available_driver
-        @drivers.each do |driver|
-          if driver.status == :AVAILABLE
+        if @drivers.find_all{|driver| driver.status == :AVAILABLE} == nil
+          raise ArgumentError.new("There are no available drivers at this time. Apologies.")
+        else
+          available_drivers = @drivers.find_all{|driver| driver.status == :AVAILABLE}
+        end
+        available_drivers.each do |driver|
+          if driver.driven_trips == []
             return driver
           end
         end
-        raise ArgumentError.new('There are no drivers available')
+        available_drivers = available_drivers.sort_by{|driver| driver.driven_trips.last.end_time}
+
+        return available_drivers
+        # return available_drivers.first
       end
+
+        # @drivers.each do |driver|
+          # if driver.status == :AVAILABLE
+          #   return driver
+          # end
+      #   raise ArgumentError.new('There are no drivers available')
+      # end
 
       def request_trip(user_id)
         # The user ID will be supplied (this is the person requesting a trip)
@@ -151,6 +166,7 @@ module RideShare
 
 
 
-  # rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
-  #
-  # puts rideshare.trips[0].driver.driven_trips
+  rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
+
+  puts driver = rideshare.available_driver
+  binding.pry 
