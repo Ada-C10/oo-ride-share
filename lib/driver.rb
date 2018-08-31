@@ -43,7 +43,12 @@ module RideShare
       end
 
       @driven_trips.each do |x|
-        total_sum += x.rating
+        # binding.pry
+        if x.rating == "In Progress"
+          next
+        else
+          total_sum += x.rating
+        end
       end
 
       avg_rating = total_sum.to_f / total_num_rides
@@ -54,14 +59,19 @@ module RideShare
 
     def total_revenue
      total_cost_all_trips = 0
-     total_num_rides = @driven_trips.length
+     total_num_rides = 0
 
-     if total_num_rides == 0
-       return 0
-     end
+     # if total_num_rides == 0
+     #   return 0
+     # end
 
      @driven_trips.each do |x|
-       total_cost_all_trips += x.cost
+       if x.cost == "In Progress"
+         next
+       else
+         total_cost_all_trips += x.cost
+         total_num_rides += 1
+       end
      end
 
      all_fees = total_num_rides * 1.65
