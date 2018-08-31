@@ -74,7 +74,7 @@ module RideShare
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i,
           driver_id: raw_trip[:driver_id].to_i,
-          driver: driver
+          driver: driver # this driver doesn't have driven trips
         }
         trip = Trip.new(parsed_trip)
         driver.add_driven_trip(trip)

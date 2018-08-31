@@ -22,6 +22,21 @@ module RideShare
       #raise ArgumentError if not VALID_STATUS.include?(status)
     end
 
+    def average_rating
+      ratings = @driven_trips.map do |trip|
+        rate = trip.rating
+      end
+      rating_sum = ratings.sum
+      average_rating = rating_sum.to_f/driven_trips.length.to_f
+      if average_rating == "NaN"
+        return 0
+      end
+
+      return average_rating
+    end
+
+
+
     def add_driven_trip(trip)
       raise ArgumentError.new("Invalid Driver") unless trip.instance_of? RideShare::Trip
       @driven_trips << trip
