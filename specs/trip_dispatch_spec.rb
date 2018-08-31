@@ -65,7 +65,6 @@ describe "TripDispatcher class" do
     end
 
     it "accurately loads driver information into drivers array" do
-      skip # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -78,7 +77,6 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-      skip # Unskip after wave 2
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
@@ -123,20 +121,33 @@ describe "TripDispatcher class" do
       # binding.pry
     end
     it "increases Driver-@driven_trips" do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+        vin: "1C9EVBRM0YBC564DZ",
+        phone: '111-111-1111',
+        status: :AVAILABLE)
+      before = @driver.driven_trips.length
+      trip = @dispatcher.request_trip()
+      after = before + 1
+      expect(@driver.driven_trips.length).must_equal after
 
     end
+
     it "increases User-@trips" do
 
     end
-    it "increases TripDispatcher-@trips" do
-      # before = @trips.length
-      # @dispatcher.request_trip(1)
-      # after = before + 1
-      # expect()
 
+    it "increases TripDispatcher-@trips" do
+      before = @dispatcher.trips.length
+      trip = @dispatcher.request_trip(1)
+      after = before + 1
+      expect(@dispatcher.trips.length).must_equal after
     end
+
     it "selects first :AVAILABLE driver" do
+      trip = @dispatcher.request_trip(1)
+      expect(trip.driver.id).must_equal 5
     end
+
     it "sets driver's status to :UNAVAILABLE" do
       trip = @dispatcher.request_trip(1)
       expect(trip.driver.status).must_equal :UNAVAILABLE
