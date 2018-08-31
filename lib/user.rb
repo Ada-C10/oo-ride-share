@@ -14,6 +14,14 @@ module RideShare
     end
 
     def add_trip(trip)
+      if trip.class != Trip
+        raise ArgumentError, "A Trip was not provided"
+      end
+      @trips.each do |item|
+         if item == trip
+           raise ArgumentError, "Duplicated trip"
+         end
+       end
       @trips << trip
     end
 

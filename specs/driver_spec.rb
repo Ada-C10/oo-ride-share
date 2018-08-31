@@ -109,12 +109,12 @@ describe "Driver class" do
                                                    TRIP_TEST_FILE,
                                                     DRIVER_TEST_FILE)
         start_time = Time.parse("2015-05-20T12:14:00+00:00")
-        end_time = Time.parse("2015-05-20T12:14:00+00:00")
+
         user1 = @dispatcher.find_passenger(1)
         test_driver = @dispatcher.find_driver(2)
         test_trip = RideShare::Trip.new(id: 2, driver: test_driver, passenger: user1,
                                     start_time: start_time, end_time: nil, rating: nil, cost: nil)
-
+        test_driver.add_driven_trip(test_trip)
         expect(test_driver.average_rating).must_equal 4.0
 
     end

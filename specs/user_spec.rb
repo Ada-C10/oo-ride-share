@@ -34,6 +34,43 @@ describe "User class" do
     end
   end
 
+  describe "add_trip" do
+    let (:pass_let) {
+      RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+    }
+
+    let (:driver_let) {
+      RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
+    }
+
+    let (:trip_let) {
+      start_time = Time.parse("2015-05-20T12:14:00+00:00")
+      end_time = Time.parse("2015-05-20T12:14:00+00:00")
+      RideShare::Trip.new({id: 8, driver: driver_let, passenger: pass_let, start_time: start_time, end_time: end_time , rating: 5})
+    }
+
+    it "throws an argument error if trip is not provided" do
+
+      expect{ pass_let.add_trip(1) }.must_raise ArgumentError
+    end
+
+    it "will throw ArgumentError if user attemps to add same trip object to the passenger's trip array more than once" do
+
+      pass_let.add_trip(trip_let)
+      expect{ pass_let.add_trip(trip_let) }.must_raise ArgumentError
+    end
+
+
+    it "increases the trip count by one" do
+      previous = pass_let.trips.length
+      pass_let.add_trip(trip_let)
+      expect(pass_let.trips.length).must_equal previous + 1
+      expect(pass_let.trips.last).must_be_kind_of RideShare::Trip
+    end
+
+  end
+
+
 
   describe "trips property" do
     before do
