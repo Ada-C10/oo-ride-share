@@ -75,15 +75,14 @@ describe "TripDispatcher class" do
       expect(last_driver.id).must_equal 8
       expect(last_driver.status).must_equal :AVAILABLE
     end
-    #### working on this one - must create add_driven_trip method first
+
     it "Connects drivers with trips" do
-      skip # Unskip after wave 2
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
-        expect(driver).must_be_instance_of RideShare::Driver # this one works
-        expect(driver.driven_trips).must_include trip # this is empty # replace with .driven_trips
+        expect(driver).must_be_instance_of RideShare::Driver
+        expect(driver.driven_trips).must_include trip
       end
     end
   end

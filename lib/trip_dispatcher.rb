@@ -45,6 +45,7 @@ module RideShare
         input_data[:phone_number] = user_data.phone_number
         input_data[:trips] = user_data.trips
         drivers << Driver.new(input_data)
+
       end
 
       return drivers
@@ -63,6 +64,7 @@ module RideShare
       trip_data.each do |raw_trip|
         # finds the passanger in the instance of passagers (@passangers)
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
+        driver = find_driver(raw_trip[:driver_id].to_i)
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
@@ -72,9 +74,10 @@ module RideShare
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i,
           driver_id: raw_trip[:driver_id].to_i,
-          driver: find_driver(raw_trip[:driver_id].to_i)
+          driver: driver
         }
         trip = Trip.new(parsed_trip)
+        driver.add_driven_trip(trip)
         # it adds each trip to its corresponding instance of passanger
         # every instance of a passanger is saved in @passagers
         passenger.add_trip(trip)
