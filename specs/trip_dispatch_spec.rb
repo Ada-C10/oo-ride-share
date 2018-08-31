@@ -131,7 +131,7 @@ describe "TripDispatcher class" do
     end
 
     it "updates trip lists for user, driver, and all trips" do
-      trip = @dispatcher.request_trip(1)
+      @dispatcher.request_trip(1)
 
       passenger = @dispatcher.passengers.first
       driver = @dispatcher.drivers[1]
@@ -145,8 +145,8 @@ describe "TripDispatcher class" do
 
     it "returns notice if no drivers are available" do
 
-      trip1 = @dispatcher.request_trip(1)
-      trip2 = @dispatcher.request_trip(1)
+      @dispatcher.request_trip(1)
+      @dispatcher.request_trip(1)
       trip3 = @dispatcher.request_trip(1)
 
       expect (trip3).must_equal "No available drivers"

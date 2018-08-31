@@ -40,9 +40,5 @@ module RideShare
         return @end_time - @start_time
       end
     end
-
-    def driver
-      return @driver
-    end
   end
 end
