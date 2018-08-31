@@ -82,11 +82,12 @@ module RideShare
         # find them and replace the `User` object with a `Driver` object. You should also be loading the `driven_trips` for each `Driver` at this stage.
           driver = @passengers.find do |user|
             user == driver
+            drivers << driver
           end
           # add to drivers array
           # passenger.add_driver(driver)
-          # drivers << driver
-        # end
+          #
+        
         end
       return drivers
     end
