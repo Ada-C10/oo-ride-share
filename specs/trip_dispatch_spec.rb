@@ -40,7 +40,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "find_driver method" do
+  describe "find_driver method" do
     it "throws an argument error for a bad ID" do
       expect { @dispatcher.find_driver(0) }.must_raise ArgumentError
     end
@@ -51,7 +51,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "Driver & Trip loader methods" do
+  describe "Driver & Trip loader methods" do
     it "accurately loads driver information into drivers array" do
 
       first_driver = @dispatcher.drivers.first
@@ -118,10 +118,17 @@ describe "TripDispatcher class" do
       end
     end
 
-    it "Assigns the first :AVAILABLE driver to a new Trip" do
+    it "Assigns the first :AVAILABLE driver with no driven trips to a new Trip" do
+      driver  = @requested_trip.driver
+      expect(driver).must_be_instance_of RideShare::Driver
+      expect(driver.driven_trips.length).must_equal 1
+    end
+
+    it "Assigns the first :AVAILABLE driver with the oldest recent trip if no new drivers are available to a new Trip" do
       @requested_trip = @dispatcher.request_trip(1)
       driver  = @requested_trip.driver
       expect(driver).must_be_instance_of RideShare::Driver
+      expect(driver.driven_trips.length).must_equal 4
     end
 
     it "uses the current time as @start_time for new Trip" do
@@ -152,5 +159,4 @@ describe "TripDispatcher class" do
       expect{ @dispatcher.request_trip(1)}.must_raise ArgumentError
     end
   end
-
 end
