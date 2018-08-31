@@ -22,7 +22,7 @@ describe "TripDispatcher class" do
 
       expect(dispatcher.trips).must_be_kind_of Array
       expect(dispatcher.passengers).must_be_kind_of Array
-      # expect(dispatcher.drivers).must_be_kind_of Array
+      expect(dispatcher.drivers).must_be_kind_of Array
     end
   end
 
@@ -54,15 +54,8 @@ describe "TripDispatcher class" do
         expect(@dispatcher.trips[i].end_time).must_be_instance_of Time
       end
     end
-
-
-
   end
 
-
-
-
-  # Uncomment for Wave 2
   describe "find_driver method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
@@ -100,7 +93,6 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
@@ -164,15 +156,12 @@ describe "TripDispatcher class" do
 
     it 'makes the previously available driver unavailable' do
       old_status = @dispatcher.find_driver(8).status #8 is the first available driver with no trips
-
       expect(old_status).must_equal :AVAILABLE
 
       trip = @dispatcher.request_trip(3)
-
       expect(trip.driver.id).must_equal 8
 
       new_status = @dispatcher.find_driver(8).status
-
       expect(new_status).must_equal :UNAVAILABLE
     end
 
@@ -201,7 +190,6 @@ describe "TripDispatcher class" do
     end
 
     it 'raises an ArgumentError if no drivers are available' do
-
       @dispatcher.find_driver(5).make_unavailable
       @dispatcher.find_driver(8).make_unavailable
 
@@ -237,10 +225,6 @@ describe "TripDispatcher class" do
 
       trip = new_dispatcher.request_trip(1)
       expect(trip.driver.id).must_equal 5 #driver 5 and 8 have the least recent trip, expect to select first driver
-
     end
-
   end
-
-
 end
