@@ -138,7 +138,10 @@ describe "TripDispatcher class" do
     end
 
     it "will ensure that the driver who is selected has no trips" do
-      new_trip = @dispatcher.request_trip(3)
+      dispatcher_2 = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  'specs/test_data/trips_dispatcher_test.csv',
+                                                  'specs/test_data/driver_test_new.csv')
+      new_trip = dispatcher2.request_trip(3)
       driver = new_trip.driver
 
       expect(driver.trips.length).must_equal 1
