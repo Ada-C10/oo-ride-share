@@ -21,10 +21,10 @@ module RideShare
       # if @rating > 5 || @rating < 1
       #   raise ArgumentError.new("Invalid rating #{@rating}")
       # end
-
-      # TODO: start here, need to rewrite this part of the method
-      if @end_time < @start_time
-        raise ArgumentError.new
+      if end_time != nil
+        if @end_time < @start_time
+          raise ArgumentError.new
+        end
       end
     end
 

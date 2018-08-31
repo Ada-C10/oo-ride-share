@@ -115,11 +115,14 @@ describe "TripDispatcher class" do
   end
 
   describe "#request_trip" do
+    before do
+            @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+          end
     it "returns instance of Trip" do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
-      expect(@dispatcher.request_trip(1)).must_be_kind_of Trip
+      expect(@dispatcher.request_trip(1)).must_be_kind_of RideShare::Trip
     end
     it "increases Driver-@driven_trips" do
+
     end
     it "increases User-@trips" do
     end
