@@ -108,20 +108,25 @@ describe "total_revenue" do
     vin: "1C9EVBRM0YBC564DZ",
     phone: '111-111-1111',
     status: :AVAILABLE)
+  end
+
+  it "correctly calculates the drivers total revenue" do
     trip1 = RideShare::Trip.new(id: 8, driver: @driver, passenger: pass, start_time: Time.parse("2016-08-08"),
     end_time: Time.parse("2018-08-09"),cost: 5, rating: 5)
     trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
     start_time: Time.parse("2016-08-08"),
     end_time: Time.parse("2016-08-09"),cost: 5,
     rating: 1)
-
     @driver.add_driven_trip(trip1)
     @driver.add_driven_trip(trip2)
-
-  end
-  it "correctly calculates the drivers total revenue" do
     expect(@driver.total_revenue).must_equal (5.36)
   end
+
+  it "returns 0 if a driver has no trips" do
+    expect(@driver.total_revenue).must_equal 0
+  end
+
+
 
   describe "net_expenditures" do
     before do
