@@ -15,18 +15,22 @@ module RideShare
       @rating = input[:rating]
       @driver = input[:driver]
 
+      # possible_nils = [@cost, @rating, @end_time]
+      #
 
 
-      if @rating > 5 || @rating < 1
+      if @rating != nil
+         if @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
+        end
       end
 
-      # TODO: refactor w calculate_trip_duration???
-      if @end_time - @start_time < 0
+
+      if @end_time != nil
+        if @end_time - @start_time < 0
         raise ArgumentError.new("Trip end time is before start time.")
+        end
       end
-
-
 
     end
 
@@ -42,7 +46,9 @@ module RideShare
     end
 
     def calculate_trip_duration
-      return @end_time - @start_time
+      if @end_time != nil
+        return @end_time - @start_time
+      end 
     end
 
   end

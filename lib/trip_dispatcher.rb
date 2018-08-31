@@ -68,7 +68,7 @@ module RideShare
         trips << trip
 
       end
-  
+
       return trips
     end
 
@@ -109,30 +109,30 @@ module RideShare
       return @drivers.find { |driver| driver.id == id }
     end
 
-    # def request_trip(user_id)
-    #   current_passenger = find_passenger(user_id)
-    #   available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
-    #
-    #
-    #   parsed_trip = {
-    #     id: @trips.length + 1,
-    #     passenger: current_passenger,
-    #     start_time: Time.now,
-    #     end_time: nil,
-    #     cost: nil,
-    #     rating: nil,
-    #     driver: available_driver
-    #   }
-    #
-    #   available_driver.change_status
-    #   trip_in_progress = Trip.new(parsed_trip)
-    #
-    #   current_passenger.add_trip(trip_in_progress)
-    #   available_driver.add_driven_trip(trip_in_progress)
-    #   @trips << trip_in_progress
-    #
-    #   return trip_in_progress
-    # end
+    def request_trip(user_id)
+      current_passenger = find_passenger(user_id)
+      available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+
+
+      parsed_trip = {
+        id: @trips.length + 1,
+        passenger: current_passenger,
+        start_time: Time.now,
+        end_time: nil,
+        cost: nil,
+        rating: nil,
+        driver: available_driver
+      }
+
+      available_driver.change_status
+      trip_in_progress = Trip.new(parsed_trip)
+
+      current_passenger.add_trip(trip_in_progress)
+      available_driver.add_driven_trip(trip_in_progress)
+      @trips << trip_in_progress
+
+      return trip_in_progress
+    end
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
