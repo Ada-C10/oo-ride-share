@@ -173,7 +173,6 @@ describe "TripDispatcher class" do
     end
 
     it "raises an error if the driver tries to drive themselves" do
-      @dispatcher.request_trip(1)
       expect{@dispatcher.request_trip(8)}.must_raise ArgumentError
     end
 

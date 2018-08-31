@@ -111,6 +111,7 @@ describe "Driver class" do
 
       it "calculates total_revenue correctly accounting for $1.56 fee/ride and returns 80% of net revenue to driver" do
         expect(@driver.total_revenue).must_equal 9.24
+
       end
 
       it "returns a float within" do
