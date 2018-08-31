@@ -126,18 +126,42 @@ describe "TripDispatcher class" do
       @user_id = 2
       @driver_trip = @dispatcher.request_trip(@user_id)
     end
+
+    let (:driver_no_trips) {
+      @driver = RideShare::Driver.new(id: 16, name: "Tina",
+                                      vehicle_id: "1C9EVBRM0YBC56473",
+                                    status: "AVAILABLE",
+                                  trips: [])
+    }
+
+
     it 'creates a new trip instance' do
+
       expect(@driver_trip).must_be_kind_of RideShare::Trip
     end
 
-    it "assigns first driver avaialable" do
-      expect(@driver_trip.driver).must_equal 5
+    it "assigns available driver" do
+
+      expect(@driver_trip.driver).must_equal 8
       expect(@driver_trip.driver).wont_equal 2
     end
 
-    it "assigns start time as current time" do
-      expect(@driver_trip.start_time).must_be_close_to Time.now
-    end
+
+    # it "will select the driver who has never driven first" do
+    #
+    #   driver_no_trips
+    #   expect(@driver_trip.driver).must_equal 16
+    # end
+    #
+    # it "will select the driver who drove the least recently if there are no drivers with no trips available" do
+    #
+    #   expect (@driver_trip.driver).must_equal 8
+    # end
+    #
+    # it "assigns start time as current time" do
+    #
+    #   expect(@driver_trip.start_time).must_be_close_to Time.now
+    # end
 
     it "returns nil for end time, cost, and rating" do
       expect(@driver_trip.end_time).must_be_nil
@@ -146,16 +170,16 @@ describe "TripDispatcher class" do
     end
 
     it "creates a new trip in the driver's collection of trips" do
-      driver = @dispatcher.drivers.find { |driver| driver.id == 8 }
-      expect(driver.driven_trips.length).must_equal 0
+      driver = @dispatcher.drivers.find { |driver| driver.id == 5 }
+      expect(driver.driven_trips.length).must_equal 3
       @user_id = 4
       @driver_trip = @dispatcher.request_trip(@user_id)
-      expect(@driver_trip.driver).must_equal 8
-      expect(driver.driven_trips.length).must_equal 1
+      expect(@driver_trip.driver).must_equal 5
+      expect(driver.driven_trips.length).must_equal 4
     end
 
     it "converts a driver's status to :UNAVAILABLE when trip in progress" do
-      driver = @dispatcher.drivers.find { |driver| driver.id == 5 }
+      driver = @dispatcher.drivers.find { |driver| driver.id == 8 }
       expect(driver.status).must_equal :UNAVAILABLE
     end
 

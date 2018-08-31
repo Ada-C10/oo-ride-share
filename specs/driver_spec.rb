@@ -72,14 +72,25 @@ describe "Driver class" do
                                  end_time: Time.parse("2016-08-08"),
                                  cost: 14.50,
                                  rating: 5)
-      trip2 = RideShare::Trip.new(id: 8,
+
+      @driver.add_driven_trip(trip1)
+    end
+    let (:trip2) {
+      RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                  start_time: Time.parse("2016-08-08"),
+                                  end_time: Time.parse("2016-08-09"),
+                                  rating: 1,
+                                  cost: 10)
+    }
+
+    let (:trip3) {
+      RideShare::Trip.new(id: 8,
                                 driver: @driver, passenger: nil,
                                 start_time: Time.parse("2016-08-08"),
                                 end_time: nil,
                                 cost: nil,
                                 rating: nil)
-      @driver.add_driven_trip(trip1)
-    end
+    }
 
     it "returns a float" do
       expect(@driver.average_rating).must_be_kind_of Float
@@ -92,36 +103,21 @@ describe "Driver class" do
     end
 
     it "returns zero if no driven trips" do
-      driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+      driver = RideShare::Driver.new(id: 54,
+                                    name: "Rogers Bartell IV",
                                      vehicle_id: "1C9EVBRM0YBC564DZ",
-                                   status: "AVAILABLE")
+                                     status: "AVAILABLE")
       expect(driver.average_rating).must_equal 0
     end
 
     it "correctly calculates the average rating" do
-      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: Time.parse("2016-08-09"),
-                                  rating: 1,
-                                  cost: 10)
+
       @driver.add_driven_trip(trip2)
 
       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
     end
 
     it "calculates average rating correctly, leaving out trips in progress" do
-      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                  start_time: Time.parse("2016-08-08"),
-                                  end_time: Time.parse("2016-08-09"),
-                                  rating: 1,
-                                  cost: 10)
-
-      trip3 = RideShare::Trip.new(id: 8,
-                                driver: @driver, passenger: nil,
-                                start_time: Time.parse("2016-08-08"),
-                                end_time: nil,
-                                cost: nil,
-                                rating: nil)
 
       @driver.add_driven_trip(trip2)
       @driver.add_driven_trip(trip3)
