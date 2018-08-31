@@ -3,10 +3,11 @@ require 'pry'
 
 module RideShare
   class Trip
-    attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating
+    attr_reader :id, :driver, :passenger, :start_time, :end_time, :cost, :rating
 
     def initialize(input)
       @id = input[:id] #trip ID
+      @driver = input[:driver] #driver for the trip
       @passenger = input[:passenger] #passenger ID
       @start_time = input[:start_time]
       @end_time = input[:end_time]

@@ -9,9 +9,11 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv')
+                   trip_file = 'support/trips.csv',
+                   driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @trips = load_trips(trip_file)
+      @drivers = load_drivers(driver_file)
     end
 
     def load_users(filename)
@@ -60,10 +62,47 @@ module RideShare
       return trips
     end
 
-    def find_passenger(id)
-      check_id(id)
-      return @passengers.find { |passenger| passenger.id == id }
+    def load_drivers(filename)
+      drivers = []
+      driver_data = CSV.open(filename, 'r', headers: true,
+        header_converters: :symbol)
+
+        driver_data.each do |raw_driver|
+
+          driver = find_driver(raw_driver[:id].to_i)
+
+          parsed_trip = {
+            id: raw_driver[:id].to_i, #trip ID
+            vin: raw_driver[:vin],
+            status: raw_driver[:status]
+          }
+
+          driver = Driver.new(parsed_trip)
+
+        # find them and replace the `User` object with a `Driver` object. You should also be loading the `driven_trips` for each `Driver` at this stage.
+          driver = @passengers.find do |user|
+            user == driver
+          end
+          # add to drivers array
+          # passenger.add_driver(driver)
+          # drivers << driver
+        # end
+        end
+      return drivers
     end
+
+      def find_driver(id)
+        check_id(id)
+        return @passengers.find { |driver| driver.id == id }
+      end
+
+      def find_passenger(id)
+        check_id(id)
+        return @passengers.find { |passenger| passenger.id == id }
+      end
+
+
+
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \

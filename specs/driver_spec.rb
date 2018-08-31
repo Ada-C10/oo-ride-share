@@ -41,7 +41,7 @@ describe "Driver class" do
       end
     end
 
-    xdescribe "add_driven_trip method" do
+    describe "add_driven_trip method" do
       before do
         pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
         @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
