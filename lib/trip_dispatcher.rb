@@ -57,6 +57,7 @@ module RideShare
         # adding passenger from user.rb to into trip
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
+        binding.pry
         trips << trip
 
       end
@@ -98,7 +99,7 @@ module RideShare
 
       def find_driver(id)
         check_id(id)
-        return @passengers.find { |driver| driver.id == id }
+        return @drivers.find { |driver| driver.id == id }
       end
 
       def find_passenger(id)
