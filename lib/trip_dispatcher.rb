@@ -162,6 +162,13 @@ ap ride.request_trip
 
 
 
+# TODO:
+# write tests for Wave 3
+# edge case tests? thorough testing
+# write conditionals for nil values)
+# Refactor/clean up tabs/take out test code
+# Comprehension
+
 # ap trip.start_time.class
 # ap RideShare::TripDispatcher.trips
 # ap trip.calculate_trip_duration
