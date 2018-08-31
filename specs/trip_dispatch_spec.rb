@@ -121,11 +121,31 @@ describe "TripDispatcher class" do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
-
+      # let (:new_dispatcher) {
+      #   dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+      #                                               TRIP_TEST_FILE, DRIVER_TEST_FILE)
+      #   dispatcher.request_trip(5)
+      #
+      # }
     it "will return an instance of trip" do
-      expect(@dispatcher.request_trip(800)).must_be_instance_of RideShare::Trip
+      expect(@dispatcher.request_trip(4)).must_be_instance_of RideShare::Trip
     end
 
+    it "will return an instance of trip" do
+      expect {@dispatcher.request_trip(40000)}.must_raise ArgumentError
+    end
+
+
+
+    it "will add trip to trips array" do
+      # new_dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+      #                                               TRIP_TEST_FILE, DRIVER_TEST_FILE)
+      # new_dispatcher.request_trip(5)
+      binding.pry
+      expect(@dispatcher.trips.length).must_equal 600
+      # expect(new_dispatcher.trips.length).must_equal 601
+      # expect{(new_dispatcher.trips.length > @dispatcher.trips.length)}.must_equal true
+    end
     #trips.length should be 1 longer than before
 
     # it "" do

@@ -113,12 +113,19 @@ module RideShare
       end
 
       def request_trip(user_id)
+
         passenger = find_passenger(user_id)
-        # if find_passenger(user_id) = nil user does not exist
-        raise ArgumentError.new"The user id: #{user_id} does not exist" if user_id == nil
+
+        raise ArgumentError.new"The user id: #{user_id} does not exist" if passenger == nil || passenger == {}
+
         driver = find_driver_by_availability
+
         new_trip = Trip.new({id:(@trips.length + 1), passenger:passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil, driver:driver})
+
+        driver = driver.add_driven_trip(new_trip)
+        
         @trips << new_trip
+
         return new_trip
       end
 

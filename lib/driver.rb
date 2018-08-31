@@ -18,10 +18,15 @@ module RideShare
 
     def add_driven_trip(trip)
 
+      if @status == :UNAVAILABLE
+        @status = :AVAILBLE
+      end
+
       raise ArgumentError.new("Invalid Driver") unless trip.instance_of? RideShare::Trip
       @driven_trips << trip
 
     end
+
 
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
@@ -41,7 +46,7 @@ module RideShare
 
       revenue = []
       driven_trips.each do |trip|
-      
+
         raise ArgumentError.new("Invalid, cost can't be negetive") if trip.cost < 0
         num = trip.cost - 1.65
         num = num - (num * 0.2)
@@ -52,14 +57,7 @@ module RideShare
     end
 
     def net_expenditures
-
       return (super - total_revenue)
-      # cost_array = []
-      # @trips.each do |trip|
-      #   cost_array << trip.cost
-      # end
-      # net = cost_array.sum
-      # net -= self.total_revenue
     end
 
 
