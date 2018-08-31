@@ -14,7 +14,7 @@ describe "TripDispatcher class" do
     )
   end
 
-  xdescribe "Initializer" do
+  describe "Initializer" do
     it "is an instance of TripDispatcher" do
       expect(@dispatcher).must_be_kind_of RideShare::TripDispatcher
     end
@@ -29,7 +29,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "find_user method" do
+  describe "find_user method" do
     it "throws an argument error for a bad ID" do
       expect{ @dispatcher.find_passenger(0) }.must_raise ArgumentError
     end
@@ -77,7 +77,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  xdescribe "User & Trip loader methods" do
+  describe "User & Trip loader methods" do
     it "accurately loads passenger information into passengers array" do
       first_passenger = @dispatcher.passengers.first
       last_passenger = @dispatcher.passengers.last
@@ -110,11 +110,11 @@ describe "TripDispatcher class" do
     end
 
     it "returns an array of :AVAILABLE drivers that aren't the Passenger" do
-      available_drivers = @dispatcher.check_drivers_not_passenger?(5)
+      available_drivers = @dispatcher.check_drivers_not_passenger?(2)
       expect(available_drivers).must_be_kind_of Array
 
       available_drivers.each do |driver|
-        expect(driver.id).wont_equal 5
+        expect(driver.id).wont_equal 2
       end
     end
 
@@ -148,9 +148,8 @@ describe "TripDispatcher class" do
     end
 
     it "Raises an error if there are no :AVAILABLE drivers" do
-        new_trip = @dispatcher.request_trip(2)
-          expect{ @dispatcher.request_trip(1)}.must_raise ArgumentError
-
+      new_trip = @dispatcher.request_trip(2)
+      expect{ @dispatcher.request_trip(1)}.must_raise ArgumentError
     end
   end
 
