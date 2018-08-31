@@ -102,7 +102,19 @@ module RideShare
     end
 
     def request_trip(user_id)
+
+      #check @driver if status == available << availabble_drivers
+
+      availabble_drivers = []
+      @drivers.each do |driver| if driver.status == :AVAILABLE
+        availabble_drivers << driver
+      end
     end 
+
+new_trip = Trip.new( :id = 40, :passenger = user_id, :driver = availabble_drivers.shift,
+  :start_time = Time.now, :end_time = nil, :cost = nil, :rating = nil)
+
+    end
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
