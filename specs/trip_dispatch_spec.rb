@@ -141,19 +141,36 @@ describe "TripDispatcher class" do
 
   end
 
-  describe "select the first available driver" do
+  describe "TripDispatcher#available_driver" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE,
                                                   DRIVER_TEST_FILE)
     end
 
-    it "return a dirver who is available" do
+    it "return a driver who is available" do
 
       expect(@dispatcher.available_driver).must_be_instance_of RideShare::Driver
       expect(@dispatcher.available_driver.status).must_equal :AVAILABLE
-      expect(@dispatcher.available_driver.id).must_equal 5
     end
+
+    it "returns a driver that had not driven a trip for the longest time" do
+      expect(@dispatcher.available_driver.id).must_equal 8
+    end
+
+    it "returns the first driver without any driven_trips" do
+      @dispatcher2 = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  TRIP_TEST_FILE,
+                                                  DRIVER_TEST_FILE)
+      driver_x = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                     vin: "1C9EVBRM0YBC564DZ")
+      driver_y = RideShare::Driver.new(id: 100, name: "Jenny", vin: "1C9EVBRM0YBC564DZ")
+      @dispatcher2.drivers << driver_x
+      @dispatcher2.drivers << driver_y
+
+      expect(@dispatcher2.available_driver).must_equal driver_x
+    end
+
 
   end
 

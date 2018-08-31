@@ -104,7 +104,15 @@ module RideShare
     end
 
     def available_driver
-      return @drivers.find {|driver| driver.status == :AVAILABLE}
+       available_drivers = @drivers.find_all {|driver| driver.status == :AVAILABLE}
+       driver_without_trips = available_drivers.find {|driver| driver.driven_trips == []}
+       if !driver_without_trips.nil?
+         return driver_without_trips
+       else
+         return available_drivers.min_by do |driver|
+           driver.last_trip_end_time
+         end
+       end
     end
 
     def request_trip(user_id)

@@ -165,6 +165,29 @@ describe "Driver class" do
     end
   end
 
+  describe "Driver#last_trip_end_time" do
+    before do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                               TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
+    end
+
+    it "returns the end time for a driver's last driven trip" do
+      test_driver = @dispatcher.find_driver(5)
+      time = Time.parse("2018-08-12 15:14:00 -0700")
+
+      expect(test_driver.last_trip_end_time).must_equal time
+    end
+
+    it "returns nil if the method receives a driver with no trips" do
+      driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                     vin: "1C9EVBRM0YBC564DZ")
+
+      expect(driver.last_trip_end_time).must_equal nil
+    end
+
+  end
+
   describe "net_expenditures" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
@@ -172,11 +195,11 @@ describe "Driver class" do
                                                   DRIVER_TEST_FILE)
       start_time = Time.parse("2015-05-20T12:14:00+00:00")
       end_time = Time.parse("2015-05-20T12:14:00+00:00")
+      @driver = @dispatcher.find_driver(2)
       test_trip = RideShare::Trip.new(id: 2, driver: @driver, passenger: nil,
                                   start_time: start_time, end_time: end_time, rating: 1, cost: 3)
 
       @dispatcher.trips << test_trip
-      @driver = @dispatcher.find_driver(2)
       @driver.trips << test_trip
     end
     it "calculates driver's cost of trips taken minus total revenue" do

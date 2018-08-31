@@ -39,6 +39,12 @@ module RideShare
       end
     end
 
+    #finds last trip end time for a driver
+    def last_trip_end_time
+      return nil if @driven_trips.empty?
+      return @driven_trips.max_by { |item| item.end_time }.end_time
+    end
+
     # calculate the total_revenue of each driver
     def total_revenue
       costs = @driven_trips.reject {|trip| trip.cost.nil?}.map {|item| item.cost}
