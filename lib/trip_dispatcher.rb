@@ -106,7 +106,7 @@ module RideShare
       end
 
       def available_driver
-        if @drivers.find_all{|driver| driver.status == :AVAILABLE} == nil
+        if @drivers.find_all{|driver| driver.status == :AVAILABLE} == []
           raise ArgumentError.new("There are no available drivers at this time. Apologies.")
         else
           available_drivers = @drivers.find_all{|driver| driver.status == :AVAILABLE}
@@ -169,4 +169,4 @@ module RideShare
   rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
 
   puts driver = rideshare.available_driver
-  binding.pry 
+  # binding.pry

@@ -114,6 +114,8 @@ describe "TripDispatcher class" do
   end
 
   describe "In-progress trip" do
+    # let (: ){
+    # }
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE, DRIVER_TEST_FILE)
@@ -144,6 +146,11 @@ describe "TripDispatcher class" do
       expect(passenger.trips.last).must_equal trip
     end
 
+    it "checks to find the driver who hasn't driven or gone longest w/o trip" do
+    expect (@dispatcher.available_driver.id).must_equal 8
+    expect (@dispatcher.available_driver.status).must_equal :AVAILABLE
+    expect (@dispatcher.available_driver).must_be_instance_of RideShare::Driver
+    end
 
 
 
@@ -155,6 +162,8 @@ describe "TripDispatcher class" do
     it 'All drivers are unavailable - Raise ArgumentError' do
       @dispatcher.drivers[1].status = :UNAVAILABLE
       @dispatcher.drivers[2].status = :UNAVAILABLE
+      puts @dispatcher.drivers[1].status
+      puts @dispatcher.drivers[2].status
       expect{@dispatcher.available_driver}.must_raise ArgumentError
     end
   end
