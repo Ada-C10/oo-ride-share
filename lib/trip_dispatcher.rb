@@ -131,7 +131,7 @@ module RideShare
         rating: nil
       }
 
-      new_trip = Trip.new(trip_hash)
+      new_trip = RideShare::Trip.new(trip_hash)
 
       #make driver unavailable first
       driver.update_status
