@@ -16,6 +16,8 @@ module RideShare
       @vehicle_id = input[:vin]
       raise ArgumentError if @vehicle_id.length != 17
       @status = input[:status]
+      input[:trips] = [] if input[:trips] == nil
+      @driven_trips = input[:trips]
       #raise ArgumentError if not VALID_STATUS.include?(status)
     end
   end

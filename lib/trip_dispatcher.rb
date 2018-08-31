@@ -43,6 +43,7 @@ module RideShare
         user_data = find_passenger(input_data[:id])
         input_data[:name] = user_data.name
         input_data[:phone_number] = user_data.phone_number
+        input_data[:trips] = user_data.trips
         drivers << Driver.new(input_data)
       end
 
