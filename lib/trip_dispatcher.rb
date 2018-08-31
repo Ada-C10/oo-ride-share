@@ -104,10 +104,30 @@ module RideShare
         #{passengers.count} passengers>"
       end
 
+      def find_driver_by_availability
+        @drivers.each do |driver|
+          if driver.status == :AVAILBLE
+            return driver
+          end
+        end
+      end
+
+      def request_trip(user_id)
+        passenger = find_passenger(user_id)
+        # if find_passenger(user_id) = nil user does not exist
+        raise ArgumentError.new"The user id: #{user_id} does not exist" if user_id == nil
+        driver = find_driver_by_availability
+        new_trip = Trip.new({id:(@trips.length + 1), passenger:passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil, driver:driver})
+        @trips << new_trip
+        return new_trip
+      end
+
+
       private
 
       def check_id(id)
         raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
       end
+
     end
   end
