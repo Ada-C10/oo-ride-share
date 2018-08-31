@@ -4,10 +4,10 @@ Congratulations! You're submitting your assignment!
 ## Comprehension Questions
 Question | Answer
 :------------- | :-------------
-Describe a design decision you had to make when working on this project. What options were you considering? What helped you make your final decision? |
-Describe any examples of composition that you encountered in this project, if any |
-Describe the relationship between `User` and `Driver`|
-Describe a _nominal test_ that you wrote for this assignment. |
-Describe an _edge case test_ that you wrote for this assignment |
-Describe a concept that you/your pair gained more clarity on as you worked on this assignment |
-What are two discussion points that you and your pair discussed when giving/receiving feedback from each other that you would be willing to share? |
+Describe a design decision you had to make when working on this project. What options were you considering? What helped you make your final decision? | When  is the right time to raise an ArgumentError vs puts a "statement" instead. Talking about the implications of stopping the code.
+Describe any examples of composition that you encountered in this project, if any |Had to decide if we wanted drivers to inherit from User. Also had to decide when setting up net_expenditures. How users, trip, and drivers all were tied together.
+Describe the relationship between `User` and `Driver`|User is the Super class and Driver is the sub_class (driver inherits from User).
+Describe a _nominal test_ that you wrote for this assignment. |the total_revenue test.
+Describe an _edge case test_ that you wrote for this assignment | if all drivers are UNAVAILABLE in trip_request.
+Describe a concept that you/your pair gained more clarity on as you worked on this assignment | TDD, OOD
+What are two discussion points that you and your pair discussed when giving/receiving feedback from each other that you would be willing to share? | We discussed Patience and Pacing. Both were good as we were open about communicating ideas and when someone was stuck.
