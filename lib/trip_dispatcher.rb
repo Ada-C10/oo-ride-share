@@ -61,7 +61,7 @@ module RideShare
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
         driver.add_trip(trip)
-        
+
         trips << trip
       end
 
@@ -108,6 +108,24 @@ module RideShare
               #{drivers.count} drivers, \
               #{passengers.count} passengers>"
     end
+
+
+    def request_trip(user_id)
+
+      passenger = find_passenger(user_id)
+      driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+
+      trip = Trip.new {
+        passenger: passenger,
+        driver: driver,
+        start_time: Time.now,
+        end_time: nil,
+        cost: nil,
+        rating: nil
+      }
+      return trip
+    end
+
 
     private
 
