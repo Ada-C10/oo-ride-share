@@ -11,13 +11,10 @@ module RideShare
       super(input)
       @vehicle_id = input[:vin]
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
-
       @status = input[:status].nil? ? :AVAILABLE : input[:status]
 
-      raise ArgumentError.new unless [:AVAILABLE, :UNAVAILABLE].include?(@status)
-
-      raise ArgumentError.new unless @vehicle_id.length == 17
-
+      raise ArgumentError.new("That is an invalid status") unless [:AVAILABLE, :UNAVAILABLE].include?(@status)
+      raise ArgumentError.new("That is an invalid VIN") unless @vehicle_id.length == 17
     end
 
     def add_driven_trip(trip)
@@ -30,7 +27,6 @@ module RideShare
       @driven_trips.each do |trip|
         trip_ratings << trip.rating
       end
-
       trip_ratings.length == 0 ? 0 : (trip_ratings.sum / trip_ratings.length).to_f
     end
 

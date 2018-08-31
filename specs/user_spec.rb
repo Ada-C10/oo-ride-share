@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-xdescribe "User class" do
+describe "User class" do
   before do
     @user = RideShare::User.new(
       id: 9,

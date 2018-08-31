@@ -13,17 +13,9 @@ module RideShare
       @cost = input[:cost]
       @rating = input[:rating]
 
-      if @rating != nil
-        if @rating > 5 || @rating < 1
-          raise ArgumentError.new("Invalid rating #{@rating}")
-        end
-      end
+      raise ArgumentError.new("Invalid rating #{@rating}") if @rating != nil && (@rating > 5 || @rating < 1)
 
-      if @end_time != nil
-        if @end_time < @start_time
-          raise ArgumentError.new("Start time cannot be greater than End time")
-        end
-      end
+      raise ArgumentError.new("Start time cannot be greater than End time") if @end_time != nil && (@end_time < @start_time)
     end
 
     def inspect
