@@ -59,8 +59,10 @@ module RideShare
       net_income = super - self.total_revenue
       return net_income
     end
-    
+
     def accept_trip(trip)
+      @driven_trips << trip
+      @status = :UNAVAILABLE
     end
 
   end
