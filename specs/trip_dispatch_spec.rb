@@ -193,5 +193,32 @@ describe "TripDispatcher class" do
     end
 
   end
+  describe "Will ensure that the best driver was selected" do
+  let (:test_code)  {  RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
+  }
+  #
+  # before do
+  #   @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+  #                                               TRIP_TEST_FILE,
+  #                                               DRIVER_TEST_FILE)
+  # end
+    xit "will check to make sure the driver does not have an in-progress trip"
+    end
 
+    xit "will ensure that the driver selected has never had a trip"
+    end
+
+    it "will ensure that the driver selected has the oldest driven trip"
+      driver = test_code.check_driver_availability_and_assign(3)
+      last_trip_time = 0
+      driver.each do |dri|
+        if dri.driven_trip.end_time < last_trip_time
+            last_trip_time = dri.driven_trip.end_time
+        end
+      end
+      expect(driver.status).must_equal last_trip_time
+    end
+  end
 end
