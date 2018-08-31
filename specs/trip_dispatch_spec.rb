@@ -7,9 +7,7 @@ DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
 describe "TripDispatcher class" do
   describe "Initializer" do
     it "is an instance of TripDispatcher" do
-      dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE,
-                                               DRIVER_TEST_FILE)
+      dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
       expect(dispatcher).must_be_kind_of RideShare::TripDispatcher
     end
 
@@ -44,8 +42,7 @@ describe "TripDispatcher class" do
   # Uncomment for Wave 2
   describe "find_driver method" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE, DRIVER_TEST_FILE)
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "throws an argument error for a bad ID" do
@@ -60,12 +57,11 @@ describe "TripDispatcher class" do
 
   describe "Driver & Trip loader methods" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE, DRIVER_TEST_FILE)
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "accurately loads driver information into drivers array" do
-    # Unskip After Wave 2
+      # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -78,7 +74,7 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
- # Unskip after wave 2
+      # Unskip after wave 2
       trips = @dispatcher.trips
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
@@ -90,8 +86,7 @@ describe "TripDispatcher class" do
 
   describe "User & Trip loader methods" do
     before do
-      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE, DRIVER_TEST_FILE)
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "accurately loads passenger information into passengers array" do
@@ -114,63 +109,57 @@ describe "TripDispatcher class" do
   end
 
   describe "In-progress trip" do
-    # let (: ){
-    # }
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  TRIP_TEST_FILE, DRIVER_TEST_FILE)
-    end
-    it "Add's an in-progress trip correctly driver, passenger & dispatched trips" do
-      @dispatcher.request_trip(2)
-      trips = @dispatcher.trips
+        TRIP_TEST_FILE, DRIVER_TEST_FILE)
+      end
+      it "Add's an in-progress trip correctly driver, passenger & dispatched trips" do
+        trip =@dispatcher.request_trip(2)
+        expect(trip).must_be_instance_of RideShare::Trip
+        expect(trip.end_time).must_be_nil
+        expect(trip.rating).must_be_nil
+        expect(trip.cost).must_be_nil
+        expect(trip.driver).must_be_instance_of RideShare::Driver
+        expect(trip.passenger).must_be_kind_of RideShare::User
+        expect(trip.driver.status).must_equal :UNAVAILABLE
+      end
 
-
-
-      expect(trips.last).must_be_instance_of RideShare::Trip
-      expect(trips.last.end_time).must_be_nil
-      expect(trips.last.rating).must_be_nil
-      expect(trips.last.cost).must_be_nil
-      expect(trips.last.driver).must_be_instance_of RideShare::Driver
-      #expect(trips.last.passenger).must_be_instance_of RideShare::User
-      expect(trips.last.driver.status).must_equal :UNAVAILABLE
-    end
-
-    it "checks driver get in-progress trip in driven_trips"  do
-      trip = @dispatcher.request_trip(2)
-      driver = @dispatcher.trips.last.driver
-      expect(driver.driven_trips.last).must_equal trip
-    end
-    it "checks passenger get in-progress-trip in trips"  do
-      trip = @dispatcher.request_trip(2)
-      passenger = @dispatcher.trips.last.passenger
-      expect(passenger.trips.last).must_equal trip
-    end
+      it "checks driver get in-progress trip in driven_trips"  do
+        trip = @dispatcher.request_trip(2)
+        driver = @dispatcher.trips.last.driver
+        expect(driver.driven_trips.last).must_equal trip
+      end
+      it "checks passenger get in-progress-trip in trips"  do
+        trip = @dispatcher.request_trip(2)
+        passenger = @dispatcher.trips.last.passenger
+        expect(passenger.trips.last).must_equal trip
+      end
 
 
 
 
-    it "checks to find the driver who hasn't driven or gone longest w/o trip" do
-    expect (@dispatcher.available_driver.id).must_equal 8
-    expect (@dispatcher.available_driver.status).must_equal :AVAILABLE
-    expect (@dispatcher.available_driver).must_be_instance_of RideShare::Driver
-    end
-    it "checks passenger doesn't get themselves as a driver"  do
-      trip = @dispatcher.request_trip(8)
-      expect(trip.driver.id).wont_equal 8
-    end
+      it "checks to find the driver who hasn't driven or gone longest w/o trip" do
+        expect (@dispatcher.available_driver.id).must_equal 8
+        expect (@dispatcher.available_driver.status).must_equal :AVAILABLE
+        expect (@dispatcher.available_driver).must_be_instance_of RideShare::Driver
+      end
+      it "checks passenger doesn't get themselves as a driver"  do
+        trip = @dispatcher.request_trip(8)
+        expect(trip.driver.id).wont_equal 8
+      end
 
 
-    it 'Check the driver status is :Available' do
-      driver = @dispatcher.available_driver
+      it 'Check the driver status is :Available' do
+        driver = @dispatcher.available_driver
 
-      expect(driver.status).must_equal :AVAILABLE
-    end
-    it 'All drivers are unavailable - Raise ArgumentError' do
-      @dispatcher.drivers[1].status = :UNAVAILABLE
-      @dispatcher.drivers[2].status = :UNAVAILABLE
-      puts @dispatcher.drivers[1].status
-      puts @dispatcher.drivers[2].status
-      expect{@dispatcher.available_driver}.must_raise ArgumentError
+        expect(driver.status).must_equal :AVAILABLE
+      end
+      it 'All drivers are unavailable - Raise ArgumentError' do
+        @dispatcher.drivers[1].status = :UNAVAILABLE
+        @dispatcher.drivers[2].status = :UNAVAILABLE
+        puts @dispatcher.drivers[1].status
+        puts @dispatcher.drivers[2].status
+        expect{@dispatcher.available_driver}.must_raise ArgumentError
+      end
     end
   end
-end

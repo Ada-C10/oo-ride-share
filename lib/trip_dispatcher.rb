@@ -182,4 +182,5 @@ module RideShare
   rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
 
   puts driver = rideshare.request_trip(8)
-  # binding.pry
+  puts rideshare.passengers[2]
+  #binding.pry
