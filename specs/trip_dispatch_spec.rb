@@ -218,11 +218,26 @@ describe "TripDispatcher class" do
 
     it 'chooses the driver with the least recent trip end time if all drivers have driven rides' do
       new_dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                  'specs/test_data/trips_test_wave4.csv',
+                                                  'specs/test_data/trips_test_wave4_1.csv',
                                                   DRIVER_TEST_FILE)
 
       trip = new_dispatcher.request_trip(1)
       expect(trip.driver.id).must_equal 8 #driver 8 is available and has the least recent trip
+
+      new_dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  'specs/test_data/trips_test_wave4_2.csv',
+                                                  DRIVER_TEST_FILE)
+
+      trip = new_dispatcher.request_trip(1)
+      expect(trip.driver.id).must_equal 5 #driver 5 is available and has the least recent trip
+
+      new_dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                  'specs/test_data/trips_test_wave4_3.csv',
+                                                  DRIVER_TEST_FILE)
+
+      trip = new_dispatcher.request_trip(1)
+      expect(trip.driver.id).must_equal 5 #driver 5 and 8 have the least recent trip, expect to select first driver
+
     end
 
   end
