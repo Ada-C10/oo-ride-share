@@ -84,7 +84,7 @@ module RideShare
             id: raw_driver[:id].to_i, #trip ID
             vin: raw_driver[:vin],
             status: raw_driver[:status].to_sym,
-            name: driver_name,
+            name: driver_name.to_s,
             phone: driver_phone
 
           }

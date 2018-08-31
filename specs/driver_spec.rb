@@ -53,7 +53,7 @@ describe "Driver class" do
         expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
       end
 
-      xit "increases the trip count by one" do
+      it "increases the trip count by one" do
         previous = @driver.driven_trips.length
         @driver.add_driven_trip(@trip)
         expect(@driver.driven_trips.length).must_equal previous + 1

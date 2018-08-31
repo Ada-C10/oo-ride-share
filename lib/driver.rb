@@ -16,6 +16,11 @@ module RideShare
         raise ArgumentError, 'Vin inaccurate, must be 17 characters long.'
       end
 
+      if input[:driven_trips] == ""
+        raise ArgumentError, 'trip can not be empty'
+      end
+
+
       # if input[:driven_trips] == ""
       #   raise ArgumentError, "No trip is provided"
       # end
@@ -38,8 +43,9 @@ module RideShare
 
 
     end
+
     def add_driven_trip(trip)
-      @trips << trip
+      @driven_trips << trip
 
     end
 
