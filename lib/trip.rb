@@ -4,7 +4,7 @@ require 'time'
 
 module RideShare
   class Trip
-    attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating
+    attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :driver_id
 
     def initialize(input)
       @id = input[:id]
@@ -23,6 +23,7 @@ module RideShare
       @end_time = input[:end_time]
       @cost = input[:cost]
       @rating = input[:rating]
+      @driver_id = input[:driver_id]
 
 
       if @rating > 5 || @rating < 1
@@ -35,11 +36,9 @@ module RideShare
       end
     end
 
-    # def driver #return the driver from driver class using the driver's id from driver csv file
-    #   data[:vehicle_id] = nil
-    #   data[:driven_trips] = @passenger.trips
-    #   data[:status]
-    #   @driver = RideShare::Driver.new(input)
+    # def driver
+    #   binding.pry # check how to find driver that has this driver_id
+    #   return RideShare::TripDispatcher.@drivers.find { |driver| driver.id == @driver_id }
     # end
 
     def inspect

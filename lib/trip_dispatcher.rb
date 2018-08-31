@@ -70,7 +70,8 @@ module RideShare
           start_time: Time.parse(raw_trip[:start_time]),
           end_time: Time.parse(raw_trip[:end_time]),
           cost: raw_trip[:cost].to_f,
-          rating: raw_trip[:rating].to_i
+          rating: raw_trip[:rating].to_i,
+          driver_id: raw_trip[:driver_id].to_i
         }
         trip = Trip.new(parsed_trip)
         # it adds each trip to its corresponding instance of passanger
