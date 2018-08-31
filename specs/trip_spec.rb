@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'pry'
 
 describe "Trip class" do
 
@@ -62,6 +63,26 @@ describe "Trip class" do
 
       test_trip = RideShare::Trip.new(@trip_data)
       expect(test_trip.duration).must_equal 60.00
+    end
+  end
+
+
+  describe "request_trip does not affect trip class calculations" do
+    before do
+      dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                DRIVER_TEST_FILE)
+
+      @trip = dispatcher.request_trip(1)
+    end
+
+    it "does not raise an error for rating value of nil" do
+
+      expect (@trip.rating).wont_be_kind_of ArgumentError
+    end
+
+    it "does not calculate the duration of the trip in seconds" do
+      expect (@trip.duration).must_equal "In Progress"
     end
   end
 end

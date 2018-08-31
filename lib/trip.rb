@@ -15,6 +15,7 @@ module RideShare
 
       if @rating == nil
         @rating = "In Progress"
+        @cost = "In Progress"
       elsif @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
@@ -33,7 +34,11 @@ module RideShare
     end
 
     def duration
-      return @end_time - @start_time
+      if @end_time == "In Progress"
+        return "In Progress"
+      else
+        return @end_time - @start_time
+      end
     end
 
     def driver
