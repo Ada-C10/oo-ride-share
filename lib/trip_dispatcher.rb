@@ -58,8 +58,10 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
         driver.add_trip(trip)
+        driver.add_driven_trip(trip)
         passenger.add_trip(trip)
         trips << trip
+        # binding.pry
       end
 
       return trips
@@ -88,8 +90,7 @@ module RideShare
        CSV.open(filename, 'r', headers: true).map do |line|
         id = line[0].to_i
         passenger = find_passenger(line[0].to_i)
-        # puts "hey its guille"
-        # puts line[1].length
+        line[1].length
 
         driver_data = Driver.new({id: line[0].to_i,
           name: passenger.name,
@@ -112,7 +113,38 @@ module RideShare
       passenger = find_passenger(user_id)
 
       driver = @drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id }
-      raise ArgumentError, 'No available drivers' if driver.nil?
+        raise ArgumentError, 'No available drivers' if driver.nil?
+
+      # available_drivers = @drivers.find_all { |driver| driver.status == :AVAILABLE && driver.id != user_id }
+      #   raise ArgumentError, 'No available drivers' if available_drivers.nil?
+      #
+      # driver = available_drivers(driver.trips.end_time) { |min| min.driver.trips.end_time }
+      # # list_a_d = available_drivers.reduce{ |shortest, current| (shortest.latest_drive < current.latest_drive) ? shortest : current }
+      # # time = list_a_d.min
+      # binding.pry
+      # driver = available_drivers.select {|driver| driver.trips.end_time == time }
+      #
+      #     binding.pry
+
+      # driver = available_drivers.find { |driver| driver.trips.empty? }
+      # need to look at only the end time for the last trip of each driver
+
+        # if driver.nil?
+        #   available_drivers.each do |driver|
+        #     puts "#{driver.latest_drive}"
+        #   end
+        #   # available_drivers.each do |trips|
+          #   last_trip_end_time = (trips.last).last_trip
+          # end
+          # binding.pry
+          # sorted_drivers = available_drivers.map do |driver|
+          #
+          # #   driver.trips.max
+          # end
+          # # binding.pry
+          # driver = sorted_drivers[0]
+        # end
+
 
       parsed_trip = {
         id: "id",

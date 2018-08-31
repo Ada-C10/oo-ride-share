@@ -142,7 +142,7 @@ describe "TripDispatcher class" do
 
     it "assigns available driver" do
 
-      expect(@driver_trip.driver).must_equal 8
+      expect(@driver_trip.driver).must_equal 5
       expect(@driver_trip.driver).wont_equal 2
     end
 
@@ -170,16 +170,16 @@ describe "TripDispatcher class" do
     end
 
     it "creates a new trip in the driver's collection of trips" do
-      driver = @dispatcher.drivers.find { |driver| driver.id == 5 }
-      expect(driver.driven_trips.length).must_equal 3
+      driver = @dispatcher.drivers.find { |driver| driver.id == 8 }
+      expect(driver.driven_trips.length).must_equal 1
       @user_id = 4
       @driver_trip = @dispatcher.request_trip(@user_id)
-      expect(@driver_trip.driver).must_equal 5
-      expect(driver.driven_trips.length).must_equal 4
+      expect(@driver_trip.driver).must_equal 8
+      expect(driver.driven_trips.length).must_equal 2
     end
 
     it "converts a driver's status to :UNAVAILABLE when trip in progress" do
-      driver = @dispatcher.drivers.find { |driver| driver.id == 8 }
+      driver = @dispatcher.drivers.find { |driver| driver.id == 5 }
       expect(driver.status).must_equal :UNAVAILABLE
     end
 
@@ -196,7 +196,7 @@ describe "TripDispatcher class" do
 
     it "add a new trip onto the trips array" do
       @trips_length = (@dispatcher.trips).length
-      expect(@trips_length).must_equal 6
+      expect(@trips_length).must_equal 7
     end
 
     it "raises argument error if no drivers are available" do

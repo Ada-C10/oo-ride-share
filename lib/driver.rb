@@ -65,5 +65,10 @@ module RideShare
       return (super - total_revenue)
     end
 
+    def latest_drive
+      latest = @driven_trips.map {|trip| trip.end_time }
+      return latest.max
+    end
+
   end
 end
