@@ -109,6 +109,9 @@ module RideShare
 
     def request_trip(user_id)
       driver = available_driver
+      if driver == nil
+        return "No driver available at this time."
+      end
       start_time = Time.now
       end_time = nil
       trip_id = @trips.length + 1

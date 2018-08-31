@@ -182,9 +182,11 @@ describe "TripDispatcher class" do
 
     it "will add the trip object to the collection of all trips in trip dispatcher" do
       all_trips = @dispatcher.trips
+      trip_count = all_trips.length
       trip_generated = @dispatcher.request_trip(1)
 
       expect(all_trips).must_include trip_generated
+      expect(all_trips.length).must_equal trip_count + 1
 
     end
 
@@ -200,6 +202,25 @@ describe "TripDispatcher class" do
       trip_generated = @dispatcher.request_trip(1)
 
       expect(trip_generated).must_be_kind_of RideShare::Trip
+
+    end
+
+    it "will return a message when no driver is available for trip" do
+      @dispatcher.drivers.each do |driver|
+        driver.status = :UNAVAILABLE
+      end
+
+      expect(@dispatcher.request_trip(6)).must_equal "No driver available at this time."
+    end
+
+    it "will not create a trip if no driver is available" do
+      @dispatcher.drivers.each do |driver|
+        driver.status = :UNAVAILABLE
+      end
+      trip_count = @dispatcher.trips.length
+      @dispatcher.request_trip(6)
+
+      expect(@dispatcher.trips.length).must_equal trip_count
 
     end
 
