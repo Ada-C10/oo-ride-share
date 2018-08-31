@@ -166,16 +166,16 @@ describe "TripDispatcher class" do
       expect(@dispatcher.drivers[1].status).must_equal :UNAVAILABLE
     end
 
-
-    # the average hourly revenue of a Driver with an in-progress trip
-
-    # driver can't drive self
     it "total revenue doesn't change after in progress trip added" do
       expect(@dispatcher.drivers[1].total_revenue).must_equal 40.04
       @dispatcher.request_trip(1)
       expect(@dispatcher.drivers[1].total_revenue).must_equal 40.04
     end
 
+    it "raises an error if the driver tries to drive themselves" do
+      @dispatcher.request_trip(1)
+      expect{@dispatcher.request_trip(8)}.must_raise ArgumentError
+    end
 
   end
 end
