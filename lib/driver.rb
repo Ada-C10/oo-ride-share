@@ -20,5 +20,10 @@ module RideShare
       @driven_trips = input[:trips]
       #raise ArgumentError if not VALID_STATUS.include?(status)
     end
+
+    def add_driven_trip(trip)
+      raise ArgumentError.new("Invalid Driver") unless trip.instance_of? RideShare::Trip
+      @driven_trips << trip
+    end
   end
 end
