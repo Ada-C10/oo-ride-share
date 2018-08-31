@@ -17,10 +17,10 @@ describe "Trip class" do
                                       vehicle_id: "75948H750K847593J",
                                       phone: "111-111-1111",
                                       status: :AVAILABLE),
-      start_time: start_time,
-      end_time: end_time,
-      cost: 23.45,
-      rating: 3
+        start_time: start_time,
+        end_time: end_time,
+        cost: 23.45,
+        rating: 3
       }
       @trip = RideShare::Trip.new(@trip_data)
     end

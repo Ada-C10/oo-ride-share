@@ -4,17 +4,20 @@ require_relative 'user'
 module RideShare
   class Driver < User
 
-  attr_reader :vehicle_id, :status, :driven_trips
+  attr_reader :vehicle_id, :driven_trips
+  attr_accessor :status
 
     def initialize(input)
       super(input)
 
+      if input[:vehicle_id].length != 17 || input[:vehicle_id].empty?
+        raise ArgumentError, "Invalid VIN #{input[:vehicle_id]}in driver CSV (expected length 17)"
+      end
+
       @vehicle_id = input[:vehicle_id]
       @status = input[:status]
       @driven_trips = input[:trips].nil? ? [] : input[:trips]
-      if @vehicle_id.length != 17 || @vehicle_id.empty?
-        raise ArgumentError
-      end
+
     end
 
     #assinged as to_i in dispatch spec but binding is a float in driver.rb
@@ -36,16 +39,26 @@ module RideShare
     end
 
     def total_revenue
-      total = 0
+      sum = 0
       @driven_trips.each do |trip|
-        total += trip.cost
+        sum += trip.cost
       end
-      revenue = (total-(1.65 * @driven_trips.length))*0.80
+      revenue = (sum-(1.65 * @driven_trips.length))*0.80
       return revenue
     end
 
     def net_expenditures
       return super - total_revenue
+    end
+
+    ## For Wave 3:
+
+    def add_new_in_progress_trip(trip) # overrides method with same name in User class
+    # helper method in Driver:
+    # add new_in_progress_trip to driver.driven_trips [] (.add_driven_trip)
+    # set driver.status = :unavailable
+      @status = :UNAVAILABLE # attr_accessor!!
+      add_driven_trip(trip)
     end
 
   end

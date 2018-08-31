@@ -13,9 +13,9 @@ module RideShare
     def initialize(user_file = 'support/users.csv',
       trip_file = 'support/trips.csv',
       driver_file = 'support/drivers.csv')
-      @passengers = load_users(user_file) #array of Users from users csv
-      @drivers = load_drivers(driver_file) # array of Drivers from drivers csv
-      @trips = load_trips(trip_file) #array of Trips from trips csv
+      @passengers = load_users(user_file) #array of all Users from users csv
+      @drivers = load_drivers(driver_file) # array of all Drivers from drivers csv
+      @trips = load_trips(trip_file) #array of all Trips from trips csv
     end
 
     def load_users(filename)
@@ -88,6 +88,8 @@ module RideShare
 
       def available_driver
         available = @drivers.find { |driver| driver.status == :AVAILABLE }
+        # if no available drivers, argument error?
+        # rescue?
         return available
       end
 
@@ -103,10 +105,10 @@ module RideShare
         #{passengers.count} passengers>"
       end
 
-
       def request_trip(user_id)
 
         passenger_trip = {}
+        # can we rename "passenger_trip" to "new_in_progress_trip"?
 
         passenger_trip[:id] = user_id,
         passenger_trip[:driver] = available_driver,
@@ -117,10 +119,12 @@ module RideShare
 
         passenger_trip[:passenger].add_trip(trip) # User.add_trip(trip) adds to @trips []
         passenger_trip[:driver].add_driven_trip(trip) # Driver.add_trip(trip) adds to @trips []
-        trips << trip
+        @trips << trip
+        # should be @trips?
 
         return trips
       end
+
       # user_id, x
       # auto assign driver (first driver status available) x
       # PASSENGER????????
@@ -146,7 +150,9 @@ module RideShare
       private
 
       def check_id(id)
-        raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
+        if id.nil? || id <= 0
+          raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})"
+        end
       end
 
 

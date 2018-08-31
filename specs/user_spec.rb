@@ -85,14 +85,11 @@ describe "User class" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
                                   phone: "1-602-620-2330 x3723", trips: [])
-       trip1 = RideShare::Trip.new(start_time: Time.parse("2018-05-25 11:50:00 -0700"),
+       trip = RideShare::Trip.new(start_time: Time.parse("2018-05-25 11:50:00 -0700"),
                                   end_time: Time.parse("2018-05-25 11:51:00 -0700"),
                                   rating: 5)
-       trip2 = RideShare::Trip.new(start_time: Time.parse("2018-05-25 11:50:00 -0700"),
-                                  end_time: Time.parse("2018-05-25 11:53:00 -0700"),
-                                  rating: 5)
-      @user.add_trip(trip1)
-      @user.add_trip(trip2)
+      @user.add_trip(trip)
+      @user.add_trip(trip)
     end
 
     it "correctly sums duration of all user's trips" do

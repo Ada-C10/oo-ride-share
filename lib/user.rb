@@ -4,7 +4,7 @@ module RideShare
 
     def initialize(input)
       if input[:id].nil? || input[:id] <= 0
-        raise ArgumentError, 'ID cannot be blank or less than zero.'
+        raise ArgumentError, "ID cannot be blank or less than zero (got #{input[:id]})."
       end
 
       @id = input[:id]
@@ -19,7 +19,7 @@ module RideShare
 
     def net_expenditures
       sum = 0
-      trips.each do |trip|
+      @trips.each do |trip|
         sum += trip.cost
       end
       return sum
@@ -27,10 +27,18 @@ module RideShare
 
     def total_time_spent
       total_time = 0
-      trips.each do |trip|
+      @trips.each do |trip|
         total_time += trip.duration
       end
       return total_time
+    end
+
+    # For Wave 3:
+
+    def add_new_in_progress_trip
+      # helper method in User:
+      # add new trip to user.trips [] (.add_trip)
+      # can this be the same as the other?
     end
 
   end

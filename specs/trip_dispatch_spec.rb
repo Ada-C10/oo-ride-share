@@ -152,6 +152,32 @@ describe "TripDispatcher class" do
     it "never has driver and passenger with same id" do
     end
 
+    it "sets driver's status to :UNAVAILABLE" do
+    end
+
+    it "Wave 1&2 code ignores all in-progress trips (end time = nil)" do
+    end
+    # user_id, x
+    # auto assign driver (first driver status available) x
+    # PASSENGER????????
+    # start time = Time.now
+    # end TIME = nil (IN PROG)
+    # cost = nil
+    # rating = nil
+
+    # helper method in Driver:
+    # add new_in_progress_trip to driver.driven_trips [] (.add_driven_trip)
+    # set driver.status = :unavailable
+
+    # helper method in User:
+    # add new trip to user.trips [] (.add_trip)
+
+    # add new trip to trip_dispatcher's @trips
+    # return new_in_progress_trip
+
+    # wave 1&2 code:
+    # ignores in-progress trips (if end time) is nil not included
+    # write explicit tests for this situation
 
   end
 end
