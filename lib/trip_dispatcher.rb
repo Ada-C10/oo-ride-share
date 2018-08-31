@@ -141,15 +141,27 @@ module RideShare
 
     def find_available_driver(user_id)
 
-      @drivers.each do |driver|
-        if (driver.status == :AVAILABLE) && (driver.id != user_id)
-          driver.status = :UNAVAILABLE
-          return driver
-        end
-      end
-      raise ArgumentError, "There are no available drivers"
-    end
+      available_drivers = @drivers.select{|driver| driver.status == :AVAILABLE}
 
+      available_drivers = available_drivers.reject{|driver| driver.id == user_id}
+
+      if available_drivers.length == 0
+        raise ArgumentError, "There are no available drivers"
+      else
+        available_drivers.each do |driver|
+          if driver.driven_trips.length == 0
+            driver.status = :UNAVAILABLE
+            return driver
+          end
+        end
+
+        available_drivers.sort_by {|driver| driver.driven_trips.last.end_time }
+        available_drivers[0].status = :UNAVAILABLE
+        return available_drivers[0]
+
+      end
+
+    end
 
     private
 

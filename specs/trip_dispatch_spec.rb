@@ -70,7 +70,7 @@ describe "TripDispatcher class" do
       expect(first_driver.status).must_equal :UNAVAILABLE
       expect(last_driver.name).must_equal "Driver8"
       expect(last_driver.id).must_equal 8
-      expect(last_driver.status).must_equal :AVAILABLE
+      expect(last_driver.status).must_equal :UNAVAILABLE
     end
 
     it "Connects drivers with trips" do
@@ -113,13 +113,14 @@ describe "TripDispatcher class" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
 
-      @before_trips = @dispatcher.drivers[1].driven_trips.length
+      @before_trips = @dispatcher.drivers[2].driven_trips.length
 
-      @before_new_trip_driver = @dispatcher.drivers[1].status
+      @before_new_trip_driver = @dispatcher.drivers[2].status
 
       @before_passenger_trips = @dispatcher.passengers[0].trips.length
 
       @dispatcher.request_trip(1)
+
 
     end
 
@@ -128,7 +129,7 @@ describe "TripDispatcher class" do
     end
 
     it "assigns first :AVAILABLE driver to the ride" do
-      expect(@dispatcher.trips.last.driver.id).must_equal 5
+      expect(@dispatcher.trips.last.driver.id).must_equal 6
     end
 
     it "assigns an available driver to the ride" do
@@ -149,21 +150,21 @@ describe "TripDispatcher class" do
 
     it "adds new instance of requested trip to driver's driven_trips array" do
 
-      expect(@dispatcher.drivers[1].driven_trips.length).must_equal (@before_trips + 1)
+      expect(@dispatcher.drivers[2].driven_trips.length).must_equal (@before_trips + 1)
 
-      expect(@dispatcher.drivers[1].driven_trips.last.passenger.id).must_equal 1
+      expect(@dispatcher.drivers[2].driven_trips.last.passenger.id).must_equal 1
     end
 
     it "adds new instance of requested trip to passengers's trips array" do
 
       expect(@dispatcher.passengers[0].trips.length).must_equal (@before_passenger_trips + 1)
 
-      expect(@dispatcher.passengers[0].trips.last.driver.id).must_equal 5
+      expect(@dispatcher.passengers[0].trips.last.driver.id).must_equal 6
     end
 
     it "changes drivers status to unavailble after assigning to requested trip" do
 
-      expect(@dispatcher.drivers[1].status).must_equal :UNAVAILABLE
+      expect(@dispatcher.drivers[2].status).must_equal :UNAVAILABLE
     end
 
     it "total revenue doesn't change after in progress trip added" do
@@ -173,8 +174,24 @@ describe "TripDispatcher class" do
     end
 
     it "raises an error if the driver tries to drive themselves" do
-      expect{@dispatcher.request_trip(8)}.must_raise ArgumentError
+      @dispatcher.request_trip(2)
+      expect{@dispatcher.request_trip(5)}.must_raise ArgumentError
     end
+
+    it "has a preference for drivers with least amount of trips" do
+
+      test_trip_input = {:id => 1234, :passenger => "George Foreman", :end_time => Time.parse("2018-05-25 12:25:00 -0700"), :start_time => Time.parse("2018-05-25 11:52:40 -0700"), :cost => 100, :rating => 3}
+
+      test_ride = RideShare::Trip.new(test_trip_input)
+
+
+      @dispatcher.drivers[0].status = :AVAILABLE
+      @dispatcher.drivers[2].add_driven_trip(test_ride)
+
+      expect(@dispatcher.request_trip(1).driver.id).must_equal 7
+
+    end
+
 
   end
 end
