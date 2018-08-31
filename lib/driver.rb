@@ -37,20 +37,30 @@ module RideShare
       end
 
       rating = 0.0
+      nil_count = 0
       @driven_trips.each do |trip|
-        rating += trip.rating
+        if trip.rating != nil
+          rating += trip.rating
+        else
+          nil_count += 1
+        end
       end
 
-      rating = (rating/@driven_trips.length).round(2)
+      rating = (rating/(@driven_trips.length - nil_count)).round(2)
       return rating
     end
 
     def total_revenue
       total_revenue = 0.0
+      nil_count = 0
       @driven_trips.each do |trip|
-        total_revenue += trip.cost
+        if trip.cost != nil
+          total_revenue += trip.cost
+        else
+          nil_count += 1
+        end
       end
-      return ((total_revenue - (1.65 * @driven_trips.length)) * 0.8)
+      return ((total_revenue - (1.65 * (@driven_trips.length - nil_count))) * 0.8)
     end
 
     def net_expenditures

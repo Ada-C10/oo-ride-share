@@ -82,6 +82,13 @@ describe "Driver class" do
         @driver.add_driven_trip(trip2)
         expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
       end
+
+      it "ignores adding to rating for a trip in progress" do
+        trip = RideShare::Trip.new({id: 12, driver: @driver, passenger: pass, rating: nil, cost: nil})
+        @driver.add_driven_trip(trip)
+        expect(@driver.average_rating).must_be_close_to (5.0) / 1.0, 0.01
+      end
+
     end
 
     describe "Calculates total revenue" do
@@ -108,7 +115,7 @@ describe "Driver class" do
 
       it "ignores a trip in progress" do
         trip = RideShare::Trip.new({id: 12, driver: @driver, passenger: pass, rating: nil, cost: nil})
-        @driver.add_trip(trip)
+        @driver.add_driven_trip(trip)
         expect(@driver.total_revenue).must_equal 25.64
       end
 
@@ -134,9 +141,9 @@ describe "Driver class" do
         expect(@driver.net_expenditures).must_be_instance_of Float
       end
 
-      it "ignores a trip in progress" do
+      it "ignores adding to net_expenditures for a trip in progress" do
         trip = RideShare::Trip.new({id: 12, driver: @driver, passenger: pass, rating: nil, cost: nil})
-        @driver.add_trip(trip)
+        @driver.add_driven_trip(trip)
         expect(@driver.net_expenditures).must_equal 14.32
       end
 
