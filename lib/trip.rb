@@ -28,15 +28,15 @@ module RideShare
       end
     end
 
-  def calculate_trip_duration
-    if @end_time == nil
-      return nil
-    else
-      seconds = (@end_time.to_i) - (@start_time.to_i)
-      return seconds
+    def calculate_trip_duration
+      if @end_time == nil
+        return nil
+      else
+        seconds = (@end_time.to_i) - (@start_time.to_i)
+        return seconds
+      end
     end
   end
-end
 
   def inspect
     "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +

@@ -133,7 +133,7 @@ describe "TripDispatcher class" do
       expect(trips_plus_one).must_equal original_trips + 1
 
     end
-  
+
     it "should throw argument error if no driver is avalible" do
       @dispatcher.find_driver(5).driver_on_trip
       @dispatcher.find_driver(8).driver_on_trip

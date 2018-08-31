@@ -5,7 +5,7 @@ describe "Trip class" do
   describe "initialize" do
     before do
       start_time = Time.parse('2015-05-20T12:14:00+00:00')
-      end_time = start_time + 25 * 60 # 25 minutes
+      end_time = start_time + 25 * 60
       @trip_data = {
         id: 8,
         passenger: RideShare::User.new(id: 1,
@@ -29,7 +29,7 @@ describe "Trip class" do
     end
 
     it "stores an instance of driver" do
-        # Unskip after wave 2
+      # Unskip after wave 2
       expect(@trip.driver).must_be_kind_of RideShare::Driver
     end
 

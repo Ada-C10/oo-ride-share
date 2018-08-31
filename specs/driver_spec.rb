@@ -95,7 +95,7 @@ describe "Driver class" do
       end_time: Time.parse("2016-08-09"),
       rating: 1)
       @driver.add_driven_trip(trip2)
-
+      
       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
     end
   end
@@ -146,7 +146,7 @@ describe "total_revenue" do
     end
 
     it "returns total correct net expenditure" do
-      expect(@driver.net_expenditures).must_be_close_to (1.68)
+      expect(@driver.net_expenditures).must_be_close_to (-1.68)
     end
   end
 end

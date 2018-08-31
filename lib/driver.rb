@@ -11,7 +11,7 @@ module RideShare
     def initialize(input)
       super (input)
 
-
+      
       if input[:vin].length == 17
         @vin = input[:vin]
       else
@@ -28,7 +28,7 @@ module RideShare
     end
 
     def average_rating
-    sum = 0
+      sum = 0
       @driven_trips.each do |trip|
         sum += trip.rating
       end
@@ -47,13 +47,13 @@ module RideShare
       return total_revenue
     end
 
-def net_expenditures
-  return self.total_revenue - super
-end
+    def net_expenditures
+      return super - self.total_revenue
+    end
 
-def driver_on_trip
-  @status = :UNAVAILABLE
-end
+    def driver_on_trip
+      @status = :UNAVAILABLE
+    end
 
     def add_driven_trip(trip)
       if trip.class == Trip
