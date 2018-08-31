@@ -1,5 +1,6 @@
 require 'csv'
 require 'time'
+# require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -38,19 +39,21 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
-
+        # driver = find_driver(raw_trip[:driver_id].to_i)
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
           start_time: Time.parse(raw_trip[:start_time]),
           end_time: Time.parse(raw_trip[:end_time]),
           cost: raw_trip[:cost].to_f,
-          rating: raw_trip[:rating].to_i
+          rating: raw_trip[:rating].to_i,
+          # driver: driver
         }
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
-        trips << trip
+        # driver.add_driver(trip)
+        # trips << trip
         # driver = Driver.new()
         # passenger.add_driver(driver)
         # trips << driver
@@ -60,6 +63,7 @@ module RideShare
     end
 
     def load_drivers(filename)
+      ## add code to find_passenger and/or include info for user with initialization of driver?
       drivers = []
 
       CSV.read(filename, headers: true).each do |line|
@@ -69,10 +73,14 @@ module RideShare
         input_data[:status] = line[2].to_sym
 
         drivers << Driver.new(input_data)
+        # binding.pry
       end
 
-      return drivers
+      return drivers 
     end
+
+
+
 
     def find_passenger(id)
       check_id(id)
