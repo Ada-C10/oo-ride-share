@@ -120,8 +120,8 @@ describe "Driver class" do
                                  start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: -2, rating: 5)
       @driver.add_driven_trip(trip)
 
-      revenue = @driver.total_revenue
-      expect(revenue).must_raise ArgumentError
+      # revenue = @driver.total_revenue
+      expect {@driver.total_revenue}.must_raise ArgumentError
 
     end
 
@@ -155,7 +155,7 @@ describe "Driver class" do
 
    it "#net_expenditures method returns the net expenditure for driver" do
      # binding.pry
-     expect(@driver.net_expenditures).must_be_close_to -9.36
+     expect(@driver.net_expenditures).must_be_close_to (-9.36)
    end
    it "net expenditure for driver" do
      expect(@driver.net_expenditures).must_be_kind_of Float

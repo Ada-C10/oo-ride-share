@@ -41,6 +41,7 @@ module RideShare
 
       revenue = []
       driven_trips.each do |trip|
+      
         raise ArgumentError.new("Invalid, cost can't be negetive") if trip.cost < 0
         num = trip.cost - 1.65
         num = num - (num * 0.2)
