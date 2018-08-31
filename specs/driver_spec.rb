@@ -1,15 +1,12 @@
 require_relative 'spec_helper'
 
-require 'pry'
 describe "Driver class" do
 
   describe "Driver instantiation" do
     before do
-      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-        vin: "1C9EVBRM0YBC564DZ",
-        phone: '111-111-1111',
-        status: :AVAILABLE)
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ", phone: '111-111-1111', status: :AVAILABLE)
       end
+
       it "is an instance of Driver" do
         expect(@driver).must_be_kind_of RideShare::Driver
       end
@@ -58,7 +55,7 @@ describe "Driver class" do
       end
     end
 
-    describe "average_rating method" do
+    describe "Calculates average rating" do
       before do
         @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ")
         trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, date: Time.parse("2016-08-08"), rating: 5)
@@ -83,12 +80,11 @@ describe "Driver class" do
       it "correctly calculates the average rating" do
         trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil, date: Time.parse("2016-08-08"), rating: 1)
         @driver.add_driven_trip(trip2)
-
         expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
       end
     end
 
-    describe "total_revenue" do
+    describe "Calculates total revenue" do
 
       before do
         # pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
@@ -110,27 +106,27 @@ describe "Driver class" do
         expect(@driver.total_revenue).must_be_instance_of Float
       end
 
+      it "ignores a trip in progress" do
+        trip = RideShare::Trip.new({id: 12, driver: @driver, passenger: pass, rating: nil, cost: nil})
+        @driver.add_trip(trip)
+        expect(@driver.total_revenue).must_equal 25.64
+      end
+
     end
 
-    describe "net_expenditures" do
+    describe "Calculates net expenditures" do
       before do
-        # @user = RideShare::User.new(id: 1, name: "Lovelace", phone: "353-533-5334")
         @driver = RideShare::Driver.new(id:1, name: "Lovelace", phone: "353-533-5334", vin: "12345678912345678")
-
-        @trip1 = RideShare::Trip.new({id: 8, driver: pass, passenger: @driver, date: "2016-08-08", rating: 5, cost: 10})
-        @trip2 = RideShare::Trip.new({id: 9, driver: pass, passenger: @driver, date: "2016-08-08", rating: 5, cost: 11})
-        @trip3 = RideShare::Trip.new({id: 10, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5, cost: 10})
+        @trip1 = RideShare::Trip.new({id: 8, driver: pass, passenger: @driver, rating: 5, cost: 10})
+        @trip2 = RideShare::Trip.new({id: 9, driver: pass, passenger: @driver, rating: 5, cost: 11})
+        @trip3 = RideShare::Trip.new({id: 10, driver: @driver, passenger: pass, rating: 5, cost: 10})
 
         @driver.add_trip(@trip1)
         @driver.add_trip(@trip2)
         @driver.add_driven_trip(@trip3)
-
-
-
       end
 
       it "accurately calculates net_expenditures of a driver" do
-
         expect(@driver.net_expenditures).must_equal 14.32
       end
 
@@ -138,10 +134,16 @@ describe "Driver class" do
         expect(@driver.net_expenditures).must_be_instance_of Float
       end
 
+      it "ignores a trip in progress" do
+        trip = RideShare::Trip.new({id: 12, driver: @driver, passenger: pass, rating: nil, cost: nil})
+        @driver.add_trip(trip)
+        expect(@driver.net_expenditures).must_equal 14.32
+      end
+
     end
 
 
-    describe "accept_trip method" do
+    describe "Accepts a trip in progress" do
       before do
         @passenger = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
           @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV", vin: "1C9EVBRM0YBC564DZ", phone: '111-111-1111', status: :AVAILABLE)
@@ -157,8 +159,6 @@ describe "Driver class" do
           @driver.accept_trip(@trip)
           expect(@driver.driven_trips.last).must_equal @trip
         end
-
-
       end
 
   end

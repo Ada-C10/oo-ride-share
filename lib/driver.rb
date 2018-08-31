@@ -1,9 +1,7 @@
 require_relative 'user'
-require 'pry'
 
 module RideShare
   class Driver < User
-
     attr_reader :id, :name, :vin, :phone_number, :status, :driven_trips, :trips
 
     def initialize(input)

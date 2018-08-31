@@ -1,6 +1,5 @@
 require 'csv'
 require 'time'
-require 'pry'
 require_relative 'user'
 require_relative 'trip'
 require_relative 'driver'
@@ -17,19 +16,15 @@ module RideShare
 
     def load_users(filename)
       users = []
-
       CSV.read(filename, headers: true).each do |line|
         input_data = {}
         input_data[:id] = line[0].to_i
         input_data[:name] = line[1]
         input_data[:phone] = line[2]
-
         users << User.new(input_data)
       end
-
       return users
     end
-
 
     def load_trips(filename)
       trips = []
@@ -37,10 +32,7 @@ module RideShare
 
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
-
         driver = find_driver(raw_trip[:driver_id].to_i)
-
-
         time_start = Time.parse(raw_trip[:start_time])
         time_end = Time.parse(raw_trip[:end_time])
 
@@ -69,9 +61,7 @@ module RideShare
 
     def load_drivers(filename)
       drivers = []
-
       driver_data = CSV.read(filename, 'r', headers: true, header_converters: :symbol)
-
 
       driver_data.each do |line|
         input_data = {}
@@ -80,8 +70,6 @@ module RideShare
         input_data[:phone] = find_passenger(line[0].to_i).phone_number
         input_data[:vin] = line[1]
         input_data[:status] = line[2].to_sym
-
-
         drivers << Driver.new(input_data)
       end
       return drivers
@@ -131,14 +119,12 @@ module RideShare
         rating: nil,
         driver: driver
       }
-
       trip = Trip.new(input)
 
       driver.accept_trip(trip)
       find_passenger(user_id).add_trip(trip)
       @trips << trip
       return trip
-
     end
 
     private
