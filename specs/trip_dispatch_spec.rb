@@ -39,7 +39,7 @@ describe "TripDispatcher class" do
 
     it "raises ArgumentError if end time is before start time" do
 
-          expect{ RideShare::TripDispatcher.new(USER_TEST_FILE, TIME_ERROR_TEST_FILE, DRIVER_TEST_FILE) }.must_raise ArgumentError
+      expect{ RideShare::TripDispatcher.new(USER_TEST_FILE, TIME_ERROR_TEST_FILE, DRIVER_TEST_FILE) }.must_raise ArgumentError
     end
 
   end
@@ -130,22 +130,24 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "request_trip" do
+  describe "request_trip method" do
 
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
 
     it "returns an instance of trip" do
-      expect (@dispatcher.request_trip(1)).must_be_instance_of Trip
+      trip = @dispatcher.request_trip(1)
+
+      expect (trip).must_be_instance_of RideShare::Trip
     end
 
     it "intializes the trip with cost, rating and end time set as nil" do
       trip = @dispatcher.request_trip(1)
 
-      expect(trip.cost).must_be nil
-      expect(trip.rating).must_be nil
-      expect(trip.end_time).must_be nil
+      expect(trip.cost).must_equal nil
+      expect(trip.rating).must_equal nil
+      expect(trip.end_time).must_equal nil
     end
 
     it "passenger is user" do
@@ -153,9 +155,14 @@ describe "TripDispatcher class" do
       expect(trip.passenger).must_be_instance_of RideShare::User
     end
 
-    it "finds first driver with 'available' status" do
+    it "driver is instance of Driver" do
       trip = @dispatcher.request_trip(1)
       expect(trip.driver).must_be_instance_of RideShare::Driver
+    end
+
+    it "finds first driver with 'available' status" do
+      trip = @dispatcher.request_trip(1)
+      expect(trip.driver.id).must_equal 5
     end
 
     it "adds trip to @trips" do

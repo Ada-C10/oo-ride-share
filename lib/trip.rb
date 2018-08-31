@@ -5,6 +5,7 @@ module RideShare
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :driver
 
     def initialize(input)
+
       @id = input[:id]
       @passenger = input[:passenger]
       @start_time = input[:start_time]
@@ -13,8 +14,10 @@ module RideShare
       @rating = input[:rating]
       @driver = input[:driver]
 
-      if @rating > 5 || @rating < 1
-        raise ArgumentError.new("Invalid rating #{@rating}")
+      if @rating != nil 
+        if @rating > 5 || @rating < 1
+          raise ArgumentError.new("Invalid rating #{@rating}")
+        end
       end
     end
 
