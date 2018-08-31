@@ -2,9 +2,6 @@ require 'csv'
 
 module RideShare
   class Trip
-
-#To make use of the new Driver class we will need to update the Trip class to include a reference to the trip's driver.
-#add a driver attribute that calls find_driver to return a driver instance
     attr_reader :id, :driver, :passenger, :start_time, :end_time, :cost, :rating
 
     def initialize(input)
@@ -20,9 +17,7 @@ module RideShare
       @rating = input[:rating]
 
       unless @rating == nil
-        if @rating > 5 || @rating < 1
-          raise ArgumentError.new("Invalid rating #{@rating}")
-        end
+        raise ArgumentError.new("Invalid rating #{@rating}") if @rating > 5 || @rating < 1
       end
     end
 
@@ -33,11 +28,7 @@ module RideShare
     end
 
     def trip_duration
-      if @end_time == nil
-        return nil
-      else
-        return duration = @end_time - @start_time
-      end
+      return @end_time == nil ? nil : duration = @end_time - @start_time
     end
 
   end
