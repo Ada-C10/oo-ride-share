@@ -5,8 +5,8 @@ module RideShare
   class Trip
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :driver
 
+    # initialize 
     def initialize(input)
-
       @id = input[:id]
       @passenger = input[:passenger]
       @start_time = input[:start_time]
@@ -14,7 +14,6 @@ module RideShare
       @cost = input[:cost]
       @rating = input[:rating]
       @driver = input[:driver]
-
 
       if @end_time != nil
         if (@rating > 5 || @rating < 1)
@@ -29,7 +28,6 @@ module RideShare
           raise ArgumentError.new("Time is in the future! That can't be right.")
         end
       end
-
     end
 
     def inspect
@@ -37,7 +35,7 @@ module RideShare
       "ID=#{id.inspect} " +
       "PassengerID=#{passenger&.id.inspect}>"
     end
-
+    # a method to calculate the time duration of each trip
     def duration
       return @end_time - @start_time
     end

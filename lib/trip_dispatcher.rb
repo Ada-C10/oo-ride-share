@@ -78,11 +78,11 @@ module RideShare
           input_data[:phone_num] = passenger.phone_number
         end
         driver  = Driver.new(input_data)
-        @passengers = passengers.map do |passenger|
-          if passenger.id == driver.id
+        @passengers = @passengers.map do |user|
+          if user.id == driver.id
             driver
           else
-            passenger
+            user
           end
         end
 
