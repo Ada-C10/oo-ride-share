@@ -13,8 +13,8 @@ module RideShare
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv', driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
-      @trips = load_trips(trip_file)
       @drivers =  load_drivers(driver_file)
+      @trips = load_trips(trip_file)
     end
 
 

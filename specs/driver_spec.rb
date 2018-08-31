@@ -63,41 +63,41 @@ describe "Driver class" do
   end
   end
   #
-  # describe "average_rating method" do
-  #   before do
-  #     @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-  #                                     vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-  #     trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-  #                                date: Time.parse("2016-08-08"), rating: 5)
-  #     @driver.add_driven_trip(trip)
-  #   end
-  #
-  #   it "returns a float" do
-  #     expect(@driver.average_rating).must_be_kind_of Float
-  #   end
-  #
-  #   it "returns a float within range of 1.0 to 5.0" do
-  #     average = @driver.average_rating
-  #     expect(average).must_be :>=, 1.0
-  #     expect(average).must_be :<=, 5.0
-  #   end
-  #
-  #   it "returns zero if no trips" do
-  #     driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-  #                                    vin: "1C9EVBRM0YBC564DZ", status: UNAVAILABLE)
-  #     expect(driver.average_rating).must_equal 0
-  #   end
-  #
-  #   it "correctly calculates the average rating" do
-  #     trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-  #                                 date: Time.parse("2016-08-08"), rating: 1)
-  #     @driver.add_driven_trip(trip2)
-  #
-  #     expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
-  #   end
-  #
-  #
-  # end
+  describe "average_rating method" do
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 date: Time.parse("2016-08-08"), rating: 5)
+      @driver.add_driven_trip(trip)
+    end
+
+    it "returns a float" do
+      expect(@driver.average_rating).must_be_kind_of Float
+    end
+
+    it "returns a float within range of 0.0 to 5.0" do
+      average = @driver.average_rating
+      expect(average).must_be :>=, 0.0
+      expect(average).must_be :<=, 5.0
+    end
+
+    it "returns zero if no trips" do
+      driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                     vin: "1C9EVBRM0YBC564DZ", status: :UNAVAILABLE)
+      expect(driver.average_rating).must_equal 0
+    end
+
+    it "correctly calculates the average rating" do
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                  date: Time.parse("2016-08-08"), rating: 1)
+      @driver.add_driven_trip(trip2)
+
+      expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
+    end
+
+
+  end
   #
   # describe "total_revenue" do
   #   # You add tests for the total_revenue method

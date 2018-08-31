@@ -22,14 +22,29 @@ module RideShare
       @status = input[:status]
       @@driver_list << self
 
+    end
+
+    def add_driven_trip(trip)
+      raise ArgumentError if trip.class != RideShare::Trip
+      @driven_trips << trip
+    end
+
+    def average_rating
+      ratings = 0
+      count = 0
+      @driven_trips.each do |trip|
+        ratings += trip.rating.to_f
+        count += 1
+      end
+
+      if ratings = 0 || count = 0
+        return 0.0
+      else
+      average = ratings / count
+      return average
+      end
+    end
+
+
   end
-
-def add_driven_trip(trip)
-
-#return @drivers.find { |driver| driver.id == TripDispatcher.id }
-@driven_trips << trip
-end
-
-
-end
 end

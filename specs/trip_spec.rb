@@ -17,7 +17,7 @@ describe "Trip class" do
         end_time: end_time,
         cost: 23.45,
         rating: 3,
-        driver: RideShare::Driver.new(id: 3, vin: 23456789123234578, status: :AVAILABLE)
+        driver: RideShare::Driver.new(id: 3, vin: "23456789123234578", status: :AVAILABLE)
       }
       @trip = RideShare::Trip.new(@trip_data)
     end
