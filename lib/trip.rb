@@ -5,7 +5,7 @@ require 'time'
 
 module RideShare
   class Trip
-    attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :duration, :driver
+    attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :driver
 
     def initialize(input)
         @id = input[:id]
@@ -27,9 +27,7 @@ module RideShare
 
     end
 
-    def driver
-      return @driver
-    end
+
 
     def inspect #what does this first line do?
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +

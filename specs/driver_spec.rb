@@ -114,13 +114,14 @@ describe "Driver class" do
 
     it "raises argument error if revenue is a negetive number" do
 
-      driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ")
       trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                  start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: -2, rating: 5)
-      driver.add_driven_trip(trip)
+      @driver.add_driven_trip(trip)
 
-      expect {driver.total_revenue}.must_raise ArgumentError
+      revenue = @driver.total_revenue
+      expect(revenue).must_raise ArgumentError
 
     end
 
@@ -141,27 +142,26 @@ describe "Driver class" do
 
   describe "net_expenditures" do
 
-      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-                                      vin: "1C9EVBRM0YBC564DZ")
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                 start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: 51.65, rating: 5)
-      @driver.add_driven_trip(trip)
-      # trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-      #                             start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: 51.65, rating: 1)
-      # @driver.add_trip(trip2)
-      binding.pry 
-      net_expenditures
-    it "#net_expenditures method returns the net expenditure for driver" do
-      expect(@driver.net_expenditures).must_be_close_to 23.29
+   before do
+     @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                     vin: "1C9EVBRM0YBC564DZ")
+     trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: 10, rating: 5)
+     @driver.add_driven_trip(trip)
+     trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: 5, rating: 1)
+     @driver.add_driven_trip(trip2)
+   end
+
+   it "#net_expenditures method returns the net expenditure for driver" do
+     # binding.pry
+     expect(@driver.net_expenditures).must_be_close_to -9.36
+   end
+   it "net expenditure for driver" do
+     expect(@driver.net_expenditures).must_be_kind_of Float
+   end
+
+
     end
 
-
-    it "net expenditure for driver" do
-      expect(@driver.net_expenditures).must_be_kind_of Float
-    end
-
-
-
-
-  end
 end
