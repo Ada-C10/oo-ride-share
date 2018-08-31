@@ -41,7 +41,7 @@ module RideShare
 
       revenue = []
       driven_trips.each do |trip|
-         raise ArgumentError.new("Invalid, cost can't be negetive") if trip.cost < 0 
+         raise ArgumentError.new("Invalid, cost can't be negetive") if trip.cost < 0
          num = trip.cost - 1.65
          num = num - (num * 0.2)
         revenue << num
@@ -49,5 +49,18 @@ module RideShare
 
       return revenue.sum
     end
+
+    def net_expenditures
+
+      return super - total_revenue.to_f
+      # cost_array = []
+      # @trips.each do |trip|
+      #   cost_array << trip.cost
+      # end
+      # net = cost_array.sum
+      # net -= self.total_revenue
+    end
+
+
   end
 end

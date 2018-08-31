@@ -140,6 +140,28 @@ describe "Driver class" do
   end
 
   describe "net_expenditures" do
-    # You add tests for the net_expenditures method
+
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ")
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: 51.65, rating: 5)
+      @driver.add_driven_trip(trip)
+      # trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+      #                             start_time: Time.parse("2016-08-08"),end_time: Time.parse("2016-08-08"), cost: 51.65, rating: 1)
+      # @driver.add_trip(trip2)
+      binding.pry 
+      net_expenditures
+    it "#net_expenditures method returns the net expenditure for driver" do
+      expect(@driver.net_expenditures).must_be_close_to 23.29
+    end
+
+
+    it "net expenditure for driver" do
+      expect(@driver.net_expenditures).must_be_kind_of Float
+    end
+
+
+
+
   end
 end
