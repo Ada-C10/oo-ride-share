@@ -146,12 +146,18 @@ describe "TripDispatcher class" do
       expect(passenger.trips.last).must_equal trip
     end
 
+
+
+
     it "checks to find the driver who hasn't driven or gone longest w/o trip" do
     expect (@dispatcher.available_driver.id).must_equal 8
     expect (@dispatcher.available_driver.status).must_equal :AVAILABLE
     expect (@dispatcher.available_driver).must_be_instance_of RideShare::Driver
     end
-
+    it "checks passenger doesn't get themselves as a driver"  do
+      trip = @dispatcher.request_trip(8)
+      expect(trip.driver.id).wont_equal 8
+    end
 
 
     it 'Check the driver status is :Available' do

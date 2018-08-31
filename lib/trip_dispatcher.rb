@@ -118,7 +118,7 @@ module RideShare
         end
         available_drivers = available_drivers.sort_by{|driver| driver.driven_trips.last.end_time}
 
-        return available_drivers
+        return available_drivers.first
         # return available_drivers.first
       end
 
@@ -131,6 +131,11 @@ module RideShare
 
       def request_trip(user_id)
         # The user ID will be supplied (this is the person requesting a trip)
+        @drivers.each do |driver|
+        if driver.id == user_id && driver.status == :AVAILABLE
+          driver.status = :UNAVAILABLE
+        end
+      end
 
         new_driver = self.available_driver
         new_passenger = self.find_passenger(user_id)
@@ -149,6 +154,14 @@ module RideShare
         new_passenger.add_trip(in_progress_ride)
 
         @trips << in_progress_ride
+  # binding.pry
+        @drivers.each do |driver|
+        if driver.id == user_id
+          driver.status = :AVAILABLE
+        end
+      end
+
+
 
         return in_progress_ride
 
@@ -168,5 +181,5 @@ module RideShare
 
   rideshare = RideShare::TripDispatcher.new('specs/test_data/users_test.csv','specs/test_data/trips_test.csv','specs/test_data/drivers_test.csv')
 
-  puts driver = rideshare.available_driver
+  puts driver = rideshare.request_trip(8)
   # binding.pry
