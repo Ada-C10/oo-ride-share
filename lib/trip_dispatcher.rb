@@ -113,6 +113,13 @@ module RideShare
 
     # Note: The user_id must correspond to a User instance
    def request_trip(user_id)
+     # Finding the User instance
+     current_passenger = @passengers.find { |passenger| passenger.id == user_id }
+
+     if current_passenger == nil
+       raise ArgumentError.new("There is no user instance with the id #{user_id}")
+     end
+
 
      # Checking for available drivers that do not have the same id as the user requesting a ride
      available_drivers = []
@@ -121,9 +128,6 @@ module RideShare
          available_drivers << x
        end
      end
-
-     # Finding the User instance
-     current_passenger = @passengers.find { |passenger| passenger.id == user_id }
 
      # If there are available drivers, then create trip instance.
      if available_drivers.length > 0

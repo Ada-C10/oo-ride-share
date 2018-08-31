@@ -151,5 +151,9 @@ describe "TripDispatcher class" do
 
       expect (trip3).must_equal "No available drivers"
     end
+
+    it "returns an argument error if user_id entered is not a user instance in the csv file" do
+      expect{ @dispatcher.request_trip("A")}.must_raise ArgumentError
+    end
   end
 end
