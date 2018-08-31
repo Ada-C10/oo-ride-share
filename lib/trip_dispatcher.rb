@@ -108,7 +108,13 @@ module RideShare
       # end date, cost, rating will all be nil
       available_drivers = @drivers.select { |driver| driver.status == :AVAILABLE and driver.id != user_id }
       driver = available_drivers.find {|driver| driver.driven_trips.empty?}
-      driver ||= available_drivers.min_by {|driver| driver.driven_trips.max_by {|trip| trip.end_time}}
+
+      driver ||= available_drivers.min_by {|driver|
+
+        latest_trip = driver.driven_trips.max_by {|trip| trip.end_time}
+
+        latest_trip.end_time}
+
 
       raise ArgumentError, 'No drivers available' if driver == nil
 
