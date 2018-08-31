@@ -20,13 +20,17 @@ module RideShare
     def total_time_spent #theres a way to use reduce
       total_time = 0
       @trips.each do |trip|
-        total_time += trip.duration
+        if trip.end_time != nil
+          total_time += trip.duration
+        end
       end
       return total_time
     end
 
     def net_expenditures
-      total = @trips.reduce(0) { |sum, trip| sum + trip.cost}
+  #there will be costs that will be nil
+      completed_trips = @trips.select{|trip| trip.end_time != nil}
+      total = completed_trips.reduce(0) { |sum, trip| sum + trip.cost}
 
     return total
     end

@@ -3,7 +3,7 @@ require 'csv'
 module RideShare
   class Trip
     attr_reader :id, :passenger, :start_time, :end_time, :cost, :rating, :driver
-    
+
 
     def initialize(input)
       @id = input[:id]
@@ -20,6 +20,7 @@ module RideShare
         raise ArgumentError, "Ride cannot end before it is started"
         end
       end
+
       if @rating != nil
         if @rating > 5 || @rating < 1
           raise ArgumentError.new("Invalid rating #{@rating}")
@@ -34,6 +35,7 @@ module RideShare
     end
 
     def duration
+#unless or if to determine if end time is nil
       return @end_time - @start_time
     end
 

@@ -135,9 +135,7 @@ module RideShare
       requested_trip.passenger.add_trip(requested_trip)
       @trips << requested_trip
 
-
-
-      return new_trip
+      return requested_trip
 
     end
 

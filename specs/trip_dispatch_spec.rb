@@ -42,8 +42,6 @@ describe "TripDispatcher class" do
       end
     end
 
-
-    # Uncomment for Wave 2
     describe "find_driver method" do
       before do
         @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
@@ -56,7 +54,6 @@ describe "TripDispatcher class" do
 
       it "finds a driver instance" do
         driver = @dispatcher.find_driver(2)
-        # binding.pry
         expect(driver).must_be_kind_of RideShare::Driver
       end
     end
@@ -68,7 +65,7 @@ describe "TripDispatcher class" do
         end
 
         it "accurately loads driver information into drivers array" do
-           # Unskip After Wave 2
+
           first_driver = @dispatcher.drivers.first
           last_driver = @dispatcher.drivers.last
 
@@ -155,7 +152,6 @@ describe "TripDispatcher class" do
             expect(@dispatcher.trips.last.rating).must_equal nil
           end
 
-          # check if requested trip was added to driver instance
           it "adds new instance of requested trip to driver's driven_trips array" do
 
             expect(@dispatcher.drivers[1].driven_trips.length).must_equal (@before_trips + 1)
@@ -177,7 +173,7 @@ describe "TripDispatcher class" do
           #check to make sure chosen driver for requested trip is unavailable
 
           # #driver can't drive self
-
+           # expect(@dispatcher.trips.last.driver.id).wont_equal @dispatcher.passengers[0].id
 
         end
       end

@@ -37,41 +37,45 @@ describe "User class" do
 
   describe "trips property" do
     before do
-      @user = RideShare::User.new(id: 9, name: "Merl Glover III",
-                                  phone: "1-602-620-2330 x3723", trips: [])
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
 
-      trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
-                                 start_time: Time.parse("2018-05-25 11:52:40 -0700"),
-                                 end_time: Time.parse("2018-05-25 12:25:00 -0700"),cost: 5.0,
-                                 rating: 5)
-      second_trip = RideShare::Trip.new(id: 8, driver: nil,
-                                 passenger:  @user,
-                                 start_time: Time.parse("2018-07-23 04:39:00 -0700"),
-                                 end_time: Time.parse("2018-07-23 04:55:00 -0700"),cost: 3.0,
-                                 rating: 5)
-      @user.add_trip(trip)
-      @user.add_trip(second_trip)
+      # @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+      #                             phone: "1-602-620-2330 x3723", trips: [])
+      #
+      # trip = RideShare::Trip.new(id: 8, driver: nil, passenger: @user,
+      #                            start_time: Time.parse("2018-05-25 11:52:40 -0700"),
+      #                            end_time: Time.parse("2018-05-25 12:25:00 -0700"),cost: 5.0,
+      #                            rating: 5)
+      # second_trip = RideShare::Trip.new(id: 8, driver: nil,
+      #                            passenger:  @user,
+      #                            start_time: Time.parse("2018-07-23 04:39:00 -0700"),
+      #                            end_time: Time.parse("2018-07-23 04:55:00 -0700"),cost: 3.0,
+      #                            rating: 5)
+      # @user.add_trip(trip)
+      # @user.add_trip(second_trip)
 
     end
 
     it "each item in array is a Trip instance" do
-      @user.trips.each do |trip|
+      @dispatcher.passengers[0].trips.each do |trip|
         expect(trip).must_be_kind_of RideShare::Trip
       end
     end
 
     it "all Trips must have the same passenger's user id" do
-      @user.trips.each do |trip|
-        expect(trip.passenger.id).must_equal 9
+      @dispatcher.passengers[0].trips.each do |trip|
+        expect(trip.passenger.id).must_equal 1
       end
     end
 
-    it "calculates total expenditure of all rides for a given user" do
-      expect(@user.net_expenditures).must_equal 8.00
+    it "calculates total expenditure of all rides for a given user except for in-progress trips" do
+
+      expect(@dispatcher.passengers[0].net_expenditures).must_equal 10.00
+      # inprogress_trip = @dispatcher.request_trip(8)
     end
 
     it "will return the total amount of time that user has spent on their trips" do
-      expect(@user.total_time_spent).must_equal 2900.0
+      expect(@dispatcher.passengers[0].total_time_spent).must_equal 1940.0
     end
 
   end
