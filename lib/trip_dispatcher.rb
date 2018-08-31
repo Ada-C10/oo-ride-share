@@ -106,7 +106,7 @@ module RideShare
 
       def find_driver_by_availability
         @drivers.each do |driver|
-          if driver.status == :AVAILBLE
+          if driver.status == :AVAILABLE
             return driver
           end
         end
@@ -121,10 +121,10 @@ module RideShare
         driver = find_driver_by_availability
 
         new_trip = Trip.new({id:(@trips.length + 1), passenger:passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil, driver:driver})
-
+        
         driver = driver.add_driven_trip(new_trip)
         passenger = passenger.add_trip(new_trip)
-        
+
         @trips << new_trip
 
         return new_trip
