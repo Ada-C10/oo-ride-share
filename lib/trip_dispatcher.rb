@@ -20,16 +20,9 @@ module RideShare
 
     def load_users(filename)
       users = []
-
       CSV.read(filename, headers: true).each do |line|
-        input_data = {}
-        input_data[:id] = line[0].to_i
-        input_data[:name] = line[1]
-        input_data[:phone] = line[2]
-
-        users << User.new(input_data)
+        users << User.new({:id => line[0].to_i, :name => line[1], :phone => line[2]})
       end
-
       return users
     end
 
