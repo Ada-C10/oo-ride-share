@@ -23,6 +23,8 @@ describe "Driver class" do
       expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
     end
 
+
+
     it "sets trips to an empty array if not provided" do
       expect(@driver.driven_trips).must_be_kind_of Array
       expect(@driver.driven_trips.length).must_equal 0
@@ -40,23 +42,26 @@ describe "Driver class" do
     end
   end
 
-  # describe "add_driven_trip method" do
-  #   before do
-  #     pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
-  #     @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :UNAVAILABLE)
-  #     @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5})
-  #   end
-  #
-  #   it "throws an argument error if trip is not provided" do
-  #     expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
-  #   end
-  #
-  #   it "increases the trip count by one" do
-  #     previous = @driver.driven_trips.length
-  #     @driver.add_driven_trip(@trip)
-  #     expect(@driver.driven_trips.length).must_equal previous + 1
-  #   end
-  # end
+
+
+
+  describe "add_driven_trip method" do
+  before do
+  pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+ @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678", status: :UNAVAILABLE)
+   @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, date: "2016-08-08", rating: 5})
+   end
+
+  it "throws an argument error if trip is not provided" do
+  expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
+  end
+
+   it "increases the trip count by one" do
+  previous = @driver.driven_trips.length
+  @driver.add_driven_trip(@trip)
+  expect(@driver.driven_trips.length).must_equal previous + 1
+  end
+  end
   #
   # describe "average_rating method" do
   #   before do
