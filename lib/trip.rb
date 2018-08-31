@@ -1,7 +1,9 @@
 require 'csv'
 require 'time'
+require 'pry'
 require_relative 'driver'
 require_relative 'user'
+require_relative 'trip_dispatcher'
 # All times may have fraction. Be aware of this fact when comparing times with each other – times that are apparently equal when displayed may be different when compared.
 #Time.new(year, month, date)
 
@@ -16,8 +18,9 @@ module RideShare
       @end_time = input[:end_time]
       @cost = input[:cost]
       @rating = input[:rating]
-      @driver = input[:driver]
-
+      @driver = input[:driver] #must be driver instance, not ID
+      # @driver = self.driver
+      # binding.pry
       if @rating > 5 || @rating < 1
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
@@ -33,8 +36,11 @@ module RideShare
       "PassengerID=#{passenger&.id.inspect}>"
     end
 
-def driver
-end
+    # def drivers
+    #   @driver =  RideShare::TripDispatcher.find_driver(@driver_id)
+    #   # binding.pry
+    #   return @driver
+    # end
 
 
     def trip_to_seconds

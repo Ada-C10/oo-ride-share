@@ -13,25 +13,22 @@ module RideShare
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv', driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
-      # binding.pry
       @trips = load_trips(trip_file)
       @drivers =  load_drivers(driver_file)
-
     end
 
+
     def load_users(filename)
-      @users = []
+      users = []
 
       CSV.read(filename, headers: true).each do |line|
         input_data = {}
         input_data[:id] = line[0].to_i
         input_data[:name] = line[1]
         input_data[:phone] = line[2]
-        # binding.pry
-        @users << User.new(input_data)
+        users << User.new(input_data)
       end
-      return @users
-      # binding.pry
+      return users
     end
 
 
@@ -41,44 +38,25 @@ module RideShare
       # in the passenger array, replace the old information with the new combined info
       # users = load_users('./support/users.csv')
       drivers = []
-      driver_users = []
 
       CSV.read(filename, headers: true).each do |line|
         input_data = {}
-        input_data[:id] = line[0].to_i
+        user = find_passenger(line[0].to_i)
+
+        #info from user data above via find_passenger method
+        input_data[:id] = user.id
+        input_data[:name] = user.name
+        input_data[:phone] = user.phone_number
+
         input_data[:vin] = line[1]
-        input_data[:status] = line[2]
-        input_data[:driver_trips] = []
+        input_data[:status] = line[2].to_sym
+        # input_data[:driver_trips] = []
 
-        driver_users << input_data
+        drivers << input_data
       end
 
-      driver_users.each do |driver|
-        user = find_passenger(driver[:id])
-
-
-          driver1 = Driver.new({id: driver[:id], name: user.name, vin: driver[:vin], phone: user.phone_number, status: driver[:status].to_sym, driven_trips: []})
-          # binding.pry
-          drivers << driver1
-          # binding.pry
-        end
-
-        return drivers
-      end
-
-      # load drivers, collect the instances
-      # if driver id is user id
-      # in the passenger array, replace the old information with the new combined info
-      # users = load_users('./support/users.csv')
-      #
-      # driver = 3, 67382992873, status
-      # user = 3, Joe Smith, 555-55555
-      #
-      # driver/user = 3, Joe Smith, 627281919, 555-5555, status
-      #
-      # passengers array = [ {id: 3, name: Joe Smith, vin: 9484832222, phone: 555-5555, status}, {id: 2, name: Joanna Smith, phone 555-5555} ]
-
-
+    return drivers
+    end
 
 
     # Modify TripDispatcher#load_trips to store the start_time and end_time as Time instances
@@ -86,11 +64,9 @@ module RideShare
       trips = []
       trip_data = CSV.open(filename, 'r', headers: true,
                                           header_converters: :symbol)
-binding.pry
       trip_data.each do |raw_trip|
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
-        #driver = find_driver(raw_trip[:driver_id].to_i)
-binding.pry
+        driver = find_driver(raw_trip[:driver_id].to_i)
         parsed_trip = {
           id: raw_trip[:id].to_i,
           passenger: passenger,
@@ -108,9 +84,7 @@ binding.pry
       end
 
       return trips
-      binding.pry
     end
-
 
 
     def find_passenger(id)
