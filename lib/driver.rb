@@ -42,14 +42,23 @@ module RideShare
 
     def average_rating()
 
+      sum = 0
+
       if @driven_trips.empty?
         return 0
       else
-        rating_sum = @driven_trips.sum { |driven_trip| driven_trip.rating }
         trips_driven = @driven_trips.length
 
-        return rating_sum / trips_driven.to_f
+        @driven_trips.each do |trip|
+          if !trip.rating.nil?
+            sum += trip.rating
+          end
+        end
       end
+
+        if sum != 0
+          return sum / trips_driven.to_f
+        end
     end
 
     def add_driven_trip(trip)
@@ -64,13 +73,21 @@ module RideShare
 
 
     def total_revenue()
+      sum = 0
       if @driven_trips.empty?
         return 0
       else
-        total_sum = @driven_trips.sum { |driven_trip| (driven_trip.cost - 1.65) }
-
-        return ("%.2f" % (total_sum * 0.80)).to_f
+        @driven_trips.each do |trip|
+          if !trip.cost.nil?
+            sum += (trip.cost - 1.65)
+          end
+        end
       end
+        # total_sum = @driven_trips.sum { |driven_trip| (driven_trip.cost - 1.65) }
+
+        if sum !=  0
+          return ("%.2f" % (sum * 0.80)).to_f
+        end
     end
 
 
@@ -92,16 +109,18 @@ module RideShare
 end
 
 
-# pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
 #
-# driver = RideShare::Driver.new(id: 1, name: "Ada", vin: "12345678912345678")
-#
-# trip_1 = RideShare::Trip.new({id: 8, passenger: "michael", start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 20, rating: 5, driver: driver})
-#
-# trip_2 = RideShare::Trip.new({id: 10, passenger: driver, start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 100, rating: 5, driver: "person"})
+driver = RideShare::Driver.new(id: 1, name: "Ada", vin: "12345678912345678")
 
-# driver.add_driven_trip(trip_1)
-# driver.add_trip(trip_2)
+trip_1 = RideShare::Trip.new({id: 8, passenger: "michael", start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 20, rating: 5, driver: driver})
+
+trip_2 = RideShare::Trip.new({id: 10, passenger: driver, start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 100, rating: 4, driver: "person"})
+
+driver.add_driven_trip(trip_1)
+driver.add_trip(trip_2)
+
+ap driver.average_rating
 #
 # ap pass.trips
 #
