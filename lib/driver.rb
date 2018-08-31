@@ -59,6 +59,9 @@ module RideShare
       # return  total_revenue - super
     end
 
+    def update_status
+      @status = :UNAVAILABLE
+    end
 
 
   end

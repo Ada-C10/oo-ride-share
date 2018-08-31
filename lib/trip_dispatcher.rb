@@ -131,12 +131,16 @@ module RideShare
         rating: nil
       }
 
-      passenger.add_trip(trip_hash)
-      driver.add_trip(trip_hash)
+      new_trip = Trip.new(trip_hash)
 
-      # trip = RideShare::Trip.new(trip_hash)
-    # return trip_hash
-    return trip_hash
+      #make driver unavailable first
+      driver.update_status
+
+      passenger.add_trip(new_trip)
+      driver.add_driven_trip(new_trip)
+      @trips << new_trip
+
+    return new_trip
     end
 
 
