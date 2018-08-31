@@ -9,6 +9,7 @@ module RideShare
       super(data)
       # @id = data[:id]
       @vehicle_id = data[:vin]
+
       @driven_trips = data[:driven_trips].nil? ? [] : data[:driven_trips]
       @status = data[:status]
 
@@ -30,9 +31,6 @@ module RideShare
     end # end of def initialize
 
     def add_driven_trip(trip)
-      # @trips.each do |trip|
-      #   if Trip.id
-      #
       @driven_trips << trip
     end
 
