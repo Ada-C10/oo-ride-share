@@ -25,7 +25,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "find_user method" do
+  xdescribe "find_user method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(user_file = USER_TEST_FILE, trip_file = TRIP_TEST_FILE, driver_file = DRIVER_TEST_FILE)
     end
@@ -44,7 +44,7 @@ describe "TripDispatcher class" do
 
 
   # Uncomment for Wave 2
-  describe "find_driver method" do
+  xdescribe "find_driver method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new
     end
@@ -59,7 +59,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "Driver & Trip loader methods" do
+  xdescribe "Driver & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE, DRIVER_TEST_FILE)
@@ -90,7 +90,7 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "User & Trip loader methods" do
+  xdescribe "User & Trip loader methods" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE, DRIVER_TEST_FILE)

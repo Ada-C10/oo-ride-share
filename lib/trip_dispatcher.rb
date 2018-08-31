@@ -11,7 +11,6 @@ module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
 
-
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv',
                    driver_file = 'support/drivers.csv')
@@ -50,7 +49,7 @@ module RideShare
         # #NOTE: WHY DON'T THESE TWO LINES WORK THO?
         start_time = Time.parse(raw_trip[:start_time])
         end_time = Time.parse(raw_trip[:end_time])
-        binding.pry
+        # binding.pry
         ap "#{start_time}.class"
 
         parsed_trip = {
@@ -82,20 +81,22 @@ module RideShare
 
         # NOTE: ALL IDS ARE THE SAME (no repeats between driver and passenger)
 
-        user = find_passenger(raw_driver[:id])
+        user = find_passenger(raw_driver[:id].to_i)
+
+        # binding.pry
 
         parsed_driver = {
           id: raw_driver[:id].to_i,
           name: user.name,
-          phone: user.phone,
-          vehicle_id: raw_driver[:vin],
+          phone: user.phone_number,
+          vin: raw_driver[:vin],
           status: raw_driver[:status].to_sym
         }
 
         driver = Driver.new(parsed_driver)
         drivers << driver
-
       end
+      return drivers
     end
 
     def find_passenger(id)
@@ -108,30 +109,30 @@ module RideShare
       return @drivers.find { |driver| driver.id == id }
     end
 
-    def request_trip(user_id)
-      current_passenger = find_passenger(user_id)
-      available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
-
-
-      parsed_trip = {
-        id: @trips.length + 1,
-        passenger: current_passenger,
-        start_time: Time.now,
-        end_time: nil,
-        cost: nil,
-        rating: nil,
-        driver: available_driver
-      }
-
-      available_driver.change_status
-      trip_in_progress = Trip.new(parsed_trip)
-
-      current_passenger.add_trip(trip_in_progress)
-      available_driver.add_driven_trip(trip_in_progress)
-      @trips << trip_in_progress
-
-      return trip_in_progress
-    end
+    # def request_trip(user_id)
+    #   current_passenger = find_passenger(user_id)
+    #   available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+    #
+    #
+    #   parsed_trip = {
+    #     id: @trips.length + 1,
+    #     passenger: current_passenger,
+    #     start_time: Time.now,
+    #     end_time: nil,
+    #     cost: nil,
+    #     rating: nil,
+    #     driver: available_driver
+    #   }
+    #
+    #   available_driver.change_status
+    #   trip_in_progress = Trip.new(parsed_trip)
+    #
+    #   current_passenger.add_trip(trip_in_progress)
+    #   available_driver.add_driven_trip(trip_in_progress)
+    #   @trips << trip_in_progress
+    #
+    #   return trip_in_progress
+    # end
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
@@ -145,6 +146,7 @@ module RideShare
     def check_id(id)
       id = id.to_i
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
+      return id
     end
   end
 end
@@ -155,12 +157,36 @@ end
 # driver_2 = RideShare::Driver.new(id: 4, name: "Bernie", vin: "12345678912345679", status: :AVAILABLE)
 #
 # trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: "2016-08-08T12:14:00+00:00", end_time: "2018-05-20T12:14:00+00:00",  cost: 55, rating: 5, driver: driver_1})
+
+# #
+# USER_TEST_FILE   = 'specs/test_data/users_test.csv'
+# TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
+# DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+# #
+# # # # ap pass
+# ride = RideShare::TripDispatcher.new(USER_TEST_FILE, DRIVER_TEST_FILE)
+# # pass =  ride.passengers
+# #
+# # #
+# # # pass.each do |passenger|
+# # #   ap passenger.name
+# # # end
+# # #
+# # # # ap ride.check_id(2)
+# # # ap ride.find_passenger(2)
+# ap ride.drivers
+
+
+
+# ap ride.load_trips
+# ap ride.load_drivers
+# #
+# trip_data = CSV.open('support/users.csv', 'r', headers: true,
+#                                     header_converters: :symbol)
 #
-#
-# # ap pass
-# ride = RideShare::TripDispatcher.new
-# ap ride.request_trip
-#
+# trip_data.each do |line|
+#   ap line
+# end
 
 
 # TODO:
@@ -183,3 +209,6 @@ end
 # hello = RideShare::TripDispatcher.new()
 #
 # ap hello
+
+
+# changes to_i in raw[:id] line 83
