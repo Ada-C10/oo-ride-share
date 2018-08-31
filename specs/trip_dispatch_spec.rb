@@ -181,9 +181,5 @@ describe "TripDispatcher class" do
       expect(driver.driven_trips.length).must_equal 1
       expect(driver.id).must_equal 8
     end
-
-    # it "will ensure that the driver selected has the oldest trip given all drivers have trips" do
-    #
-    # end
   end
 end
