@@ -6,9 +6,6 @@ require_relative 'driver'
 
 module RideShare
   class TripDispatcher
-    USER_FILE = 'support/users.csv'
-    TRIP_FILE = 'support/trips.csv'
-    DRIVER_FILE = 'support/drivers.csv'
 
     attr_reader :drivers, :passengers, :trips
 
@@ -139,17 +136,26 @@ module RideShare
     def request_trip(user_id)
       # create a collection of only available drivers
       available_drivers = @drivers.select { |driver| driver.status == :AVAILABLE }
+
+      # narrow the collection to drivers who have not driven before
+      available_drivers_no_trips = available_drivers.select {|driver| driver.driven_trips.length == 0}
+
       # Ensure a driver who is a passenger is not assigned to themselves
       if available_drivers.empty? ||
         ( available_drivers.length == 1 && available_drivers[0].id == user_id )
         raise RideShare::NoAvailableDriversError, "No drivers available at the moment"
         # If the first available driver is not the user, assign the driver
-      elsif available_drivers.first.id != user_id
-        # Assign the first available driver
-        selected_driver = available_drivers.first
+      elsif !available_drivers_no_trips.empty?
+        # Assign the first available driver with no existing driven trips
+        selected_driver = available_drivers_no_trips.first
       else
-        # Pick the next available driver
-        selected_driver = available_drivers[1]
+        # Pick the next available driver who has not driven in the longest time
+        available_drivers.sort_by! { |driver|
+          driver.driven_trips.max_by { |trip|
+            trip.end_time
+          }.end_time
+        }
+        selected_driver = available_drivers.first
       end
 
       # Adding new trip to trips
@@ -158,6 +164,7 @@ module RideShare
 
       # Using helper method to set driver status to unavailable
       # And to add the trip to the drivers driven_trips collection
+      # binding.pry
       selected_driver.drive_in_progress(new_trip)
 
       # Adding trip to passenger's trip collection

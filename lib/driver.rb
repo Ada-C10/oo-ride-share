@@ -54,7 +54,7 @@ module RideShare
 
     # Helper method to add a trip/set status to unavailable when trip is in progress for driver
     def drive_in_progress(trip)
-      add_driven_trip(trip)
+      self.add_driven_trip(trip)
       self.status = :UNAVAILABLE
     end
   end

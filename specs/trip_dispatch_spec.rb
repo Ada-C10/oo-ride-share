@@ -98,7 +98,7 @@ describe "TripDispatcher class" do
 
   describe "TripDispatcher#request_trip" do
     it "must call an available driver" do
-      expect(@dispatcher.find_driver(5).status).must_equal :AVAILABLE
+      expect(@dispatcher.find_driver(8).status).must_equal :AVAILABLE
       expect(@dispatcher.request_trip(1).driver).must_equal @dispatcher.find_driver(8)
     end
 
@@ -106,22 +106,31 @@ describe "TripDispatcher class" do
       expect(@dispatcher.request_trip(1)).must_be_instance_of RideShare::Trip
     end
 
-    it "must return the correct trip information" do
-      def change_status_to_available(driver_id)
-        @dispatcher.find_driver(driver_id).status = :AVAILABLE
-      end
+    it "must return the correct trip id" do
       expect(@dispatcher.request_trip(1).id).must_equal 6
-      change_status_to_available(8)
+    end
+
+    it "must return the correct passenger" do
       expect(@dispatcher.request_trip(1).passenger).must_equal @dispatcher.find_passenger(1)
-      change_status_to_available(8)
+    end
+
+    it "must return the correct trip start time" do
       expect(@dispatcher.request_trip(1).start_time).must_be_close_to Time.now, 0.01
-      change_status_to_available(8)
+    end
+
+    it "must return nil end time for trip" do
       expect(@dispatcher.request_trip(1).end_time).must_be_nil
-      change_status_to_available(8)
+    end
+
+    it "must return nil cost for trip" do
       expect(@dispatcher.request_trip(1).cost).must_be_nil
-      change_status_to_available(8)
+    end
+
+    it "must return the nil rating for trip" do
       expect(@dispatcher.request_trip(1).rating).must_be_nil
-      change_status_to_available(8)
+    end
+    
+    it "must return the correct driver" do
       expect(@dispatcher.request_trip(1).driver).must_equal @dispatcher.find_driver(8)
     end
 
@@ -156,19 +165,21 @@ describe "TripDispatcher class" do
 
     it "chooses driver that has not driven for longest time if all drivers have driven" do
       # Add driven trip (trip) to 8 so all drivers have trips
-      @dispatcher.find_driver(8).add_driven_trip(
-        {
-          id: 9,
-          passenger: RideShare::User.new(id: 1,
-                                         name: "Ada",
-                                         phone: "412-432-7640"),
-          start_time: start_time,
-          end_time: end_time,
-          cost: 23.45,
-          rating: 3,
-          driver: @dispatcher.find_driver(8)
-        }
-      )
+      start_time = Time.parse('2015-05-20T12:14:00+00:00')
+      trip_data = {
+        id: 9,
+        passenger: RideShare::User.new(id: 1,
+                                       name: "Ada",
+                                       phone: "412-432-7640"),
+        start_time: start_time,
+        end_time: Time.now,
+        cost: 23.45,
+        rating: 3,
+        driver: @dispatcher.find_driver(8)
+      }
+
+      trip = RideShare::Trip.new(trip_data)
+      @dispatcher.find_driver(8).add_driven_trip(trip)
 
       expect(@dispatcher.request_trip(1).driver).must_equal @dispatcher.find_driver(5)
     end
