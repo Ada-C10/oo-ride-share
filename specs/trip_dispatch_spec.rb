@@ -113,4 +113,23 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+  describe "#request_trip" do
+    it "returns instance of Trip" do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+      expect(@dispatcher.request_trip(1)).must_be_kind_of Trip
+    end
+    it "increases Driver-@driven_trips" do
+    end
+    it "increases User-@trips" do
+    end
+    it "increases TripDispatcher-@trips" do
+    end
+    it "selects first :AVAILABLE driver" do
+    end
+    it "sets driver's status to :UNAVAILABLE" do
+    end
+
+  end
+
 end

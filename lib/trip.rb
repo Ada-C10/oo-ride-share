@@ -14,10 +14,15 @@ module RideShare
       @rating = input[:rating]
       @driver = input[:driver]
 
-      if @rating > 5 || @rating < 1
+      valid_ratings = [*1..5, nil]
+      unless valid_ratings.include? (rating)
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
+      # if @rating > 5 || @rating < 1
+      #   raise ArgumentError.new("Invalid rating #{@rating}")
+      # end
 
+      # TODO: start here, need to rewrite this part of the method
       if @end_time < @start_time
         raise ArgumentError.new
       end

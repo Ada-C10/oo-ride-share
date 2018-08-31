@@ -98,6 +98,22 @@ module RideShare
       end
 
 
+      def request_trip(user_id)
+        trip_data = {
+          start_time: Time.now,
+          end_time: nil,
+          passenger: find_passenger(user_id),
+          driver: @drivers.sample(1),
+          cost: nil,
+          rating: nil
+        }
+        new_trip = RideShare::Trip.new(trip_data)
+        trip_data[:driver].add_driven_trip(new_trip)
+        trip_data[:passenger].add_trip(new_trip)
+        @trips << new_trip
+        return new_trip
+      end
+
       def inspect
         return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
         #{trips.count} trips, \
