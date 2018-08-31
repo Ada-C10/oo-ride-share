@@ -25,12 +25,12 @@ describe "Driver class" do
       end
 
       it "sets driven trips to an empty array if not provided" do
-        expect(@driver.driven_trips).must_be_kind_of Array
-        expect(@driver.driven_trips.length).must_equal 0
+        expect(@driver.driven_trip).must_be_kind_of Array
+        expect(@driver.driven_trip.length).must_equal 0
       end
 
       it "is set up for specific attributes and data types" do
-        [:id, :name, :vin, :status, :driven_trips].each do |prop|
+        [:id, :name, :vin, :status, :driven_trip].each do |prop|
           expect(@driver).must_respond_to prop
         end
 
@@ -49,14 +49,14 @@ describe "Driver class" do
         end_time: Time.parse("2018-08-09"), rating: 5)
       end
 
-      xit "throws an argument error if trip is not provided" do
+      it "throws an argument error if trip is not provided" do
         expect{ @driver.add_driven_trip(1) }.must_raise ArgumentError
       end
 
       it "increases the trip count by one" do
-        previous = @driver.driven_trips.length
+        previous = @driver.driven_trip.length
         @driver.add_driven_trip(@trip)
-        expect(@driver.driven_trips.length).must_equal previous + 1
+        expect(@driver.driven_trip.length).must_equal previous + 1
       end
     end
 

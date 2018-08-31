@@ -1,9 +1,9 @@
-
+require_relative 'trip'
 module RideShare
 
   class Driver < User
 
-    attr_reader :vin, :status, :driven_trips
+    attr_reader :vin, :status, :driven_trip
 
     def initialize(input)
 
@@ -16,20 +16,13 @@ module RideShare
         raise ArgumentError, 'Vin inaccurate, must be 17 characters long.'
       end
 
-      if input[:driven_trips] == ""
-        raise ArgumentError, 'trip can not be empty'
-      end
 
-
-      # if input[:driven_trips] == ""
-      #   raise ArgumentError, "No trip is provided"
-      # end
       super(input)
       # @id = input[:id].to_i
       # @name = input[:name].to_s
       @vin	= input[:vin].to_s
       @status = input[:status]
-      @driven_trips	= []
+      @driven_trip	= []
 
       # status_array = [:AVAILABLE, :UNAVAILABLE ]
 
@@ -45,7 +38,10 @@ module RideShare
     end
 
     def add_driven_trip(trip)
-      @driven_trips << trip
+      unless trip.is_a? Trip
+        raise ArgumentError, "Got a thing that wasn't a trip! (#{trip.class})"
+      end
+      @driven_trip << trip
 
     end
 
