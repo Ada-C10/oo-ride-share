@@ -95,8 +95,12 @@ module RideShare
 
     def check_drivers_not_passenger?(user_id)
       all_available_drivers = generate_available_drivers
+
       available_drivers = all_available_drivers.find_all do |driver| driver.id != find_passenger(user_id).id
       end
+
+      raise ArgumentError.new("NO DRIVERS AVAILABLE") if available_drivers.empty?
+
       return available_drivers
     end
 
@@ -110,19 +114,19 @@ module RideShare
     def find_oldest_trip_driver(user_id)
       available_drivers = check_drivers_not_passenger?(user_id)
 
-      oldest_trip_driver = available_drivers.find do |driver|
-        driver.driven_trips.min_by do |trip|
-          trip.end_time
-        end
+      find_most_recent_trips = available_drivers.map do |driver|
+        driver.driven_trips.max_by(&:end_time)
       end
-      return oldest_trip_driver
+
+      recent_trips = find_most_recent_trips.reject {|trip| trip == nil}
+
+      oldest_trip = recent_trips.min_by(&:end_time)
+      return oldest_trip.driver
     end
 
     def first_available_driver(user_id)
       no_trips_driver = find_no_trips_driver(user_id)
       oldest_trip_driver = find_oldest_trip_driver(user_id)
-
-      raise ArgumentError.new("NO DRIVERS AVAILABLE") if (no_trips_driver.nil? && oldest_trip_driver.nil?)
 
       no_trips_driver ? no_trips_driver : oldest_trip_driver
     end
