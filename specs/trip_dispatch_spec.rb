@@ -109,10 +109,11 @@ describe "TripDispatcher class" do
     end
 
     it "updates the driver trip list" do
-      new_trip = @dispatcher.request_trip(3)
-      driver = new_trip.driver
+      current_driver = @dispatcher.find_driver(5)
+      current_number_of_trips = current_driver.driven_trips.length
+      @dispatcher.request_trip(3)
 
-      expect(driver.driven_trips.last.passenger.id).must_equal 3
+      expect(current_driver.driven_trips.length).must_equal (current_number_of_trips + 1)
     end
 
     it "ensures that driver assigned is available" do
@@ -135,6 +136,19 @@ describe "TripDispatcher class" do
 
       expect(passenger).wont_equal driver
     end
+
+    it "will ensure that the driver who is selected has no trips" do
+      dispatcher_2 = RideShare::TripDispatcher.new(
+                                                  'specs/test_data/users_test.csv'
+                                                  'specs/test_data/trips_dispatcher_test.csv',
+                                                  'specs/test_data/driver_test_new.csv')
+      new_trip = dispatcher2.request_trip(3)
+      driver = new_trip.driver
+
+      expect(driver.trips.length).must_equal 1
+      expect(driver.id).must_equal 8
+    end
+
   end
 
   describe "In Progress Trips" do
@@ -149,8 +163,6 @@ describe "TripDispatcher class" do
       new_trip = @dispatcher.request_trip(3)
 
       total_seconds_driven = 0
-      average_hourly_rate = 0
-
       new_trip.driver.driven_trips.each do |trip|
         if trip.end_time != nil
           total_seconds_driven += trip.end_time - trip.start_time
@@ -158,32 +170,9 @@ describe "TripDispatcher class" do
       end
 
       total_hours_driven = (total_seconds_driven.to_f / 3600).round(2)
+      average_hourly_rate = (new_trip.driver.total_revenue / total_hours_driven).round(2)
 
-      if total_hours_driven != 0
-        average_hourly_rate = (new_trip.driver.total_revenue / total_hours_driven).round(2)
-      end
-
-      expect(average_hourly_rate).must_equal 0
+      expect(average_hourly_rate).must_equal 31.28
     end
-  end
-
-  describe "Wave 4 requirements for Request Trip" do
-    before do
-      @dispatcher_2 = RideShare::TripDispatcher.new('specs/test_data/users_test_new.csv',
-                                                'specs/test_data/trip_dispatcher_test.csv',
-                                                'specs/test_data/driver_test_new.csv')
-    end
-
-    it "will ensure that the driver who is selected has no trips" do
-      new_trip = @dispatcher_2.request_trip(3)
-      driver = new_trip.driver
-
-      expect(driver.driven_trips.length).must_equal 1
-      expect(driver.id).must_equal 8
-    end
-
-    # it "will ensure that the driver selected has the oldest trip given all drivers have trips" do
-    #
-    # end
   end
 end
