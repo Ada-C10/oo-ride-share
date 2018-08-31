@@ -88,13 +88,63 @@ describe "User class" do
       expect (passenger_expenditure).must_equal 30
     end
 
+    it "Does not include trips in progress in calculation of total amount spent on trips" do
+
+      run_trip_dispatcher = RideShare::TripDispatcher.new()
+        trip2 = RideShare::Trip.new(id: 9, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 10,
+                                 rating: 5)
+      @user.add_trip(trip2)
+
+      trip3 = RideShare::Trip.new(id: 10, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 15,
+                                 rating: 5)
+      @user.add_trip(trip3)
+
+      new_trip = run_trip_dispatcher.request_trip(@user.id)
+      @user.add_trip(new_trip)
+
+      passenger_expenditure = @user.net_expenditures
+
+      expect (passenger_expenditure).must_equal 30
+
+    end
+
     it "Sums the total time spent (in seconds)" do
           run_trip_dispatcher = RideShare::TripDispatcher.new()
           user_id = 94
           finding_a_passenger = run_trip_dispatcher.find_passenger(user_id)
           passenger_total_time_spent = finding_a_passenger.total_time_spent
           expect(passenger_total_time_spent).must_equal 321.0
-        end
+    end
 
+    it "Sums total time spent without including trips in progress" do
+
+      run_trip_dispatcher = RideShare::TripDispatcher.new()
+        trip2 = RideShare::Trip.new(id: 9, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 10,
+                                 rating: 5)
+      @user.add_trip(trip2)
+
+      trip3 = RideShare::Trip.new(id: 10, driver: nil, passenger: @user,
+                                 start_time: Time.parse("2016-08-08"),
+                                 end_time: Time.parse("2016-08-09"),
+                                 cost: 15,
+                                 rating: 5)
+      @user.add_trip(trip3)
+
+      new_trip = run_trip_dispatcher.request_trip(@user.id)
+      @user.add_trip(new_trip)
+
+      passenger_total_time_spent = @user.total_time_spent
+
+      expect (passenger_total_time_spent).must_equal 259200
+    end
   end
 end

@@ -21,7 +21,11 @@ module RideShare
     def net_expenditures
       trip_cost_sum = 0
       @trips.each do |trip|
-        trip_cost_sum += trip.cost
+        if trip.cost == "In Progress"
+          next
+        else
+         trip_cost_sum += trip.cost
+        end
       end
       return trip_cost_sum
     end
@@ -29,7 +33,11 @@ module RideShare
     def total_time_spent
       total_time_as_a_passenger = 0
       @trips.each do |trip|
-        total_time_as_a_passenger += trip.duration
+        if trip.duration == "In Progress"
+          next
+        else
+          total_time_as_a_passenger += trip.duration
+        end
       end
       return total_time_as_a_passenger
     end
