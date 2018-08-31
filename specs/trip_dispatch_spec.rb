@@ -120,12 +120,21 @@ describe "TripDispatcher class" do
   end
 
   describe "request trip method" do
+    it 'will populate a new trip with the necessary elements' do
 
    dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
-
-   trip = dispatcher.request_trip(2)
   
 
+   trip = RideShare::Trip.new(dispatcher.request_trip(2))
+
+   expect(trip).must_instance_kind_of Trip
+
+   expect(trip.passenger).must_equal dispatcher.trips[1].passenger
+
+    expect(trip.end_time).must_equal nil
+
+     expect(trip.driver.status).must_equal :AVAILABLE
+   end
  end
 
 end

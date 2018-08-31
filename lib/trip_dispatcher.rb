@@ -109,6 +109,9 @@ module RideShare
               #{passengers.count} passengers>"
     end
 
+    #test -- dispatcher.request_trip
+    #in code
+
 
     def request_trip(user_id)
 
@@ -128,8 +131,12 @@ module RideShare
         rating: nil
       }
 
-      trip = Trip.new(trip_hash)
-      return trip
+      passenger.add_trip(trip_hash)
+      driver.add_trip(trip_hash)
+
+      # trip = RideShare::Trip.new(trip_hash)
+    # return trip_hash
+    return trip_hash
     end
 
 
