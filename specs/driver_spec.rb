@@ -1,10 +1,6 @@
 require_relative 'spec_helper'
 require 'pry'
 
-USER_TEST_FILE   = 'specs/test_data/users_test.csv'
-TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
-DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
-
 describe "Driver class" do
 
   describe "Driver instantiation" do
@@ -51,11 +47,11 @@ describe "Driver class" do
 
   describe "add_driven_trip method" do
     before do
-      pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+      @pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
       @driver = RideShare::Driver.new(id: 3, name: "Lovelace", vin: "12345678912345678")
       start_time = Time.parse("2015-05-20T12:14:00+00:00")
       end_time = Time.parse("2015-05-20T12:14:00+00:00")
-      @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: pass, start_time: start_time, end_time: end_time , rating: 5})
+      @trip = RideShare::Trip.new({id: 8, driver: @driver, passenger: @pass, start_time: start_time, end_time: end_time , rating: 5})
     end
 
     it "throws an argument error if trip is not provided" do
@@ -83,9 +79,9 @@ describe "Driver class" do
       end_time = Time.parse("2015-05-20T12:14:00+00:00")
       @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                       vin: "1C9EVBRM0YBC564DZ")
-      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+      @trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                  start_time: start_time, end_time: end_time, rating: 5)
-      @driver.add_driven_trip(trip)
+      @driver.add_driven_trip(@trip)
     end
 
     it "returns a float" do
@@ -196,11 +192,11 @@ describe "Driver class" do
       start_time = Time.parse("2015-05-20T12:14:00+00:00")
       end_time = Time.parse("2015-05-20T12:14:00+00:00")
       @driver = @dispatcher.find_driver(2)
-      test_trip = RideShare::Trip.new(id: 2, driver: @driver, passenger: nil,
+      @test_trip = RideShare::Trip.new(id: 2, driver: @driver, passenger: nil,
                                   start_time: start_time, end_time: end_time, rating: 1, cost: 3)
 
-      @dispatcher.trips << test_trip
-      @driver.trips << test_trip
+      @dispatcher.trips << @test_trip
+      @driver.trips << @test_trip
     end
     it "calculates driver's cost of trips taken minus total revenue" do
       revenue = 3 - (@driver.total_revenue)

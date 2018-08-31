@@ -1,9 +1,7 @@
 require_relative 'spec_helper'
 require 'time'
 require 'pry'
-USER_TEST_FILE   = 'specs/test_data/users_test.csv'
-TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
-DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+
 
 describe "TripDispatcher class" do
   describe "Initializer" do
@@ -136,9 +134,7 @@ describe "TripDispatcher class" do
 
       expect(passenger.trips[0].start_time).must_equal test_start_time
       expect(passenger.trips[0].end_time).must_equal test_end_time
-
-    end
-
+     end
   end
 
   describe "TripDispatcher#available_driver" do
@@ -159,16 +155,16 @@ describe "TripDispatcher class" do
     end
 
     it "returns the first driver without any driven_trips" do
-      @dispatcher2 = RideShare::TripDispatcher.new(USER_TEST_FILE,
+      dispatcher2 = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                   TRIP_TEST_FILE,
                                                   DRIVER_TEST_FILE)
       driver_x = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
                                      vin: "1C9EVBRM0YBC564DZ")
       driver_y = RideShare::Driver.new(id: 100, name: "Jenny", vin: "1C9EVBRM0YBC564DZ")
-      @dispatcher2.drivers << driver_x
-      @dispatcher2.drivers << driver_y
+      dispatcher2.drivers << driver_x
+      dispatcher2.drivers << driver_y
 
-      expect(@dispatcher2.available_driver).must_equal driver_x
+      expect(dispatcher2.available_driver).must_equal driver_x
     end
 
 

@@ -8,6 +8,10 @@ require 'awesome_print'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
+USER_TEST_FILE   = 'specs/test_data/users_test.csv'
+TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
+DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+
 # Require_relative your lib files here!
 require_relative '../lib/user'
 require_relative '../lib/trip'
