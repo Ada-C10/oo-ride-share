@@ -119,17 +119,33 @@ describe "TripDispatcher class" do
                                                   TRIP_TEST_FILE, DRIVER_TEST_FILE)
     end
     it "Add's an in-progress trip correctly driver, passenger & dispatched trips" do
-    @dispatcher.request_trip(2)
-    trips = @dispatcher.trips
+      @dispatcher.request_trip(2)
+      trips = @dispatcher.trips
 
-    expect(trips.last).must_be_instance_of RideShare::Trip
-    expect(trips.last.end_time).must_be_nil
-    expect(trips.last.rating).must_be_nil
-    expect(trips.last.cost).must_be_nil
-    expect(trips.last.driver).must_be_instance_of RideShare::Driver
-    #expect(trips.last.passenger).must_be_instance_of RideShare::User
-    expect(trips.last.driver.status).must_equal :UNAVAILABLE
+
+
+      expect(trips.last).must_be_instance_of RideShare::Trip
+      expect(trips.last.end_time).must_be_nil
+      expect(trips.last.rating).must_be_nil
+      expect(trips.last.cost).must_be_nil
+      expect(trips.last.driver).must_be_instance_of RideShare::Driver
+      #expect(trips.last.passenger).must_be_instance_of RideShare::User
+      expect(trips.last.driver.status).must_equal :UNAVAILABLE
     end
+
+    it "checks driver get in-progress trip in driven_trips"  do
+      trip = @dispatcher.request_trip(2)
+      driver = @dispatcher.trips.last.driver
+      expect(driver.driven_trips.last).must_equal trip
+    end
+    it "checks passenger get in-progress-trip in trips"  do
+      trip = @dispatcher.request_trip(2)
+      passenger = @dispatcher.trips.last.passenger
+      expect(passenger.trips.last).must_equal trip
+    end
+
+
+
 
     it 'Check the driver status is :Available' do
       driver = @dispatcher.available_driver

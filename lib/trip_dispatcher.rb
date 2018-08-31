@@ -131,7 +131,7 @@ module RideShare
 
         new_driver.status = :UNAVAILABLE
         new_driver.add_driven_trip(in_progress_ride)
-        new_passenger.add_trip(in_progress_ride
+        new_passenger.add_trip(in_progress_ride)
 
         @trips << in_progress_ride
 
