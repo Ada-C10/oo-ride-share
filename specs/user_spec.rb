@@ -90,9 +90,20 @@ describe "User class" do
         trip_time = trip.end_time - trip.start_time
         total_time += trip_time
       end
-      print total_time
+      expect(@user.total_time_spent).must_equal 1154.0
+    end
+
+    it 'calculates the total time for trips excluding trips in progress' do
+      trip3 = RideShare::Trip.new(id: 8,
+                                 driver: nil,
+                                 passenger: @user,
+                                 start_time: Time.parse("2018-08-19 20:08:00 -0700"),
+                                 end_time: nil,
+                                 cost: nil,
+                                 rating: nil)
+      @user.add_trip(trip3)
       expect(@user.total_time_spent).must_equal 1154.0
     end
   end
 
-  end
+end

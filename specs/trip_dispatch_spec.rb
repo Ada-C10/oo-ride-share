@@ -175,7 +175,17 @@ describe "TripDispatcher class" do
       expect(@trips_length).must_equal 6
     end
 
+    it "raises argument error if no drivers are available" do
+      @user_id = 4
+      @driver_trip = @dispatcher.request_trip(@user_id)
 
+      expect{@driver_trip = @dispatcher.request_trip(6)}.must_raise ArgumentError
+    end
+
+    it "will not accept the passenger and driver to be the same" do
+      @user_id = 8
+      expect{@driver_trip = @dispatcher.request_trip(@user_id)}.must_raise ArgumentError
+    end
 
   end
 end

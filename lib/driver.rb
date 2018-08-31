@@ -24,12 +24,14 @@ module RideShare
     end
 
     def average_rating
-      if @driven_trips.empty?
+      completed_trips = @driven_trips.find_all { |trip| trip.end_time != nil }
+
+      if completed_trips.empty?
         return 0
       end
       total = 0
       count = 0
-      @driven_trips.each do |trip|
+      completed_trips.each do |trip|
         total += trip.rating
         count += 1
       end
@@ -50,8 +52,9 @@ module RideShare
     end
 
     def total_revenue
+      completed_trips = @driven_trips.find_all { |trip| trip.end_time != nil }
       total = 0
-      @driven_trips.each do |trip|
+      completed_trips.each do |trip|
         total += (trip.cost - 1.65) * 0.80
       end
       return total

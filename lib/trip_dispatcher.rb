@@ -110,7 +110,9 @@ module RideShare
 
     def request_trip(user_id)
       passenger = find_passenger(user_id)
-      driver = @drivers.find { |driver| driver.status == :AVAILABLE }
+
+      driver = @drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id }
+      raise ArgumentError, 'No available drivers' if driver.nil?
 
       parsed_trip = {
         id: "id",
@@ -129,11 +131,6 @@ module RideShare
       @trips << trip
       return trip
     end
-
-    # def update_trips
-    #   driver.add_trip_in_progress(trip)
-    #   passenger.add_trip(trip)
-    # end
 
     private
 
