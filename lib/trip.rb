@@ -20,7 +20,6 @@ module RideShare
       if @start_time > @end_time
         raise ArgumentError.new("Start time must be before end time")
       end
-
     end
 
     def inspect
