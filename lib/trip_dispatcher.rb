@@ -48,7 +48,6 @@ module RideShare
         # #NOTE: WHY DON'T THESE TWO LINES WORK THO?
         start_time = Time.parse(raw_trip[:start_time])
         end_time = Time.parse(raw_trip[:end_time])
-        # binding.pry
 
         parsed_trip = {
           id: raw_trip[:id].to_i,
@@ -61,12 +60,15 @@ module RideShare
         }
 
         trip = Trip.new(parsed_trip)
+
+
         passenger.add_trip(trip)
+        # driver.add_trip(trip)
         driver.add_driven_trip(trip)
         trips << trip
 
       end
-
+  
       return trips
     end
 
@@ -196,7 +198,7 @@ end
 # Comprehension questions
 
 # ap trip.start_time.class
-# ap RideShare::TripDispatcher.trips
+
 # ap trip.calculate_trip_duration
 
 
@@ -204,7 +206,7 @@ end
 # TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 # DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
 
-# hello = RideShare::TripDispatcher.new()
+hello = RideShare::TripDispatcher.new()
 #
 # ap hello
 
