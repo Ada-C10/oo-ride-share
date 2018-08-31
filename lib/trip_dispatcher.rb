@@ -124,7 +124,8 @@ module RideShare
       }
 
       trip = Trip.new(input)
-
+      driver = find_available_driver
+      driver.accept_trip(trip)
       @trips << trip
       return trip
     end

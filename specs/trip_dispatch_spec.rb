@@ -144,9 +144,9 @@ describe "TripDispatcher class" do
     it "intializes the trip with cost, rating and end time set as nil" do
       trip = @dispatcher.request_trip(1)
 
-      expect(trip.cost).must_equal nil
-      expect(trip.rating).must_equal nil
-      expect(trip.end_time).must_equal nil
+      expect(trip.cost).must_be_instance_of NilClass
+      expect(trip.rating).must_be_instance_of NilClass
+      expect(trip.end_time).must_be_instance_of NilClass
     end
 
     it "passenger is user" do
@@ -170,7 +170,12 @@ describe "TripDispatcher class" do
       expect(@dispatcher.trips.length).must_equal (length + 1)
     end
 
-    xit "raises ArgumentError if there are no Available drivers " do 
+    it "add to driver's trips" do
+      trip = @dispatcher.request_trip(1)
+      expect(trip.driver.driven_trips.last).must_equal trip
+    end
+
+    xit "raises ArgumentError if there are no Available drivers " do
     end
 
 
