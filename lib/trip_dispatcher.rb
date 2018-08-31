@@ -38,15 +38,15 @@ module RideShare
 
       driver_data = CSV.open(filename, 'r', headers: true, header_converters: :symbol)
 
-      driver_data.each do |raw_trip|
-        user = find_passenger(raw_trip[:id].to_i)
+      driver_data.each do |raw_driver|
+        user = find_passenger(raw_driver[:id].to_i)
 
         parsed_trip = {
           id: user.id,
           name: user.name,
-          vin: raw_trip[:vin],
+          vin: raw_driver[:vin],
           phone: user.phone_number,
-          status: raw_trip[:status].to_sym,
+          status: raw_driver[:status].to_sym,
         }
 
         driver = Driver.new(parsed_trip)
@@ -103,19 +103,22 @@ module RideShare
     end
 
     def check_driver_availability_and_assign(user_id)
+      passenger = find_passenger(user_id)
       all_available_drivers = @drivers.find_all {|driver| driver.status == :AVAILABLE}
       new_available_drivers = all_available_drivers.dup
-       new_available_drivers.each do |instance|
-         if instance.id == user_id
-           new_available_drivers.delete(instance)
-         end
-       end
+
+      new_available_drivers.each do |instance|
+        if instance == passenger
+         new_available_drivers.delete(instance)
+        end
+      end
+
       if new_available_drivers == []
         raise ArgumentError.new("No Available Drivers. Try later.")
       else
         driver = new_available_drivers[0]
         new_available_drivers.each_with_index do |instance, index|
-          if instance.trips == []
+          if instance.driven_trips == []
             driver = new_available_drivers[index]
           end
         end

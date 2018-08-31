@@ -42,8 +42,11 @@ module RideShare
 
     def total_revenue
       total_revenue = 0
-      @driven_trips.each do |trip|
-        total_revenue += 0.8 * (trip.cost - 1.65) if trip.cost != nil
+
+      if @driven_trips != []
+        @driven_trips.each do |trip|
+          total_revenue += 0.8 * (trip.cost - 1.65) if trip.cost != nil
+        end
       end
       
       return total_revenue.round(2)
