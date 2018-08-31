@@ -110,25 +110,35 @@ module RideShare
           return driver
         end
       end
+      return nil
     end
 
     def request_trip(user_id)
+      driver = find_available_driver
+      passenger = find_passenger(user_id)
+      driver == nil ? (return nil) : driver
+
+      if passenger.id == driver.id
+        raise ArgumentError.new
+      end
+
       input = {
         id: @trips.length + 1,
-        passenger: find_passenger(user_id),
+        passenger: passenger,
         start_time: Time.now,
         end_time: nil,
         cost: nil,
         rating: nil,
-        driver: find_available_driver
+        driver: driver
       }
 
       trip = Trip.new(input)
-      driver = find_available_driver
+
       driver.accept_trip(trip)
       find_passenger(user_id).add_trip(trip)
       @trips << trip
       return trip
+
     end
 
     private
