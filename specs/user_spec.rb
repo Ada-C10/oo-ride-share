@@ -73,7 +73,7 @@ it "should calculate total time spent in rides by user" do
     duration += sprintf("%0.02f", (t2 - t1) % 60)
       end
       minutes = (((duration.to_i) / 60) % 60).to_i
-    return minutes
+  
 
     expect(minutes).must_equal "48"
 end

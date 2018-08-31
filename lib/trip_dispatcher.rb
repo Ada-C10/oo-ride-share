@@ -66,18 +66,20 @@ module RideShare
       trip_data = CSV.open(filename, 'r', headers: true,
                                           header_converters: :symbol)
       trip_data.each do |raw_trip|
+        parsed_trip = {}
+
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
         driver = find_driver(raw_trip[:driver_id].to_i)
-        parsed_trip = {
-          id: raw_trip[:id].to_i,
-          passenger: passenger,
-          driver: driver,
-          start_time: Time.parse(raw_trip[:start_time]), # rawtrip hash start_time in new_hash parsed_trip
-          end_time: Time.parse(raw_trip[:end_time]),
-          cost: raw_trip[:cost].to_f,
-          rating: raw_trip[:rating].to_i
 
-        }
+          parsed_trip[:id] = raw_trip[:id].to_i,
+          parsed_trip[:passenger] = passenger,
+          parsed_trip[:driver] = driver,
+          parsed_trip[:start_time] = Time.parse(raw_trip[:start_time]), # rawtrip hash start_time in new_hash parsed_trip
+          parsed_trip[:end_time] = Time.parse(raw_trip[:end_time]),
+          parsed_trip[:cost] = raw_trip[:cost].to_f,
+          parsed_trip[:rating] = raw_trip[:rating].to_i
+
+
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
@@ -85,7 +87,6 @@ module RideShare
         trips << trip
 
       end
-
       return trips
     end
 
@@ -99,6 +100,9 @@ module RideShare
       check_id(id)
       return @drivers.find { |driver| driver.id == id }
     end
+
+    def request_trip(user_id)
+    end 
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \

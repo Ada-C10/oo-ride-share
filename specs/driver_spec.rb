@@ -118,7 +118,26 @@ describe "Driver class" do
   end
 end
 
-  # describe "net_expenditures" do
-  #   # You add tests for the net_expenditures method
-  # end
+  describe "net_expenditures" do
+    before do
+      @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                      vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+      trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                 date: Time.parse("2016-08-08"), rating: 5, cost: 8.0)
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                                             date: Time.parse("2016-08-08"), rating: 1, cost: 2)
+      @driver.add_driven_trip(trip)
+      @driver.add_driven_trip(trip2)
+      user1 = {:id=>54,:name=>"Rogers Bartell IV",:phone=>111-111-1111}
+      @passenger = RideShare::User.new(user1)
+      trip3 = RideShare::Trip.new(id: 8, driver: @driver, passenger: @passenger,
+                                                             date: Time.parse("2016-08-08"), rating: 1, cost: 2)
+      @passenger.add_trip(trip3)
+    end
+      it "subtracts total revenue from passenger ride cost" do
+    # You add tests for the net_expenditures method
+    #spent 2 - 8.37
+    expect (@driver.net_expenditures).must_be_close_to (-6.37)
+  end 
+  end
 end
