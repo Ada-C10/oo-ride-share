@@ -1,4 +1,4 @@
-
+require 'pry'
 module RideShare
   class Driver < RideShare::User
     attr_reader :vehicle_id, :driven_trips, :status
@@ -14,6 +14,7 @@ module RideShare
       super(input)
       @id = input[:id]
       @vehicle_id = input[:vin]
+      raise ArgumentError if @vehicle_id.length != 17
       @status = input[:status]
       #raise ArgumentError if not VALID_STATUS.include?(status)
     end
