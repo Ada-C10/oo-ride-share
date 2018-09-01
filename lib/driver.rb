@@ -55,7 +55,11 @@ module RideShare
       @driven_trips.each do |trip|
         trip_sum += trip.rating
       end
-      return trip_sum / @driven_trips.length
+      if @driven_trips == []
+        return 0
+      else
+        return trip_sum / @driven_trips.length
+      end
     end
 
 
