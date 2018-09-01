@@ -141,17 +141,38 @@ describe "TripDispatcher class" do
             end
 
             it "raises argument error if all drivers are unavailable" do
-              @dispatcher.request_trip(2)
+              @dispatcher.request_trip(1)
               @dispatcher.request_trip(5)
               expect{@dispatcher.request_trip(8)}.must_raise ArgumentError
             end
+
+            it "increases the trips in the driver_driven_trips array" do
+              
+              trip_1 = Trip.new({ id: 1, driver_id: 2, passenger_id: 1,
+                start_time: '2018-05-25 11:52:40 -0700',
+                end_time: '2018-05-25 12:25:00 -0700', cost: 10, rating: 5 })
+
+              trip_2 = Trip.new({id: 2, driver_id: 2, passenger_id: 3,
+                start_time: '2018-07-23 04:39:00 -0700',
+                end_time: '2018-05-25 04:55:00 -0700', cost: 7, rating: 3 })
+
+            driver = Driver.new({ id: 2, vin: '1B6CF40K1J3Y74UY0', status: 'UNAVAILABLE'})
+
+            driver.add_driven_trip(trip_1)
+            driver.add_driven_trip(trip_2)
+
+              ##########################
+             trip = @dispatcher.request_trip(2)
+
+            driver_8_trips_after_trip = trip.driver.driven_trips.driven_trips.length
+
+
+              find_driver_by_availability
+
+
+
+            end
           end
-
-
-          # Were the trip lists for the driver and user updated?
-          # 1. check if the driver_driven_trips array increased
-          # 2. check if the user/passenger's trips array increased
-
 
           describe "#find_driver_by_availability" do
             before do
@@ -171,7 +192,11 @@ describe "TripDispatcher class" do
             end
 
 
+                      # Were the trip lists for the driver and user updated?
+                      # 1. check if the driver_driven_trips array increased
+                      # 2. check if the user/passenger's trips array increased
 
+            # describe ""
 
 
               # it "returns a driver who is AVAILABLE" do
