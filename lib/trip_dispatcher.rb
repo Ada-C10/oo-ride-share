@@ -86,8 +86,6 @@ module RideShare
     def find_driver(id)
       check_id(id)
       found_driver = @drivers.find { |driver| driver.id == id } #instance of Driver class
-      # raise argument error if no driver found
-      # The .find method returns nil if nothing is found
       if found_driver == nil
         raise ArgumentError, "Searched for driver #{id} but none found"
       else
@@ -99,7 +97,9 @@ module RideShare
       check_id(user_id)
       time_at_delay = Time.now
       begin
-        available = @drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id}
+        available = @drivers.find { |driver|
+          driver.status == :AVAILABLE && driver.id != user_id
+        }
         if available == nil
           raise ArgumentError, "No drivers are currently available."
         else
@@ -108,13 +108,15 @@ module RideShare
       rescue ArgumentError => exception
         delay = (Time.now - time_at_delay)
         if delay < DELAY_LIMIT
-          puts "#{exception.message} Please wait. (current delay @ #{delay} of #{DELAY_LIMIT})"
+          puts "#{exception.message} Please wait. (current delay @ #{delay}" \
+               " of #{DELAY_LIMIT})"
           sleep(5)
           retry # goes back to beginning of BEGIN block
         else
           puts "Sorry, all our drivers are on the road! Try again later."
           sleep(2)
-          raise ArgumentError, "Sorry, all our drivers are on the road! Try again later."
+          raise ArgumentError, "Sorry, all our drivers are on the road!" \
+                               " Try again later."
         end
       end
     end

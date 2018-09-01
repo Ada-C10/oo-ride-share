@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 require "pry"
 
-xdescribe "Trip class" do
+describe "Trip class" do
 
   describe "initialize" do
     before do
@@ -86,7 +86,6 @@ xdescribe "Trip class" do
 
     end
 
-    # edge cases? for example, time is nil?  or raise error?
 
   end
 

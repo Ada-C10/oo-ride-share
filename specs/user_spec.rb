@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-xdescribe "User class" do
+describe "User class" do
 
   describe "User instantiation" do
     before do
@@ -35,7 +35,7 @@ xdescribe "User class" do
   end
 
 
-  describe "trips property" do
+  describe "trips properly" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
                                   phone: "1-602-620-2330 x3723", trips: [])
@@ -43,7 +43,7 @@ xdescribe "User class" do
                                  start_time: Time.parse("2016-08-08"),
                                  end_time: Time.parse("2016-08-09"),
                                  rating: 5)
-    @user.add_trip(trip)
+      @user.add_trip(trip)
     end
 
     it "each item in array is a Trip instance" do
@@ -85,20 +85,15 @@ xdescribe "User class" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
                                   phone: "1-602-620-2330 x3723", trips: [])
-       @trip = RideShare::Trip.new(start_time: Time.parse("2018-05-25 11:50:00 -0700"),
+      @trip = RideShare::Trip.new(start_time: Time.parse("2018-05-25 11:50:00 -0700"),
                                   end_time: Time.parse("2018-05-25 11:51:00 -0700"),
                                   rating: 5)
-
     end
 
     it "correctly sums duration of all user's trips" do
-      @user.add_trip(@trip)
-      @user.add_trip(@trip)
-
+      2.times {@user.add_trip(@trip)}
       expect(@user.total_time_spent).must_equal 120
     end
-
   end
-
-
+  
 end

@@ -111,8 +111,6 @@ describe "TripDispatcher class" do
     end
   end
 
-
-
   describe "New in-progress trip: Request Trip(user_id)" do
     let (:dispatcher) {RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                      TRIP_TEST_FILE,
@@ -136,7 +134,6 @@ describe "TripDispatcher class" do
       expect((dispatcher.find_driver(5).driven_trips).length).must_equal (old_number_of_driven_trips + 1)
     end
 
-
     it "correctly handles NO AVILABLE DRIVERS situation" do
       2.times {new_trip = dispatcher.request_trip(1)}
       expect {dispatcher.available_driver(1)}.must_raise ArgumentError
@@ -151,20 +148,29 @@ describe "TripDispatcher class" do
       new_trip = dispatcher.request_trip(1)
       expect((dispatcher.find_driver(5)).status).must_equal :UNAVAILABLE
     end
+  end
 
-    it "Wave 1&2 code ignores all in-progress trips (end time = nil)" do
-      new_trip = dispatcher.request_trip(1) # first available driver is 5
-      user = dispatcher.find_passenger(1)
-      driver = dispatcher.find_driver(5)
-      #### User net expenditure
+  describe "Wave 1&2 code ignores all in-progress trips (end time = nil)" do
+    let (:dispatcher) {RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                     TRIP_TEST_FILE,
+                                                     DRIVER_TEST_FILE)}
+    let (:new_trip) {dispatcher.request_trip(1)} # first available driver is 5
+    let (:user) {dispatcher.find_passenger(1)}
+    let (:driver) {dispatcher.find_driver(5)} # first available driver
+
+    it "can sum User net_expenditures" do
       expect(user.net_expenditures).must_equal 10 #passes!
+    end
 
-      ### User total_time_spent
+    it "can sum user total_time_spent" do
       expect(user.total_time_spent).must_equal ((32*60)+20)
+    end
 
+    it "can sum driver total_revenue" do
       expect(driver.total_revenue).must_equal 40.04
+    end
 
-      # driver net expenditures
+    it "can sum driver net_expenditures" do
       expect(driver.net_expenditures).must_equal -40.04
     end
 
