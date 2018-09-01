@@ -122,12 +122,21 @@ describe "Driver class" do
 
 
    it "correctly calculates the total_revenue" do
-      trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+     @driver1 = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                     vin: "1C9EVBRM0YBC564DZ")
+
+     trip = RideShare::Trip.new(id: 8, driver: @driver1, passenger: nil,
+                               start_time: Time.parse("2016-08-08"),
+                               end_time: Time.parse("2016-08-08"),
+                               cost: 5, rating: 5)
+
+      trip2 = RideShare::Trip.new(id: 8, driver: @driver1, passenger: nil,
                                   start_time: Time.parse("2016-08-08"),
                                   end_time: Time.parse("2016-08-09"),
                                   cost: 10)
-      @driver.add_driven_trip(trip2)
-      expect(@driver.total_revenue).must_be_close_to [(10 * 0.8) - 1.65]
+      @driver1.add_driven_trip(trip1)
+      @driver1.add_driven_trip(trip2)
+      expect(@driver1.total_revenue).must_be_close_to [(10 * 0.8) - 1.65]
     end
   end
 

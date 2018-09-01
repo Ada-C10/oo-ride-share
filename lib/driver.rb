@@ -20,7 +20,7 @@ module RideShare
       @status = input[:status]
       #input[:trips] = [] if input[:trips] == nil
       #@driven_trips = input[:trips]
-      @driven_trips ||= []
+      @driven_trips = [] if @driven_trips.nil?
       #raise ArgumentError if not VALID_STATUS.include?(status)
     end
 
@@ -36,6 +36,7 @@ module RideShare
     end
 
     def total_revenue
+      binding.pry
       total = 0
       return total if @driven_trips.length == 0
 
