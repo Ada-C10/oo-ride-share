@@ -137,7 +137,4 @@ describe "TripDispatcher class" do
     expect(@trip_in_progress.passenger.id).must_equal 1
     end
   end
-
-
-
 end
