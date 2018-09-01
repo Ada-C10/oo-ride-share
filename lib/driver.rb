@@ -34,5 +34,15 @@ module RideShare
       @driven_trips << trip
     end
 
+    def total_revenue
+      total_revenue = 0
+
+      @driven_trips.each do |trip|
+        total_revenue += (trip[:cost] - 1.65) * 0.80
+      end
+
+      return total_revenue
+    end
+
   end # end of Class User
 end # end of Module
