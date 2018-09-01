@@ -80,7 +80,7 @@ describe "TripDispatcher class" do
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
         expect(driver).must_be_instance_of RideShare::Driver
-        expect(driver.trips).must_include trip
+        expect(driver.driven_trips).must_include trip
       end
     end
   end
@@ -153,16 +153,10 @@ describe "TripDispatcher class" do
         expect{ @trip = @dispatcher.request_trip(3) }.must_raise StandardError
       end
 
-      it "picks the drivers with the oldest end date" do
-        # avaiable_driver = []
-        # @dispatcher.drivers.each do |driver|
-        #   if driver.status == :AVAILABLE
-        #     avaialble_driver << driver
-        #   end
-        # end
+      it "picks the drivers with the latest end date" do
+
         @trip = @dispatcher.select_driver(3)
-        # binding.pry
-        expect(@trip.id).must_equal 5
+        expect(@trip.id).must_equal 8
 
       end
 

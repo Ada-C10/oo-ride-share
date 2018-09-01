@@ -13,8 +13,10 @@ module RideShare
       if VALID_STATUSES.include?(input[:status]) == false
         raise ArgumentError
         # if status is nil then set it to unavailable
-      else input[:status] == nil
+      elsif input[:status] == nil
         @status = :UNAVAILABLE
+      else
+        @status = input[:status]
       end
 
       # check for a valid vin number
@@ -24,7 +26,6 @@ module RideShare
 
       super (input)
       @vin = input[:vin]
-      @status = input[:status]
       @driven_trips = input[:trips].nil? ? [] : input[:trips]
 
     end
@@ -67,6 +68,10 @@ module RideShare
 
     # total revenue calculator
     def total_revenue
+      if @driven_trips == nil
+        return 0
+      end
+
       total_revenue = 0.0
       @driven_trips.each do |trip|
         x = (trip.cost - 1.65)
@@ -74,11 +79,7 @@ module RideShare
         total_revenue += (x - y)
       end
 
-      if @driven_trips.length == 0
-        return total_revenue = 0.0
-      else
-        return total_revenue.round(2)
-      end
+      return total_revenue.round(2)
     end
 
 

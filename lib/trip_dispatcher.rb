@@ -15,7 +15,7 @@ module RideShare
       @drivers = load_drivers(driver_file)
       @trips = load_trips(trip_file)
     end
-
+    
     def load_users(filename)
       users = []
 
@@ -54,11 +54,13 @@ module RideShare
           cost: raw_trip[:cost].to_f,
           rating: raw_trip[:rating].to_i
         }
-
+        # create an instance of trip
         trip = Trip.new(parsed_trip)
+        # add created trip to the collection of passenger
         passenger.add_trip(trip)
-        driver.add_trip(trip)
+        # add driven trip to the collection of drivers
         driver.add_driven_trip(trip)
+        # add trip to the collection of trips
         trips << trip
       end
 
