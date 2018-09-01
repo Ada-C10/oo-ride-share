@@ -9,7 +9,7 @@ require_relative 'driver'
 
 module RideShare
   class TripDispatcher
-    attr_reader :drivers, :passengers, :trips 
+    attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv',
@@ -45,7 +45,6 @@ module RideShare
         passenger = find_passenger(raw_trip[:passenger_id].to_i)
         driver = find_driver(raw_trip[:driver_id].to_i)
 
-        # #NOTE: WHY DON'T THESE TWO LINES WORK THO?
         start_time = Time.parse(raw_trip[:start_time])
         end_time = Time.parse(raw_trip[:end_time])
 
@@ -63,7 +62,6 @@ module RideShare
 
 
         passenger.add_trip(trip)
-        # driver.add_trip(trip)
         driver.add_driven_trip(trip)
         trips << trip
 
@@ -113,11 +111,9 @@ module RideShare
       current_passenger = find_passenger(user_id)
       available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
 
-      ap available_driver.status
 
       available_driver.status = :UNAVAILABLE
 
-      ap available_driver.status
 
       parsed_trip = {
         id: @trips.length + 1,

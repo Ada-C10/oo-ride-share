@@ -134,25 +134,20 @@ describe "TripDispatcher class" do
   end
 
   it "Connects drivers with trip in progress" do
-     # Unskip after wave
-    # binding.pry
 
-    expect(@trip_in_progress.passenger.id).must_equal 1
+      expect(@trip_in_progress.driver).must_be_instance_of RideShare::Driver
+      expect(@trip_in_progress.driver.id).must_equal 5
+
+
   end
 
 
-  xit "Connects passenger with trip in progress" do
-     # Unskip after wave 2
-    trips = @dispatcher.trips
-    # binding.pry
+  it "Connects passenger with trip in progress" do
+    expect(@trip_in_progress.passenger.id).must_equal 1
 
-    [trips.first, trips.last].each do |trip|
-      driver = trip.driver
-      expect(driver).must_be_instance_of RideShare::Driver
-      expect(driver.driven_trips).must_include trip
     end
   end
 
 
-  end
+
 end
