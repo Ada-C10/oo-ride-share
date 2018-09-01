@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
-require 'awesome_print'
-require 'time'
+#require 'awesome_print'
+#require 'time'
 
 describe "Trip class" do
 

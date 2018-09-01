@@ -113,4 +113,28 @@ describe "TripDispatcher class" do
       expect(passenger.trips).must_include trip
     end
   end
+
+describe "request trip method" do
+
+  @user = RideShare::User.new(id: 9, name: "Merl Glover III",
+                              phone: "1-602-620-2330 x3723", trips: [])
+
+    @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+    vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
+
+  new_trip = RideShare::Trip.new( :id => 40, :passenger => @user.id, :driver => @driver,
+    :start_time => Time.now, :end_time => nil, :cost => nil, :rating => nil)
+
+  it "create new trip with assigned availble driver" do
+
+
+    expect(driver.request_trip(9)).must_be_equal_to new_trip
+
+  end
+
+
+end
+
+
+
 end

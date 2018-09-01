@@ -1,5 +1,5 @@
-require_relative 'user'
-require_relative 'trip'
+#require_relative 'user'
+#require_relative 'trip'
 
 module RideShare
   class Driver < RideShare::User

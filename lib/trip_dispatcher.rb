@@ -1,10 +1,10 @@
 require 'csv'
 require 'time'
-require 'awesome_print'
-require 'pry'
+#require 'awesome_print'
+#require 'pry'
 
-require_relative 'user'
-require_relative 'trip'
+#require_relative 'user'
+#require_relative 'trip'
 
 module RideShare
   class TripDispatcher
@@ -103,18 +103,21 @@ module RideShare
 
     def request_trip(user_id)
 
-      #check @driver if status == available << availabble_drivers
-
-      availabble_drivers = []
-      @drivers.each do |driver| if driver.status == :AVAILABLE
-        availabble_drivers << driver
-      end
-    end 
-
-new_trip = Trip.new( :id = 40, :passenger = user_id, :driver = availabble_drivers.shift,
-  :start_time = Time.now, :end_time = nil, :cost = nil, :rating = nil)
-
+      available_drivers = []
+      @drivers.each do |driver|
+      if driver.status == :AVAILABLE
+        #binding.pry
+      available_drivers << driver
+      ap available_drivers
     end
+  end
+
+
+      #new_trip = Trip.new( :id => " ", :passenger => user_id, :driver => available_drivers.shift,
+      #  :start_time => Time.now, :end_time => nil, :cost => nil, :rating => nil)
+
+      end
+
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
