@@ -1,6 +1,7 @@
 require 'csv'
 require 'time'
-#require 'awesome_print'
+require_relative 'driver'
+require 'awesome_print'
 #require 'pry'
 
 #require_relative 'user'
@@ -102,22 +103,32 @@ module RideShare
     end
 
     def request_trip(user_id)
-
       available_drivers = []
       @drivers.each do |driver|
-      if driver.status == :AVAILABLE
-        #binding.pry
-      available_drivers << driver
-      ap available_drivers
-    end
-  end
-
-
-      #new_trip = Trip.new( :id => " ", :passenger => user_id, :driver => available_drivers.shift,
-      #  :start_time => Time.now, :end_time => nil, :cost => nil, :rating => nil)
-
+        if driver.status == :AVAILABLE
+          available_drivers << drivers
+        end
       end
+      available_drivers.flatten!
+      trip_info = {
+        id: 0,
+        passenger: user_id,
+        start_time: Time.now,
+        end_time: Time.now,
+        cost: 4.0,
+        rating: 4,
+        driver: available_drivers.shift
+      }
 
+      current_trip = Trip.new(trip_info)
+      current_trip.driver.add_driven_trip(current_trip) #go into trip instance, look at driver instance, add driven trip for driver instance
+      # current_trip.driver.status = :UNAVAILABLE
+
+      passenger = self.find_passenger(user_id)
+      passenger.add_trip(current_trip)
+
+      return current_trip
+    end
 
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
@@ -131,5 +142,6 @@ module RideShare
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
+
   end
 end

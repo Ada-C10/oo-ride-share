@@ -114,27 +114,19 @@ describe "TripDispatcher class" do
     end
   end
 
-describe "request trip method" do
-
-  @user = RideShare::User.new(id: 9, name: "Merl Glover III",
-                              phone: "1-602-620-2330 x3723", trips: [])
-
-    @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
-    vin: "1C9EVBRM0YBC564DZ", status: :AVAILABLE)
-
-  new_trip = RideShare::Trip.new( :id => 40, :passenger => @user.id, :driver => @driver,
-    :start_time => Time.now, :end_time => nil, :cost => nil, :rating => nil)
-
-  it "create new trip with assigned availble driver" do
-
-
-    expect(driver.request_trip(9)).must_be_equal_to new_trip
-
+describe "Request Trip Method" do
+  before do
+    @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                               TRIP_TEST_FILE, DRIVER_TEST_FILE)
   end
 
+  it "creates an instance of Trip" do
 
-end
+  expect(@dispatcher.request_trip(6)).must_be_instance_of RideShare::Trip
+  #test that it is an available driver
+  #test that driver cannot drive themselves
+  #test that driver and passenger now have the current trip in their list of trips
+  end
 
-
-
+  end
 end
