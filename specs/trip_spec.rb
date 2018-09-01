@@ -6,7 +6,7 @@ describe "Trip class" do
   describe "initialize" do
     before do
       start_time = Time.parse('2015-05-20T12:14:00+00:00')
-      end_time = start_time + 25 * 60 # 25 minutes
+      end_time = start_time + 25 * 60
       @trip_data = {
         id: 8,
         passenger: RideShare::User.new(id: 1,
@@ -25,8 +25,6 @@ describe "Trip class" do
         end
 
 
-
-        # (end_time - start_time) < 0
         it "is an instance of Trip" do
           expect(@trip).must_be_kind_of RideShare::Trip
         end

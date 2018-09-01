@@ -18,9 +18,7 @@ module RideShare
       unless valid_ratings.include? (rating)
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
-      # if @rating > 5 || @rating < 1
-      #   raise ArgumentError.new("Invalid rating #{@rating}")
-      # end
+    
       if end_time != nil
         if @end_time < @start_time
           raise ArgumentError.new

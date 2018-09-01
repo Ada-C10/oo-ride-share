@@ -36,7 +36,6 @@ describe "User class" do
 
   describe "net_expenditures" do
     it "returns the total amount of money that a user has spent on their trips." do
-      #Arrange
 
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
         phone: "1-602-620-2330 x3723", trips: [])
@@ -52,14 +51,7 @@ describe "User class" do
         @user.add_trip(trip)
         @user.add_trip(trip2)
 
-
-          # total = @user
-          # total = RideShare::User.new()
-
-          # all_trips = @user.trips
-      #Act  #Assert
       expect(@user.net_expenditures).must_equal 150
-          #pull the trip @cost of each user @trip and total them all
     end
   end
 
@@ -79,7 +71,6 @@ describe "User class" do
         @user.add_trip(trip)
         @user.add_trip(trip2)
 
-        #Trip#calculate_duration will need to be used in this method
 
       expect(@user.total_time_spent).must_equal 172800
     end

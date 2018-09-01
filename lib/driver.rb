@@ -5,14 +5,11 @@ require_relative "user"
 module RideShare
 
   class Driver < User
-    attr_reader :vin, :driven_trips  #:trips is the trips taken as a user
+    attr_reader :vin, :driven_trips
     attr_accessor :status
 
-    def initialize(input) #rather than input, pass in symbol vin, status, and driven trips
+    def initialize(input)
       super(input)
-      # inherits @id, @name, @phone as param and inst var (?)
-      # inherits @trips from User (?) as instance variable not parameter
-      # rather than input[:vin], just :vin
 
       @vin = input[:vin].to_s
 
@@ -26,10 +23,10 @@ module RideShare
       end
 
       @status = input[:status]
-      # valid_status = %i[AVAILABLE UNAVAILABLE]
+
       unless @status == :AVAILABLE
         @status == :UNAVAILABLE
-        # raise ArgumentError, 'Not a valid status.'
+
       end
 
 
