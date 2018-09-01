@@ -20,7 +20,9 @@ module RideShare
       @status = input[:status]
       #input[:trips] = [] if input[:trips] == nil
       #@driven_trips = input[:trips]
-      @driven_trips = [] if @driven_trips.nil?
+      if @driven_trips.nil?
+        @driven_trips = []
+      end
       #raise ArgumentError if not VALID_STATUS.include?(status)
     end
 
