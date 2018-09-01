@@ -21,7 +21,7 @@ describe "TripDispatcher class" do
 
       expect(dispatcher.trips).must_be_kind_of Array
       expect(dispatcher.passengers).must_be_kind_of Array
-      # expect(dispatcher.drivers).must_be_kind_of Array
+      expect(dispatcher.drivers).must_be_kind_of Array
     end
   end
 
@@ -40,8 +40,6 @@ describe "TripDispatcher class" do
     end
   end
 
-
-  # Uncomment for Wave 2
   describe "find_driver method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
@@ -67,7 +65,6 @@ describe "TripDispatcher class" do
     end
 
     it "accurately loads driver information into drivers array" do
-      # skip # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -80,7 +77,6 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-       # Unskip after wave 2
       trips = @dispatcher.trips
 
       [trips.first, trips.last].each do |trip|
@@ -146,7 +142,7 @@ describe "TripDispatcher class" do
       expect(@driver_trip.driver).wont_equal 2
     end
 
-
+    # Wave 4 test drafts
     # it "will select the driver who has never driven first" do
     #
     #   driver_no_trips
@@ -186,11 +182,9 @@ describe "TripDispatcher class" do
     it "creates a new trip in the user's collection of trips" do
       id = 4
       passenger = @dispatcher.passengers.find { |user| user.id == id }
-      puts passenger
 
       expect(passenger.trips.length).must_equal 1
       @driver_trip = @dispatcher.request_trip(id)
-      # binding.pry
       expect(passenger.trips.length).must_equal 2
     end
 

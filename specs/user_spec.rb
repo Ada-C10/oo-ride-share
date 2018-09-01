@@ -74,15 +74,15 @@ describe "User class" do
     end
 
     it 'calculates the net expenditure of all trips for the user' do
-      # binding.pry
       total_cost = 0
 
       @user.trips.each do |trip|
         total_cost += trip.cost
       end
+
       expect(@user.net_expenditures).must_equal 50
-      # expect(@user.trips.net_expenditures).must_equal 15
     end
+
     it 'calculates the total time for all trips for the user' do
       total_time = 0
 
@@ -90,6 +90,7 @@ describe "User class" do
         trip_time = trip.end_time - trip.start_time
         total_time += trip_time
       end
+      
       expect(@user.total_time_spent).must_equal 1154.0
     end
 

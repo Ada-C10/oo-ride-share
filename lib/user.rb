@@ -24,7 +24,6 @@ module RideShare
       @trips.each do |trip_inst|
         total += trip_inst.cost
       end
-      # binding.pry
       return total
     end
 
@@ -37,12 +36,7 @@ module RideShare
       completed_trips.each do |trip_inst|
         total_time += (trip_inst.end_time - trip_inst.start_time)
       end
-      # TODO: implement Time.parser to convert seconds to minutes
-      # t = 236 # seconds
-      # Time.at(t).utc.strftime("%H:%M:%S")
-      # => "00:03:56"
       return total_time
-
     end
   end
 end

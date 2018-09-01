@@ -31,10 +31,8 @@ module RideShare
 
         users << User.new(input_data)
       end
-
       return users
     end
-
 
     def load_trips(filename)
       trips = []
@@ -61,9 +59,7 @@ module RideShare
         driver.add_driven_trip(trip)
         passenger.add_trip(trip)
         trips << trip
-        # binding.pry
       end
-
       return trips
     end
 
@@ -105,7 +101,6 @@ module RideShare
 
     def find_driver(id)
       check_id(id)
-      # binding.pry
       return @drivers.find { |driver| driver.id == id }
     end
 
@@ -115,42 +110,10 @@ module RideShare
       driver = @drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id }
         raise ArgumentError, 'No available drivers' if driver.nil?
 
-      # available_drivers = @drivers.find_all { |driver| driver.status == :AVAILABLE && driver.id != user_id }
-      #   raise ArgumentError, 'No available drivers' if available_drivers.nil?
-      #
-      # driver = available_drivers(driver.trips.end_time) { |min| min.driver.trips.end_time }
-      # # list_a_d = available_drivers.reduce{ |shortest, current| (shortest.latest_drive < current.latest_drive) ? shortest : current }
-      # # time = list_a_d.min
-      # binding.pry
-      # driver = available_drivers.select {|driver| driver.trips.end_time == time }
-      #
-      #     binding.pry
-
-      # driver = available_drivers.find { |driver| driver.trips.empty? }
-      # need to look at only the end time for the last trip of each driver
-
-        # if driver.nil?
-        #   available_drivers.each do |driver|
-        #     puts "#{driver.latest_drive}"
-        #   end
-        #   # available_drivers.each do |trips|
-          #   last_trip_end_time = (trips.last).last_trip
-          # end
-          # binding.pry
-          # sorted_drivers = available_drivers.map do |driver|
-          #
-          # #   driver.trips.max
-          # end
-          # # binding.pry
-          # driver = sorted_drivers[0]
-        # end
-
-
       parsed_trip = {
         id: "id",
         passenger: user_id,
         driver: driver.id,
-        # Modify load_trips to store the start_time and end_time
         start_time: Time.now,
         end_time: nil,
         cost: nil,

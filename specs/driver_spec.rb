@@ -118,12 +118,10 @@ describe "Driver class" do
     end
 
     it "calculates average rating correctly, leaving out trips in progress" do
-
       @driver.add_driven_trip(trip2)
       @driver.add_driven_trip(trip3)
 
       expect(@driver.average_rating).must_be_close_to (5.0 + 1.0) / 2.0, 0.01
-
     end
 
 
@@ -153,7 +151,6 @@ describe "Driver class" do
     it "correctly calculates total revenue" do
       #total cost = 24.50
       expect (@driver.total_revenue).must_be_close_to ((14.50 - 1.65) + (10 - 1.65)) * 0.80
-    # You add tests for the total_revenue method
     end
   end
 
@@ -191,14 +188,12 @@ describe "Driver class" do
                                  cost: 10)
       @driver.add_driven_trip(trip2)
       @driver.add_driven_trip(trip1)
-
     end
     it "correctly calculated net expenditure" do
       total_money_earned = ((14.50 - 1.65) + (10 - 1.65)) * 0.80
       total_money_spent = 15 + 35
-      # binding.pry
+      
       expect(@driver.net_expenditures).must_be_close_to (total_money_spent - total_money_earned)
     end
-    # You add tests for the net_expenditures method
   end
 end

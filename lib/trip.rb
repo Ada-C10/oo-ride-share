@@ -22,8 +22,6 @@ module RideShare
           raise ArgumentError, "Invalid input. Start time must be before end time."
         end
       end
-      # raise an ArgumentError if the end time is before the start time,
-
     end
 
     def inspect
@@ -34,10 +32,6 @@ module RideShare
 
     def time_duration
       return @end_time - @start_time
-    end
-
-    def driver
-      @driver
     end
   end
 end

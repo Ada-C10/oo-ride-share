@@ -33,8 +33,6 @@ describe "Trip class" do
     end
 
     it "stores an instance of driver" do
-       # binding.pry
-       # Unskip after wave 2
       expect(@trip.driver).must_be_kind_of RideShare::Driver
     end
 
@@ -85,7 +83,7 @@ describe "Trip class" do
     end
     it "calculates trip duration in seconds accurately" do
       seconds_between_trips = @trip.end_time - @trip.start_time
-      # p seconds_between_trips
+      
       expect(@trip.time_duration).must_equal 375.0
       expect(@trip.time_duration).must_equal seconds_between_trips
     end
