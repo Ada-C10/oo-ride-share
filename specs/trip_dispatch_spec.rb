@@ -39,9 +39,9 @@ describe "TripDispatcher class" do
       expect(passenger).must_be_kind_of RideShare::User
     end
 
-    it "handles case user not found" do
-      passenger = @dispatcher.find_passenger(100)
-      ###### WHAT'S HERE???
+# FAIL!
+    it "handles case passenger (user) not found" do
+      expect{@dispatcher.find_passenger(999)}.must_raise ArgumentError
     end
 
   end
@@ -61,8 +61,7 @@ describe "TripDispatcher class" do
     end
 
     it "handles case driver not found" do
-      driver = @dispatcher.find_driver(2)
-      ###### WHAT'S HERE???
+      expect{@dispatcher.find_driver(999)}.must_raise ArgumentError
     end
   end
 
@@ -118,7 +117,6 @@ describe "TripDispatcher class" do
     let (:dispatcher) {RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                      TRIP_TEST_FILE,
                                                      DRIVER_TEST_FILE)}
-    # let (:driver) {RideShare::Driver.new()}
 
     it "creates trip properly" do
       dispatcher.request_trip(7)
@@ -132,25 +130,21 @@ describe "TripDispatcher class" do
     end
 
     it "updates trip list for driver" do
-
       old_number_of_driven_trips = ((dispatcher.find_driver(5)).driven_trips).length
       new_trip = dispatcher.request_trip(1) # We expect this to assign the ride eto Driver 5
       expect(new_trip.driver).must_equal 5 # and it does! yay.
       expect((dispatcher.find_driver(5).driven_trips).length).must_equal (old_number_of_driven_trips + 1)
-
     end
 
 
     it "correctly handles NO AVILABLE DRIVERS situation" do
-      #not required
-      #excpetion with a resucue block
-
+      2.times {new_trip = dispatcher.request_trip(1)}
+      expect {dispatcher.available_driver(1)}.must_raise ArgumentError
     end
 
     it "never has driver and passenger with same id" do
       new_trip = dispatcher.request_trip(5)
       expect(new_trip.driver).must_equal 8
-
     end
 
     it "sets driver's status to :UNAVAILABLE" do
@@ -159,7 +153,6 @@ describe "TripDispatcher class" do
     end
 
     it "Wave 1&2 code ignores all in-progress trips (end time = nil)" do
-
       new_trip = dispatcher.request_trip(1) # first available driver is 5
       user = dispatcher.find_passenger(1)
       driver = dispatcher.find_driver(5)
@@ -173,7 +166,6 @@ describe "TripDispatcher class" do
 
       # driver net expenditures
       expect(driver.net_expenditures).must_equal -40.04
-
     end
 
   end

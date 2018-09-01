@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 require "pry"
 
-describe "Trip class" do
+xdescribe "Trip class" do
 
   describe "initialize" do
     before do
