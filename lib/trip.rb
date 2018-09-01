@@ -31,7 +31,7 @@ module RideShare
     def inspect
       return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
       "ID=#{id.inspect} " +
-      "PassengerID=#{passenger&.id.inspect}>"
+      "PassengerID=#{passenger&.inspect}>"
     end
 
   end

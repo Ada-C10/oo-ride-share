@@ -74,7 +74,7 @@ module RideShare
 
           input_data[:name] = user.name
           input_data[:phone_number] = user.phone_number
-          input_data[:trips] = user.trips
+          input_data[:trips] = []#user.trips
 
           drivers << Driver.new(input_data)
         end

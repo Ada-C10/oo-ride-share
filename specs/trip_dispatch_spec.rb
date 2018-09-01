@@ -84,16 +84,6 @@ describe "TripDispatcher class" do
       expect(last_driver.id).must_equal 8
       expect(last_driver.status).must_equal :AVAILABLE
     end
-
-    it "Connects drivers with trips" do
-      trips = @dispatcher.trips
-
-      [trips.first, trips.last].each do |trip|
-        driver = trip.driver
-        expect(driver).must_be_instance_of Integer
-        expect(@dispatcher.find_driver(driver).trips).must_include trip
-      end
-    end
   end
 
   describe "User & Trip loader methods" do
@@ -118,7 +108,7 @@ describe "TripDispatcher class" do
       passenger = trip.passenger
 
       expect(passenger).must_be_instance_of Integer
-      expect(@dispatcher.find_passenger(passenger)).must_include trip
+      expect(@dispatcher.find_passenger(passenger).trips).must_include trip
     end
   end
 
@@ -143,13 +133,14 @@ describe "TripDispatcher class" do
 
     it "updates trip list for driver" do
 
-      old_number_of_driven_trips = (dispatcher.find_driver(8).trips).length
-      new_trip = dispatcher.request_trip(1)
-      expect((dispatcher.find_driver(8).trips).length).must_equal (old_number_of_driven_trips)
+      # FAIL!
+      # Minitest::Assertion:         Expected: 1
+      #           Actual: 0
 
-      old_number_of_driven_trips = (dispatcher.find_driver(8).trips).length
-      new_trip = dispatcher.request_trip(1)
-      expect((dispatcher.find_driver(8).trips).length).must_equal (old_number_of_driven_trips + 1)
+      old_number_of_driven_trips = ((dispatcher.find_driver(5)).driven_trips).length
+      new_trip = dispatcher.request_trip(1) # We expect this to assign the ride eto Driver 5
+      expect(new_trip.driver).must_equal 5 # and it does! yay.
+      expect((dispatcher.find_driver(5).driven_trips).length).must_equal (old_number_of_driven_trips + 1)
 
     end
 
@@ -171,28 +162,32 @@ describe "TripDispatcher class" do
     end
 
     it "Wave 1&2 code ignores all in-progress trips (end time = nil)" do
+
+      new_trip = dispatcher.request_trip(1) # first available driver is 5
+      user = dispatcher.find_passenger(1)
+      # driver = dispatcher.find_driver(5)
+      # passenger =  dispatcher.find_passenger(5) # driver object
+
+      #### User net expenditure
+      expect(user.net_expenditures).must_equal 10 #passes!
+
+      ### User total_time_spent
+      expect(user.total_time_spent).must_equal ((32*60)+20)
+
+      # driver revenue
+      # expect(driver.total_revenue).must_equal 40.04
+      #
+      # # driver net expenditures
+      # expect(driver.net_expenditures).must_equal -40.04
+      # 14.96
+      # super is 55.0
+      # revenue = 40.04
     end
-    # user_id, x
-    # auto assign driver (first driver status available) x
-    # PASSENGER????????
-    # start time = Time.now
-    # end TIME = nil (IN PROG)
-    # cost = nil
-    # rating = nil
 
-    # helper method in Driver:
-    # add new_in_progress_trip to driver.driven_trips [] (.add_driven_trip)
-    # set driver.status = :unavailable
-
-    # helper method in User:
-    # add new trip to user.trips [] (.add_trip)
-
-    # add new trip to trip_dispatcher's @trips
-    # return new_in_progress_trip
-
-    # wave 1&2 code:
-    # ignores in-progress trips (if end time) is nil not included
-    # write explicit tests for this situation
-
+    it "5" do
+      driver = dispatcher.find_driver(5)
+      passenger =  dispatcher.find_passenger(5)
+      expect(driver.net_expenditures).must_equal -40.04
+    end
   end
 end

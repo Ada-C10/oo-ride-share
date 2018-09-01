@@ -16,7 +16,7 @@ module RideShare
 
       @vehicle_id = input[:vehicle_id]
       @status = input[:status]
-      @driven_trips = input[:trips].nil? ? [] : input[:trips]
+      @driven_trips = []#input[:trips].nil? ? [] : input[:trips]
 
     end
 
@@ -41,13 +41,16 @@ module RideShare
     def total_revenue
       sum = 0
       @driven_trips.each do |trip|
-        sum += trip.cost
+        if trip.cost == nil
+          sum += 0
+        else
+          sum += (trip.cost - 1.65)
+        end
       end
-      revenue = (sum-(1.65 * @driven_trips.length))*0.80
-      return revenue
+      return revenue = (sum * 0.80)
     end
 
-    def net_expenditures
+    def net_expenditures # driver.net_expenditures
       return super - total_revenue
     end
 

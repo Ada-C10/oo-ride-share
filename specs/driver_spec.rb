@@ -149,16 +149,14 @@ describe "Driver class" do
           cost: 101.65,
           rating: 3
         }
-        # refactor to not do t his in a weird way
-
         @trip = RideShare::Trip.new(@trip_data)
 
         @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
           vehicle_id: "1C9EVBRM0YBC564DZ")
 
-        @driver.add_trip(@trip)#user
+        @driver.add_trip(@trip)
 
-        @driver.add_driven_trip(@trip)#driver
+        @driver.add_driven_trip(@trip)
           expect(@driver.net_expenditures).must_equal (101.65-(101.65-1.65)*0.8)
         end
 
