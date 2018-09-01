@@ -48,7 +48,9 @@ module RideShare
       if @driven_trips.empty?
         return 0
       else
-        trips_driven = @driven_trips.length
+        trips_amount = @driven_trips.length
+        puts trips_amount
+        puts @driven_trips
 
         @driven_trips.each do |trip|
           if !trip.rating.nil?
@@ -57,8 +59,10 @@ module RideShare
         end
       end
 
+        puts sum
         if sum != 0
-          return sum / trips_driven.to_f
+          puts sum/trips_amount.to_f
+          return sum / trips_amount.to_f
         end
     end
 
@@ -110,18 +114,18 @@ module RideShare
 end
 
 
-pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+# pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
+# #
+# driver = RideShare::Driver.new(id: 1, name: "Ada", vin: "12345678912345678")
 #
-driver = RideShare::Driver.new(id: 1, name: "Ada", vin: "12345678912345678")
-
-trip_1 = RideShare::Trip.new({id: 8, passenger: "michael", start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 20, rating: 5, driver: driver})
-
-trip_2 = RideShare::Trip.new({id: 10, passenger: driver, start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 100, rating: 4, driver: "person"})
-
-driver.add_driven_trip(trip_1)
-driver.add_trip(trip_2)
-
-ap driver.average_rating
+# trip_1 = RideShare::Trip.new({id: 8, passenger: "michael", start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 20, rating: 5, driver: driver})
+#
+# trip_2 = RideShare::Trip.new({id: 10, passenger: driver, start_time: Time.parse("2016-08-08T12:14:00+00:00"), end_time: Time.parse("2018-05-20T12:14:00+00:00"),  cost: 100, rating: 4, driver: "person"})
+#
+# driver.add_driven_trip(trip_1)
+# driver.add_driven_trip(trip_2)
+#
+# ap driver.average_rating
 #
 # ap pass.trips
 #
