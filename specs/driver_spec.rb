@@ -114,6 +114,7 @@ describe "Driver class" do
       @driver.add_driven_trip(trip2)
       # print @drivers.driven_trips
     end
+
     it "calculates total revenue" do
       # binding.pry
       @driver.driven_trips.each do |trip|
@@ -148,10 +149,8 @@ describe "Driver class" do
 
     end
 
-      it 'calculates net_expenditures properly' do
-        expect(@driver.net_expenditures).must_equal 49.32
-      end
-
+    it 'calculates net_expenditures properly' do
+      expect(@driver.net_expenditures).must_equal 49.32
+    end
   end
-
 end

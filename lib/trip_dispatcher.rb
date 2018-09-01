@@ -11,8 +11,8 @@ module RideShare
     attr_reader :drivers, :passengers, :trips
 
     def initialize(user_file = 'support/users.csv',
-                   trip_file = 'support/trips.csv',
-                   driver_file = 'support/drivers.csv')
+      trip_file = 'support/trips.csv',
+      driver_file = 'support/drivers.csv')
       @passengers = load_users(user_file)
       @drivers = load_drivers(driver_file)
       @trips = load_trips(trip_file)
@@ -29,7 +29,6 @@ module RideShare
 
         users << User.new(input_data)
       end
-
       return users
     end
 
@@ -56,86 +55,103 @@ module RideShare
     def load_trips(filename)
       trips = []
       trip_data = CSV.open(filename, 'r', headers: true,
-                                          header_converters: :symbol)
+        header_converters: :symbol)
 
-      trip_data.each do |raw_trip|
-        passenger = find_passenger(raw_trip[:passenger_id].to_i)
-        driver = find_driver(raw_trip[:driver_id].to_i)
-        raw_trip[:start_time] = Time.parse(raw_trip[:start_time])
-        raw_trip[:end_time] = Time.parse(raw_trip[:end_time])
-        parsed_trip = {
-          id: raw_trip[:id].to_i,
-          passenger: passenger,
-          start_time: raw_trip[:start_time],
-          end_time: raw_trip[:end_time],
-          cost: raw_trip[:cost].to_f,
-          rating: raw_trip[:rating].to_i,
-          driver: driver
-        }
+        trip_data.each do |raw_trip|
+          passenger = find_passenger(raw_trip[:passenger_id].to_i)
+          driver = find_driver(raw_trip[:driver_id].to_i)
+          raw_trip[:start_time] = Time.parse(raw_trip[:start_time])
+          raw_trip[:end_time] = Time.parse(raw_trip[:end_time])
+          parsed_trip = {
+            id: raw_trip[:id].to_i,
+            passenger: passenger,
+            start_time: raw_trip[:start_time],
+            end_time: raw_trip[:end_time],
+            cost: raw_trip[:cost].to_f,
+            rating: raw_trip[:rating].to_i,
+            driver: driver
+          }
 
-        trip = Trip.new(parsed_trip)
+          trip = Trip.new(parsed_trip)
+          passenger.add_trip(trip)
+          driver.add_driven_trip(trip)
+          trips << trip
+
+        end
+        return trips
+      end
+
+      def find_passenger(id)
+        check_id(id)
+        return @passengers.find { |passenger| passenger.id == id }
+      end
+
+      def find_driver(id)
+        check_id(id)
+        return @drivers.find { |driver| driver.id == id }
+      end
+
+      def inspect
+        return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
+        #{trips.count} trips, \
+        #{drivers.count} drivers, \
+        #{passengers.count} passengers>"
+      end
+
+      def check_id(id)
+        raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
+      end
+
+      def request_trip(user_id)
+        chosen_driver = assign_driver(user_id)
+        passenger = find_passenger(user_id)
+
+        valid_trip_id = [1..1000].select
+        @trips.each do |trip|
+          if trip.id == valid_trip_id
+            raise ArgumentError, "ID already exists"
+          end
+        end
+
+        trip = RideShare::Trip.new(id: valid_trip_id, driver: chosen_driver, passenger: passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil)
+
+        chosen_driver.add_driven_trip(trip)
         passenger.add_trip(trip)
-        driver.add_driven_trip(trip)
-        trips << trip
-
+        @trips << trip
+        return trip
       end
-      return trips
-    end
 
-    def find_passenger(id)
-      check_id(id)
-      return @passengers.find { |passenger| passenger.id == id }
-    end
-
-    def find_driver(id)
-      check_id(id)
-      return @drivers.find { |driver| driver.id == id }
-    end
-
-    def inspect
-      return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-              #{trips.count} trips, \
-              #{drivers.count} drivers, \
-              #{passengers.count} passengers>"
-    end
-
-    def check_id(id)
-      raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
-    end
-
-    def request_trip(user_id)
-      chosen_driver = assign_driver(user_id)
-      passenger = find_passenger(user_id)
-
-      valid_trip_id = [1..1000].select
-      @trips.each do |trip|
-        if trip.id == valid_trip_id
-          raise ArgumentError, "ID already exists"
+      def assign_driver(passenger_id)
+        available_drivers = @drivers.select do |driver|
+          if driver.status == :AVAILABLE && driver.id != passenger_id
+            driver
+          end
         end
-      end
 
-      trip = RideShare::Trip.new(id: valid_trip_id, driver: chosen_driver, passenger: passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil)
+        chosen_driver = available_drivers[0]
 
-      chosen_driver.add_driven_trip(trip)
-      passenger.add_trip(trip)
-      @trips << trip
-      return trip
-    end
-
-    def assign_driver(passenger_id)
-      available_drivers = @drivers.select do |driver|
-        if driver.status == :AVAILABLE && driver.id != passenger_id
-          driver
+        if chosen_driver == nil
+          raise ArgumentError, "No drivers available"
         end
-      end
-      # binding.pry
+        chosen_driver.status = :UNAVAILABLE
 
-      chosen_driver = available_drivers[0]
-      if chosen_driver == nil
-        raise ArgumentError, "No drivers available"
+        # to check that the driver does not have an in-progress trip, also checks if driver is a first time driver and assigns this driver first
+        driver_w_no_trips = available_drivers.find do |driver|
+          driver.trips.empty?
+        end
+
+        # returning a driver that has had no trips yet
+        if driver_w_no_trips
+          return driver_w_no_trips
+        end
+
+        # sorting through drivers with status AVAILABLE and selecting the driver with the oldest trip, if there is no  first time driver available
+        available_drivers.sort_by! do |driver|
+          driver.driver_with_oldest_trip
+        end
+
+        return available_drivers.first
+        # return chosen_driver
       end
-      chosen_driver.status = :UNAVAILABLE
-      return chosen_driver
     end
   end
-end

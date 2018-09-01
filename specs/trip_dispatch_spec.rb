@@ -120,15 +120,23 @@ describe "TripDispatcher class" do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                                  TRIP_TEST_FILE,
                                                  DRIVER_TEST_FILE)
-      @drivers = [id: 4, trips: nil, vin:"12345678912345678", status: :UNAVAILABLE, name: nil, phone: nil ]
+      # @drivers = [id: 4, trips: nil, vin:"12345678912345678", status: :UNAVAILABLE, name: nil, phone: nil ]
       # @user = RideShare::User.new(id: 2, name: "Merl Glover III",
       #                             phone: "1-602-620-2330 x3723", trips: [])
     end
+
     it "raises argument error if no drivers available" do
       @dispatcher.drivers.each do |driver|
         driver.status = :UNAVAILABLE
       end
       expect { @dispatcher.assign_driver(2) }.must_raise ArgumentError
+    end
+
+    it "selects the driver with the oldest date for a trip" do
+      # binding.pry
+      @dispatcher.drivers = 5
+      expect { @dispatcher.assign_driver(6) }.must_equal 5
+
     end
   end
 
@@ -138,10 +146,8 @@ describe "TripDispatcher class" do
                                                  TRIP_TEST_FILE,
                                                  DRIVER_TEST_FILE)
       @trips = RideShare::Trip.new(id: 8, passenger: nil, start_time: nil, end_time: nil, cost: nil, rating: nil, driver: nil)
-
-      # @dispatcher.request_trip(2)
-
     end
+
     it "accurately requests a trip" do
       valid_trip_id = @dispatcher.request_trip(1).driver.id
       # binding.pry
@@ -149,7 +155,3 @@ describe "TripDispatcher class" do
     end
   end
 end
-
-
-
-# expect { @dispatcher.find_driver(0) }.must_raise ArgumentError

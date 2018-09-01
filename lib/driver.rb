@@ -67,8 +67,8 @@ module RideShare
         if trip.cost == nil
           raise ArgumentError, "Trip still in progress, no revenue"
         else
-        revenue = (trip.cost - 1.65) * 0.8
-        income += revenue
+          revenue = (trip.cost - 1.65) * 0.8
+          income += revenue
         end
       end
       return income.round(2)
@@ -76,6 +76,10 @@ module RideShare
 
     def net_expenditures
       return super - total_revenue
+    end
+
+    def driver_with_oldest_trip()
+      return @driven_trips.sort_by { |trip| trip.end_time }.first
     end
 
   end

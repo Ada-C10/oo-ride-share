@@ -82,11 +82,13 @@ xdescribe "User class" do
       @user.add_trip(trip)
 
     end
+    
     it 'calculates total cost of all rides per user' do
       @user.trips.each do |trip|
         expect(@user.net_expenditures).must_equal 80
       end
     end
+
     it 'calculates total time of all trips per user' do
       @user.trips.each do |trip|
         expect(@user.total_time_spent).must_equal 7200
