@@ -1,7 +1,5 @@
 require 'csv'
 require 'time'
-require 'ap'
-require 'pry'
 
 require_relative 'user'
 require_relative 'trip'
@@ -60,11 +58,9 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
 
-
         passenger.add_trip(trip)
         driver.add_driven_trip(trip)
         trips << trip
-
       end
 
       return trips
@@ -76,12 +72,7 @@ module RideShare
       driver_data = CSV.open(filename, "r", headers:true, header_converters: :symbol)
 
       driver_data.each do |raw_driver|
-
-        # NOTE: ALL IDS ARE THE SAME (no repeats between driver and passenger)
-
         user = find_passenger(raw_driver[:id].to_i)
-
-        # binding.pry
 
         parsed_driver = {
           id: raw_driver[:id].to_i,
@@ -111,12 +102,10 @@ module RideShare
       current_passenger = find_passenger(user_id)
       available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
 
-
       available_driver.status = :UNAVAILABLE
 
-
       parsed_trip = {
-        id: @trips.length + 1,
+        id: (@trips.max_by {|trip| trip.id}).id + 1,
         passenger: current_passenger,
         start_time: Time.now,
         end_time: nil,
@@ -124,7 +113,6 @@ module RideShare
         rating: nil,
         driver: available_driver
       }
-
 
       trip_in_progress = Trip.new(parsed_trip)
       current_passenger.add_trip(trip_in_progress)
@@ -150,68 +138,3 @@ module RideShare
     end
   end
 end
-
-
-# pass = RideShare::User.new(id: 1, name: "Ada", phone: "412-432-7640")
-# driver_1 = RideShare::Driver.new(id: 3, name: "Stella", vin: "12345678912345678", status: :AVAILABLE)
-# driver_2 = RideShare::Driver.new(id: 4, name: "Bernie", vin: "12345678912345679", status: :AVAILABLE)
-#
-# trip = RideShare::Trip.new({id: 8, passenger: pass, start_time: "2016-08-08T12:14:00+00:00", end_time: "2018-05-20T12:14:00+00:00",  cost: 55, rating: 5, driver: driver_1})
-
-# #
-# USER_TEST_FILE   = 'specs/test_data/users_test.csv'
-# TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
-# DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
-# #
-# # # # ap pass
-# ride = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
-# pass =  ride.passengers
-# #
-# # #
-# # # pass.each do |passenger|
-# # #   ap passenger.name
-# # # end
-# # #
-# # # # ap ride.check_id(2)
-# # # ap ride.find_passenger(2)
-# ap ride.drivers
-
-# ap ride.passengers
-# ap ride.drivers
-# ap ride.trips
-
-
-# ap ride.load_trips
-# ap ride.load_drivers
-# #
-# trip_data = CSV.open('support/users.csv', 'r', headers: true,
-#                                     header_converters: :symbol)
-#
-# trip_data.each do |line|
-#   ap line
-# end
-
-
-# TODO:
-# write tests for Wave 3
-# edge case tests? thorough testing
-# write conditionals for nil values)
-# use LET with our test code
-# Refactor/clean up tabs/take out test code
-# Comprehension questions
-
-# ap trip.start_time.class
-
-# ap trip.calculate_trip_duration
-
-
-# USER_TEST_FILE   = 'specs/test_data/users_test.csv'
-# TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
-# DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
-#
-# hello = RideShare::TripDispatcher.new()
-# #
-# ap hello
-
-
-# changes to_i in raw[:id] line 83

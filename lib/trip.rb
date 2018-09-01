@@ -15,29 +15,19 @@ module RideShare
       @rating = input[:rating]
       @driver = input[:driver]
 
-      # possible_nils = [@cost, @rating, @end_time]
-      #
-
-
       if @rating != nil
-         if @rating > 5 || @rating < 1
-        raise ArgumentError.new("Invalid rating #{@rating}")
+        if @rating > 5 || @rating < 1
+          raise ArgumentError.new("Invalid rating #{@rating}")
         end
       end
 
 
       if @end_time != nil
         if @end_time - @start_time < 0
-        raise ArgumentError.new("Trip end time is before start time.")
+          raise ArgumentError.new("Trip end time is before start time.")
         end
       end
-
     end
-
-    # def parse_time(time)
-    #   time = Time.parse(time)
-    #   return time
-    # end
 
     def inspect
       "#<#{self.class.name}:0x#{self.object_id.to_s(16)} " +
@@ -48,8 +38,7 @@ module RideShare
     def calculate_trip_duration
       if @end_time != nil
         return @end_time - @start_time
-      end 
+      end
     end
-
   end
 end
