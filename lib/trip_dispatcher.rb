@@ -168,3 +168,9 @@ module RideShare
 
   end
 end
+
+# TODO:
+# trip_dispatcher_spec.rb
+# why is trip rating a float? (also, make sure avg in driver.rb returns float) (dispatch has .to_i)
+# refactor specs with "before" blocks (to be more dry)
+# write comments to explain the code! and the specs!
