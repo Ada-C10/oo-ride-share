@@ -133,10 +133,6 @@ describe "TripDispatcher class" do
 
     it "updates trip list for driver" do
 
-      # FAIL!
-      # Minitest::Assertion:         Expected: 1
-      #           Actual: 0
-
       old_number_of_driven_trips = ((dispatcher.find_driver(5)).driven_trips).length
       new_trip = dispatcher.request_trip(1) # We expect this to assign the ride eto Driver 5
       expect(new_trip.driver).must_equal 5 # and it does! yay.
@@ -148,6 +144,7 @@ describe "TripDispatcher class" do
     it "correctly handles NO AVILABLE DRIVERS situation" do
       #not required
       #excpetion with a resucue block
+
     end
 
     it "never has driver and passenger with same id" do
@@ -165,29 +162,19 @@ describe "TripDispatcher class" do
 
       new_trip = dispatcher.request_trip(1) # first available driver is 5
       user = dispatcher.find_passenger(1)
-      # driver = dispatcher.find_driver(5)
-      # passenger =  dispatcher.find_passenger(5) # driver object
-
+      driver = dispatcher.find_driver(5)
       #### User net expenditure
       expect(user.net_expenditures).must_equal 10 #passes!
 
       ### User total_time_spent
       expect(user.total_time_spent).must_equal ((32*60)+20)
 
-      # driver revenue
-      # expect(driver.total_revenue).must_equal 40.04
-      #
-      # # driver net expenditures
-      # expect(driver.net_expenditures).must_equal -40.04
-      # 14.96
-      # super is 55.0
-      # revenue = 40.04
+      expect(driver.total_revenue).must_equal 40.04
+
+      # driver net expenditures
+      expect(driver.net_expenditures).must_equal -40.04
+
     end
 
-    it "5" do
-      driver = dispatcher.find_driver(5)
-      passenger =  dispatcher.find_passenger(5)
-      expect(driver.net_expenditures).must_equal -40.04
-    end
   end
 end
