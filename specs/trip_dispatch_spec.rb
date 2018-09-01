@@ -121,28 +121,23 @@ describe "TripDispatcher class" do
     before do
     @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
 
-    first_trip = @dispatcher.request_trip(1)
+    @trip_in_progress = @dispatcher.request_trip(1)
     end
 
   it 'During trip in progress, driver status is unavailable' do
-    expect(first_trip.driver.status).must_equal :UNAVAILABLE
+    expect(@trip_in_progress.driver.status).must_equal :UNAVAILABLE
   end
 
 
   it "Finds a trip instance" do
-    expect(first_trip).must_be_instance_of RideShare::Trip
+    expect(@trip_in_progress).must_be_instance_of RideShare::Trip
   end
 
-  xit "Connects drivers with trip in progress" do
-     # Unskip after wave 2
-    trips = @dispatcher.trips
+  it "Connects drivers with trip in progress" do
+     # Unskip after wave
     # binding.pry
 
-    [trips.first, trips.last].each do |trip|
-      driver = trip.driver
-      expect(driver).must_be_instance_of RideShare::Driver
-      expect(driver.driven_trips).must_include trip
-    end
+    expect(@trip_in_progress.passenger.id).must_equal 1
   end
 
 

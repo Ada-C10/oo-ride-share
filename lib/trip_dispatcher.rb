@@ -9,7 +9,7 @@ require_relative 'driver'
 
 module RideShare
   class TripDispatcher
-    attr_reader :drivers, :passengers, :trips
+    attr_reader :drivers, :passengers, :trips 
 
     def initialize(user_file = 'support/users.csv',
                    trip_file = 'support/trips.csv',
@@ -113,6 +113,11 @@ module RideShare
       current_passenger = find_passenger(user_id)
       available_driver = @drivers.find { |driver| driver.status == :AVAILABLE }
 
+      ap available_driver.status
+
+      available_driver.status = :UNAVAILABLE
+
+      ap available_driver.status
 
       parsed_trip = {
         id: @trips.length + 1,
@@ -124,9 +129,8 @@ module RideShare
         driver: available_driver
       }
 
-      available_driver.change_status
-      trip_in_progress = Trip.new(parsed_trip)
 
+      trip_in_progress = Trip.new(parsed_trip)
       current_passenger.add_trip(trip_in_progress)
       available_driver.add_driven_trip(trip_in_progress)
       @trips << trip_in_progress
@@ -164,8 +168,8 @@ end
 # DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
 # #
 # # # # ap pass
-# ride = RideShare::TripDispatcher.new(USER_TEST_FILE, DRIVER_TEST_FILE)
-# # pass =  ride.passengers
+# ride = RideShare::TripDispatcher.new(USER_TEST_FILE, TRIP_TEST_FILE, DRIVER_TEST_FILE)
+# pass =  ride.passengers
 # #
 # # #
 # # # pass.each do |passenger|
@@ -176,6 +180,9 @@ end
 # # # ap ride.find_passenger(2)
 # ap ride.drivers
 
+# ap ride.passengers
+# ap ride.drivers
+# ap ride.trips
 
 
 # ap ride.load_trips
@@ -205,9 +212,9 @@ end
 # USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 # TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 # DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
-
-hello = RideShare::TripDispatcher.new()
 #
+# hello = RideShare::TripDispatcher.new()
+# #
 # ap hello
 
 

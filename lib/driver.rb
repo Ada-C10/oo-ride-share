@@ -6,7 +6,8 @@ require "pry"
 
 module RideShare
   class Driver < User
-    attr_reader :id, :name, :status, :vehicle_id, :driven_trips, :phone_number
+    attr_reader :id, :name, :vehicle_id, :driven_trips, :phone_number
+    attr_accessor :status
 
     def initialize(input)
       super(input)
