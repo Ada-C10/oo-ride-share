@@ -86,7 +86,7 @@ describe "Driver class" do
         expect(driver.average_rating).must_equal 0
       end
 
-      xit "correctly calculates the average rating" do
+      it "correctly calculates the average rating" do
         trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                     start_time: Time.parse("2016-08-08"),
                                     end_time: Time.parse("2016-08-09"),
