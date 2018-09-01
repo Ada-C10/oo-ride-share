@@ -54,7 +54,7 @@ module RideShare
 
         trip = Trip.new(parsed_trip)
         passenger.add_trip(trip)
-        binding.pry if driver.nil?
+        # binding.pry if driver.nil?
         driver.add_driven_trip(trip)
         trips << trip
       end
@@ -63,7 +63,6 @@ module RideShare
     end
 
     def load_drivers(filename)
-      ## add code to find_passenger and/or include info for user with initialization of driver?
       drivers = []
 
       CSV.read(filename, headers: true).each do |line|
