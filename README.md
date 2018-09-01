@@ -3,9 +3,8 @@ Remember the ride share exercise we did with designing and creating a system to 
 
 Now, we're going to use our understanding of classes, methods and attributes to create an object-oriented implementation of our ride share system.
 
-## At a Glance
-- Pair, [stage 2](https://github.com/Ada-Developers-Academy/pedagogy/blob/master/rule-of-three.md#stage-2) project
-- Due **end of day Friday August 31st**
+This is a [level 2](https://github.com/Ada-Developers-Academy/pedagogy/blob/master/rule-of-three.md) pair project.
+This project is due **Friday August 31st by the end of the day**
 
 ## Learning Goals
 Reinforce and practice all of the Ruby and programming concepts we've covered in class so far:
@@ -60,7 +59,6 @@ start_time|When did this trip begin?
 end_time|When did this trip finish?
 rating|The rating given by the User, a number 1-5
 cost|How much did the passenger pay?
-passenger|The User being transported on the trip
 
 ## TripDispatcher
 The `TripDispatcher` class is designed to load trips & users from a CSV file and provides methods to find and add trips.
@@ -190,25 +188,24 @@ Update the `TripDispatcher` class to add or update the following Methods:
 
 **Method**|**Description**
 -----|-----
-load_drivers|Load the Drivers from the `support/drivers.csv` file and return a collection of `Driver` instances, note that **drivers can be passengers too!** Replace the instance of `User` in the `passengers` array with a cooresponding instance of `Driver`
+load_drivers|Load the Drivers from the `support/drivers.csv` file and return a collection of `Driver` instances.  Drivers are users too!  You will need to find the driver's data from the `passenger` array.  Make sure you replace those instances with instances of Driver.
 find_driver |This method takes an `id` number and returns the corresponding `Driver` instance.
 load_trips|This method should be updated to add a corresponding `Driver` to the trip instance.
 
-## Driver methods
+#### Driver methods
 
 After each trip has a reference to its `Driver` and TripDispatcher can load a list of `Driver`s, add the following functionality to the `Driver` class:
 
 **Method**|**Description**
 -----|-----
-average_rating  |  This method sums up the ratings from all a Driver's trips and returns the average
 add_driven_trip  |  This method adds a trip to the driver's collection of trips for which they have acted as a driver
+average_rating  |  This method sums up the ratings from all a Driver's trips and returns the average
 total_revenue  |  This method calculates that driver's total revenue across all their trips. Each driver gets 80% of the trip cost after a fee of $1.65 per trip is subtracted.
 net_expenditures|This method will **override** the cooresponding method in `User` and take the total amount a driver has spent as a passenger and subtract the amount they have earned as a driver (see above).  If the number is negative the driver will earn money.
 
-
 **All the new methods above should have tests**
 
-<!-- # Wave 3
+# Wave 3
 
 Our program needs a way to make new trips and appropriately assign a driver and user.
 
@@ -246,7 +243,7 @@ Your code from waves 1 & 2 should _ignore_ any in-progress trips. That is to say
 
 You should also **add explicit tests** for this new situation. For example, what happens if you attempt to calculate the total money spent for a `User` with an in-progress trip, or the average hourly revenue of a `Driver` with an in-progress trip? -->
 
-<!-- # Wave 4
+# Optional: Wave 4
 
 We want to evolve `TripDispatcher` so it assigns drivers in more intelligent ways. Every time we make a new trip, we want to pick drivers who haven't completed a trip in a long time, or who have never been assigned a trip.
 
@@ -269,7 +266,7 @@ Grace is excluded because they are not `AVAILABLE`, and because they have one in
 
 Of Ada and Katherine, we prefer Ada, because their most recent trip is older.
 
-**All of this code must have tests.** -->
+**All of this code must have tests.**
 
 ---
 
