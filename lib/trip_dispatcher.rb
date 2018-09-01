@@ -124,10 +124,15 @@ module RideShare
         passenger = find_passenger(user_id)
         raise ArgumentError.new"The user id: #{user_id} does not exist" if passenger == nil || passenger == {}
         driver = find_driver_by_availability
-        raise ArgumentError.new"All drivers are UNAVAILABLE"
-        new_trip = Trip.new({id:(@trips.length + 1), passenger:passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil, driver:driver})
-        driver = driver.add_driven_trip(new_trip)
-        passenger = passenger.add_trip(new_trip)
+        driver.update_status(:UNAVAILABLE)#this is where the driver should become unavailable before the info is stored in the trip
+        new_trip = Trip.new({id:(@trips.length + 1), passenger: passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil, driver:driver})
+        driver.add_driven_trip(new_trip) #previously this is where we chnged the status but now we put it on line 127
+        passenger.add_trip(new_trip)  #<--what is this doing?
+        #the passenger is not going anywhere, we need it to go somewhere
+        # we're supposed to Modify the passenger for the trip using a new helper method in User
+        # Add the new trip to the collection of trips for the passenger in User
+        # sounds like we need to update the @passengers array with this new passenger
+        # @passengers << passenger
         @trips << new_trip
 
         return new_trip
