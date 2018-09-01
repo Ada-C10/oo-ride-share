@@ -92,7 +92,7 @@ module RideShare
 
           drivers << Driver.new(parsed_trip)
       # binding.pry
-      #     # find them and replace the `User` object with a `Driver` object. You should also be loading the `driven_trips` for each `Driver` at this stage.
+      #     # find them and replace the `User` object with a `Driver` object. You should also be loading the `driven_tripss` for each `Driver` at this stage.
       #     # driver = @passengers.find do |user|
       #     #   user == driver
       #

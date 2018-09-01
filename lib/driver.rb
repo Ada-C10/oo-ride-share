@@ -1,9 +1,11 @@
 require_relative 'trip'
+require 'pry'
+
 module RideShare
 
   class Driver < User
 
-    attr_reader :vin, :status, :driven_trip
+    attr_reader :vin, :status, :driven_trips
 
     def initialize(input)
 
@@ -22,7 +24,7 @@ module RideShare
       # @name = input[:name].to_s
       @vin	= input[:vin].to_s
       @status = input[:status]
-      @driven_trip	= []
+      @driven_trips	= []
 
       # status_array = [:AVAILABLE, :UNAVAILABLE ]
 
@@ -41,9 +43,28 @@ module RideShare
       unless trip.is_a? Trip
         raise ArgumentError, "Got a thing that wasn't a trip! (#{trip.class})"
       end
-      @driven_trip << trip
+      @driven_trips << trip
 
     end
+
+
+
+
+    def average_rating #sums rating from all drivers trips and returns the average
+      trip_sum = 0.0
+      @driven_trips.each do |trip|
+        trip_sum += trip.rating
+      end
+      return trip_sum / @driven_trips.length
+    end
+
+
+    def total_revenue #calculates the drivers total revenue across all of the trips
+    end
+
+    def net_expenditures
+    end
+
 
 
   end
