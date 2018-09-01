@@ -87,6 +87,14 @@ describe "TripDispatcher class" do
         expect(driver.trips).must_include trip
       end
     end
+
+      it "Trip array contains trip instances" do
+        trips = @dispatcher.trips
+        p trips
+        trips.each do |trip|
+        expect(trip).must_be_instance_of RideShare::Trip
+      end
+    end
   end
 
   describe "User & Trip loader methods" do

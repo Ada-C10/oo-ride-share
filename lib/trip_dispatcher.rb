@@ -100,5 +100,35 @@ module RideShare
     def check_id(id)
       raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})" if id.nil? || id <= 0
     end
+
+    def request_trip(user_id)
+      new_user = find_passenger(user_id)
+      driver = @driver.select {|driver| driver.status == :AVAILABLE}
+
+      new_start_time = Time.now
+      new_end_time = nil
+      new_cost = nil
+      new_rating = nil
+
+      trip_data = {
+          id: @trips.length + 1,
+          driver: driver,
+          passenger: new_user,
+          start_time: new_start_time,
+          end_time: new_end_time,
+          cost: new_cost,
+          rating: new_rating
+        }
+
+      trip = Trip.new(trip_data)
+      driver.add_driven_trip(trip)
+
+      driver.status = :UNAVAILABLE
+      new_user.add_trip(trip)
+
+      @trips << trip
+
+      return trip
+    end
   end
 end

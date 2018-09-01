@@ -13,8 +13,10 @@ module RideShare
       @start_time = input[:start_time]
       @end_time = input[:end_time]
 
-      raise ArgumentError unless @start_time < @end_time
-
+        if @end_time
+          raise ArgumentError if @end_time < @start_time
+        end
+  
       @cost = input[:cost]
       @rating = input[:rating]
 

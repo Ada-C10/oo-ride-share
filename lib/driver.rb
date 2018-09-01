@@ -8,7 +8,8 @@ module RideShare
     class InvalidStatusError < ArgumentError
     end
 
-    attr_reader :vehicle_id, :driven_trips, :status
+    attr_reader :vehicle_id, :driven_trips
+    attr_accessor :status
 
     def initialize(input)
       super (input)

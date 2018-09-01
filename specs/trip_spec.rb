@@ -36,7 +36,7 @@ describe "Trip class" do
         rating: 3
       }
 
-
+      p end_time
       expect{RideShare::Trip.new(trip_data)}.must_raise ArgumentError
     end
 
