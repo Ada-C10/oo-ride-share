@@ -51,8 +51,8 @@ describe "Trip class" do
 
   ############
     it "stores an instance of driver" do
-      skip  # Unskip after wave 2
-      expect(@trip.driver).must_be_kind_of RideShare::Driver
+        # Unskip after wave 2
+      expect(@trip.driver).must_be_kind_of RideShare::Driver  ## here in the trip data , there is no driver?? so it doesn't exist
     end
    ##########
     it "raises an error for an invalid rating" do
