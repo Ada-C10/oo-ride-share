@@ -4,7 +4,8 @@ module RideShare
 
     def initialize(input)
       if input[:id].nil? || input[:id] <= 0
-        raise ArgumentError, "ID cannot be blank or less than zero (got #{input[:id]})."
+        raise ArgumentError, "ID cannot be blank or less than zero" \
+                             " (got #{input[:id]})."
       end
 
       @id = input[:id]

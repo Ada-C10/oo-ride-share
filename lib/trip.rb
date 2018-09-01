@@ -19,7 +19,8 @@ module RideShare
       end
 
       if @end_time != nil && (@end_time < @start_time)
-        raise ArgumentError, "End time #{@end_time} is before start time #{@start_time}!"
+        raise ArgumentError, "End time #{@end_time} is before start time" \
+                              " #{@start_time}!"
       end
     end
 

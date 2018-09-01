@@ -123,7 +123,7 @@ describe "TripDispatcher class" do
 
     it "Selects first available driver, and then updates trip list for passenger" do
       old_number_of_trips = (dispatcher.find_passenger(5).trips).length
-      new_trip = dispatcher.request_trip(5)
+      dispatcher.request_trip(5)
       expect((dispatcher.find_passenger(5).trips).length).must_equal (old_number_of_trips + 1)
     end
 
@@ -135,7 +135,7 @@ describe "TripDispatcher class" do
     end
 
     it "correctly handles NO AVILABLE DRIVERS situation" do
-      2.times {new_trip = dispatcher.request_trip(1)}
+      2.times {dispatcher.request_trip(1)}
       expect {dispatcher.available_driver(1)}.must_raise ArgumentError
     end
 
@@ -145,7 +145,7 @@ describe "TripDispatcher class" do
     end
 
     it "sets driver's status to :UNAVAILABLE" do
-      new_trip = dispatcher.request_trip(1)
+      dispatcher.request_trip(1)
       expect((dispatcher.find_driver(5)).status).must_equal :UNAVAILABLE
     end
   end
@@ -171,7 +171,7 @@ describe "TripDispatcher class" do
     end
 
     it "can sum driver net_expenditures" do
-      expect(driver.net_expenditures).must_equal -40.04
+      expect(driver.net_expenditures).must_equal (-40.04)
     end
 
   end

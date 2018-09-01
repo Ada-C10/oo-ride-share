@@ -34,7 +34,6 @@ module RideShare
       return users
     end
 
-
     def load_trips(filename)
       trips = []
       trip_data = CSV.open(filename, headers: true, header_converters: :symbol)
@@ -138,7 +137,6 @@ module RideShare
     end
 
     def request_trip(user_id)
-
       driver = available_driver(user_id)
       passenger = find_passenger(user_id)
 

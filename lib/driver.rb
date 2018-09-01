@@ -11,7 +11,8 @@ module RideShare
       super(input)
 
       if input[:vehicle_id].length != 17 || input[:vehicle_id].empty?
-        raise ArgumentError, "Invalid VIN #{input[:vehicle_id]}in driver CSV (expected length 17)"
+        raise ArgumentError, "Invalid VIN #{input[:vehicle_id]}in driver" \
+                              " CSV (expected length 17)"
       end
 
       @vehicle_id = input[:vehicle_id]
