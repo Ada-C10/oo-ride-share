@@ -2,6 +2,8 @@ require 'pry'
 module RideShare
   class Driver < RideShare::User
     attr_reader :vehicle_id, :driven_trips, :status
+    FEE = 1.65.freeze
+    DRIVER_PERCENTAGE = 0.8.freeze
 
     VALID_STATUS = [:AVAILABLE, :UNAVAILABLE]
     # ID, NAME, and PHONE NUMBER
@@ -28,11 +30,22 @@ module RideShare
       end
       rating_sum = ratings.sum
       average_rating = rating_sum.to_f/driven_trips.length.to_f
-      if average_rating == "NaN"
-        return 0
-      end
+      return 0 if @driven_trips.length == 0
 
       return average_rating
+    end
+
+    def total_revenue
+      total = 0
+      return total if @driven_trips.length == 0
+
+      @driven_trips.each do |trip|
+        total += trip.cost
+      end
+      #[12, 32, 43]
+      cost_sum = total * DRIVER_PERCENTAGE
+      total_revenue = cost_sum - FEE
+      return total_revenue
     end
 
 
