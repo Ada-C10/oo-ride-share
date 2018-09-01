@@ -64,6 +64,14 @@ module RideShare
 
 
     def total_revenue #calculates the drivers total revenue across all of the trips
+      sum = 0.0
+      sum_tax = 1.65
+      total_rev = 0
+      @driven_trips.each do |trip|
+        sum = (trip.cost - sum_tax) * 0.8
+        total_rev += sum
+      end
+      return total_rev
     end
 
     def net_expenditures
