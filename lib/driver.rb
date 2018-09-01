@@ -4,6 +4,7 @@
 module RideShare
   class Driver < RideShare::User
     attr_reader :vin, :vehicle_id, :driven_trips, :status
+    attr_writer :status
 
     @@driver_list = []
 

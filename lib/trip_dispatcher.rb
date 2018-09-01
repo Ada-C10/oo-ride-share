@@ -106,7 +106,7 @@ module RideShare
       available_drivers = []
       @drivers.each do |driver|
         if driver.status == :AVAILABLE
-          available_drivers << drivers
+          available_drivers << driver
         end
       end
       available_drivers.flatten!
@@ -119,10 +119,10 @@ module RideShare
         rating: 4,
         driver: available_drivers.shift
       }
-
       current_trip = Trip.new(trip_info)
       current_trip.driver.add_driven_trip(current_trip) #go into trip instance, look at driver instance, add driven trip for driver instance
-      # current_trip.driver.status = :UNAVAILABLE
+      current_driver = current_trip.driver
+      current_driver.status = :UNAVAILABLE #changes driver status to unavailable
 
       passenger = self.find_passenger(user_id)
       passenger.add_trip(current_trip)
@@ -130,12 +130,12 @@ module RideShare
       return current_trip
     end
 
-    def inspect
-      return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-              #{trips.count} trips, \
-              #{drivers.count} drivers, \
-              #{passengers.count} passengers>"
-    end
+    # def inspect
+    #   return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
+    #           #{trips.count} trips, \
+    #           #{drivers.count} drivers, \
+    #           #{passengers.count} passengers>"
+    # end
 
     private
 
