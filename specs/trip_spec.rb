@@ -29,7 +29,6 @@ describe "Trip class" do
     end
 
     it "stores an instance of driver" do
-      # skip  # Unskip after wave 2
       expect(@trip.driver).must_be_kind_of RideShare::Driver
     end
 
@@ -44,7 +43,6 @@ describe "Trip class" do
 
     it "raises an error if end time is before start time" do
     start_time = Time.parse('2015-05-20T12:14:00+00:00')
-    # edited end_time so that it exists before start_time
     end_time = start_time - 25 * 60 # 25 minutes
     @trip_data = {
       id: 8,
@@ -59,7 +57,6 @@ describe "Trip class" do
       expect {RideShare::Trip.new(@trip_data)}.must_raise ArgumentError
     end
   end
-
 
   describe "#calculate_trip_duration" do
     before do
@@ -81,7 +78,5 @@ describe "Trip class" do
     it "Returns trip duration in seconds" do
       expect(@trip.calculate_trip_duration).must_equal 60
     end
-
-
   end
 end

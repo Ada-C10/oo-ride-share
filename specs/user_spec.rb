@@ -34,7 +34,6 @@ describe "User class" do
     end
   end
 
-
   describe "trips property" do
     before do
       @user = RideShare::User.new(id: 9, name: "Merl Glover III",
@@ -78,6 +77,7 @@ describe "User class" do
                                 cost: 200,
                                 rating: 5)
     end
+
     it "calculates total trip costs for one user" do
 
       @user.add_trip(@trip1)

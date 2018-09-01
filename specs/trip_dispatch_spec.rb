@@ -40,10 +40,6 @@ describe "TripDispatcher class" do
     end
   end
 
-  # TODO - check TripDispatcher#load trips array[0].start_time == Time instance????
-
-
-  # Uncomment for Wave 2
   describe "find_driver method" do
     before do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
@@ -67,7 +63,6 @@ describe "TripDispatcher class" do
     end
 
     it "accurately loads driver information into drivers array" do
-       # Unskip After Wave 2
       first_driver = @dispatcher.drivers.first
       last_driver = @dispatcher.drivers.last
 
@@ -80,9 +75,7 @@ describe "TripDispatcher class" do
     end
 
     it "Connects drivers with trips" do
-       # Unskip after wave 2
       trips = @dispatcher.trips
-      # binding.pry
 
       [trips.first, trips.last].each do |trip|
         driver = trip.driver
@@ -137,14 +130,11 @@ describe "TripDispatcher class" do
 
       expect(@trip_in_progress.driver).must_be_instance_of RideShare::Driver
       expect(@trip_in_progress.driver.id).must_equal 5
-
-
   end
 
 
   it "Connects passenger with trip in progress" do
     expect(@trip_in_progress.passenger.id).must_equal 1
-
     end
   end
 

@@ -112,7 +112,7 @@ describe "Driver class" do
       @driver.add_driven_trip(trip_1)
       @driver.add_driven_trip(trip_2)
     end
-    # You add tests for the total_revenue method
+
     it 'returns a float' do
       expect(@driver.total_revenue).must_be_kind_of Float
     end
@@ -156,8 +156,6 @@ describe "Driver class" do
     end
 
     it 'Correctly calculates the total expenditures' do
-
-
       expect(@driver.net_expenditures).must_equal 85.32
     end
 
