@@ -153,5 +153,19 @@ describe "TripDispatcher class" do
         expect{ @trip = @dispatcher.request_trip(3) }.must_raise StandardError
       end
 
+      it "picks the drivers with the oldest end date" do
+        # avaiable_driver = []
+        # @dispatcher.drivers.each do |driver|
+        #   if driver.status == :AVAILABLE
+        #     avaialble_driver << driver
+        #   end
+        # end
+        @trip = @dispatcher.select_driver(3)
+        # binding.pry
+        expect(@trip.id).must_equal 5
+
+      end
+
+
     end
   end

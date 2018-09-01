@@ -40,7 +40,15 @@ module RideShare
       end
 
       @driven_trips << trip
+
+      return @driven_trips
     end
+
+    def most_recent_trip
+
+      return @driven_trips.sort_by{ |trip| trip.end_time }.first
+    end
+
 
     # average rating for drivers
     def average_rating
