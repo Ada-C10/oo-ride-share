@@ -164,4 +164,22 @@ describe "Driver class" do
 
     end
 
+   # describe "tests for requested trips" do
+   #   before do
+   #     @driver = RideShare::Driver.new(id: 2, name: "Rogers Bartell IV",
+   #                                     vin: "1B6CF40K1J3Y74UY0")
+   #     trip = RideShare::Trip.new(id: 1, driver: @driver, passenger: nil,
+   #                                start_time: Time.parse("2018-05-25 11:52:40 -0700") ,end_time: Time.parse("2018-05-25 12:25:00 -0700"), cost: 10, rating: 5)
+   #     @driver.add_driven_trip(trip)
+   #     trip2 = RideShare::Trip.new(id: 2, driver: @driver, passenger: nil,
+   #                                 start_time: Time.parse("2018-07-23 04:39:00 -0700"),end_time: Time.parse("2018-07-23 04:55:00 -0700"), cost: 7, rating: 3)
+   #     @driver.add_driven_trip(trip2)
+   #
+   #   end
+   #   it "updates the list of trips for driver when trip is requested" do
+   #     @driver.driven_trips.
+   #   end
+   # end
+
+
 end

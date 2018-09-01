@@ -147,31 +147,24 @@ describe "TripDispatcher class" do
             end
 
             it "increases the trips in the driver_driven_trips array" do
-              
-              trip_1 = Trip.new({ id: 1, driver_id: 2, passenger_id: 1,
-                start_time: '2018-05-25 11:52:40 -0700',
-                end_time: '2018-05-25 12:25:00 -0700', cost: 10, rating: 5 })
-
-              trip_2 = Trip.new({id: 2, driver_id: 2, passenger_id: 3,
-                start_time: '2018-07-23 04:39:00 -0700',
-                end_time: '2018-05-25 04:55:00 -0700', cost: 7, rating: 3 })
-
-            driver = Driver.new({ id: 2, vin: '1B6CF40K1J3Y74UY0', status: 'UNAVAILABLE'})
-
-            driver.add_driven_trip(trip_1)
-            driver.add_driven_trip(trip_2)
-
-              ##########################
-             trip = @dispatcher.request_trip(2)
-
-            driver_8_trips_after_trip = trip.driver.driven_trips.driven_trips.length
-
-
-              find_driver_by_availability
-
-
-
+              @dispatcher.request_trip(5)
+              driver = @dispatcher.drivers.find { |driver| driver.id == 8 }
+              before_new_trip = driver.driven_trips.length
+              @dispatcher.request_trip(1)
+              after_new_trip = driver.driven_trips.length
+              expect(before_new_trip < after_new_trip).must_equal true
             end
+
+            it "increases the number trips in the users list of trips array" do
+              @dispatcher.request_trip(5)
+              passenger = @dispatcher.passengers.find { |passenger| passenger.id ==  1}
+              before_new_trip = passenger.trips.length
+              @dispatcher.request_trip(1)
+              after_new_trip = passenger.trips.length
+              expect(before_new_trip < after_new_trip).must_equal true
+              binding.pry
+            end
+
           end
 
           describe "#find_driver_by_availability" do
@@ -190,35 +183,5 @@ describe "TripDispatcher class" do
                 expect{dispatcher_with_unavailable_drivers.find_driver_by_availability}.must_raise ArgumentError
               end
             end
-
-
-                      # Were the trip lists for the driver and user updated?
-                      # 1. check if the driver_driven_trips array increased
-                      # 2. check if the user/passenger's trips array increased
-
-            # describe ""
-
-
-              # it "returns a driver who is AVAILABLE" do
-              #   expect{@dispatcher.request_trip(1).driver.status)}.must_raise ArgumentError
-              # end
-
-
-              # it "will add trip to trips array" do
-              #   # new_dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-              #   #                                               TRIP_TEST_FILE, DRIVER_TEST_FILE)
-              #   # new_dispatcher.request_trip(5)
-              #   binding.pry
-              #   expect(@dispatcher.trips.length).must_equal 600
-              #   # expect(new_dispatcher.trips.length).must_equal 601
-              #   # expect{(new_dispatcher.trips.length > @dispatcher.trips.length)}.must_equal true
-              # end
-              #trips.length should be 1 longer than before
-
-              # it "" do
-              # end
-
-
-
 
           end
