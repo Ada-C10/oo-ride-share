@@ -2,7 +2,8 @@ require 'pry'
 module RideShare
 
   class Driver < RideShare::User
-    attr_reader :vin, :driven_trips, :status
+    attr_reader :vin, :driven_trips
+    attr_accessor :status
 
     def initialize(input)
       super(input)
@@ -19,8 +20,10 @@ module RideShare
     def add_driven_trip(trip)
 
       if @status == :UNAVAILABLE
-        @status = :AVAILBLE
+        @status = :AVAILABLE
       end
+
+      #if trip is happening end_time == nil change to unavailable
 
       raise ArgumentError.new("Invalid Driver") unless trip.instance_of? RideShare::Trip
       @driven_trips << trip
@@ -60,6 +63,11 @@ module RideShare
       return (super - total_revenue)
     end
 
+    def change_status
+      if driver.status == :AVAILABLE
+        driver.status = :UNAVAILABLE
+      end
+    end
 
   end
 end

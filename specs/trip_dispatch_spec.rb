@@ -4,6 +4,7 @@ require 'pry'
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+NON_DRIVERS_FILE = 'specs/test_data/unavailable _drivers_test.csv'
 
 describe "TripDispatcher class" do
   describe "Initializer" do
@@ -136,13 +137,9 @@ describe "TripDispatcher class" do
     end
 
     it "returns a driver who is AVAILABLE" do
+      # better test for driver status, one for AVAILABLE and UNAVAILABLE
       expect(@dispatcher.request_trip(1).driver.status).must_equal :AVAILABLE
     end
-
-    # it "returns a driver who is AVAILABLE" do
-    #   expect{}(@dispatcher.request_trip(1).driver.status).must_raise ArgumentError
-    # end
-
 
     # it "will add trip to trips array" do
     #   # new_dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
@@ -155,10 +152,37 @@ describe "TripDispatcher class" do
     # end
     #trips.length should be 1 longer than before
 
-    # it "" do
-    # end
-
   end
+
+    describe "#request_trip(user_id) testing UNAVAILABLE drivers" do
+      before do
+        @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                    TRIP_TEST_FILE, DRIVER_TEST_FILE)
+
+        # driver_array = []
+        # @dispatcher.drivers.each do |driver|
+        #   driver = driver.change_status
+        #   driver_array << driver
+        # end
+        #
+        # binding.pry
+        # @dispatcher.request_trip(2)
+        # @dispatcher.request_trip(5)
+        # @dispatcher.request_trip(8)
+
+      end
+      it "will raise error if all drivers are UNAVAILABLE" do
+        # @dispatcher.request_trip(2)
+        # @dispatcher.request_trip(5)
+        
+       expect{@dispatcher.request_trip(2)}.must_raise ArgumentError
+
+        expect{@dispatcher.request_trip(8)}.must_raise ArgumentError
+      end
+
+
+    end
+
 
 
 end

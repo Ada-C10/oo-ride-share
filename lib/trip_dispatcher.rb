@@ -105,10 +105,11 @@ module RideShare
       end
 
       def find_driver_by_availability
+        # @driver.find {|driver| driver.status == :AVAILABLE } #&& driver.id != @passenger.id
         available_drivers = []
         @drivers.each do |driver|
           if driver.status == :AVAILABLE
-            available_drivers << driver
+            available_drivers << driver #and its not a user id or passenger id
           end
         end
         if available_drivers.empty?
@@ -118,15 +119,17 @@ module RideShare
         end
       end
 
+
       def request_trip(user_id)
         passenger = find_passenger(user_id)
         raise ArgumentError.new"The user id: #{user_id} does not exist" if passenger == nil || passenger == {}
         driver = find_driver_by_availability
-        # raise ArgumentError.new"All drivers are UNAVAILABLE"
+        raise ArgumentError.new"All drivers are UNAVAILABLE"
         new_trip = Trip.new({id:(@trips.length + 1), passenger:passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil, driver:driver})
         driver = driver.add_driven_trip(new_trip)
         passenger = passenger.add_trip(new_trip)
         @trips << new_trip
+
         return new_trip
       end
 
