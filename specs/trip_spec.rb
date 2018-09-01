@@ -83,10 +83,7 @@ describe "Trip class" do
 
     it "accurately subtracts time" do
       expect(@trip.duration).must_equal 60
-
     end
 
-
   end
-
 end

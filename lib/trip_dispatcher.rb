@@ -37,8 +37,7 @@ module RideShare
 
     def load_trips(filename)
       trips = []
-      trip_data = CSV.open(filename, 'r', headers: true,
-                           header_converters: :symbol)
+      trip_data = CSV.open(filename, headers: true, header_converters: :symbol)
 
       trip_data.each do |raw_trip|
         driver = find_driver(raw_trip[:driver_id].to_i) #instance of Driver class
@@ -150,7 +149,6 @@ module RideShare
       input[:passenger] = user_id,
       input[:start_time] = Time.now
 
-
       new_in_progress_trip = Trip.new(input)
       driver.status = :UNAVAILABLE
 
@@ -169,7 +167,6 @@ module RideShare
         raise ArgumentError, "ID cannot be blank or less than zero. (got #{id})"
       end
     end
-
 
   end
 end
