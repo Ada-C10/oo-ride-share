@@ -2,7 +2,7 @@ require 'csv'
 require 'time'
 require_relative 'driver'
 require 'awesome_print'
-#require 'pry'
+require 'pry'
 
 #require_relative 'user'
 #require_relative 'trip'
@@ -110,6 +110,9 @@ module RideShare
         end
       end
       available_drivers.flatten!
+      binding.pry
+      raise ArgumentError, "Sorry there are no available drivers." if available_drivers.length == 0
+
       trip_info = {
         id: 0,
         passenger: user_id,
@@ -126,7 +129,6 @@ module RideShare
 
       passenger = self.find_passenger(user_id)
       passenger.add_trip(current_trip)
-      ap current_trip.passenger
       # ap current_driver.id.class
 
       return current_trip

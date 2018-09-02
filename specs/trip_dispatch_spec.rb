@@ -3,6 +3,7 @@ require_relative 'spec_helper'
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+DRIVER_TEST_UNAVAIL = 'specs/test_data/drivers_test_unavail.csv'
 
 describe "TripDispatcher class" do
   describe "Initializer" do
@@ -128,7 +129,7 @@ describe "Request Trip Method" do
   #test that driver and passenger now have the current trip in their list of trips
   end
 
-  it "changes driver sttus to unavailable" do
+  it "changes driver status to unavailable" do
     request = @dispatcher.request_trip(6)
     expect(request.driver.status).must_equal :UNAVAILABLE
   end
@@ -137,6 +138,13 @@ describe "Request Trip Method" do
     request = @dispatcher.request_trip(8)
 
     expect(request.driver != request.passenger).must_equal true
+  end
+
+  it "raises an error if there are no available drivers" do
+    dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                               TRIP_TEST_FILE, DRIVER_TEST_FILE)
+    request = dispatcher.request_trip(8)
+    expect(request).must_raise ArgumentError
   end
 
   end
