@@ -142,7 +142,7 @@ describe "Request Trip Method" do
 
   it "raises an error if there are no available drivers" do
     dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                               TRIP_TEST_FILE, DRIVER_TEST_FILE)
+                                               TRIP_TEST_FILE, DRIVER_TEST_UNAVAIL)
     request = dispatcher.request_trip(8)
     expect(request).must_raise ArgumentError
   end
