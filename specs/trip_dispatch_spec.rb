@@ -122,10 +122,21 @@ describe "Request Trip Method" do
 
   it "creates an instance of Trip" do
 
+
   expect(@dispatcher.request_trip(6)).must_be_instance_of RideShare::Trip
-  #test that it is an available driver
   #test that driver cannot drive themselves
   #test that driver and passenger now have the current trip in their list of trips
+  end
+
+  it "changes driver sttus to unavailable" do
+    request = @dispatcher.request_trip(6)
+    expect(request.driver.status).must_equal :UNAVAILABLE
+  end
+
+  it "does not allow a driver to drive themeselves" do
+    request = @dispatcher.request_trip(8)
+
+    expect(request.driver != request.passenger).must_equal true
   end
 
   end

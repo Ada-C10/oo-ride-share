@@ -105,7 +105,7 @@ module RideShare
     def request_trip(user_id)
       available_drivers = []
       @drivers.each do |driver|
-        if driver.status == :AVAILABLE
+        if driver.status == :AVAILABLE && driver.id != user_id
           available_drivers << driver
         end
       end
@@ -126,6 +126,8 @@ module RideShare
 
       passenger = self.find_passenger(user_id)
       passenger.add_trip(current_trip)
+      ap current_trip.passenger
+      # ap current_driver.id.class
 
       return current_trip
     end
