@@ -15,13 +15,15 @@ module RideShare
       @passengers = load_users(user_file) #before this is the passengers from Users array and we want to add Driver info to the Users
       @drivers = load_drivers(driver_file)
       @trips = load_trips(trip_file)
+
+
     end
 
     def load_users(filename)
       # array of all user data
       users = []
       # goes through each line of csv file creates a hash and populates it with data
-      # then uses class User to create instance of user for each line
+      # then uses the class User to create instance of User for each line
       CSV.read(filename, headers: true).each do |line|
         input_data = {}
         input_data[:id] = line[0].to_i
@@ -40,19 +42,41 @@ module RideShare
 
       CSV.read(filename, headers: true).each do |line|
         input_data = {}
-
+        # binding.pry
         user = find_passenger(line[0].to_i)
 
         input_data[:id] = user.id
         input_data[:name] = user.name
         input_data[:phone] = user.phone_number
-
+        # input_data[:driven_trips] = []
         input_data[:vin] = line[1]
         input_data[:status] = line[2].to_sym
 
 
         drivers << Driver.new(input_data)
 
+##### trial and error between #s
+      # drivers = []
+      # driver_data = CSV.open(filename, 'r', headers: true, header_converters: :symbol)
+      #
+      # driver_data.each do |raw_driver|
+
+      #   driver = find_passenger(raw_driver[:id].to_i)
+      #
+      #   input_data = {
+      #   input_data[:id] = driver.id,
+      #   input_data[:name] = driver.name,
+      #   input_data[:phone] = driver.phone_number,
+      #   input_data[:vin] = raw_driver[:vin],
+      #   input_data[:trips] = [],
+      #   input_data[:driven_trips] = [],
+      #   input_data[:status] = raw_driver[:status].to_sym
+      #   }
+      #
+      #   new_driver = Driver.new(driver_data)
+      #   driver.add_driven_trip()
+      #   drivers << new_driver
+############
       end
 
       return drivers
@@ -64,9 +88,9 @@ module RideShare
         header_converters: :symbol)
 
         trip_data.each do |raw_trip|
+
           passenger = find_passenger(raw_trip[:passenger_id].to_i)
           driver = find_driver(raw_trip[:driver_id].to_i)
-
 
           parsed_trip = {
             id: raw_trip[:id].to_i,
@@ -92,6 +116,7 @@ module RideShare
       end
 
 
+
       def find_passenger(id)
         check_id(id)
         return @passengers.find { |passenger| passenger.id == id }
@@ -104,26 +129,43 @@ module RideShare
         #{passengers.count} passengers>"
       end
 
-      def find_driver_by_availability
-        # @driver.find {|driver| driver.status == :AVAILABLE } #&& driver.id != @passenger.id
+      # works but does not prevent drivers driving themselves
+      # def find_driver_by_availability
+      #   available_drivers = []
+      #   @drivers.each do |driver|
+      #     binding.pry
+      #     if driver.status == :AVAILABLE
+      #       available_drivers << driver #and its not a user id or passenger id
+      #     end
+      #   end
+      #   if available_drivers.empty?
+      #     raise ArgumentError.new"All drivers are UNAVAILABLE"
+      #   else
+      #     return available_drivers[0]
+      #   end
+      # end
+
+      def request_trip(user_id)
+        passenger = find_passenger(user_id)
+        raise ArgumentError.new"The user id: #{user_id} does not exist" if passenger == nil || passenger == {}
+
+        # Uncomment when using find_driver_by_availability method
+        # driver = find_driver_by_availability
+
+        # Comment when using find_driver_by_availability method
+        # Finding available driver that is not the passenger
         available_drivers = []
         @drivers.each do |driver|
-          if driver.status == :AVAILABLE
-            available_drivers << driver #and its not a user id or passenger id
+          if driver.status == :AVAILABLE && driver.id != user_id
+            available_drivers << driver
           end
         end
         if available_drivers.empty?
           raise ArgumentError.new"All drivers are UNAVAILABLE"
         else
-          return available_drivers[0]
+          driver = available_drivers[0]
         end
-      end
 
-
-      def request_trip(user_id)
-        passenger = find_passenger(user_id)
-        raise ArgumentError.new"The user id: #{user_id} does not exist" if passenger == nil || passenger == {}
-        driver = find_driver_by_availability
         driver.update_status(:UNAVAILABLE)#this is where the driver should become unavailable before the info is stored in the trip
         new_trip = Trip.new({id:(@trips.length + 1), passenger: passenger, start_time: Time.now, end_time: nil, cost: nil, rating: nil, driver:driver})
         driver.add_driven_trip(new_trip) #previously this is where we chnged the status but now we put it on line 127

@@ -79,12 +79,13 @@ describe "TripDispatcher class" do
         end
 
         it "Connects drivers with trips" do
-          skip # Unskip after wave 2
-          trips = @dispatcher.trips
 
+          trips = @dispatcher.trips
           [trips.first, trips.last].each do |trip|
             driver = trip.driver
+
             expect(driver).must_be_instance_of RideShare::Driver
+
             expect(driver.trips).must_include trip
           end
         end
@@ -147,10 +148,15 @@ describe "TripDispatcher class" do
             end
 
             it "increases the trips in the driver_driven_trips array" do
-              @dispatcher.request_trip(5)
+
               driver = @dispatcher.drivers.find { |driver| driver.id == 8 }
               before_new_trip = driver.driven_trips.length
-              @dispatcher.request_trip(1)
+
+              @dispatcher.request_trip(7)
+
+              # driver = @dispatcher.drivers.find { |driver| driver.id == 8 }
+              # before_new_trip = driver.driven_trips.length
+              @dispatcher.request_trip(4)
               after_new_trip = driver.driven_trips.length
               expect(before_new_trip < after_new_trip).must_equal true
             end
@@ -162,26 +168,33 @@ describe "TripDispatcher class" do
               @dispatcher.request_trip(1)
               after_new_trip = passenger.trips.length
               expect(before_new_trip < after_new_trip).must_equal true
-              binding.pry
+            end
+
+            it "makes sure driver is not driving themself " do
+              trip = @dispatcher.request_trip(8)
+              expect(trip.driver.id != trip.passenger.id).must_equal true
+              
+              trip_2 = @dispatcher.request_trip(5)
+              expect(trip_2.driver.id != trip_2.passenger.id).must_equal true
             end
 
           end
 
-          describe "#find_driver_by_availability" do
-            before do
-              @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                TRIP_TEST_FILE, DRIVER_TEST_FILE)
-              end
+          # describe "#find_driver_by_availability" do
+          #   before do
+          #     @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+          #       TRIP_TEST_FILE, DRIVER_TEST_FILE)
+          #     end
+          #
+          #     it "returns a driver with  available status" do
+          #       expect(@dispatcher.find_driver_by_availability.status).must_equal :AVAILABLE
+          #     end
+          #
+          #     it "raises argument error if all drivers are unavailable" do
+          #       dispatcher_with_unavailable_drivers = RideShare::TripDispatcher.new(USER_TEST_FILE,
+          #         TRIP_TEST_FILE, UNAVAILABLE_DRIVERS_TEST_FILE)
+          #       expect{dispatcher_with_unavailable_drivers.find_driver_by_availability}.must_raise ArgumentError
+          #     end
+          #   end
 
-              it "returns a driver with  available status" do
-                expect(@dispatcher.find_driver_by_availability.status).must_equal :AVAILABLE
-              end
-
-              it "raises argument error if all drivers are unavailable" do
-                dispatcher_with_unavailable_drivers = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                  TRIP_TEST_FILE, UNAVAILABLE_DRIVERS_TEST_FILE)
-                expect{dispatcher_with_unavailable_drivers.find_driver_by_availability}.must_raise ArgumentError
-              end
-            end
-
-          end
+        end
