@@ -62,7 +62,7 @@ module RideShare
 
 # latest drive developed for wave 4
     def latest_drive
-      latest = @driven_trips.max {|trip| trip.end_time }.end_time
+      latest = @driven_trips.max_by {|trip| trip.end_time }.end_time
       return latest
     end
 

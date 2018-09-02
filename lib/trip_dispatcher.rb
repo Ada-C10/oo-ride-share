@@ -107,8 +107,13 @@ module RideShare
     def request_trip(user_id)
       passenger = find_passenger(user_id)
 
-      driver = @drivers.find { |driver| driver.status == :AVAILABLE && driver.id != user_id }
-        raise ArgumentError, 'No available drivers' if driver.nil?
+      available_drivers = @drivers.find_all { |driver| driver.status == :AVAILABLE && driver.id != user_id}
+         raise ArgumentError, 'No available drivers' if available_drivers == []
+
+      driver = available_drivers.find { |driver| driver.driven_trips.empty? } # of .empty?
+        if driver.nil?
+          driver = available_drivers.min_by { |driver| driver.latest_drive }
+        end
 
       parsed_trip = {
         id: "id",

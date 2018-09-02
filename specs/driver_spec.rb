@@ -177,22 +177,23 @@ describe "Driver class" do
                                   trips: [trip3, trip4])
       trip1 = RideShare::Trip.new(id: 54,
                                  driver: @driver, passenger: nil,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-08"),
+                                 start_time: Time.parse("2016-08-08 22:30:55 -0700"),
+                                 end_time: Time.parse("2016-08-08 22:35:55 -0700"),
                                  cost: 14.50,
                                  rating: 5)
       trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
-                                 start_time: Time.parse("2016-08-08"),
-                                 end_time: Time.parse("2016-08-09"),
+                                 start_time: Time.parse("2016-08-08 20:08:00 -0700"),
+                                 end_time: Time.parse("2016-08-09 20:20:14 -0700"),
                                  rating: 1,
                                  cost: 10)
       @driver.add_driven_trip(trip2)
       @driver.add_driven_trip(trip1)
+      # binding.pry
     end
     it "correctly calculated net expenditure" do
       total_money_earned = ((14.50 - 1.65) + (10 - 1.65)) * 0.80
       total_money_spent = 15 + 35
-      
+
       expect(@driver.net_expenditures).must_be_close_to (total_money_spent - total_money_earned)
     end
   end

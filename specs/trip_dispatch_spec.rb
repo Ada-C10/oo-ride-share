@@ -71,8 +71,8 @@ describe "TripDispatcher class" do
       expect(first_driver.name).must_equal "Driver2"
       expect(first_driver.id).must_equal 2
       expect(first_driver.status).must_equal :UNAVAILABLE
-      expect(last_driver.name).must_equal "Driver8"
-      expect(last_driver.id).must_equal 8
+      expect(last_driver.name).must_equal "User3"
+      expect(last_driver.id).must_equal 3
       expect(last_driver.status).must_equal :AVAILABLE
     end
 
@@ -121,15 +121,9 @@ describe "TripDispatcher class" do
       @trips_length = (@dispatcher.trips).length
       @user_id = 2
       @driver_trip = @dispatcher.request_trip(@user_id)
+      # binding.pry
+
     end
-
-    let (:driver_no_trips) {
-      @driver = RideShare::Driver.new(id: 16, name: "Tina",
-                                      vehicle_id: "1C9EVBRM0YBC56473",
-                                    status: "AVAILABLE",
-                                  trips: [])
-    }
-
 
     it 'creates a new trip instance' do
 
@@ -137,27 +131,28 @@ describe "TripDispatcher class" do
     end
 
     it "assigns available driver" do
-
-      expect(@driver_trip.driver).must_equal 5
+      expect(@driver_trip.driver).must_equal 3
       expect(@driver_trip.driver).wont_equal 2
     end
 
     # Wave 4 test drafts
-    # it "will select the driver who has never driven first" do
-    #
-    #   driver_no_trips
-    #   expect(@driver_trip.driver).must_equal 16
-    # end
-    #
-    # it "will select the driver who drove the least recently if there are no drivers with no trips available" do
-    #
-    #   expect (@driver_trip.driver).must_equal 8
-    # end
-    #
-    # it "assigns start time as current time" do
-    #
-    #   expect(@driver_trip.start_time).must_be_close_to Time.now
-    # end
+    it "will select the driver who has never driven first" do
+
+
+      expect(@driver_trip.driver).must_equal 3
+    end
+
+    it "will select the driver who drove the least recently if there are no drivers with no trips available" do
+      @user_id = 7
+      @driver_trip = @dispatcher.request_trip(@user_id)
+
+      expect (@driver_trip.driver).must_equal 8
+    end
+
+    it "assigns start time as current time" do
+
+      expect(@driver_trip.start_time).must_be_close_to Time.now
+    end
 
     it "returns nil for end time, cost, and rating" do
       expect(@driver_trip.end_time).must_be_nil
@@ -175,7 +170,7 @@ describe "TripDispatcher class" do
     end
 
     it "converts a driver's status to :UNAVAILABLE when trip in progress" do
-      driver = @dispatcher.drivers.find { |driver| driver.id == 5 }
+      driver = @dispatcher.drivers.find { |driver| driver.id == 3 }
       expect(driver.status).must_equal :UNAVAILABLE
     end
 
@@ -196,13 +191,15 @@ describe "TripDispatcher class" do
     it "raises argument error if no drivers are available" do
       @user_id = 4
       @driver_trip = @dispatcher.request_trip(@user_id)
-
+      @user_id = 1
+      @driver_trip = @dispatcher.request_trip(@user_id)
+      # binding.pry
       expect{@driver_trip = @dispatcher.request_trip(6)}.must_raise ArgumentError
     end
 
     it "will not accept the passenger and driver to be the same" do
       @user_id = 8
-      expect{@driver_trip = @dispatcher.request_trip(@user_id)}.must_raise ArgumentError
+      expect{@driver_trip = @dispatcher.request_trip(@user_id)}.wont_equal 8
     end
 
   end
