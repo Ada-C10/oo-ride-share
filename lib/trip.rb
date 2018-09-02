@@ -25,9 +25,9 @@ module RideShare
         raise ArgumentError.new("Invalid rating #{@rating}")
       end
 
-    #   if @start_time > @end_time
-    #     raise ArgumentError.new("Invalid endtime")
-    #   end
+     if @start_time > @end_time
+        raise ArgumentError.new("Invalid endtime")
+      end
     end
 
     # def inspect
@@ -36,11 +36,10 @@ module RideShare
     #   "PassengerID=#{passenger&.id.inspect}>"
     # end
 
-    # def drivers
-    #   @driver =  RideShare::TripDispatcher.find_driver(@driver_id)
-    #   # binding.pry
-    #   return @driver
-    # end
+    def drivers
+
+      return Driver.driver_list
+    end
 
 
     def trip_to_seconds

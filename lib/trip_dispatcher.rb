@@ -110,16 +110,16 @@ module RideShare
         end
       end
       available_drivers.flatten!
-      binding.pry
+
       raise ArgumentError, "Sorry there are no available drivers." if available_drivers.length == 0
 
       trip_info = {
         id: 0,
         passenger: user_id,
         start_time: Time.now,
-        end_time: Time.now,
-        cost: 4.0,
-        rating: 4,
+        end_time: nil,
+        cost: nil,
+        rating: nil,
         driver: available_drivers.shift
       }
       current_trip = Trip.new(trip_info)
@@ -134,12 +134,12 @@ module RideShare
       return current_trip
     end
 
-    # def inspect
-    #   return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
-    #           #{trips.count} trips, \
-    #           #{drivers.count} drivers, \
-    #           #{passengers.count} passengers>"
-    # end
+    def inspect
+      return "#<#{self.class.name}:0x#{self.object_id.to_s(16)} \
+              #{trips.count} trips, \
+              #{drivers.count} drivers, \
+              #{passengers.count} passengers>"
+    end
 
     private
 

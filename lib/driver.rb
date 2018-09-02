@@ -1,5 +1,6 @@
 #require_relative 'user'
 #require_relative 'trip'
+require 'pry'
 
 module RideShare
   class Driver < RideShare::User
@@ -28,6 +29,7 @@ module RideShare
     def add_driven_trip(trip)
       raise ArgumentError if trip.class != RideShare::Trip
       @driven_trips << trip
+      
     end
 
     def average_rating

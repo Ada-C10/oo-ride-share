@@ -25,5 +25,16 @@ module RideShare
       return total
     end
 
+def total_time_spent
+  @passenger.trips.each do |trip|
+    t1 = Time.parse(trip.start_time)
+    t2 = Time.parse(trip.end_time)
+    duration += sprintf("%0.02f", (t2 - t1) % 60)
+      end
+      return duration
+    end 
+
+
+
   end
 end
