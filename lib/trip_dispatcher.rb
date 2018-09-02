@@ -9,6 +9,7 @@ module RideShare
   class TripDispatcher
     attr_reader :drivers, :passengers, :trips
 
+
     def initialize(user_file = 'support/users.csv',
       trip_file = 'support/trips.csv',
       driver_file = 'support/drivers.csv')
@@ -48,34 +49,35 @@ module RideShare
         input_data[:id] = user.id
         input_data[:name] = user.name
         input_data[:phone] = user.phone_number
-        # input_data[:driven_trips] = []
+        input_data[:trips] = []
+        input_data[:driven_trips] = []
         input_data[:vin] = line[1]
         input_data[:status] = line[2].to_sym
 
 
         drivers << Driver.new(input_data)
 
-##### trial and error between #s
-      # drivers = []
-      # driver_data = CSV.open(filename, 'r', headers: true, header_converters: :symbol)
-      #
-      # driver_data.each do |raw_driver|
-
-      #   driver = find_passenger(raw_driver[:id].to_i)
-      #
-      #   input_data = {
-      #   input_data[:id] = driver.id,
-      #   input_data[:name] = driver.name,
-      #   input_data[:phone] = driver.phone_number,
-      #   input_data[:vin] = raw_driver[:vin],
-      #   input_data[:trips] = [],
-      #   input_data[:driven_trips] = [],
-      #   input_data[:status] = raw_driver[:status].to_sym
-      #   }
-      #
-      #   new_driver = Driver.new(driver_data)
-      #   driver.add_driven_trip()
-      #   drivers << new_driver
+# does same thing as above, playing with objects to investigate a bug :-)
+#       drivers = []
+#       driver_data = CSV.open(filename, 'r', headers: true, header_converters: :symbol)
+#
+#       driver_data.each do |raw_driver|
+#
+#         driver = find_passenger(raw_driver[:id].to_i)
+# # binding.pry
+#         input_data = {
+#           id: driver.id,
+#           name: driver.name,
+#           phone: driver.phone_number,
+#           vin: raw_driver[:vin],
+#           trips: [],
+#           driven_trips: [],
+#           status: raw_driver[:status].to_sym
+#         }
+#
+#         new_driver = Driver.new(input_data)
+#
+#         drivers << new_driver
 ############
       end
 
@@ -104,6 +106,11 @@ module RideShare
 
           trip = Trip.new(parsed_trip)
           passenger.add_trip(trip)
+          # I feel like we need to match the driver with the trip with something like this:
+          # driver.add_driven_trip(trip) => this creates a couple of errors when I rake
+          # maybe this belongs somewhere else
+
+
           trips << trip
         end
 
@@ -129,7 +136,7 @@ module RideShare
         #{passengers.count} passengers>"
       end
 
-      # works but does not prevent drivers driving themselves
+      # works but does not allow check for drivers driving themselves
       # def find_driver_by_availability
       #   available_drivers = []
       #   @drivers.each do |driver|
