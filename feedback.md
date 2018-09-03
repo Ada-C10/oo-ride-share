@@ -23,7 +23,7 @@ creating a trip in `TripDispatcher` relies on methods in `Driver` and `Passenger
 Complete tests | 
 Complex logic was correctly implemented and tested | 
 Complete tests | 
-**Wave 4** |
+**Wave 4 (Optional)** |
 `TripDispatcher` now assigns trips to either the newest driver (no trips), or the driver who has not driven in the longest time | 
 Complete tests | 
 Appropriate helper methods were made to help with complex logic | 
