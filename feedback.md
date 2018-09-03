@@ -10,21 +10,21 @@ Answer comprehension questions |
 Appropriate use of Ruby's `Date`| 
 `Trip` has a helper method to calculate duration| 
 `Passenger` has a method to calculate total cost of all trips| 
-Complete tests for new behavior| 
+Tests for wave 1 | 
 **Wave 2** |
 `Driver` inherits from `User` | 
 `Driver` has `add_driven_trip` method | 
 `Driver` has method to calculate average rating | 
 `Driver` has method to calculate net expenditures and it uses `super` | 
 `Driver` has a method to calculate total revenue | 
+Tests for wave 2 | 
 **Wave 3** |
 `TripDispatcher` has a new method to create trips | 
 creating a trip in `TripDispatcher` relies on methods in `Driver` and `Passenger` to modify their own attributes | 
-Complete tests | 
-Complex logic was correctly implemented and tested | 
-Complete tests | 
+Complex logic was correctly implemented | 
+Tests for wave 3 | 
 **Wave 4 (Optional)** |
 `TripDispatcher` now assigns trips to either the newest driver (no trips), or the driver who has not driven in the longest time | 
-Complete tests | 
 Appropriate helper methods were made to help with complex logic | 
+Tests for wave 4 | 
 **Overall** | 
