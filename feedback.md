@@ -9,7 +9,7 @@ Answer comprehension questions |
 **Wave 1** |
 Appropriate use of Ruby's `Date`| 
 `Trip` has a helper method to calculate duration| 
-`Passenger` has a method to calculate total cost of all trips| 
+`User` (passenger) has a method to calculate total cost of all trips| 
 Tests for wave 1 | 
 **Wave 2** |
 `Driver` inherits from `User` | 
@@ -20,7 +20,7 @@ Tests for wave 1 |
 Tests for wave 2 | 
 **Wave 3** |
 `TripDispatcher` has a new method to create trips | 
-creating a trip in `TripDispatcher` relies on methods in `Driver` and `Passenger` to modify their own attributes | 
+creating a trip in `TripDispatcher` relies on methods in `Driver` and `User` (passenger) to modify their own attributes | 
 Complex logic was correctly implemented | 
 Tests for `request_trip` | 
 Methods from wave 1 and 2 handle incomplete trips | 
