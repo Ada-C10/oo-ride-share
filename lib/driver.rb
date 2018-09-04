@@ -1,5 +1,6 @@
 require_relative 'user'
 
+STATUS_OPTIONS = [:AVAILABLE, :UNAVAILABLE]
 DRIVERS_CUT = 0.8
 FEE = 1.65
 
@@ -13,7 +14,7 @@ module RideShare
       @driven_trips = input[:driven_trips].nil? ? [] : input[:driven_trips]
       @status = input[:status].nil? ? :AVAILABLE : input[:status]
 
-      raise ArgumentError.new("That is an invalid status") unless [:AVAILABLE, :UNAVAILABLE].include?(@status)
+      raise ArgumentError.new("That is an invalid status") unless STATUS_OPTIONS.include?(@status)
       raise ArgumentError.new("That is an invalid VIN") unless @vehicle_id.length == 17
     end
 
