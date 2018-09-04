@@ -22,7 +22,9 @@ Tests for wave 2 |
 `TripDispatcher` has a new method to create trips | 
 creating a trip in `TripDispatcher` relies on methods in `Driver` and `Passenger` to modify their own attributes | 
 Complex logic was correctly implemented | 
-Tests for wave 3 | 
+Tests for `request_trip` | 
+Methods from wave 1 and 2 handle incomplete trips | 
+Tests for wave 1 and 2 methods with incomplete trips | 
 **Wave 4 (Optional)** |
 `TripDispatcher` now assigns trips to either the newest driver (no trips), or the driver who has not driven in the longest time | 
 Appropriate helper methods were made to help with complex logic | 
