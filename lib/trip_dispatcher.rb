@@ -96,7 +96,8 @@ module RideShare
     def check_drivers_not_passenger?(user_id)
       all_available_drivers = generate_available_drivers
 
-      available_drivers = all_available_drivers.find_all do |driver| driver.id != find_passenger(user_id).id
+      available_drivers = all_available_drivers.find_all do |driver|
+        driver.id != find_passenger(user_id).id
       end
 
       raise ArgumentError.new("NO DRIVERS AVAILABLE") if available_drivers.empty?
@@ -106,9 +107,7 @@ module RideShare
 
     def find_no_trips_driver(user_id)
       available_drivers = check_drivers_not_passenger?(user_id)
-      return available_drivers.find do |driver|
-        driver.driven_trips.empty?
-      end
+      return available_drivers.find { |driver| driver.driven_trips.empty? }
     end
 
     def find_oldest_trip_driver(user_id)
