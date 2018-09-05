@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-xdescribe "Driver class" do
+describe "Driver class" do
 
     describe "Driver instantiation" do
       before do
@@ -18,13 +18,10 @@ xdescribe "Driver class" do
         expect{ RideShare::Driver.new(id: 0, name: "George", vin: "33133313331333133")}.must_raise ArgumentError
       end
 
+
       it "throws an argument error with a bad VIN value" do
         expect{ RideShare::Driver.new(id: 100, name: "George", vin: "")}.must_raise ArgumentError
         expect{ RideShare::Driver.new(id: 100, name: "George", vin: "33133313331333133extranums")}.must_raise ArgumentError
-      end
-
-      it "has a default status of :AVAILABLE" do
-        expect( (RideShare::Driver.new(id: 100, name: "George", vin: "12345678901234567")).status).must_equal :AVAILABLE
       end
 
       it "sets driven trips to an empty array if not provided" do
@@ -33,13 +30,13 @@ xdescribe "Driver class" do
       end
 
       it "is set up for specific attributes and data types" do
-        [:id, :name, :vehicle_id, :status, :driven_trips].each do |prop|
+        [:id, :name, :vin, :status, :driven_trips].each do |prop|
           expect(@driver).must_respond_to prop
         end
 
         expect(@driver.id).must_be_kind_of Integer
         expect(@driver.name).must_be_kind_of String
-        expect(@driver.vehicle_id).must_be_kind_of String
+        expect(@driver.vin).must_be_kind_of String
         expect(@driver.status).must_be_kind_of Symbol
       end
     end
@@ -69,7 +66,7 @@ xdescribe "Driver class" do
                                         vin: "1C9EVBRM0YBC564DZ")
         trip = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
                                    start_time: Time.parse("2016-08-08"),
-                                   end_time: Time.parse("2016-08-08"), rating: 5)
+                                   end_time: Time.parse("2016-08-09"), rating: 5)
         @driver.add_driven_trip(trip)
       end
 
@@ -102,11 +99,30 @@ xdescribe "Driver class" do
 
     end
 
-  describe "total_revenue" do
-    # You add tests for the total_revenue method
+    describe "total_revenue" do
+      before do
+        @driver = RideShare::Driver.new(id: 54, name: "Rogers Bartell IV",
+                                        vin: "1C9EVBRM0YBC564DZ")
+        trip1 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                   start_time: Time.parse("2016-08-08"),
+                                   end_time: Time.parse("2016-08-09"), rating: 5, cost: 10.00)
+        @driver.add_driven_trip(trip1)
+        trip2 = RideShare::Trip.new(id: 8, driver: @driver, passenger: nil,
+                                   start_time: Time.parse("2016-08-08"),
+                                   end_time: Time.parse("2016-08-09"), rating: 5, cost: 20.00)
+        @driver.add_driven_trip(trip2)
+
+      end
+
+
+      it " driver's total revenue across all their trips"do
+
+      expect(@driver.total_revenue).must_equal 21.36
+    end
+
   end
 
-  describe "net_expenditures" do
+  xdescribe "net_expenditures" do
     # You add tests for the net_expenditures method
   end
 end
