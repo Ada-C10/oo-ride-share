@@ -128,17 +128,22 @@ module RideShare
           end
         end
 
-        chosen_driver = available_drivers[0]
+        chosen_driver = available_drivers.find do |driver|
+          driver.driven_trips.empty?
+        end
 
+        if !chosen_driver.nil?
+          chosen_driver.status = :UNAVAILABLE
+          return chosen_driver
+        end
+
+        chosen_driver = available_drivers[0]
         if chosen_driver == nil
           raise ArgumentError, "No drivers available"
         end
-        chosen_driver.status = :UNAVAILABLE
-
+        return chosen_driver
         # to check that the driver does not have an in-progress trip, also checks if driver is a first time driver and assigns this driver first
-        driver_w_no_trips = available_drivers.find do |driver|
-          driver.trips.empty?
-        end
+        # driver_w_no_trips =
 
         # returning a driver that has had no trips yet
         if driver_w_no_trips

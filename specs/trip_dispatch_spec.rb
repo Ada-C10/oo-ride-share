@@ -4,6 +4,7 @@ require 'pry'
 USER_TEST_FILE   = 'specs/test_data/users_test.csv'
 TRIP_TEST_FILE   = 'specs/test_data/trips_test.csv'
 DRIVER_TEST_FILE = 'specs/test_data/drivers_test.csv'
+DRIVERS_HAVE_TRIPS_FILE = 'specs/test_data/drivers_have_trips_test.csv'
 
 describe "TripDispatcher class" do
   describe "Initializer" do
@@ -140,18 +141,26 @@ describe "TripDispatcher class" do
     end
   end
 
-  describe "request_trip method test" do
-    before do
+  describe "assign_driver" do
+    # before do
+
+    #   @trips = RideShare::Trip.new(id: 8, passenger: nil, start_time: nil, end_time: nil, cost: nil, rating: nil, driver: nil)
+    # end
+
+    it "selects first driver with no trips" do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
-                                                 TRIP_TEST_FILE,
-                                                 DRIVER_TEST_FILE)
-      @trips = RideShare::Trip.new(id: 8, passenger: nil, start_time: nil, end_time: nil, cost: nil, rating: nil, driver: nil)
+                                        TRIP_TEST_FILE,
+                                        DRIVER_TEST_FILE)
+      driver = @dispatcher.assign_driver(-1)
+      expect(driver.id).must_equal 8
     end
 
-    it "accurately requests a trip" do
-      valid_trip_id = @dispatcher.request_trip(1).driver.id
-      # binding.pry
-      expect(valid_trip_id).must_equal 5
+    it "selects driver whose most recent trip ended the longest time ago" do
+      @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
+                                                 TRIP_TEST_FILE,
+                                                 DRIVERS_HAVE_TRIPS_FILE)
+      driver = @dispatcher.assign_driver(-1)
+      expect(driver.id).must_equal 3
     end
   end
 end
