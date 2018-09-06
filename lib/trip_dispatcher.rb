@@ -122,41 +122,39 @@ module RideShare
       end
 
       def assign_driver(passenger_id)
+        # iterates through the drivers to select and return available drivers and drivers who are not driving themselves
         available_drivers = @drivers.select do |driver|
           if driver.status == :AVAILABLE && driver.id != passenger_id
             driver
           end
         end
 
+        # iterates through the available_drivers to see if there is a driver that has not given any trips.
         chosen_driver = available_drivers.find do |driver|
           driver.driven_trips.empty?
         end
 
-        if !chosen_driver.nil?
-          chosen_driver.status = :UNAVAILABLE
-          return chosen_driver
+        # if there hasn't been a driver that hasn't given any trips, then this iterates through available drivers and selects the driver who's trip ended the longest time ago.
+        if chosen_driver.nil?
+          furthest_date = Time.now
+          available_drivers.each do |driver|
+            # This assumes that driven_trips are in chronological order
+            end_time = driver.driven_trips.last.end_time
+            if end_time < furthest_date
+              end_time = furthest_date # sets new end time
+              chosen_driver = driver # assigns that driver as chosen driver
+            end
+          end
         end
 
-        chosen_driver = available_drivers[0]
-        if chosen_driver == nil
+        # if there are no available drivers
+        if chosen_driver.nil?
           raise ArgumentError, "No drivers available"
         end
+
+        # if there is an available driver, changes their status
+        chosen_driver.status = :UNAVAILABLE
         return chosen_driver
-        # to check that the driver does not have an in-progress trip, also checks if driver is a first time driver and assigns this driver first
-        # driver_w_no_trips =
-
-        # returning a driver that has had no trips yet
-        if driver_w_no_trips
-          return driver_w_no_trips
-        end
-
-        # sorting through drivers with status AVAILABLE and selecting the driver with the oldest trip, if there is no  first time driver available
-        available_drivers.sort_by! do |driver|
-          driver.driver_with_oldest_trip
-        end
-
-        return available_drivers.first
-        # return chosen_driver
       end
     end
   end

@@ -133,20 +133,6 @@ describe "TripDispatcher class" do
       expect { @dispatcher.assign_driver(2) }.must_raise ArgumentError
     end
 
-    it "selects the driver with the oldest date for a trip" do
-      # binding.pry
-      @dispatcher.drivers = 5
-      expect { @dispatcher.assign_driver(6) }.must_equal 5
-
-    end
-  end
-
-  describe "assign_driver" do
-    # before do
-
-    #   @trips = RideShare::Trip.new(id: 8, passenger: nil, start_time: nil, end_time: nil, cost: nil, rating: nil, driver: nil)
-    # end
-
     it "selects first driver with no trips" do
       @dispatcher = RideShare::TripDispatcher.new(USER_TEST_FILE,
                                         TRIP_TEST_FILE,

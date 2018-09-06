@@ -78,9 +78,5 @@ module RideShare
       return super - total_revenue
     end
 
-    def driver_with_oldest_trip()
-      return @driven_trips.sort_by { |trip| trip.end_time }.first
-    end
-
   end
 end
